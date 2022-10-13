@@ -15,7 +15,7 @@ class CreateMasterUsersTable extends Migration
     {
         Schema::create('master_users', function (Blueprint $table) {
             $table->id();
-            $table->integer('no_induk',50)->nullable();
+            $table->integer('no_induk')->nullable();
             $table->string('email')->unique();
             $table->string('password');
             $table->integer('roles');
