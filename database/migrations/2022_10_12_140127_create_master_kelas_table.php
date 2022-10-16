@@ -17,6 +17,7 @@ class CreateMasterKelasTable extends Migration
             $table->id();
             $table->string('nama_kelas', 100);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

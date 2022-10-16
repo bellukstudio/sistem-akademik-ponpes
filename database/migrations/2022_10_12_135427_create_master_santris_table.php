@@ -29,6 +29,7 @@ class CreateMasterSantrisTable extends Migration
             $table->integer('id_program');
             $table->char('id_tahunAjar', 20);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

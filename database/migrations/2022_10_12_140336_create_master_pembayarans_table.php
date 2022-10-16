@@ -20,6 +20,7 @@ class CreateMasterPembayaransTable extends Migration
             $table->string('metode', 100);
             $table->string('no_pembayaran');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

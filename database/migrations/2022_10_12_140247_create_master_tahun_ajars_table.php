@@ -18,6 +18,7 @@ class CreateMasterTahunAjarsTable extends Migration
             $table->date('tgl_mulai');
             $table->date('tgl_selesai');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

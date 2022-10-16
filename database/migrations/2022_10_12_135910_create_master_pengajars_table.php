@@ -26,6 +26,7 @@ class CreateMasterPengajarsTable extends Migration
             $table->date('tgl_lahir');
             $table->char('no_tlp', 30)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

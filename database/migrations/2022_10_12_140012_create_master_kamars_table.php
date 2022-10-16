@@ -18,6 +18,7 @@ class CreateMasterKamarsTable extends Migration
             $table->string('nama_kamar',100);
             $table->integer('kapasitas');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

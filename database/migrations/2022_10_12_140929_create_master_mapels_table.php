@@ -18,6 +18,7 @@ class CreateMasterMapelsTable extends Migration
             $table->string('nama_mapel');
             $table->integer('id_program');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

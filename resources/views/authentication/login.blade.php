@@ -39,57 +39,50 @@
                             </div>
                         </div>
                     </div>
-                    <div class="input-group mb-3">
+                    <div class="input-group mb-3" id="show_hide_password">
                         <input type="password" class="form-control" id="password" placeholder="Password"
                             name="password">
                         <div class="input-group-append">
                             <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
+                                <a href="" style="text-decoration: none;color: gray;"><span class="fas fa-eye"
+                                        aria-hidden="true"></span></a>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox">
-                                <label for="show_password">
-                                    Show Password
-                                </label>
-                            </div>
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                        </div>
-                        <!-- /.col -->
-                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                 </form>
 
                 <p class="mb-1">
-                    <a href="forgot-password.html">I forgot my password</a>
+                    <a href="#">I forgot my password</a>
                 </p>
             </div>
             <!-- /.login-card-body -->
         </div>
     </div>
-    <!-- /.login-box -->
-    {{-- <script>
-        function toggle() {
-            var input = document.getElementById('password');
-            if (input.type === "password") {
-                input.type = "text";
-            } else {
-                input.type = "password";
 
-            }
-        }
-    </script> --}}
     <!-- jQuery -->
     <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('template/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('template/dist/js/adminlte.min.js') }}"></script>
+    <!-- /.login-box -->
+    <script>
+        $(document).ready(function() {
+            $("#show_hide_password a").on('click', function(event) {
+                event.preventDefault();
+                if ($('#show_hide_password input').attr("type") == "text") {
+                    $('#show_hide_password input').attr('type', 'password');
+                    $('#show_hide_password span').removeClass("fas fa-eye");
+                    $('#show_hide_password span').addClass("fas fa-eye-slash");
+                } else if ($('#show_hide_password input').attr("type") == "password") {
+                    $('#show_hide_password input').attr('type', 'text');
+                    $('#show_hide_password span').removeClass("fas fa-eye-slash");
+                    $('#show_hide_password span').addClass("fas fa-eye");
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

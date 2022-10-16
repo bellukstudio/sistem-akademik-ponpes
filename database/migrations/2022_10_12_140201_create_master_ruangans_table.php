@@ -18,6 +18,7 @@ class CreateMasterRuangansTable extends Migration
             $table->string('nama_ruangan', 100);
             $table->text('photo')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
