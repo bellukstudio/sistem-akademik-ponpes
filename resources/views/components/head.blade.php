@@ -4,7 +4,24 @@
   <head>
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <title>Dashboard</title>
+
+      <title>Si-PMM |
+
+          @if (Route::is('dashboardAdmin'))
+              Dashboard
+          @endif
+
+          @if (Route::is('beritaAcara*'))
+              Berita Acara
+          @endif
+          @if (Route::is('trashBeritaAcara'))
+              Trash Bin (Berita Acara)
+          @endif
+
+          @if (Route::is('manageUser*'))
+              Kelola User
+          @endif
+      </title>
 
       <!-- Google Font: Source Sans Pro -->
       <link rel="stylesheet"
@@ -25,7 +42,9 @@
       <!-- overlayScrollbars -->
       <link rel="stylesheet" href="{{ asset('template/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}" />
       <!-- Daterange picker -->
-      <link rel="stylesheet" href="{{ asset('template/plugins/daterangepicker/daterangepicker.css') }}" />
+      {{-- <link rel="stylesheet" href="{{ asset('template/plugins/daterangepicker/daterangepicker.css') }}" /> --}}
       <!-- summernote -->
       <link rel="stylesheet" href="{{ asset('template/plugins/summernote/summernote-bs4.min.css') }}" />
+
+      @stack('new-css')
   </head>

@@ -17,6 +17,7 @@ class CreateMasterProgramsTable extends Migration
             $table->id();
             $table->string('nama_program', 100);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

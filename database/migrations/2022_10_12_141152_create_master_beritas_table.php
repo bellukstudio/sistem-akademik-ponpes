@@ -19,6 +19,7 @@ class CreateMasterBeritasTable extends Migration
             $table->string('judul');
             $table->text('keterangan');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

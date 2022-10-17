@@ -21,6 +21,7 @@ class CreateMasterUsersTable extends Migration
             $table->integer('roles');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

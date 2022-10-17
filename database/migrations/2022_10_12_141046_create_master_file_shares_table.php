@@ -20,6 +20,7 @@ class CreateMasterFileSharesTable extends Migration
             $table->text('link');
             $table->char('tipe');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -1,7 +1,7 @@
-        {{-- @if (session()->has('success'))
+        @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                <h5><i class="icon fas fa-check"></i> Alert!</h5>
                 {{ session('success') }}
             </div>
         @endif
@@ -11,7 +11,7 @@
                 <h5><i class="icon fas fa-ban"></i> Alert!</h5>
                 {{ session('failed') }}
             </div>
-        @endif --}}
+        @endif
         @if ($errors->any())
             <div class="alert alert-warning alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

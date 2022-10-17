@@ -18,6 +18,7 @@ class CreateMasterAbsensTable extends Migration
             $table->string('nama_absen');
             $table->text('kolom_absen');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

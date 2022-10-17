@@ -18,6 +18,7 @@ class CreateMasterTokenFcmsTable extends Migration
             $table->integer('id_user');
             $table->text('token');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

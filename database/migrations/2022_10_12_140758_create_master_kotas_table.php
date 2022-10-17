@@ -18,6 +18,7 @@ class CreateMasterKotasTable extends Migration
             $table->integer('id_provinsi');
             $table->string('nama_kota');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

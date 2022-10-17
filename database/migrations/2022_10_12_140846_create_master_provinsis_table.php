@@ -17,6 +17,7 @@ class CreateMasterProvinsisTable extends Migration
             $table->id();
             $table->string('nama_provinsi');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

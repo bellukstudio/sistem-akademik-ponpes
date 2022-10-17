@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\MasterUsers;
-use Illuminate\Support\Facades\Crypt;
+use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
@@ -27,7 +26,6 @@ class AuthController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
-        
         // check credentials user
         if (Auth::attempt($credentials)) {
             // chceck role user
@@ -39,7 +37,6 @@ class AuthController extends Controller
                 return redirect()->intended('dashboardPengajar');
             }
         }
-
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
