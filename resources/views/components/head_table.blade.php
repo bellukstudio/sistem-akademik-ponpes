@@ -19,6 +19,10 @@
             Trash Bin (Berita Acara)
         @endif
 
+        @if (Route::is('manageUser*'))
+            Kelola User
+        @endif
+
     </title>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"

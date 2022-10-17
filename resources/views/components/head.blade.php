@@ -8,11 +8,18 @@
       <title>Si-PMM |
 
           @if (Route::is('dashboardAdmin'))
-            Dashboard
+              Dashboard
           @endif
 
           @if (Route::is('beritaAcara*'))
-            Berita Acara
+              Berita Acara
+          @endif
+          @if (Route::is('trashBeritaAcara'))
+              Trash Bin (Berita Acara)
+          @endif
+
+          @if (Route::is('manageUser*'))
+              Kelola User
           @endif
       </title>
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Berita\BeritaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Master\ManageUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,9 @@ Route::middleware('checkRole:1')->group(function () {
         [BeritaController::class, 'deletePermanentAll']
     )->name('deletePermanenAlltBeritaAcara');
     Route::resource('beritaAcara', BeritaController::class);
+
+    //route manage user
+    Route::resource('manageUser', ManageUserController::class);
 });
 
 Route::middleware('checkRole:2')->group(function () {

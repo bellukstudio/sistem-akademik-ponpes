@@ -9,8 +9,8 @@
             <!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item active"><a href="{{ route('beritaAcara.index') }}">Berita Acara</a></li>
-                    <li class="breadcrumb-item">Buat Berita Acara</li>
+                    {{ Breadcrumbs::render('beritaAcara.edit', $berita) }}
+
                 </ol>
             </div>
             <!-- /.col -->

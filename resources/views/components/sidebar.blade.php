@@ -43,7 +43,8 @@
                      </a>
                      <ul class="nav nav-treeview">
                          <li class="nav-item">
-                             <a href="pages/layout/top-nav.html" class="nav-link">
+                             <a href="{{ route('manageUser.index') }}"
+                                 class="nav-link {{ Request::is('manageUser*') ? 'active' : '' }}">
                                  <i class="far fa-copy nav-icon"></i>
                                  <p>Kelola Users</p>
                              </a>
@@ -82,6 +83,24 @@
                              <a href="pages/layout/top-nav.html" class="nav-link">
                                  <i class="far fa-copy nav-icon"></i>
                                  <p>Kelola Kamar</p>
+                             </a>
+                         </li>
+                         <li class="nav-item">
+                             <a href="pages/layout/top-nav.html" class="nav-link">
+                                 <i class="far fa-copy nav-icon"></i>
+                                 <p>Kelola Provinsi</p>
+                             </a>
+                         </li>
+                         <li class="nav-item">
+                             <a href="pages/layout/top-nav.html" class="nav-link">
+                                 <i class="far fa-copy nav-icon"></i>
+                                 <p>Kelola Kota</p>
+                             </a>
+                         </li>
+                         <li class="nav-item">
+                             <a href="pages/layout/top-nav.html" class="nav-link">
+                                 <i class="far fa-copy nav-icon"></i>
+                                 <p>Kelola Program</p>
                              </a>
                          </li>
                      </ul>
