@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Akademik\TahunAkademikController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Berita\BeritaController;
 use Illuminate\Support\Facades\Route;
@@ -31,17 +32,46 @@ Route::middleware('checkRole:1')->group(function () {
     Route::get('beritaAcara/trash/{id}/restore', [BeritaController::class, 'restore'])->name('restoreBeritaAcara');
     Route::get('beritaAcara/trash/restore', [BeritaController::class, 'restoreAll'])->name('restoreAllBeritaAcara');
     Route::get(
-        'beritaAcara/trash/{id}/deletePermanent',
+        'beritaAcara/trash/{id}/delete',
         [BeritaController::class, 'deletePermanent']
     )->name('deletePermanentBeritaAcara');
     Route::get(
-        'beritaAcara/trash/deletePermanent',
+        'beritaAcara/trash/delete',
         [BeritaController::class, 'deletePermanentAll']
     )->name('deletePermanenAlltBeritaAcara');
     Route::resource('beritaAcara', BeritaController::class);
 
     //route manage user
     Route::resource('manageUser', ManageUserController::class);
+
+
+    /**
+     * Route Akademik
+     */
+
+    // route tahun ajar
+    Route::get(
+        'manageTahunAkademik/status/update',
+        [TahunAkademikController::class, 'updateStatus']
+    )->name('updateStatusTahun');
+    Route::get('manageTahunAkademik/trash', [TahunAkademikController::class, 'trash'])->name('trashTahunAkademik');
+    Route::get(
+        'manageTahunAkademik/trash/{id}/restore',
+        [TahunAkademikController::class, 'restore']
+    )->name('restoreTahunAkademik');
+    Route::get(
+        'manageTahunAkademik/trash/{id}/delete',
+        [TahunAkademikController::class, 'deletePermanent']
+    )->name('deletePermanentTahunAkademik');
+    Route::get(
+        'manageTahunAkademik/trash/delete',
+        [TahunAkademikController::class, 'deletePermanentAll']
+    )->name('deletePermanentAllTahunAkademik');
+    Route::get(
+        'manageTahunAkademik/trash/restore',
+        [TahunAkademikController::class, 'restoreAll']
+    )->name('restoreAllTahunAkademik');
+    Route::resource('manageTahunAkademik', TahunAkademikController::class);
 });
 
 Route::middleware('checkRole:2')->group(function () {

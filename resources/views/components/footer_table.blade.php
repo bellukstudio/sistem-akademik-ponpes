@@ -39,6 +39,8 @@
         });
     });
 </script>
+
+@stack('new-script')
 </body>
 
 </html>
