@@ -4,12 +4,11 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Trash Bin (Berita Acara)</h1>
+                <h1 class="m-0">Trash Bin (Tahun Akademik)</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    {{ Breadcrumbs::render('trashberitaAcara') }}
-
+                    {{ Breadcrumbs::render('trashTahunAkademik') }}
                 </ol>
             </div>
         </div>
@@ -28,7 +27,6 @@
                     data-target="#modal-deletePermanent">
                     <i class="fa fa-undo mr-2"></i> Delete Permanent All
                 </button>
-
 
                 {{-- Modal Restore All --}}
                 <div class="modal fade" id="modal-restoreAll">
@@ -52,9 +50,9 @@
                                 <button type="button" class="btn btn-default" data-dismiss="modal">
                                     Close</button>
 
-                                <a href="{{ route('restoreAllBeritaAcara') }}" class="btn btn-sm btn-danger">
-                                    <i class="fa fa-undo mr-2"></i>
-                                    Ya, Pulihkan</a>
+                                <a href="{{ route('restoreAllTahunAkademik') }}" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-undo"></i>
+                                    Ya</a>
 
                             </div>
                         </div>
@@ -84,9 +82,9 @@
                                 <button type="button" class="btn btn-default" data-dismiss="modal">
                                     Close</button>
 
-                                <a href="{{ route('deletePermanenAlltBeritaAcara') }}" class="btn btn-sm btn-danger">
-                                    <i class="fa fa-trash mr-2"></i>
-                                    Ya, Hapus</a>
+                                <a href="{{ route('deletePermanentAllTahunAkademik') }}" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                    Ya </a>
 
                             </div>
                         </div>
@@ -101,8 +99,10 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Judul</th>
-                            <th>Keterangan</th>
+                            <th>Kode</th>
+                            <th>Tanggal Mulai</th>
+                            <th>Tanggal Selesai</th>
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -110,30 +110,36 @@
                         @forelse ($trash as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $item->judul }}</td>
-                                <td>{!! $item->keterangan !!}</td>
+                                <td>{{ $item->kode }}</td>
+                                <td>{{ $item->tgl_mulai }}</td>
+                                <td>{{ $item->tgl_selesai }}</td>
+                                <td>
+                                    <input type="checkbox" data-id="{{ $item->id }}" name="status" class="js-switch"
+                                        readonly {{ $item->status == 1 ? 'checked' : '' }}>
+                                </td>
                                 <td>
                                     {{-- {restore} --}}
                                     <button type="button" class="btn btn-sm btn-outline-dark" data-toggle="modal"
                                         data-target="#modal-restore{{ $item->id }}">
-                                        <i class="fa fa-trash mr-2"> </i> Restore
+                                        <i class="fa fa-undo mr-2"> </i> Restore
                                     </button>
                                     <br><br>
                                     {{-- {Hapus} --}}
                                     <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal"
-                                        data-target="#modal-delete{{ $item->id }}">
+                                        data-target="#modal-Delete{{ $item->id }}">
                                         <i class="fa fa-trash mr-2"> </i> Delete Permanent
                                     </button>
 
                                 </td>
                             </tr>
 
-                            {{-- Modal restore --}}
-                            <div class="modal fade" id="modal-restore{{ $item->id }}">
+
+                            {{-- Modal Delete --}}
+                            <div class="modal fade" id="modal-Delete{{ $item->id }}">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title">Konfirmasi restore data </h4>
+                                            <h4 class="modal-title">Konfirmasi hapus data</h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -141,53 +147,16 @@
                                         <div class="modal-body">
                                             <div class="card">
                                                 <div class="card-header bg-info">
-                                                    <h6>{{ $item->judul }}</h6> <br>
+                                                    <h1>{{ $item->kode }}</h1> <br>
+                                                    <p>Yakin ingin menghapus permanen data tersebut? </p>
                                                 </div>
-                                                <div class="card-body">
-                                                    <p>{!! $item->keterangan !!}</p>
 
-                                                </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer justify-content-between">
-                                            <button type="button" class="btn btn-default"
-                                                data-dismiss="modal">Close</button>
-                                            <a href="{{ route('restoreBeritaAcara', $item->id) }}"
-                                                class="btn btn-sm btn-danger"><i class="fa fa-undo mr-2"></i>
-                                                Ya, Pulihkan</a>
-                                        </div>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                </div>
-                                <!-- /.modal-dialog -->
-                            </div>
-
-                            {{-- Modal delete --}}
-                            <div class="modal fade" id="modal-delete{{ $item->id }}">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Konfirmasi hapus data permanent</h4>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="card">
-                                                <div class="card-header bg-info">
-                                                    <h6>{{ $item->judul }}</h6> <br>
-                                                </div>
-                                                <div class="card-body">
-                                                    <p>{!! $item->keterangan !!}</p>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer justify-content-between">
-                                            <button type="button" class="btn btn-default"
-                                                data-dismiss="modal">Close</button>
-                                            <a href="{{ route('deletePermanentBeritaAcara', $item->id) }}"
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                Close</button>
+                                            <a href="{{ route('deletePermanentTahunAkademik', $item->id) }}"
                                                 class="btn btn-sm btn-danger"><i class="fa fa-trash mr-2"></i>
                                                 Ya, Hapus</a>
                                         </div>
@@ -196,17 +165,53 @@
                                 </div>
                                 <!-- /.modal-dialog -->
                             </div>
+                            {{-- Modal restore --}}
+                            <div class="modal fade" id="modal-restore{{ $item->id }}">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Konfirmasi restore data</h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="card">
+                                                <div class="card-header bg-info">
+                                                    <h1>{{ $item->kode }}</h1> <br>
+                                                    <p>Yakin ingin memulihkan data tersebut? </p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                Close</button>
+
+                                            <a href="{{ route('restoreTahunAkademik', $item->id) }}"
+                                                class="btn btn-sm btn-outline-dark">
+                                                <i class="fa fa-undo-alt mr-2"></i>Ya, Pulihkan </a>
+
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
                         @empty
                             <tr>
-                                <td colspan="4" align="center"> Data Tidak Tersedia</td>
+                                <td colspan="6" align="center">Data Tidak Tersedia</td>
                             </tr>
                         @endforelse
                     </tbody>
                     <tfoot>
                         <tr>
                             <th>No</th>
-                            <th>Judul</th>
-                            <th>Keterangan</th>
+                            <th>Kode</th>
+                            <th>Tanggal Mulai</th>
+                            <th>Tanggal Selesai</th>
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>
@@ -218,4 +223,18 @@
 
     </div>
 @endsection
-@include('components.footer_table')
+@extends('components.footer_table')
+@push('new-script')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+            elems.forEach(function(html) {
+                let switchery = new Switchery(html, {
+                    size: 'small',
+                });
+            });
+        });
+    </script>
+@endpush

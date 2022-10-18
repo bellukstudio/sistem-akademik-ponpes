@@ -31,3 +31,15 @@ Breadcrumbs::for('trashberitaAcara', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('manageUser', function (BreadcrumbTrail $trail) {
     $trail->push('Data User', route('manageUser.index'));
 });
+
+
+/**
+ * manage tahunn akademik
+ */
+Breadcrumbs::for('manageTahunAkademik', function (BreadcrumbTrail $trail) {
+    $trail->push('Data Tahun Akademik', route('manageTahunAkademik.index'));
+});
+Breadcrumbs::for('trashTahunAkademik', function (BreadcrumbTrail $trail) {
+    $trail->parent('manageTahunAkademik');
+    $trail->push('Trash Bin', route('trashTahunAkademik'));
+});

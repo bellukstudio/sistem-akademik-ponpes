@@ -45,62 +45,69 @@
                          <li class="nav-item">
                              <a href="{{ route('manageUser.index') }}"
                                  class="nav-link {{ Request::is('manageUser*') ? 'active' : '' }}">
-                                 <i class="far fa-copy nav-icon"></i>
+                                 <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Users</p>
                              </a>
                          </li>
                          <li class="nav-item">
                              <a href="pages/layout/top-nav.html" class="nav-link">
-                                 <i class="far fa-copy nav-icon"></i>
+                                 <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Santri</p>
                              </a>
                          </li>
                          <li class="nav-item">
                              <a href="pages/layout/top-nav.html" class="nav-link">
-                                 <i class="far fa-copy nav-icon"></i>
+                                 <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Pengurus</p>
                              </a>
                          </li>
                          <li class="nav-item">
                              <a href="pages/layout/top-nav.html" class="nav-link">
-                                 <i class="far fa-copy nav-icon"></i>
+                                 <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Pengajar</p>
                              </a>
                          </li>
                          <li class="nav-item">
                              <a href="pages/layout/top-nav.html" class="nav-link">
-                                 <i class="far fa-copy nav-icon"></i>
+                                 <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Kelas</p>
                              </a>
                          </li>
                          <li class="nav-item">
                              <a href="pages/layout/top-nav.html" class="nav-link">
-                                 <i class="far fa-copy nav-icon"></i>
+                                 <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Ruangan</p>
                              </a>
                          </li>
                          <li class="nav-item">
                              <a href="pages/layout/top-nav.html" class="nav-link">
-                                 <i class="far fa-copy nav-icon"></i>
+                                 <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Kamar</p>
                              </a>
                          </li>
                          <li class="nav-item">
                              <a href="pages/layout/top-nav.html" class="nav-link">
-                                 <i class="far fa-copy nav-icon"></i>
+                                 <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Provinsi</p>
                              </a>
                          </li>
                          <li class="nav-item">
                              <a href="pages/layout/top-nav.html" class="nav-link">
-                                 <i class="far fa-copy nav-icon"></i>
+                                 <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Kota</p>
                              </a>
                          </li>
                          <li class="nav-item">
                              <a href="pages/layout/top-nav.html" class="nav-link">
-                                 <i class="far fa-copy nav-icon"></i>
+                                 <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Program</p>
+                             </a>
+                         </li>
+                         <li class="nav-item">
+                             <a href="{{ route('manageTahunAkademik.index') }}"
+                                 class="nav-link {{ Request::is('manageTahunAkademik*') ? 'active ' : '' }}">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Kelola Tahun Akademik</p>
                              </a>
                          </li>
                      </ul>
@@ -131,13 +138,13 @@
                      <ul class="nav nav-treeview">
                          <li class="nav-item">
                              <a href="" class="nav-link">
-                                 <i class="far fa-copy nav-icon"></i>
+                                 <i class="far fa-circle nav-icon"></i>
                                  <p>SPP</p>
                              </a>
                          </li>
                          <li class="nav-item">
                              <a href="" class="nav-link">
-                                 <i class="far fa-copy nav-icon"></i>
+                                 <i class="far fa-circle nav-icon"></i>
                                  <p>Iuran Bulanan</p>
                              </a>
                          </li>
@@ -156,31 +163,25 @@
                      <ul class="nav nav-treeview">
                          <li class="nav-item">
                              <a href="pages/layout/top-nav.html" class="nav-link">
-                                 <i class="far fa-copy nav-icon"></i>
-                                 <p>Tahun Akademik</p>
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a href="pages/layout/top-nav.html" class="nav-link">
-                                 <i class="far fa-copy nav-icon"></i>
+                                 <i class="far fa-circle nav-icon"></i>
                                  <p>Jadwal Pelajaran</p>
                              </a>
                          </li>
                          <li class="nav-item">
                              <a href="pages/layout/top-nav.html" class="nav-link">
-                                 <i class="far fa-copy nav-icon"></i>
+                                 <i class="far fa-circle nav-icon"></i>
                                  <p>Mata Pelajaran</p>
                              </a>
                          </li>
                          <li class="nav-item">
                              <a href="pages/layout/top-nav.html" class="nav-link">
-                                 <i class="far fa-copy nav-icon"></i>
+                                 <i class="far fa-circle nav-icon"></i>
                                  <p>Nilai</p>
                              </a>
                          </li>
                          <li class="nav-item">
                              <a href="pages/layout/top-nav.html" class="nav-link">
-                                 <i class="far fa-copy nav-icon"></i>
+                                 <i class="far fa-circle nav-icon"></i>
                                  <p>Raport</p>
                              </a>
                          </li>

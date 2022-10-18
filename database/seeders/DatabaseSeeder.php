@@ -3,8 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -14,10 +13,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('master_users')->insert([
-            'email' => 'adminponpes@gmail.com',
-            'password' => Hash::make('adminponpes'),
-            'roles' => 1,
+        $this->call([
+            MasterUsersSeeder::class,
+            BeritaSeeder::class,
+            ProvinsiSeeder::class,
+            KotaSeeder::class
         ]);
     }
 }

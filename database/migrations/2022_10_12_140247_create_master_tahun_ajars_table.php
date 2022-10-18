@@ -15,8 +15,10 @@ class CreateMasterTahunAjarsTable extends Migration
     {
         Schema::create('master_tahun_ajar', function (Blueprint $table) {
             $table->id();
+            $table->char('kode', 20)->unique();
             $table->date('tgl_mulai');
             $table->date('tgl_selesai');
+            $table->boolean('status')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
