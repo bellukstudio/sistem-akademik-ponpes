@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\Akademik\TahunAkademikController;
+use App\Http\Controllers\Master\ManageTahunAkademikController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Berita\BeritaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Master\ManageProgramController;
 use App\Http\Controllers\Master\ManageUserController;
 
 /*
@@ -45,33 +46,51 @@ Route::middleware('checkRole:1')->group(function () {
     Route::resource('manageUser', ManageUserController::class);
 
 
-    /**
-     * Route Akademik
-     */
-
-    // route tahun ajar
+    // route manage tahun ajar
     Route::get(
         'manageTahunAkademik/status/update',
-        [TahunAkademikController::class, 'updateStatus']
+        [ManageTahunAkademikController::class, 'updateStatus']
     )->name('updateStatusTahun');
-    Route::get('manageTahunAkademik/trash', [TahunAkademikController::class, 'trash'])->name('trashTahunAkademik');
+    Route::get(
+        'manageTahunAkademik/trash',
+        [ManageTahunAkademikController::class, 'trash']
+    )->name('trashTahunAkademik');
     Route::get(
         'manageTahunAkademik/trash/{id}/restore',
-        [TahunAkademikController::class, 'restore']
+        [ManageTahunAkademikController::class, 'restore']
     )->name('restoreTahunAkademik');
     Route::get(
         'manageTahunAkademik/trash/{id}/delete',
-        [TahunAkademikController::class, 'deletePermanent']
+        [ManageTahunAkademikController::class, 'deletePermanent']
     )->name('deletePermanentTahunAkademik');
     Route::get(
         'manageTahunAkademik/trash/delete',
-        [TahunAkademikController::class, 'deletePermanentAll']
+        [ManageTahunAkademikController::class, 'deletePermanentAll']
     )->name('deletePermanentAllTahunAkademik');
     Route::get(
         'manageTahunAkademik/trash/restore',
-        [TahunAkademikController::class, 'restoreAll']
+        [ManageTahunAkademikController::class, 'restoreAll']
     )->name('restoreAllTahunAkademik');
-    Route::resource('manageTahunAkademik', TahunAkademikController::class);
+    Route::resource('manageTahunAkademik', ManageTahunAkademikController::class);
+
+    /**
+     * route master program
+     */
+    Route::get('manageProgram/trash', [ManageProgramController::class, 'trash'])->name('trashProgram');
+    Route::get('manageProgram/trash/{id}/restore', [ManageProgramController::class, 'restore'])->name('restoreProgram');
+    Route::get(
+        'manageProgram/trash/{id}/delete',
+        [ManageProgramController::class, 'deletePermanent']
+    )->name('deletePermanentProgram');
+    Route::get(
+        'manageProgram/trash/restore',
+        [ManageProgramController::class, 'restoreAll']
+    )->name('restoreAllProgram');
+    Route::get(
+        'manageProgram/trash/delete',
+        [ManageProgramController::class, 'deletePermanentAll']
+    )->name('deletePermanentAllProgram');
+    Route::resource('manageProgram', ManageProgramController::class);
 });
 
 Route::middleware('checkRole:2')->group(function () {

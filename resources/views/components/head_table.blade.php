@@ -7,30 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Si-PMM |
-
-        @if (Route::is('dashboardAdmin'))
-            Dashboard
-        @endif
-
-        @if (Route::is('beritaAcara*'))
-            Berita Acara
-        @endif
-
-        @if (Route::is('trashBeritaAcara'))
-            Trash Bin (Berita Acara)
-        @endif
-
-        @if (Route::is('manageUser*'))
-            Kelola User
-        @endif
-
-        @if (Route::is('manageTahunAkademik*'))
-            Kelola Tahun Akademik
-        @endif
-        @if (Route::is('trashTahunAkademik'))
-             Trash Bin (Tahun Akademik)
-        @endif
-
+        @include('components.title_doc')
     </title>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"

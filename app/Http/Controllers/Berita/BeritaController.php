@@ -53,7 +53,8 @@ class BeritaController extends Controller
                     'keterangan' => $request->keterangan
                 ]
             );
-            return redirect()->route('beritaAcara.index')->with('success', 'Pengumuman terbaru berhasil di post');
+            return redirect()->route('beritaAcara.index')
+                ->with('success', 'Pengumuman (' . $request->judul . ') berhasil di post');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -104,7 +105,8 @@ class BeritaController extends Controller
             $berita->keterangan = $request->keterangan;
             $berita->update();
 
-            return redirect()->route('beritaAcara.index')->with('success', 'Pengumuman berhasil di update');
+            return redirect()->route('beritaAcara.index')
+                ->with('success', 'Pengumuman (' . $request->judul . ') berhasil di update');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

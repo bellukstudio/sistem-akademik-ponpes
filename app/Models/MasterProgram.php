@@ -11,4 +11,7 @@ class MasterProgram extends Model
     use HasFactory, SoftDeletes;
     protected $table = 'master_program';
 
+    protected $fillable = [
+        'nama_program', 'kode'
+    ];
 }
