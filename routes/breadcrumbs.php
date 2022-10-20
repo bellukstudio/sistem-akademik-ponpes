@@ -51,7 +51,7 @@ Breadcrumbs::for('trashTahunAkademik', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('manageProgram', function (BreadcrumbTrail $trail) {
     $trail->push('Data Program', route('manageProgram.index'));
 });
-// Breadcrumbs::for('trashProgram', function(BreadcrumbTrail $trail){
-//     $trail->parent('manageProgram');
-//     $trail->push('Trash Bin', route('trash'))
-// });
+Breadcrumbs::for('trashProgram', function (BreadcrumbTrail $trail) {
+    $trail->parent('manageProgram');
+    $trail->push('Trash Bin', route('trashProgram'));
+});
