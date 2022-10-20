@@ -6,25 +6,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta name="csrf-token" content="{{ csrf_token() }}">
       <title>Si-PMM |
-
-          @if (Route::is('dashboardAdmin'))
-              Dashboard
-          @endif
-
-          @if (Route::is('beritaAcara*'))
-              Kelola Berita Acara
-          @endif
-          @if (Route::is('trashBeritaAcara'))
-              Trash Bin (Berita Acara)
-          @endif
-
-          @if (Route::is('manageUser*'))
-              Kelola User
-          @endif
-
-          @if (Route::is('manageTahunAkademik*'))
-              Kelola Tahun Akademik
-          @endif
+          @include('components.title_doc')
       </title>
 
       <!-- Google Font: Source Sans Pro -->

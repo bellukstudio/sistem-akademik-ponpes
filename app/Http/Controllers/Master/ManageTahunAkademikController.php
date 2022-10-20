@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Akademik;
+namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
 use App\Models\MasterTahunAjar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class TahunAkademikController extends Controller
+class ManageTahunAkademikController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,6 +16,7 @@ class TahunAkademikController extends Controller
      */
     public function index()
     {
+
         $data = MasterTahunAjar::latest()->get();
         return view('dashboard.master_data.kelola_tahunAkademik.index', [
             'tahunAkademik' => $data

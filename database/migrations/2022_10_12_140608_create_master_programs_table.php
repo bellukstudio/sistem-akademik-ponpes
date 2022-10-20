@@ -15,6 +15,7 @@ class CreateMasterProgramsTable extends Migration
     {
         Schema::create('master_program', function (Blueprint $table) {
             $table->id();
+            $table->char('kode', 50);
             $table->string('nama_program', 100);
             $table->timestamps();
             $table->softDeletes();

@@ -1,10 +1,14 @@
  <!-- Main Sidebar Container -->
- <aside class="main-sidebar sidebar-light-primary elevation-4">
+ <aside class="main-sidebar sidebar-dark-primary elevation-4">
      <!-- Brand Logo -->
      <a href="{{ route('dashboardAdmin') }}" class="brand-link">
-         <img src="{{ asset('template/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
-             class="brand-image img-circle elevation-3" style="opacity: 0.8" />
-         <span class="brand-text font-weight-light">Admin</span>
+         <img src="{{ asset('template/img/logo.png') }}" alt=" Logo" class="brand-image img-circle elevation-3"
+             style="opacity: 0.8" />
+         <span class="brand-text font-weight-light">
+             @if (Auth::user()->roles == 1)
+                 Admin
+             @endif
+         </span>
      </a>
 
      <!-- Sidebar -->
@@ -33,8 +37,10 @@
                      </a>
                  </li>
                  <li class="nav-header">MASTER</li>
-                 <li class="nav-item">
-                     <a href="#" class="nav-link">
+                 <li
+                     class="nav-item {{ Request::is(['manageUser*', 'manageTahunAkademik*', 'manageProgram*']) ? 'menu-open' : '' }}">
+                     <a href="#"
+                         class="nav-link {{ Request::is(['manageUser*', 'manageTahunAkademik*', 'manageProgram*']) ? 'active' : '' }}">
                          <i class="nav-icon fas fa-archive"></i>
                          <p>
                              Master Data
@@ -98,7 +104,8 @@
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href="pages/layout/top-nav.html" class="nav-link">
+                             <a href="{{ route('manageProgram.index') }}"
+                                 class="nav-link {{ Request::is('manageProgram*') ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Program</p>
                              </a>

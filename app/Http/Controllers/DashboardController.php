@@ -7,6 +7,7 @@ use App\Models\MasterPengajar;
 use App\Models\MasterSantri;
 use App\Models\MasterUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {

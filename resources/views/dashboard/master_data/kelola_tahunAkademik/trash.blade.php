@@ -51,8 +51,8 @@
                                     Close</button>
 
                                 <a href="{{ route('restoreAllTahunAkademik') }}" class="btn btn-sm btn-danger">
-                                    <i class="fa fa-undo"></i>
-                                    Ya</a>
+                                    <i class="fa fa-undo mr-2"></i>
+                                    Ya, Pulihkan</a>
 
                             </div>
                         </div>
@@ -83,8 +83,8 @@
                                     Close</button>
 
                                 <a href="{{ route('deletePermanentAllTahunAkademik') }}" class="btn btn-sm btn-danger">
-                                    <i class="fa fa-trash"></i>
-                                    Ya </a>
+                                    <i class="fa fa-trash mr-2"></i>
+                                    Ya, Hapus</a>
 
                             </div>
                         </div>
