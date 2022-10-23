@@ -8,7 +8,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    {{ Breadcrumbs::render('trashTahunAkademik') }}
+                    {{ Breadcrumbs::render('kelolaTahunAkademik.trash') }}
                 </ol>
             </div>
         </div>
@@ -110,9 +110,9 @@
                         @forelse ($trash as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $item->kode }}</td>
-                                <td>{{ $item->tgl_mulai }}</td>
-                                <td>{{ $item->tgl_selesai }}</td>
+                                <td>{{ $item->code }}</td>
+                                <td>{{ $item->start_date }}</td>
+                                <td>{{ $item->end_date }}</td>
                                 <td>
                                     <input type="checkbox" data-id="{{ $item->id }}" name="status" class="js-switch"
                                         readonly {{ $item->status == 1 ? 'checked' : '' }}>
@@ -147,7 +147,7 @@
                                         <div class="modal-body">
                                             <div class="card">
                                                 <div class="card-header bg-info">
-                                                    <h1>{{ $item->kode }}</h1> <br>
+                                                    <h1>{{ $item->code }}</h1> <br>
                                                     <p>Yakin ingin menghapus permanen data tersebut? </p>
                                                 </div>
 
@@ -179,7 +179,7 @@
                                         <div class="modal-body">
                                             <div class="card">
                                                 <div class="card-header bg-info">
-                                                    <h1>{{ $item->kode }}</h1> <br>
+                                                    <h1>{{ $item->code }}</h1> <br>
                                                     <p>Yakin ingin memulihkan data tersebut? </p>
                                                 </div>
 

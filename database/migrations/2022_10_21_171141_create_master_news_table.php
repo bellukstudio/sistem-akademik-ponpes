@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMasterKamarsTable extends Migration
+class CreateMasterNewsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateMasterKamarsTable extends Migration
      */
     public function up()
     {
-        Schema::create('master_kamar', function (Blueprint $table) {
+        Schema::create('master_news', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_kamar',100);
-            $table->integer('kapasitas');
+            $table->string('title');
+            $table->text('description');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreignId('id_user')->nullable()->references('id')->on('master_users')->onDelete('cascade');
         });
     }
 
@@ -29,6 +30,6 @@ class CreateMasterKamarsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_kamar');
+        Schema::dropIfExists('master_news');
     }
 }

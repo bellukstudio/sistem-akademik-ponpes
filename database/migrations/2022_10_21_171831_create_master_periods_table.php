@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMasterRuangansTable extends Migration
+class CreateMasterPeriodsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateMasterRuangansTable extends Migration
      */
     public function up()
     {
-        Schema::create('master_ruangan', function (Blueprint $table) {
+        Schema::create('master_periods', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_ruangan', 100);
-            $table->text('photo')->nullable();
+            $table->char('code', 20)->unique();
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->boolean('status')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +31,6 @@ class CreateMasterRuangansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_ruangan');
+        Schema::dropIfExists('master_periods');
     }
 }

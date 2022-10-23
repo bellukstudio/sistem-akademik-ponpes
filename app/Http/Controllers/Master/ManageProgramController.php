@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
-use App\Models\MasterProgram;
+use App\Models\MasterAcademicProgram;
 use Illuminate\Http\Request;
 
 class ManageProgramController extends Controller
@@ -15,7 +15,7 @@ class ManageProgramController extends Controller
      */
     public function index()
     {
-        $data = MasterProgram::latest()->get();
+        $data = MasterAcademicProgram::latest()->get();
         return view(
             'dashboard.master_data.kelola_program.index',
             [
@@ -47,13 +47,13 @@ class ManageProgramController extends Controller
             'nama_program' => 'required|max:100'
         ]);
         try {
-            MasterProgram::create(
+            MasterAcademicProgram::create(
                 [
-                    'kode' => $request->kode,
-                    'nama_program' => $request->nama_program
+                    'code' => $request->kode,
+                    'program_name' => $request->nama_program
                 ]
             );
-            return redirect()->route('manageProgram.index')
+            return redirect()->route('kelolaProgramAkademik.index')
                 ->with('success', 'Data (' . $request->nama_program . ') berhasil di tambahkan');
         } catch (\Exception $e) {
             return back()->withErrors($e);
@@ -96,11 +96,11 @@ class ManageProgramController extends Controller
             'nama_program' => 'required|max:100'
         ]);
         try {
-            $data = MasterProgram::findOrfail($id);
-            $data->kode = $request->kode;
-            $data->nama_program = $request->nama_program;
+            $data = MasterAcademicProgram::findOrfail($id);
+            // $data->code = $request->kode;
+            $data->program_name = $request->nama_program;
             $data->update();
-            return redirect()->route('manageProgram.index')
+            return redirect()->route('kelolaProgramAkademik.index')
                 ->with('success', 'Data (' . $request->nama_program . ') berhasil di update');
         } catch (\Exception $e) {
             return back()->withErrors($e);
@@ -116,9 +116,9 @@ class ManageProgramController extends Controller
     public function destroy($id)
     {
         try {
-            $data = MasterProgram::find($id);
+            $data = MasterAcademicProgram::find($id);
             $data->delete();
-            return redirect()->route('manageProgram.index')
+            return redirect()->route('kelolaProgramAkademik.index')
                 ->with('success', 'Data berhasil di hapus');
         } catch (\Exception $e) {
             return back()->withErrors($e);
@@ -127,7 +127,7 @@ class ManageProgramController extends Controller
 
     public function trash()
     {
-        $data = MasterProgram::onlyTrashed()->get();
+        $data = MasterAcademicProgram::onlyTrashed()->get();
         return view('dashboard.master_data.kelola_program.trash', [
             'trash' => $data
         ]);
@@ -136,9 +136,9 @@ class ManageProgramController extends Controller
     public function restore($id)
     {
         try {
-            $data = MasterProgram::onlyTrashed()->where('id', $id);
+            $data = MasterAcademicProgram::onlyTrashed()->where('id', $id);
             $data->restore();
-            return redirect()->route('manageProgram.index')->with('success', 'Data berhasil dipulihkan ');
+            return redirect()->route('kelolaProgramAkademik.index')->with('success', 'Data berhasil dipulihkan ');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -146,9 +146,9 @@ class ManageProgramController extends Controller
     public function restoreAll()
     {
         try {
-            $data = MasterProgram::onlyTrashed();
+            $data = MasterAcademicProgram::onlyTrashed();
             $data->restore();
-            return redirect()->route('manageProgram.index')->with('success', 'Data berhasil dipulihkan');
+            return redirect()->route('kelolaProgramAkademik.index')->with('success', 'Data berhasil dipulihkan');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -157,7 +157,7 @@ class ManageProgramController extends Controller
     public function deletePermanent($id)
     {
         try {
-            $data = MasterProgram::onlyTrashed()->where('id', $id);
+            $data = MasterAcademicProgram::onlyTrashed()->where('id', $id);
             $data->forceDelete();
             return redirect()->route('trashProgram')->with('success', 'Data berhasil dihapus permanent');
         } catch (\Exception $e) {
@@ -167,7 +167,7 @@ class ManageProgramController extends Controller
     public function deletePermanentAll()
     {
         try {
-            $data = MasterProgram::onlyTrashed();
+            $data = MasterAcademicProgram::onlyTrashed();
             $data->forceDelete();
             return redirect()->route('trashProgram')->with('success', 'Semua data berhasil dihapus permanent');
         } catch (\Exception $e) {

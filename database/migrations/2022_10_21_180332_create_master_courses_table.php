@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMasterAbsensTable extends Migration
+class CreateMasterCoursesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateMasterAbsensTable extends Migration
      */
     public function up()
     {
-        Schema::create('master_absen', function (Blueprint $table) {
+        Schema::create('master_courses', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_absen');
-            $table->text('kolom_absen');
+            $table->string('course_name');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreignId('program_id')->nullable()->references('id')->on('master_academic_programs')->onDelete('cascade');
         });
     }
 
@@ -29,6 +29,6 @@ class CreateMasterAbsensTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_absen');
+        Schema::dropIfExists('master_courses');
     }
 }

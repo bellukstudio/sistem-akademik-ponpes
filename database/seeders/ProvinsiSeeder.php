@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\MasterProvinsi;
+use App\Models\MasterProvince;
 use Illuminate\Database\Seeder;
 
 class ProvinsiSeeder extends Seeder
@@ -20,10 +20,10 @@ class ProvinsiSeeder extends Seeder
 
         foreach ($provinces as $province) {
             $record = [
-                'nama_provinsi' => $province,
+                'province_name' => $province,
             ];
 
-            MasterProvinsi::firstOrCreate($record);
+            MasterProvince::firstOrCreate($record);
         }
     }
 }

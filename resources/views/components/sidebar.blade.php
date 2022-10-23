@@ -38,9 +38,26 @@
                  </li>
                  <li class="nav-header">MASTER</li>
                  <li
-                     class="nav-item {{ Request::is(['manageUser*', 'manageTahunAkademik*', 'manageProgram*']) ? 'menu-open' : '' }}">
+                     class="nav-item {{ Request::is([
+                         'kelolaUser*',
+                         'kelolaTahunAkademik*',
+                         'kelolaProgramAkademik*',
+                         'kelolaKota*',
+                         'kelolaProvinsi*',
+                         'kelolaKamar*',
+                     ])
+                         ? 'menu-open'
+                         : '' }}">
                      <a href="#"
-                         class="nav-link {{ Request::is(['manageUser*', 'manageTahunAkademik*', 'manageProgram*']) ? 'active' : '' }}">
+                         class="nav-link {{ Request::is([
+                             'kelolaUser*',
+                             'kelolaTahunAkademik*',
+                             'kelolaProgramAkademik*',
+                             'kelolaKota*',
+                             'kelolaKamar*',
+                         ])
+                             ? 'active'
+                             : '' }}">
                          <i class="nav-icon fas fa-archive"></i>
                          <p>
                              Master Data
@@ -49,8 +66,8 @@
                      </a>
                      <ul class="nav nav-treeview">
                          <li class="nav-item">
-                             <a href="{{ route('manageUser.index') }}"
-                                 class="nav-link {{ Request::is('manageUser*') ? 'active' : '' }}">
+                             <a href="{{ route('kelolaUser.index') }}"
+                                 class="nav-link {{ Request::is('kelolaUser*') ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Users</p>
                              </a>
@@ -86,33 +103,36 @@
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href="pages/layout/top-nav.html" class="nav-link">
+                             <a href="{{ route('kelolaKamar.index') }}"
+                             class="nav-link {{ Request::is('kelolaKamar*') ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Kamar</p>
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href="pages/layout/top-nav.html" class="nav-link">
+                             <a href="{{ route('kelolaProvinsi.index') }}"
+                                 class="nav-link {{ Request::is('kelolaProvinsi*') ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Provinsi</p>
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href="pages/layout/top-nav.html" class="nav-link">
+                             <a href="{{ route('kelolaKota.index') }}"
+                                 class="nav-link {{ Request::is('kelolaKota*') ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Kota</p>
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href="{{ route('manageProgram.index') }}"
-                                 class="nav-link {{ Request::is('manageProgram*') ? 'active' : '' }}">
+                             <a href="{{ route('kelolaProgramAkademik.index') }}"
+                                 class="nav-link {{ Request::is('kelolaProgramAkademik*') ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Program</p>
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href="{{ route('manageTahunAkademik.index') }}"
-                                 class="nav-link {{ Request::is('manageTahunAkademik*') ? 'active ' : '' }}">
+                             <a href="{{ route('kelolaTahunAkademik.index') }}"
+                                 class="nav-link {{ Request::is('kelolaTahunAkademik*') ? 'active ' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Tahun Akademik</p>
                              </a>

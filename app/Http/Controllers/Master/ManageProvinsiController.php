@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
+use App\Models\MasterProvince;
 use Illuminate\Http\Request;
 
 class ManageProvinsiController extends Controller
@@ -14,7 +15,10 @@ class ManageProvinsiController extends Controller
      */
     public function index()
     {
-        //
+        $data = MasterProvince::latest()->get();
+        return view('dashboard.master_data.kelola_provinsi.index', [
+            'provinsi' => $data
+        ]);
     }
 
     /**
@@ -35,7 +39,19 @@ class ManageProvinsiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'province_name' => 'required|max:50|unique:master_provinces,province_name'
+        ]);
+
+        try {
+            MasterProvince::create([
+                'province_name' => $request->province_name
+            ]);
+            return redirect()->route('kelolaProvinsi.index')
+                ->with('success', 'Data provinsi ' . $request->province_name . ' berhasil di simpan');
+        } catch (\Exception $e) {
+            return back()->withErrors($e);
+        }
     }
 
     /**
@@ -69,7 +85,19 @@ class ManageProvinsiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'province_name' => 'required|max:50|unique:master_provinces,province_name'
+        ]);
+
+        try {
+            $data = MasterProvince::findOrFail($id);
+            $data->province_name = $request->province_name;
+            $data->update();
+            return redirect()->route('kelolaProvinsi.index')
+                ->with('success', 'Data provinsi ' . $request->province_name . ' berhasil di ubah');
+        } catch (\Exception $e) {
+            return back()->withErrors($e);
+        }
     }
 
     /**
@@ -80,6 +108,64 @@ class ManageProvinsiController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $data = MasterProvince::find($id);
+            $data->delete();
+            return redirect()->route('kelolaProvinsi.index')
+                ->with('success', 'Data provinsi berhasil di hapus');
+        } catch (\Exception $e) {
+            return back()->withErrors($e);
+        }
+    }
+
+
+    public function trash()
+    {
+        $data = MasterProvince::onlyTrashed()->get();
+        return view('dashboard.master_data.kelola_provinsi.trash', [
+            'trash' => $data
+        ]);
+    }
+
+    public function restore($id)
+    {
+        try {
+            $data = MasterProvince::onlyTrashed()->where('id', $id);
+            $data->restore();
+            return redirect()->route('kelolaProvinsi.index')->with('success', 'Data berhasil dipulihkan ');
+        } catch (\Exception $e) {
+            return back()->withErrors($e);
+        }
+    }
+    public function restoreAll()
+    {
+        try {
+            $data = MasterProvince::onlyTrashed();
+            $data->restore();
+            return redirect()->route('kelolaProvinsi.index')->with('success', 'Data berhasil dipulihkan');
+        } catch (\Exception $e) {
+            return back()->withErrors($e);
+        }
+    }
+
+    public function deletePermanent($id)
+    {
+        try {
+            $data = MasterProvince::onlyTrashed()->where('id', $id);
+            $data->forceDelete();
+            return redirect()->route('trashProgram')->with('success', 'Data berhasil dihapus permanent');
+        } catch (\Exception $e) {
+            return back()->withErrors($e);
+        }
+    }
+    public function deletePermanentAll()
+    {
+        try {
+            $data = MasterProvince::onlyTrashed();
+            $data->forceDelete();
+            return redirect()->route('trashProgram')->with('success', 'Semua data berhasil dihapus permanent');
+        } catch (\Exception $e) {
+            return back()->withErrors($e);
+        }
     }
 }

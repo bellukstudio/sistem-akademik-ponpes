@@ -8,7 +8,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    {{ Breadcrumbs::render('trashberitaAcara') }}
+                    {{ Breadcrumbs::render('beritaAcara.trash') }}
 
                 </ol>
             </div>
@@ -110,8 +110,8 @@
                         @forelse ($trash as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $item->judul }}</td>
-                                <td>{!! $item->keterangan !!}</td>
+                                <td>{{ $item->title }}</td>
+                                <td>{!! $item->description !!}</td>
                                 <td>
                                     {{-- {restore} --}}
                                     <button type="button" class="btn btn-sm btn-outline-dark" data-toggle="modal"

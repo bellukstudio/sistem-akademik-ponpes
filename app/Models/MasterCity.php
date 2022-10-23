@@ -6,12 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class MasterTahunAjar extends Model
+class MasterCity extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $table = 'master_tahun_ajar';
 
     protected $fillable = [
-        'kode', 'tgl_mulai', 'tgl_selesai', 'status'
+        'city_name', 'id_province'
     ];
+
+    protected $hidden = [
+        'id_province'
+    ];
+
+    public function province()
+    {
+        return $this->belongsTo(MasterProvince::class, 'id_province');
+    }
 }

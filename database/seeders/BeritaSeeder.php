@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\MasterBerita;
+use App\Models\MasterNews;
 use Illuminate\Database\Seeder;
 
 
@@ -17,8 +17,8 @@ class BeritaSeeder extends Seeder
     {
         // field column
         $idUser = 'id_user';
-        $judul = 'judul';
-        $ket = 'keterangan';
+        $judul = 'title';
+        $ket = 'description';
 
         // dummy data
         $berita = [
@@ -45,7 +45,7 @@ class BeritaSeeder extends Seeder
         ];
 
         foreach ($berita as $data) {
-            MasterBerita::create($data);
+            MasterNews::create($data);
         }
     }
 }

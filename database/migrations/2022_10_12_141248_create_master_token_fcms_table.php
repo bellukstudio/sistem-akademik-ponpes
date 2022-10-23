@@ -15,10 +15,10 @@ class CreateMasterTokenFcmsTable extends Migration
     {
         Schema::create('master_token_fcm', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_user');
             $table->text('token');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreignId('id_user')->nullable()->references('id')->on('master_users')->onDelete('cascade');
         });
     }
 

@@ -8,7 +8,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    {{ Breadcrumbs::render('manageUser') }}
+                    {{ Breadcrumbs::render('kelolaUser') }}
                 </ol>
             </div>
             <!-- /.col -->
@@ -58,7 +58,10 @@
                                                 fill="white"></path>
                                         </svg>
                                         Save</button>
+
                                 </div>
+                            </div>
+
                         </form>
 
                     </div>
@@ -66,99 +69,100 @@
                 </div>
                 <!-- /.modal-dialog -->
             </div>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-            <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>No Induk</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($user as $index => $item)
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
                         <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $item->no_induk }}</td>
-                            <td>{{ $item->email }}</td>
-                            <td>
-                                @if ($item->roles == 2)
-                                    <span class="badge badge-success float-right">Pengajar</span></a>
-                                @endif
-                                @if ($item->roles == 3)
-                                    <span class="badge badge-info float-right">Pengurus</span></a>
-                                @endif
-                                @if ($item->roles == 4)
-                                    <span class="badge badge-secondary float-right">Santri</span></a>
-                                @endif
-                            </td>
-                            <td>
-                                {{-- {Edit} --}}
-                                <a href="" class="btn btn-sm"><i class="fa fa-edit"></i></a>
-                                {{-- {Hapus} --}}
-                                <button type="button" class="btn btn-sm" data-toggle="modal"
-                                    data-target="#modal-default{{ $item->id }}">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-
-                            </td>
+                            <th>No</th>
+                            <th>No Induk</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Aksi</th>
                         </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($user as $index => $item)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $item->no_induk }}</td>
+                                <td>{{ $item->email }}</td>
+                                <td>
+                                    @if ($item->roles == 2)
+                                        <span class="badge badge-success float-right">Pengajar</span></a>
+                                    @endif
+                                    @if ($item->roles == 3)
+                                        <span class="badge badge-info float-right">Pengurus</span></a>
+                                    @endif
+                                    @if ($item->roles == 4)
+                                        <span class="badge badge-secondary float-right">Santri</span></a>
+                                    @endif
+                                </td>
+                                <td>
+                                    {{-- {Edit} --}}
+                                    <a href="" class="btn btn-sm"><i class="fa fa-edit"></i></a>
+                                    {{-- {Hapus} --}}
+                                    <button type="button" class="btn btn-sm" data-toggle="modal"
+                                        data-target="#modal-default{{ $item->id }}">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
 
-                        {{-- Modal --}}
-                        <div class="modal fade" id="modal-default">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Konfirmasi hapus data</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="card">
-                                            {{-- <div class="card-header bg-danger">
+                                </td>
+                            </tr>
+
+                            {{-- Modal --}}
+                            <div class="modal fade" id="modal-default">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Konfirmasi hapus data</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="card">
+                                                {{-- <div class="card-header bg-danger">
                                                     <h6>{{ $item->judul }}</h6> <br>
                                                 </div>
                                                 <div class="card-body">
                                                     <p>{!! $item->keterangan !!}</p>
 
                                                 </div> --}}
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="button" class="btn btn-default"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="fa fa-trash"></i>
+                                                Hapus</button>
                                         </div>
                                     </div>
-                                    <div class="modal-footer justify-content-between">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-sm btn-danger">
-                                            <i class="fa fa-trash"></i>
-                                            Hapus</button>
-                                    </div>
+                                    <!-- /.modal-content -->
                                 </div>
-                                <!-- /.modal-content -->
+                                <!-- /.modal-dialog -->
                             </div>
-                            <!-- /.modal-dialog -->
-                        </div>
-                    @empty
+                        @empty
+                            <tr>
+                                <td colspan="5" align="center"> Data Tidak Tersedia</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                    <tfoot>
                         <tr>
-                            <td colspan="5" align="center"> Data Tidak Tersedia</td>
+                            <th>No</th>
+                            <th>No Induk</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Aksi</th>
                         </tr>
-                    @endforelse
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th>No</th>
-                        <th>No Induk</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Aksi</th>
-                    </tr>
-                </tfoot>
-            </table>
+                    </tfoot>
+                </table>
+            </div>
+            <!-- /.card-body -->
         </div>
-        <!-- /.card-body -->
-    </div>
+
     </div>
 @endsection
 @include('components.footer_table')

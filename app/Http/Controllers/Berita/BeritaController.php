@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Berita;
 
 use App\Http\Controllers\Controller;
-use App\Models\MasterBerita;
+use App\Models\MasterNews;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,7 +16,7 @@ class BeritaController extends Controller
      */
     public function index()
     {
-        $data = MasterBerita::latest()->get();
+        $data = MasterNews::latest()->get();
         return view('dashboard.berita.index', [
             "berita" => $data
         ]);
@@ -46,11 +46,11 @@ class BeritaController extends Controller
         ]);
 
         try {
-            MasterBerita::create(
+            MasterNews::create(
                 [
                     'id_user' => Auth::user()->id,
-                    'judul' => $request->judul,
-                    'keterangan' => $request->keterangan
+                    'title' => $request->judul,
+                    'description' => $request->keterangan
                 ]
             );
             return redirect()->route('beritaAcara.index')
@@ -78,7 +78,7 @@ class BeritaController extends Controller
      */
     public function edit($id)
     {
-        $data = MasterBerita::findOrFail($id);
+        $data = MasterNews::findOrFail($id);
         return view('dashboard.berita.edit', [
             'berita' => $data
         ]);
@@ -98,11 +98,11 @@ class BeritaController extends Controller
             'keterangan' => 'required'
         ]);
         try {
-            $berita = MasterBerita::findOrFail($id);
+            $berita = MasterNews::findOrFail($id);
 
             // update data
-            $berita->judul = $request->judul;
-            $berita->keterangan = $request->keterangan;
+            $berita->title = $request->judul;
+            $berita->description = $request->keterangan;
             $berita->update();
 
             return redirect()->route('beritaAcara.index')
@@ -121,7 +121,7 @@ class BeritaController extends Controller
     public function destroy($id)
     {
         try {
-            $data = MasterBerita::find($id);
+            $data = MasterNews::find($id);
             $data->delete();
             return redirect()->route('beritaAcara.index')->with('success', 'Data yang dipilih berhasil dihapus');
         } catch (\Exception $e) {
@@ -136,7 +136,7 @@ class BeritaController extends Controller
 
     public function trash()
     {
-        $data = MasterBerita::onlyTrashed()->get();
+        $data = MasterNews::onlyTrashed()->get();
         return view('dashboard.berita.trash', [
             'trash' => $data
         ]);
@@ -145,7 +145,7 @@ class BeritaController extends Controller
     public function restore($id)
     {
         try {
-            $data = MasterBerita::onlyTrashed()->where('id', $id);
+            $data = MasterNews::onlyTrashed()->where('id', $id);
             $data->restore();
             return redirect()->route('beritaAcara.index')->with('success', 'Data berhasil dipulihkan');
         } catch (\Exception $e) {
@@ -155,7 +155,7 @@ class BeritaController extends Controller
     public function restoreAll()
     {
         try {
-            $data = MasterBerita::onlyTrashed();
+            $data = MasterNews::onlyTrashed();
             $data->restore();
             return redirect()->route('beritaAcara.index')->with('success', 'Data berhasil dipulihkan');
         } catch (\Exception $e) {
@@ -166,7 +166,7 @@ class BeritaController extends Controller
     public function deletePermanent($id)
     {
         try {
-            $data = MasterBerita::onlyTrashed()->where('id', $id);
+            $data = MasterNews::onlyTrashed()->where('id', $id);
             $data->forceDelete();
             return redirect()->route('trashBeritaAcara')->with('success', 'Data berhasil dihapus permanent');
         } catch (\Exception $e) {
@@ -176,7 +176,7 @@ class BeritaController extends Controller
     public function deletePermanentAll()
     {
         try {
-            $data = MasterBerita::onlyTrashed();
+            $data = MasterNews::onlyTrashed();
             $data->forceDelete();
             return redirect()->route('trashBeritaAcara')->with('success', 'Data berhasil dihapus permanent');
         } catch (\Exception $e) {

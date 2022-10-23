@@ -25,7 +25,8 @@
                     <i class="fa fa-plus mr-2"></i>Buat Berita
                     Acara / Pengumuman
                     Baru</a>
-                <a href="{{ route('trashBeritaAcara') }}" class="btn btn-secondary"><i class="fa fa-trash mr-2"></i>Trash
+                <a href="{{ route('trashBeritaAcara') }}"
+                    class="btn btn-secondary"><i class="fa fa-trash mr-2"></i>Trash
                     Bin</a>
             </div>
             <!-- /.card-header -->
@@ -43,8 +44,8 @@
                         @forelse ($berita as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $item->judul }}</td>
-                                <td>{!! $item->keterangan !!}</td>
+                                <td>{{ $item->title }}</td>
+                                <td>{!! $item->description !!}</td>
                                 <td>
                                     {{-- {Edit} --}}
                                     <a href="{{ route('beritaAcara.edit', $item->id) }}" class="btn btn-sm"><i

@@ -182,7 +182,7 @@
                                             <h4 class="badge badge-success">{{ $index + 1 }}</h4>
                                         </div>
                                         <div class="product-info">
-                                            <a href="javascript:void(0)" class="product-title">{{ $item->judul }}
+                                            <a href="javascript:void(0)" class="product-title">{{ $item->title }}
                                                 @if ($index == 0)
                                                     <span class="badge badge-primary float-right">new</span>
                                                 @else
@@ -190,7 +190,7 @@
                                                 @endif
                                             </a>
                                             <span class="product-description">
-                                                {!! $item->keterangan !!}
+                                                {!! $item->description !!}
                                             </span>
                                         </div>
                                     </li>

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\MasterKota;
+use App\Models\MasterCity;
 use Illuminate\Database\Seeder;
 
 class KotaSeeder extends Seeder
@@ -25,11 +25,11 @@ class KotaSeeder extends Seeder
         for ($i = 0; $i < count($cities); $i++) {
             $record = [
                 'id' => $i + 1,
-                'nama_kota' => $cities[$i],
-                'id_provinsi' => $provinceIds[$i],
+                'city_name' => $cities[$i],
+                'id_province' => $provinceIds[$i],
             ];
 
-            MasterKota::firstOrCreate($record);
+            MasterCity::firstOrCreate($record);
         }
     }
 }

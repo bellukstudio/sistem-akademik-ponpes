@@ -6,10 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class MasterMapel extends Model
+class MasterProvince extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'master_mapel';
-
+    protected $fillable = ['province_name'];
 }

@@ -19,7 +19,7 @@ class MasterUsers extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'no_induk', 'email', 'password',
+         'email', 'password',
     ];
 
     /**
@@ -28,7 +28,7 @@ class MasterUsers extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'no_induk'
     ];
 
     /**
