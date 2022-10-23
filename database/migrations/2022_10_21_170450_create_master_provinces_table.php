@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMasterProgramsTable extends Migration
+class CreateMasterProvincesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateMasterProgramsTable extends Migration
      */
     public function up()
     {
-        Schema::create('master_program', function (Blueprint $table) {
+        Schema::create('master_provinces', function (Blueprint $table) {
             $table->id();
-            $table->char('kode', 50);
-            $table->string('nama_program', 100);
+            $table->string('province_name');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +28,6 @@ class CreateMasterProgramsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_program');
+        Schema::dropIfExists('master_provinces');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMasterTahunAjarsTable extends Migration
+class CreateMasterClassesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateMasterTahunAjarsTable extends Migration
      */
     public function up()
     {
-        Schema::create('master_tahun_ajar', function (Blueprint $table) {
+        Schema::create('master_classes', function (Blueprint $table) {
             $table->id();
-            $table->char('kode', 20)->unique();
-            $table->date('tgl_mulai');
-            $table->date('tgl_selesai');
-            $table->boolean('status')->default(false);
+            $table->string('class_name', 100);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -31,6 +28,6 @@ class CreateMasterTahunAjarsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_tahun_ajar');
+        Schema::dropIfExists('master_classes');
     }
 }

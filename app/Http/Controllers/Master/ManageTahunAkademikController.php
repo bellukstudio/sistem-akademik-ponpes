@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
-use App\Models\MasterTahunAjar;
+use App\Models\MasterPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +17,7 @@ class ManageTahunAkademikController extends Controller
     public function index()
     {
 
-        $data = MasterTahunAjar::latest()->get();
+        $data = MasterPeriod::latest()->get();
         return view('dashboard.master_data.kelola_tahunAkademik.index', [
             'tahunAkademik' => $data
         ]);
@@ -48,13 +48,13 @@ class ManageTahunAkademikController extends Controller
         ]);
 
         try {
-            MasterTahunAjar::create([
-                'kode' => $request->kode,
-                'tgl_mulai' => $request->tgl_mulai,
-                'tgl_selesai' => $request->tgl_selesai
+            MasterPeriod::create([
+                'code' => $request->kode,
+                'start_date' => $request->tgl_mulai,
+                'end_date' => $request->tgl_selesai
             ]);
 
-            return redirect()->route('manageTahunAkademik.index')->with('success', 'Berhasil menambah data baru');
+            return redirect()->route('kelolaTahunAkademik.index')->with('success', 'Berhasil menambah data baru');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -65,7 +65,7 @@ class ManageTahunAkademikController extends Controller
     {
 
         try {
-            $data = MasterTahunAjar::findOrFail($request->id);
+            $data = MasterPeriod::findOrFail($request->id);
             $data->status = $request->status;
             $data->save();
 
@@ -114,13 +114,13 @@ class ManageTahunAkademikController extends Controller
         ]);
 
         try {
-            $data = MasterTahunAjar::findOrFail($id);
-            $data->kode = $request->kode;
-            $data->tgl_mulai = $request->tgl_mulai;
-            $data->tgl_selesai = $request->tgl_selesai;
+            $data = MasterPeriod::findOrFail($id);
+            $data->code = $request->kode;
+            $data->start_date = $request->tgl_mulai;
+            $data->end_date = $request->tgl_selesai;
             $data->update();
 
-            return redirect()->route('manageTahunAkademik.index')
+            return redirect()->route('kelolaTahunAkademik.index')
                 ->with('success', 'Berhasil mengubah data ' . $data->kode . '');
         } catch (\Exception $e) {
             return back()->withErrors($e);
@@ -136,9 +136,9 @@ class ManageTahunAkademikController extends Controller
     public function destroy($id)
     {
         try {
-            $data = MasterTahunAjar::find($id);
+            $data = MasterPeriod::find($id);
             $data->delete();
-            return redirect()->route('manageTahunAkademik.index')
+            return redirect()->route('kelolaTahunAkademik.index')
                 ->with('success', 'Berhasil menghapus data ' . $data->kode . '');
         } catch (\Exception $e) {
             return back()->withErrors($e);
@@ -147,7 +147,7 @@ class ManageTahunAkademikController extends Controller
 
     public function trash()
     {
-        $data = MasterTahunAjar::onlyTrashed()->get();
+        $data = MasterPeriod::onlyTrashed()->get();
         return view('dashboard.master_data.kelola_tahunAkademik.trash', [
             'trash' => $data
         ]);
@@ -156,9 +156,9 @@ class ManageTahunAkademikController extends Controller
     public function restore($id)
     {
         try {
-            $data = MasterTahunAjar::onlyTrashed()->where('id', $id);
+            $data = MasterPeriod::onlyTrashed()->where('id', $id);
             $data->restore();
-            return redirect()->route('manageTahunAkademik.index')->with('success', 'Data berhasil dipulihkan ');
+            return redirect()->route('kelolaTahunAkademik.index')->with('success', 'Data berhasil dipulihkan ');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -166,9 +166,9 @@ class ManageTahunAkademikController extends Controller
     public function restoreAll()
     {
         try {
-            $data = MasterTahunAjar::onlyTrashed();
+            $data = MasterPeriod::onlyTrashed();
             $data->restore();
-            return redirect()->route('manageTahunAkademik.index')->with('success', 'Data berhasil dipulihkan');
+            return redirect()->route('kelolaTahunAkademik.index')->with('success', 'Data berhasil dipulihkan');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -177,7 +177,7 @@ class ManageTahunAkademikController extends Controller
     public function deletePermanent($id)
     {
         try {
-            $data = MasterTahunAjar::onlyTrashed()->where('id', $id);
+            $data = MasterPeriod::onlyTrashed()->where('id', $id);
             $data->forceDelete();
             return redirect()->route('trashTahunAkademik')->with('success', 'Data berhasil dihapus permanent');
         } catch (\Exception $e) {
@@ -187,7 +187,7 @@ class ManageTahunAkademikController extends Controller
     public function deletePermanentAll()
     {
         try {
-            $data = MasterTahunAjar::onlyTrashed();
+            $data = MasterPeriod::onlyTrashed();
             $data->forceDelete();
             return redirect()->route('trashTahunAkademik')->with('success', 'Semua data berhasil dihapus permanent');
         } catch (\Exception $e) {

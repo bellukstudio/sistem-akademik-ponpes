@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class MasterKamar extends Model
+class MasterPeriod extends Model
 {
-    use HasFactory, SoftDeletes;
-    protected $table = 'master_kamar';
+    use HasFactory,SoftDeletes;
 
+    protected $fillable = [
+        'code', 'start_date','end_date','status'
+    ];
 }

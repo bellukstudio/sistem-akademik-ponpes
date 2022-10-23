@@ -6,22 +6,28 @@
     Berita Acara
 @endif
 
-{{-- @if (Route::is('trashBeritaAcara'))
-    Trash Bin (Berita Acara)
-@endif --}}
 
-@if (Request::is('manageUser*'))
+@if (Request::is('kelolaUser*'))
     Kelola User
 @endif
 
-@if (Request::is('manageTahunAkademik*'))
+@if (Request::is('kelolaTahunAkademik*'))
     Kelola Tahun Akademik
 @endif
 
-{{-- @if (Route::is('trashTahunAkademik'))
-    Trash Bin (Tahun Akademik)
-@endif --}}
 
-@if (Request::is('manageProgram*'))
+@if (Request::is('kelolaProgramAkademik*'))
     Kelola Program
+@endif
+
+@if (Request::is('kelolaKota*'))
+    Kelola Kota
+@endif
+
+@if (Request::is('kelolaProvinsi*'))
+    Kelola Provinsi
+@endif
+
+@if (Request::is('kelolaKamar*'))
+    Kelola Kamar
 @endif

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMasterKotasTable extends Migration
+class CreateMasterAcademicProgramsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateMasterKotasTable extends Migration
      */
     public function up()
     {
-        Schema::create('master_kota', function (Blueprint $table) {
+        Schema::create('master_academic_programs', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_provinsi');
-            $table->string('nama_kota');
+            $table->char('code', 50);
+            $table->string('program_name', 100);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +29,6 @@ class CreateMasterKotasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_kota');
+        Schema::dropIfExists('master_academic_programs');
     }
 }

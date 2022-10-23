@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMasterKelasTable extends Migration
+class CreateMasterPaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class CreateMasterKelasTable extends Migration
      */
     public function up()
     {
-        Schema::create('master_kelas', function (Blueprint $table) {
+        Schema::create('master_payments', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_kelas', 100);
+            $table->string('payment_name');
+            $table->string('total', 50);
+            $table->string('method', 100);
+            $table->string('payment_no');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +31,6 @@ class CreateMasterKelasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_kelas');
+        Schema::dropIfExists('master_payments');
     }
 }
