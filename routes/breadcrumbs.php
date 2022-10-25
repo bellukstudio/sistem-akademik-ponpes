@@ -96,3 +96,14 @@ Breadcrumbs::for('kelolaKamar.trash', function (BreadcrumbTrail $trail) {
     $trail->parent('kelolaKamar');
     $trail->push('Trash Bin', route('trashBedroom'));
 });
+
+/**
+ * manage ruangan
+ */
+Breadcrumbs::for('kelolaRuangan', function (BreadcrumbTrail $trail) {
+    $trail->push('Data Ruangan', route('kelolaRuangan.index'));
+});
+Breadcrumbs::for('kelolaRuangan.trash', function (BreadcrumbTrail $trail) {
+    $trail->parent('kelolaRuangan');
+    $trail->push('Trash Bin', route('trashRoom'));
+});

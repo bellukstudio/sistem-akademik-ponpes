@@ -9,6 +9,7 @@ use App\Http\Controllers\Master\ManageKamarController;
 use App\Http\Controllers\Master\ManageKotaController;
 use App\Http\Controllers\Master\ManageProgramController;
 use App\Http\Controllers\Master\ManageProvinsiController;
+use App\Http\Controllers\Master\ManageRuanganController;
 use App\Http\Controllers\Master\ManageUserController;
 
 /*
@@ -164,6 +165,30 @@ Route::middleware('checkRole:1')->group(function () {
     )->name('restoreBedroom');
 
     Route::resource('kelolaKamar', ManageKamarController::class);
+
+
+    /**
+     * manage ruangan
+     */
+    Route::get('kelolaRuangan/trash', [ManageRuanganController::class, 'trash'])->name('trashRoom');
+    Route::get(
+        'kelolaRuangan/trash/{id}/delete',
+        [ManageRuanganController::class, 'deletePermanent']
+    )->name('deletePermanentRoom');
+    Route::get(
+        'kelolaRuangan/trash/restore',
+        [ManageRuanganController::class, 'restoreAll']
+    )->name('restoreAllRoom');
+    Route::get(
+        'kelolaRuangan/trash/delete',
+        [ManageRuanganController::class, 'deletePermanentAll']
+    )->name('deletePermanentAllRoom');
+    Route::get(
+        'kelolaRuangan/trash/{id}/restore',
+        [ManageRuanganController::class, 'restore']
+    )->name('restoreRoom');
+
+    Route::resource('kelolaRuangan', ManageRuanganController::class);
 });
 
 Route::middleware('checkRole:2')->group(function () {
