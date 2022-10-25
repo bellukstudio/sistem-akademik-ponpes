@@ -45,6 +45,7 @@
                          'kelolaKota*',
                          'kelolaProvinsi*',
                          'kelolaKamar*',
+                         'kelolaRuangan*',
                      ])
                          ? 'menu-open'
                          : '' }}">
@@ -55,6 +56,7 @@
                              'kelolaProgramAkademik*',
                              'kelolaKota*',
                              'kelolaKamar*',
+                             'kelolaRuangan*',
                          ])
                              ? 'active'
                              : '' }}">
@@ -97,14 +99,15 @@
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href="pages/layout/top-nav.html" class="nav-link">
+                             <a href="{{ route('kelolaRuangan.index') }}"
+                                 class="nav-link  {{ Request::is('kelolaRuangan*') ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Ruangan</p>
                              </a>
                          </li>
                          <li class="nav-item">
                              <a href="{{ route('kelolaKamar.index') }}"
-                             class="nav-link {{ Request::is('kelolaKamar*') ? 'active' : '' }}">
+                                 class="nav-link {{ Request::is('kelolaKamar*') ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Kamar</p>
                              </a>

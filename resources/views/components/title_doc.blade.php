@@ -31,3 +31,7 @@
 @if (Request::is('kelolaKamar*'))
     Kelola Kamar
 @endif
+
+@if (Request::is('kelolaRuangan*'))
+    Kelola Ruangan
+@endif

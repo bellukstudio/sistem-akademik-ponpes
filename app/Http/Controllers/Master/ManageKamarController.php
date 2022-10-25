@@ -40,7 +40,7 @@ class ManageKamarController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'room_name' => 'required|max:50',
+            'room_name' => 'required|max:50|unique:master_rooms,room_name',
             'capasity' => 'required|integer'
         ]);
 

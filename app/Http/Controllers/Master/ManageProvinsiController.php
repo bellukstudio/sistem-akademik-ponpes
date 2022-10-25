@@ -86,7 +86,7 @@ class ManageProvinsiController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'province_name' => 'required|max:50|unique:master_provinces,province_name'
+            'province_name' => 'required|max:50'
         ]);
 
         try {

@@ -20,7 +20,9 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="#"><b>Si</b>PMM</a>
+            <img src="{{ asset('template/img/logo.png') }}" alt=" Logo" class="brand-image img-circle elevation-3"
+                style="opacity: 0.8" />
+            <h5 class="mt-3"><b>Si</b>PMM</h5>
         </div>
         @include('components.alert')
         <!-- /.login-logo -->
