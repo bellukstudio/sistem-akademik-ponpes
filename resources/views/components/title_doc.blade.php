@@ -33,5 +33,9 @@
 @endif
 
 @if (Request::is('kelolaRuangan*'))
-    Kelola Ruangan
+    Kelola Ruang
+@endif
+
+@if (Request::is('kelolaKelas*'))
+    Kelola Kelas
 @endif

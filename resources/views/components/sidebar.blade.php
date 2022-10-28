@@ -46,6 +46,7 @@
                          'kelolaProvinsi*',
                          'kelolaKamar*',
                          'kelolaRuangan*',
+                         'kelolaKelas*',
                      ])
                          ? 'menu-open'
                          : '' }}">
@@ -57,6 +58,7 @@
                              'kelolaKota*',
                              'kelolaKamar*',
                              'kelolaRuangan*',
+                             'kelolaKelas*',
                          ])
                              ? 'active'
                              : '' }}">
@@ -93,7 +95,8 @@
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href="pages/layout/top-nav.html" class="nav-link">
+                             <a href="{{ route('kelolaKelas.index') }}"
+                                 class="nav-link {{ Request::is('kelolaKelas*') ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Kelas</p>
                              </a>
@@ -102,7 +105,7 @@
                              <a href="{{ route('kelolaRuangan.index') }}"
                                  class="nav-link  {{ Request::is('kelolaRuangan*') ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>Kelola Ruangan</p>
+                                 <p>Kelola Ruang</p>
                              </a>
                          </li>
                          <li class="nav-item">

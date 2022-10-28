@@ -6,6 +6,7 @@ use App\Http\Controllers\Berita\BeritaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Master\ManageKamarController;
+use App\Http\Controllers\Master\ManageKelasController;
 use App\Http\Controllers\Master\ManageKotaController;
 use App\Http\Controllers\Master\ManageProgramController;
 use App\Http\Controllers\Master\ManageProvinsiController;
@@ -189,6 +190,29 @@ Route::middleware('checkRole:1')->group(function () {
     )->name('restoreRoom');
 
     Route::resource('kelolaRuangan', ManageRuanganController::class);
+
+    /**
+     * manage kelas
+     */
+    Route::get('kelolaKelas/trash', [ManageKelasController::class, 'trash'])->name('trashClass');
+    Route::get(
+        'kelolaKelas/trash/{id}/delete',
+        [ManageKelasController::class, 'deletePermanent']
+    )->name('deletePermanentClass');
+    Route::get(
+        'kelolaKelas/trash/restore',
+        [ManageKelasController::class, 'restoreAll']
+    )->name('restoreAllClass');
+    Route::get(
+        'kelolaKelas/trash/delete',
+        [ManageKelasController::class, 'deletePermanentAll']
+    )->name('deletePermanentAllClass');
+    Route::get(
+        'kelolaKelas/trash/{id}/restore',
+        [ManageKelasController::class, 'restore']
+    )->name('restoreClass');
+
+    Route::resource('kelolaKelas', ManageKelasController::class);
 });
 
 Route::middleware('checkRole:2')->group(function () {

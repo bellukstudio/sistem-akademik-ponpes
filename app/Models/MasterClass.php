@@ -11,6 +11,10 @@ class MasterClass extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = [
+        'class_name'
+    ];
+
     protected $dates = ['deleted_at'];
 
     public function getCreatedAttribute($value)

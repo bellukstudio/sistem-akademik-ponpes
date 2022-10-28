@@ -138,7 +138,7 @@ class ManageKotaController extends Controller
             $data = MasterCity::find($id);
             $data->delete();
             return back()
-                ->with('success', 'Berhasil menghapus data');
+                ->with('success', 'Data kamar ' . $data->city_name . ' berhasil dihapus');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

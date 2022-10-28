@@ -30,16 +30,16 @@
 
                 {{-- Modal new data --}}
                 <div class="modal fade" id="modal-AddData">
-                    <div class="modal-dialog">
-                        <form action="{{ route('kelolaProvinsi.store') }}" method="post">
-                            @csrf
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title">Tambah Data Baru</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Tambah Data Baru</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="{{ route('kelolaProvinsi.store') }}" method="post">
+                                @csrf
                                 <div class="modal-body">
                                     <label for="">Nama Provinsi</label>
                                     <input type="text" name="province_name" id="" class="form-control"
@@ -62,8 +62,8 @@
                                         </svg>
                                         Save</button>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                         <!-- /.modal-content -->
                     </div>
                     <!-- /.modal-dialog -->
@@ -101,7 +101,7 @@
 
                             {{-- Modal Delete --}}
                             <div class="modal fade" id="modal-Delete{{ $item->id }}">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Konfirmasi hapus data</h4>
@@ -137,21 +137,18 @@
 
                             {{-- Modal update data --}}
                             <div class="modal fade" id="modal-Edit{{ $item->id }}">
-                                <div class="modal-dialog">
-                                    <form action="{{ route('kelolaProvinsi.update', $item->id) }}" method="post">
-                                        @csrf
-                                        @method('put')
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Edit Data {{ $item->code }} </h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Edit Data {{ $item->code }} </h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="{{ route('kelolaProvinsi.update', $item->id) }}" method="post">
+                                            @csrf
+                                            @method('put')
                                             <div class="modal-body">
-
-
                                                 <label for="">Nama Provinsi</label>
                                                 <input type="text" name="province_name" id=""
                                                     class="form-control"
@@ -176,8 +173,8 @@
                                                     </svg>
                                                     Update</button>
                                             </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                     <!-- /.modal-content -->
                                 </div>
                                 <!-- /.modal-dialog -->

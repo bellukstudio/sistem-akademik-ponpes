@@ -118,11 +118,12 @@ class ManageKamarController extends Controller
             $data = MasterRoom::find($id);
             $data->delete();
             return back()
-                ->with('success', 'Berhasil menghapus data');
+                ->with('success', 'Data kamar ' . $data->room_name . ' berhasil dihapus');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
     }
+    
     public function trash()
     {
         $data = MasterRoom::onlyTrashed()->get();
