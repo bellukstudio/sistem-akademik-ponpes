@@ -119,7 +119,7 @@ class ManageProgramController extends Controller
             $data = MasterAcademicProgram::find($id);
             $data->delete();
             return redirect()->route('kelolaProgramAkademik.index')
-                ->with('success', 'Data berhasil di hapus');
+                ->with('success', 'Data program akademik ' . $data->program_name . 'berhasil dihapus');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

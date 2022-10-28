@@ -30,7 +30,7 @@
 
                 {{-- Modal Restore All --}}
                 <div class="modal fade" id="modal-restoreAll">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">Konfirmasi</h4>
@@ -62,7 +62,7 @@
                 </div>
                 {{-- Modal delete All --}}
                 <div class="modal fade" id="modal-deletePermanent">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">Konfirmasi</h4>
@@ -136,7 +136,7 @@
 
                             {{-- Modal Delete --}}
                             <div class="modal fade" id="modal-Delete{{ $item->id }}">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Konfirmasi hapus data</h4>
@@ -167,7 +167,7 @@
                             </div>
                             {{-- Modal restore --}}
                             <div class="modal fade" id="modal-restore{{ $item->id }}">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Konfirmasi restore data</h4>

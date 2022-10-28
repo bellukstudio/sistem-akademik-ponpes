@@ -46,8 +46,8 @@
                             name="password">
                         <div class="input-group-append">
                             <div class="input-group-text">
-                                <a href="" style="text-decoration: none;color: gray;"><span class="fas fa-eye"
-                                        aria-hidden="true"></span></a>
+                                <a href="" style="text-decoration: none;color: gray;" id="toggle"><span
+                                        class="fas fa-eye" aria-hidden="true"></span></a>
                             </div>
                         </div>
                     </div>
@@ -71,14 +71,14 @@
     <!-- /.login-box -->
     <script>
         $(document).ready(function() {
-            $("#show_hide_password a").on('click', function(event) {
+            $("#show_hide_password #toggle").click(function() {
                 event.preventDefault();
-                if ($('#show_hide_password input').attr("type") == "text") {
-                    $('#show_hide_password input').attr('type', 'password');
+                if ($('#show_hide_password #password').attr("type") == "text") {
+                    $('#show_hide_password #password').attr('type', 'password');
                     $('#show_hide_password span').removeClass("fas fa-eye");
                     $('#show_hide_password span').addClass("fas fa-eye-slash");
-                } else if ($('#show_hide_password input').attr("type") == "password") {
-                    $('#show_hide_password input').attr('type', 'text');
+                } else if ($('#show_hide_password #password').attr("type") == "password") {
+                    $('#show_hide_password #password').attr('type', 'text');
                     $('#show_hide_password span').removeClass("fas fa-eye-slash");
                     $('#show_hide_password span').addClass("fas fa-eye");
                 }

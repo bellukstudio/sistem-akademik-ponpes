@@ -112,7 +112,7 @@ class ManageProvinsiController extends Controller
             $data = MasterProvince::find($id);
             $data->delete();
             return redirect()->route('kelolaProvinsi.index')
-                ->with('success', 'Data provinsi berhasil di hapus');
+                ->with('success', 'Data provinsi '.$data->province_name.' berhasil dihapus');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

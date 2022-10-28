@@ -142,7 +142,7 @@ class ManageRuanganController extends Controller
             $data = MasterRoom::find($id);
             $data->delete();
             return redirect()->route('kelolaRuangan.index')
-                ->with('success', 'Data ruangan  berhasil dihapus');
+                ->with('success', 'Data ruangan ' . $data->room_name . ' berhasil dihapus');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

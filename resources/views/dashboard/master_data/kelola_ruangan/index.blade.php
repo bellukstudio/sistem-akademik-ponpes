@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Data Ruangan</h1>
+                <h1 class="m-0">Data Ruang</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -30,16 +30,16 @@
 
                 {{-- Modal new data --}}
                 <div class="modal fade" id="modal-AddData">
-                    <div class="modal-dialog">
-                        <form action="{{ route('kelolaRuangan.store') }}" method="post" enctype="multipart/form-data">
-                            @csrf
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title">Tambah Data Baru</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Tambah Data Baru</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="{{ route('kelolaRuangan.store') }}" method="post" enctype="multipart/form-data">
+                                @csrf
                                 <div class="modal-body">
                                     <label for="">Nama Ruangan</label>
                                     <input type="text" name="room_name" id="" class="form-control"
@@ -70,8 +70,8 @@
                                         </svg>
                                         Save</button>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                         <!-- /.modal-content -->
                     </div>
                     <!-- /.modal-dialog -->
@@ -119,7 +119,7 @@
 
                             {{-- Modal Delete --}}
                             <div class="modal fade" id="modal-Delete{{ $item->id }}">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Konfirmasi hapus data</h4>
@@ -155,19 +155,19 @@
                             </div>
 
                             <div class="modal fade" id="modal-Edit{{ $item->id }}">
-                                <div class="modal-dialog">
-                                    <form action="{{ route('kelolaRuangan.update', $item->id) }}" method="post"
-                                        enctype="multipart/form-data">
-                                        @csrf
-                                        @method('put')
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Edit Data</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Edit Data</h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="{{ route('kelolaRuangan.update', $item->id) }}" method="post"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            @method('put')
                                             <div class="modal-body">
                                                 <label for="">Nama Ruangan</label>
                                                 <input type="text" name="room_name" id=""
@@ -178,8 +178,7 @@
                                                 <br>
                                                 <label for="">Kapasistas / Orang</label>
                                                 <input type="number" name="capasity" id=""
-                                                    class="form-control"
-                                                    value="{{ old('capasity') ?? $item->capasity }}"
+                                                    class="form-control" value="{{ old('capasity') ?? $item->capasity }}"
                                                     placeholder="Kapasitas">
                                                 <br>
                                                 <label for="">Foto (Optional)</label>
@@ -205,8 +204,8 @@
                                                     </svg>
                                                     Update</button>
                                             </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                     <!-- /.modal-content -->
                                 </div>
                                 <!-- /.modal-dialog -->
@@ -234,4 +233,3 @@
     </div>
 @endsection
 @include('components.footer_table')
-
