@@ -19,7 +19,7 @@
 @section('content-section')
     <div class="container-fluid">
         @include('components.alert')
-        <div class="card">
+        <div class="card" style="overflow: auto;">
             <div class="card-header">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-AddData">
                     <i class="fa fa-plus mr-2"></i> Tambah Data Baru
@@ -242,6 +242,7 @@
             $('.js-switch').change(function() {
                 let status = $(this).prop('checked') === true ? 1 : 0;
                 let id = $(this).data('id');
+                console.log(id)
                 $.ajax({
                     type: "GET",
                     dataType: "json",
@@ -260,41 +261,4 @@
             });
         });
     </script>
-    {{-- <script>
-        // $.ajaxSetup({
-        //     headers: {
-        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //     }
-        // });
-        $(function() {
-            $('.statusCheckbox').change(function(e) {
-                event.preventDefault();
-                // var route = $(this).attr('data-route');
-                // var selector = $("input[name$='status']")
-                let status = $(this).prop('checked') == true ? true : false;
-                console.log(status)
-                let id = $(this).data('id');
-                let route = $(this).data('route');
-                let _token = $('meta[name="csrf-token"]').attr('content');
-
-                $.ajax({
-                    type: 'put',
-                    dataType: 'json',
-                    url: route,
-                    data: {
-                        'status': status,
-                        'id': id,
-                        '_token': _token
-                    },
-                    success: function(data) {
-                        console.log('success');
-                    },
-                    error: function() {
-                        alert('Ups!! Error')
-                    }
-                });
-
-            });
-        });
-    </script> --}}
 @endpush

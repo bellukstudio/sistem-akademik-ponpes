@@ -116,7 +116,7 @@
                                     @if ($item->photo == 'http://localhost:8000/storage/')
                                         <i class="badge badge-info">N/A</i>
                                     @else
-                                        <img src="{{ $item->photo }}" alt="" width="400" height="400">
+                                        <img src="{{ $item->photo }}" alt="" class="photo-rooms">
                                     @endif
                                 </td>
                                 <td>

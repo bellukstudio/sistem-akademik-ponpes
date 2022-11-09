@@ -23,14 +23,17 @@
       <link rel="stylesheet" href="{{ asset('template/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}" />
       <!-- JQVMap -->
       <link rel="stylesheet" href="{{ asset('template/plugins/jqvmap/jqvmap.min.css') }}" />
-      <!-- Theme style -->
-      <link rel="stylesheet" href="{{ asset('template/dist/css/adminlte.min.css') }}" />
       <!-- overlayScrollbars -->
       <link rel="stylesheet" href="{{ asset('template/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}" />
       <!-- Daterange picker -->
       {{-- <link rel="stylesheet" href="{{ asset('template/plugins/daterangepicker/daterangepicker.css') }}" /> --}}
       <!-- summernote -->
       <link rel="stylesheet" href="{{ asset('template/plugins/summernote/summernote-bs4.min.css') }}" />
+      <!-- Select2 -->
+      <link rel="stylesheet" href="{{ asset('template/plugins/select2/css/select2.min.css') }}">
 
+      <!-- Theme style -->
+      <link rel="stylesheet" href="{{ asset('template/dist/css/adminlte.min.css') }}">
+      <link rel="stylesheet" href="{{ asset('template/dist/css/img.css') }}">
       @stack('new-css')
   </head>

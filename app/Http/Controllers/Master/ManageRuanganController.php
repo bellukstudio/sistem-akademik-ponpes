@@ -7,8 +7,6 @@ use App\Models\MasterRoom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
-use function PHPUnit\Framework\isEmpty;
-
 class ManageRuanganController extends Controller
 {
     /**
@@ -107,22 +105,29 @@ class ManageRuanganController extends Controller
 
         try {
             $data = MasterRoom::findOrFail($id);
-
+            $photo = $data->photo;
             if ($request->file('photo')) {
                 $file = $request->file('photo')->store('assets/rooms', 'public');
                 $request->photo = $file;
+                $data->room_name = $request->room_name;
+                $data->capasity = $request->capasity;
+                $data->photo = $request->photo;
+                $data->update();
 
-                if (!isEmpty($data->photo)) {
-                    // explode url image
-                    $img = explode('/', $data->photo);
+                /// remove old photo
+                if ($photo != 'http://localhost:8000/storage/') {
+                    $img = explode('/', $photo);
                     $path = $img[3] . '/' . $img[4] . '/' . $img[5] . '/' . $img[6];
-                    unlink($path);
+                    if (File::exists($path)) {
+                        unlink($path);
+                    }
                 }
+            } else {
+                $data->room_name = $request->room_name;
+                $data->capasity = $request->capasity;
+                $data->update();
             }
-            $data->room_name = $request->room_name;
-            $data->capasity = $request->capasity;
-            $data->photo = $request->photo;
-            $data->update();
+
             return redirect()->route('kelolaRuangan.index')
                 ->with('success', 'Data ruangan ' . $request->room_name . ' berhasil diubah');
         } catch (\Exception $e) {
@@ -181,10 +186,14 @@ class ManageRuanganController extends Controller
     {
         try {
             $data = MasterRoom::onlyTrashed()->find($id);
-            $img = explode('/', $data->photo);
-            $path = $img[3] . '/' . $img[4] . '/' . $img[5] . '/' . $img[6];
-            if (File::exists($path)) {
-                unlink($path);
+            $photo = $data->photo;
+            /// remove old photo
+            if ($photo != 'http://localhost:8000/storage/') {
+                $img = explode('/', $photo);
+                $path = $img[3] . '/' . $img[4] . '/' . $img[5] . '/' . $img[6];
+                if (File::exists($path)) {
+                    unlink($path);
+                }
             }
             $data->forceDelete();
             return redirect()->route('trashRoom')->with('success', 'Data berhasil dihapus permanent');

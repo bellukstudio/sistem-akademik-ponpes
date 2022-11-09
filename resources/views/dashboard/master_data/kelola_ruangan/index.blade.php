@@ -19,7 +19,7 @@
 @section('content-section')
     <div class="container-fluid">
         @include('components.alert')
-        <div class="card">
+        <div class="card" style="overflow: auto;">
             <div class="card-header">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-AddData">
                     <i class="fa fa-plus mr-2"></i> Tambah Data Baru
@@ -50,7 +50,7 @@
                                     <input type="number" name="capasity" id="" class="form-control"
                                         value="{{ old('capasity') }}" placeholder="Kapasitas">
                                     <br>
-                                    <label for="">Foto (Optional)</label>
+                                    <label for="">Foto <code>*Optional</code></label>
                                     <input type="file" name="photo" id="" class="form-control-file"
                                         value="{{ old('photo') }}" placeholder="Foto Ruangan">
 
@@ -97,9 +97,9 @@
                                 <td>{{ $item->capasity }} Orang</td>
                                 <td>
                                     @if ($item->photo == 'http://localhost:8000/storage/')
-                                        <i class="badge badge-info">N/A</i>
+                                        <i class="badge badge-info">Null</i>
                                     @else
-                                        <img src="{{ $item->photo }}" alt="" width="400" height="400">
+                                        <img src="{{ $item->photo }}" alt="" class="photo-rooms">
                                     @endif
                                 </td>
                                 <td>
@@ -181,7 +181,7 @@
                                                     class="form-control" value="{{ old('capasity') ?? $item->capasity }}"
                                                     placeholder="Kapasitas">
                                                 <br>
-                                                <label for="">Foto (Optional)</label>
+                                                <label for="">Foto <code>*Optional</code></label>
                                                 <input type="file" name="photo" id=""
                                                     class="form-control-file" value="{{ old('photo') }}"
                                                     placeholder="Foto Ruangan">

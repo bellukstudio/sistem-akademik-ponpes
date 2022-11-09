@@ -209,6 +209,5 @@
         </div>
     </div>
 @endsection
-@extends('components.footer_table')
-@push('new-script')
-@endpush
+@include('components.footer_table')
+

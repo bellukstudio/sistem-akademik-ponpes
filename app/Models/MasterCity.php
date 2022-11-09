@@ -30,6 +30,8 @@ class MasterCity extends Model
     {
         return Carbon::parse($value)->timestamp;
     }
+    
+    // relationship
     public function province()
     {
         return $this->belongsTo(MasterProvince::class, 'id_province');

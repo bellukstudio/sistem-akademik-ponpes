@@ -39,3 +39,7 @@
 @if (Request::is('kelolaKelas*'))
     Kelola Kelas
 @endif
+
+@if (Request::is('kelolaPengajar*'))
+    Kelola Pengajar
+@endif

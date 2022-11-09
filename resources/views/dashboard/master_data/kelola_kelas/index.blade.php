@@ -19,7 +19,7 @@
 @section('content-section')
     <div class="container-fluid">
         @include('components.alert')
-        <div class="card">
+        <div class="card" style="overflow: auto;" >
             <div class="card-header">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-AddData">
                     <i class="fa fa-plus mr-2"></i> Tambah Data Baru

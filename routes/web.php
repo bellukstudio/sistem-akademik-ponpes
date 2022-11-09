@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Master\ManageKamarController;
 use App\Http\Controllers\Master\ManageKelasController;
 use App\Http\Controllers\Master\ManageKotaController;
+use App\Http\Controllers\Master\ManagePengajarController;
 use App\Http\Controllers\Master\ManageProgramController;
 use App\Http\Controllers\Master\ManageProvinsiController;
 use App\Http\Controllers\Master\ManageRuanganController;
@@ -104,6 +105,10 @@ Route::middleware('checkRole:1')->group(function () {
     /**
      * manage kota
      */
+    Route::get(
+        'kelolaKota/cityByProvince/{id}',
+        [ManageKotaController::class, 'getCityByProvinceId']
+    )->name('getCityByProvinceId');
     Route::get('kelolaKota/trash', [ManageKotaController::class, 'trash'])->name('trashCity');
     Route::get(
         'kelolaKota/trash/{id}/delete',
@@ -213,6 +218,12 @@ Route::middleware('checkRole:1')->group(function () {
     )->name('restoreClass');
 
     Route::resource('kelolaKelas', ManageKelasController::class);
+
+    /**
+     * manage pengajar
+     */
+   
+    Route::resource('kelolaPengajar', ManagePengajarController::class);
 });
 
 Route::middleware('checkRole:2')->group(function () {

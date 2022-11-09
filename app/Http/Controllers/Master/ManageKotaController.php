@@ -68,6 +68,16 @@ class ManageKotaController extends Controller
     }
 
     /**
+     * filter city with by province
+     */
+    public function getCityByProvinceId($idProvince)
+    {
+        $empData['data'] = MasterCity::where('id_province', $idProvince)
+            ->get();
+
+        return response()->json($empData);
+    }
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
