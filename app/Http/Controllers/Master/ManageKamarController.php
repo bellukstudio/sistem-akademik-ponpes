@@ -123,7 +123,7 @@ class ManageKamarController extends Controller
             return back()->withErrors($e);
         }
     }
-    
+
     public function trash()
     {
         $data = MasterRoom::onlyTrashed()->get();
@@ -137,7 +137,8 @@ class ManageKamarController extends Controller
         try {
             $data = MasterRoom::onlyTrashed()->where('id', $id);
             $data->restore();
-            return redirect()->route('kelolaKamar.index')->with('success', 'Data berhasil dipulihkan ');
+            return redirect()->route('kelolaKamar.index')
+                ->with('success', 'Data ' . $data->room_name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -158,7 +159,8 @@ class ManageKamarController extends Controller
         try {
             $data = MasterRoom::onlyTrashed()->where('id', $id);
             $data->forceDelete();
-            return redirect()->route('trashBedroom')->with('success', 'Data berhasil dihapus permanent');
+            return redirect()->route('trashBedroom')
+                ->with('success', 'Data ' . $data->room_name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

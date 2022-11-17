@@ -24,7 +24,7 @@
                 <a class="btn btn-primary" href="{{ route('kelolaPengajar.create') }}">
                     <i class="fa fa-plus mr-2"></i> Tambah Data Baru
                 </a>
-                <a href="{{ route('trashProgram') }}" class="btn btn-secondary">
+                <a href="{{ route('trashTeachers') }}" class="btn btn-secondary">
                     <i class="fa fa-trash mr-2"></i>Trash
                     Bin</a>
             </div>

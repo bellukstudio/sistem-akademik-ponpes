@@ -26,6 +26,8 @@ use App\Http\Controllers\Master\ManageUserController;
 */
 
 // authentication
+Route::get('/', [AuthController::class, 'index'])->name('login');
+
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('authenticate');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -222,7 +224,24 @@ Route::middleware('checkRole:1')->group(function () {
     /**
      * manage pengajar
      */
-   
+    Route::get('kelolaPengajar/trash', [ManagePengajarController::class, 'trash'])->name('trashTeachers');
+    Route::get(
+        'kelolaPengajar/trash/{id}/delete',
+        [ManagePengajarController::class, 'deletePermanent']
+    )->name('deletePermanentTeacher');
+    Route::get(
+        'kelolaPengajar/trash/restore',
+        [ManagePengajarController::class, 'restoreAll']
+    )->name('restoreAllTeachers');
+    Route::get(
+        'kelolaPengajar/trash/delete',
+        [ManagePengajarController::class, 'deletePermanentAll']
+    )->name('deletePermanentAllTeachers');
+    Route::get(
+        'kelolaPengajar/trash/{id}/restore',
+        [ManagePengajarController::class, 'restore']
+    )->name('restoreTeacher');
+
     Route::resource('kelolaPengajar', ManagePengajarController::class);
 });
 

@@ -166,7 +166,8 @@ class ManageRuanganController extends Controller
         try {
             $data = MasterRoom::onlyTrashed()->where('id', $id);
             $data->restore();
-            return redirect()->route('kelolaRuangan.index')->with('success', 'Data berhasil dipulihkan ');
+            return redirect()->route('kelolaRuangan.index')
+                ->with('success', 'Data ' . $data->room_name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -196,7 +197,8 @@ class ManageRuanganController extends Controller
                 }
             }
             $data->forceDelete();
-            return redirect()->route('trashRoom')->with('success', 'Data berhasil dihapus permanent');
+            return redirect()->route('trashRoom')
+                ->with('success', 'Data' . $data->room_name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

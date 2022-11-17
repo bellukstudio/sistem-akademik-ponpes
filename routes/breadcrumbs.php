@@ -137,3 +137,7 @@ Breadcrumbs::for('kelolaPengajar.show', function (BreadcrumbTrail $trail, $teach
     $trail->parent('kelolaPengajar');
     $trail->push('Data ' . $teachers->name . '', route('kelolaPengajar.edit', $teachers->id));
 });
+Breadcrumbs::for('kelolaPengajar.trash', function (BreadcrumbTrail $trail) {
+    $trail->parent('kelolaPengajar');
+    $trail->push('Trash Bin', route('trashTeachers'));
+});

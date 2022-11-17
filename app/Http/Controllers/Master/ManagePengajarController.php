@@ -88,7 +88,7 @@ class ManagePengajarController extends Controller
      */
     public function show($id)
     {
-        $data = MasterTeacher::with(['province','city'])->findOrFail($id);
+        $data = MasterTeacher::with(['province', 'city'])->findOrFail($id);
         return view('dashboard.master_data.kelola_pengajar.show', compact('data'));
     }
 
@@ -189,9 +189,69 @@ class ManagePengajarController extends Controller
     {
         try {
             $data = MasterTeacher::find($id);
+            /// remove  photo
+            if ($data->photo != 'http://localhost:8000/storage/') {
+                $img = explode('/', $data->photo);
+                $path = $img[3] . '/' . $img[4] . '/' . $img[5] . '/' . $img[6];
+                if (File::exists($path)) {
+                    $data->photo = null;
+                    $data->update();
+                }
+            }
+
             $data->delete();
             return redirect()->route('kelolaPengajar.index')
                 ->with('success', 'Data Pengajar ' . $data->name . ' berhasil dihapus');
+        } catch (\Exception $e) {
+            return back()->withErrors($e);
+        }
+    }
+
+    public function trash()
+    {
+        $data = MasterTeacher::with(['province', 'city'])->onlyTrashed()->get();
+        return view('dashboard.master_data.kelola_pengajar.trash', [
+            'trash' => $data
+        ]);
+    }
+
+    public function restore($id)
+    {
+        try {
+            $data = MasterTeacher::onlyTrashed()->where('id', $id);
+            $data->restore();
+            return redirect()->route('kelolaPengajar.index')->with('success', 'Data berhasil dipulihkan ');
+        } catch (\Exception $e) {
+            return back()->withErrors($e);
+        }
+    }
+    public function restoreAll()
+    {
+        try {
+            $data = MasterTeacher::onlyTrashed();
+            $data->restore();
+            return redirect()->route('kelolaPengajar.index')->with('success', 'Data berhasil dipulihkan');
+        } catch (\Exception $e) {
+            return back()->withErrors($e);
+        }
+    }
+
+    public function deletePermanent($id)
+    {
+        try {
+            $data = MasterTeacher::onlyTrashed()->where('id', $id);
+            $data->forceDelete();
+            return redirect()->route('trashTeachers')->with('success', 'Data berhasil dihapus permanent');
+        } catch (\Exception $e) {
+            return back()->withErrors($e);
+        }
+    }
+    public function deletePermanentAll()
+    {
+        try {
+            $data = MasterTeacher::onlyTrashed();
+            $data->forceDelete();
+            return redirect()->route('trashTeachers')->with('success', 'Semua data berhasil dihapus permanent');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
