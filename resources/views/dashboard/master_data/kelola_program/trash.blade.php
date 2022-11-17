@@ -20,13 +20,16 @@
         @include('components.alert')
         <div class="card">
             <div class="card-header">
-                <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#modal-restoreAll">
-                    <i class="fa fa-undo mr-2"></i> Restore All
-                </button>
-                <button type="button" class="btn btn-outline-warning" data-toggle="modal"
-                    data-target="#modal-deletePermanent">
-                    <i class="fa fa-undo mr-2"></i> Delete Permanent All
-                </button>
+                @if (count($trash) > 0)
+                    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#modal-restoreAll">
+                        <i class="fa fa-undo mr-2"></i> Restore All
+                    </button>
+                    <button type="button" class="btn btn-outline-warning" data-toggle="modal"
+                        data-target="#modal-deletePermanent">
+                        <i class="fa fa-undo mr-2"></i> Delete Permanent All
+                    </button>
+                @endif
+
 
                 {{-- Modal Restore All --}}
                 <div class="modal fade" id="modal-restoreAll">
@@ -112,15 +115,15 @@
                                 <td>{{ $item->program_name }}</td>
                                 <td>
                                     {{-- {restore} --}}
-                                    <button type="button" class="btn btn-sm btn-outline-dark" data-toggle="modal"
+                                    <button type="button" class="btn" data-toggle="modal"
                                         data-target="#modal-restore{{ $item->id }}">
-                                        <i class="fa fa-undo mr-2"> </i> Restore
+                                        <i class="fa fa-undo mr-2"> </i>
                                     </button>
 
                                     {{-- {Hapus} --}}
-                                    <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal"
+                                    <button type="button" class="btn" data-toggle="modal"
                                         data-target="#modal-Delete{{ $item->id }}">
-                                        <i class="fa fa-trash mr-2"> </i> Delete Permanent
+                                        <i class="fa fa-trash mr-2"> </i>
                                     </button>
 
                                 </td>
@@ -214,18 +217,4 @@
 
     </div>
 @endsection
-@extends('components.footer_table')
-@push('new-script')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-            elems.forEach(function(html) {
-                let switchery = new Switchery(html, {
-                    size: 'small',
-                });
-            });
-        });
-    </script>
-@endpush
+@include('components.footer_table')

@@ -118,3 +118,26 @@ Breadcrumbs::for('kelolaKelas.trash', function (BreadcrumbTrail $trail) {
     $trail->parent('kelolaKelas');
     $trail->push('Trash Bin', route('trashClass'));
 });
+
+/**
+ * manage pengajar
+ */
+Breadcrumbs::for('kelolaPengajar', function (BreadcrumbTrail $trail) {
+    $trail->push('Data Pengajar', route('kelolaPengajar.index'));
+});
+Breadcrumbs::for('kelolaPengajar.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('kelolaPengajar');
+    $trail->push('Tambah Data ', route('kelolaPengajar.create'));
+});
+Breadcrumbs::for('kelolaPengajar.edit', function (BreadcrumbTrail $trail, $teachers) {
+    $trail->parent('kelolaPengajar');
+    $trail->push('Edit Data ', route('kelolaPengajar.edit', $teachers->id));
+});
+Breadcrumbs::for('kelolaPengajar.show', function (BreadcrumbTrail $trail, $teachers) {
+    $trail->parent('kelolaPengajar');
+    $trail->push('Data ' . $teachers->name . '', route('kelolaPengajar.edit', $teachers->id));
+});
+Breadcrumbs::for('kelolaPengajar.trash', function (BreadcrumbTrail $trail) {
+    $trail->parent('kelolaPengajar');
+    $trail->push('Trash Bin', route('trashTeachers'));
+});

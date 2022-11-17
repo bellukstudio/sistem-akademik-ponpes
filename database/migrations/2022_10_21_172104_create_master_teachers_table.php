@@ -18,12 +18,12 @@ class CreateMasterTeachersTable extends Migration
             $table->string('no_id', 50);
             $table->string('email')->unique();
             $table->string('name');
-            $table->text('photo');
-            $table->char('gender');
+            $table->text('photo')->nullable();
+            $table->char('gender')->nullable();
             $table->text('address')->nullable();
             $table->foreignId('province_id')->nullable()->references('id')->on('master_provinces')->onDelete('cascade');
             $table->foreignId('city_id')->nullable()->references('id')->on('master_cities')->onDelete('cascade');
-            $table->date('date_birth');
+            $table->date('date_birth')->nullable();
             $table->char('no_tlp', 30)->nullable();
             $table->timestamps();
             $table->softDeletes();

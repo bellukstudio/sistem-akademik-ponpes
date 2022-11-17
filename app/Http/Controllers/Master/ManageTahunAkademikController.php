@@ -121,7 +121,7 @@ class ManageTahunAkademikController extends Controller
             $data->update();
 
             return redirect()->route('kelolaTahunAkademik.index')
-                ->with('success', 'Berhasil mengubah data ' . $data->kode . '');
+                ->with('success', 'Berhasil mengubah data ' . $data->code . '');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -139,7 +139,7 @@ class ManageTahunAkademikController extends Controller
             $data = MasterPeriod::find($id);
             $data->delete();
             return redirect()->route('kelolaTahunAkademik.index')
-                ->with('success', 'Berhasil menghapus data ' . $data->kode . '');
+                ->with('success', 'Berhasil menghapus data ' . $data->code . '');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -156,9 +156,10 @@ class ManageTahunAkademikController extends Controller
     public function restore($id)
     {
         try {
-            $data = MasterPeriod::onlyTrashed()->where('id', $id);
+            $data = MasterPeriod::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
-            return redirect()->route('kelolaTahunAkademik.index')->with('success', 'Data berhasil dipulihkan ');
+            return redirect()->route('kelolaTahunAkademik.index')
+                ->with('success', 'Data ' . $data->code . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -168,7 +169,8 @@ class ManageTahunAkademikController extends Controller
         try {
             $data = MasterPeriod::onlyTrashed();
             $data->restore();
-            return redirect()->route('kelolaTahunAkademik.index')->with('success', 'Data berhasil dipulihkan');
+            return redirect()->route('kelolaTahunAkademik.index')
+                ->with('success', 'Semua data berhasil dipulihkan');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -177,9 +179,10 @@ class ManageTahunAkademikController extends Controller
     public function deletePermanent($id)
     {
         try {
-            $data = MasterPeriod::onlyTrashed()->where('id', $id);
+            $data = MasterPeriod::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
-            return redirect()->route('trashTahunAkademik')->with('success', 'Data berhasil dihapus permanent');
+            return redirect()->route('trashTahunAkademik')
+                ->with('success', 'Data ' . $data->code . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

@@ -21,13 +21,15 @@
         @include('components.alert')
         <div class="card">
             <div class="card-header">
-                <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#modal-restoreAll">
-                    <i class="fa fa-undo mr-2"></i> Restore All
-                </button>
-                <button type="button" class="btn btn-outline-warning" data-toggle="modal"
-                    data-target="#modal-deletePermanent">
-                    <i class="fa fa-undo mr-2"></i> Delete Permanent All
-                </button>
+                @if (count($trash) > 0)
+                    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#modal-restoreAll">
+                        <i class="fa fa-undo mr-2"></i> Restore All
+                    </button>
+                    <button type="button" class="btn btn-outline-warning" data-toggle="modal"
+                        data-target="#modal-deletePermanent">
+                        <i class="fa fa-undo mr-2"></i> Delete Permanent All
+                    </button>
+                @endif
 
                 {{-- Modal Restore All --}}
                 <div class="modal fade" id="modal-restoreAll">
@@ -113,15 +115,15 @@
                                 <td>{{ $item->city_name }}</td>
                                 <td>
                                     {{-- {restore} --}}
-                                    <button type="button" class="btn btn-sm btn-outline-dark" data-toggle="modal"
+                                    <button type="button" class="btn" data-toggle="modal"
                                         data-target="#modal-restore{{ $item->id }}">
-                                        <i class="fa fa-undo mr-2"> </i> Restore
+                                        <i class="fa fa-undo mr-2"> </i>
                                     </button>
 
                                     {{-- {Hapus} --}}
-                                    <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal"
+                                    <button type="button" class="btn" data-toggle="modal"
                                         data-target="#modal-Delete{{ $item->id }}">
-                                        <i class="fa fa-trash mr-2"> </i> Delete Permanent
+                                        <i class="fa fa-trash mr-2"> </i>
                                     </button>
 
                                 </td>

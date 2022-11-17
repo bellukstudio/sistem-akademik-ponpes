@@ -68,6 +68,16 @@ class ManageKotaController extends Controller
     }
 
     /**
+     * filter city with by province
+     */
+    public function getCityByProvinceId($idProvince)
+    {
+        $empData['data'] = MasterCity::where('id_province', $idProvince)
+            ->get();
+
+        return response()->json($empData);
+    }
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -156,7 +166,8 @@ class ManageKotaController extends Controller
         try {
             $data = MasterCity::onlyTrashed()->where('id', $id);
             $data->restore();
-            return redirect()->route('kelolaKota.index')->with('success', 'Data berhasil dipulihkan ');
+            return redirect()->route('kelolaKota.index')
+                ->with('success', 'Data ' . $data->city_name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -177,7 +188,8 @@ class ManageKotaController extends Controller
         try {
             $data = MasterCity::onlyTrashed()->where('id', $id);
             $data->forceDelete();
-            return redirect()->route('trashCity')->with('success', 'Data berhasil dihapus permanent');
+            return redirect()->route('trashCity')
+                ->with('success', 'Data ' . $data->city_name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

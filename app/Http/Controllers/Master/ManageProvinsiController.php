@@ -112,7 +112,7 @@ class ManageProvinsiController extends Controller
             $data = MasterProvince::find($id);
             $data->delete();
             return redirect()->route('kelolaProvinsi.index')
-                ->with('success', 'Data provinsi '.$data->province_name.' berhasil dihapus');
+                ->with('success', 'Data provinsi ' . $data->province_name . ' berhasil dihapus');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -132,7 +132,8 @@ class ManageProvinsiController extends Controller
         try {
             $data = MasterProvince::onlyTrashed()->where('id', $id);
             $data->restore();
-            return redirect()->route('kelolaProvinsi.index')->with('success', 'Data berhasil dipulihkan ');
+            return redirect()->route('kelolaProvinsi.index')
+                ->with('success', 'Data ' . $data->province_name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -153,7 +154,8 @@ class ManageProvinsiController extends Controller
         try {
             $data = MasterProvince::onlyTrashed()->where('id', $id);
             $data->forceDelete();
-            return redirect()->route('trashProgram')->with('success', 'Data berhasil dihapus permanent');
+            return redirect()->route('trashProgram')
+                ->with('success', 'Data ' . $data->province_name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

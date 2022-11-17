@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Master\ManageKamarController;
 use App\Http\Controllers\Master\ManageKelasController;
 use App\Http\Controllers\Master\ManageKotaController;
+use App\Http\Controllers\Master\ManagePengajarController;
 use App\Http\Controllers\Master\ManageProgramController;
 use App\Http\Controllers\Master\ManageProvinsiController;
 use App\Http\Controllers\Master\ManageRuanganController;
@@ -25,6 +26,8 @@ use App\Http\Controllers\Master\ManageUserController;
 */
 
 // authentication
+Route::get('/', [AuthController::class, 'index'])->name('login');
+
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('authenticate');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -104,6 +107,10 @@ Route::middleware('checkRole:1')->group(function () {
     /**
      * manage kota
      */
+    Route::get(
+        'kelolaKota/cityByProvince/{id}',
+        [ManageKotaController::class, 'getCityByProvinceId']
+    )->name('getCityByProvinceId');
     Route::get('kelolaKota/trash', [ManageKotaController::class, 'trash'])->name('trashCity');
     Route::get(
         'kelolaKota/trash/{id}/delete',
@@ -213,6 +220,29 @@ Route::middleware('checkRole:1')->group(function () {
     )->name('restoreClass');
 
     Route::resource('kelolaKelas', ManageKelasController::class);
+
+    /**
+     * manage pengajar
+     */
+    Route::get('kelolaPengajar/trash', [ManagePengajarController::class, 'trash'])->name('trashTeachers');
+    Route::get(
+        'kelolaPengajar/trash/{id}/delete',
+        [ManagePengajarController::class, 'deletePermanent']
+    )->name('deletePermanentTeacher');
+    Route::get(
+        'kelolaPengajar/trash/restore',
+        [ManagePengajarController::class, 'restoreAll']
+    )->name('restoreAllTeachers');
+    Route::get(
+        'kelolaPengajar/trash/delete',
+        [ManagePengajarController::class, 'deletePermanentAll']
+    )->name('deletePermanentAllTeachers');
+    Route::get(
+        'kelolaPengajar/trash/{id}/restore',
+        [ManagePengajarController::class, 'restore']
+    )->name('restoreTeacher');
+
+    Route::resource('kelolaPengajar', ManagePengajarController::class);
 });
 
 Route::middleware('checkRole:2')->group(function () {

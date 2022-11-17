@@ -47,6 +47,7 @@
                          'kelolaKamar*',
                          'kelolaRuangan*',
                          'kelolaKelas*',
+                         'kelolaPengajar*',
                      ])
                          ? 'menu-open'
                          : '' }}">
@@ -59,6 +60,7 @@
                              'kelolaKamar*',
                              'kelolaRuangan*',
                              'kelolaKelas*',
+                             'kelolaPengajar*',
                          ])
                              ? 'active'
                              : '' }}">
@@ -89,7 +91,8 @@
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href="pages/layout/top-nav.html" class="nav-link">
+                             <a href="{{ route('kelolaPengajar.index') }}"
+                                 class="nav-link {{ Request::is('kelolaPengajar*') ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Kelola Pengajar</p>
                              </a>
