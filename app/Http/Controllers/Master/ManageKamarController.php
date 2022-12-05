@@ -135,7 +135,7 @@ class ManageKamarController extends Controller
     public function restore($id)
     {
         try {
-            $data = MasterRoom::onlyTrashed()->where('id', $id);
+            $data = MasterRoom::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
             return redirect()->route('kelolaKamar.index')
                 ->with('success', 'Data ' . $data->room_name . ' berhasil dipulihkan ');
@@ -157,7 +157,7 @@ class ManageKamarController extends Controller
     public function deletePermanent($id)
     {
         try {
-            $data = MasterRoom::onlyTrashed()->where('id', $id);
+            $data = MasterRoom::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
             return redirect()->route('trashBedroom')
                 ->with('success', 'Data ' . $data->room_name . ' berhasil dihapus permanent');

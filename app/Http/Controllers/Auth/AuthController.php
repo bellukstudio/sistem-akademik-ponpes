@@ -13,10 +13,8 @@ class AuthController extends Controller
         // check validasi halaman login
         if (Auth::user() == null) {
             return view('authentication.login');
-        } elseif (Auth::user()->roles == 1) {
-            return redirect()->route('dashboardAdmin');
-        } elseif (Auth::user()->roles == 2) {
-            return redirect()->route('dashboardPengajar');
+        } elseif (auth()->check()) {
+            return redirect()->route('dashboard');
         }
     }
 
@@ -28,14 +26,9 @@ class AuthController extends Controller
         ]);
         // check credentials user
         if (Auth::attempt($credentials)) {
-            // chceck role user
-            if (Auth::user()->roles == 1) {
-                $request->session()->regenerate();
-                return redirect()->intended('dashboardAdmin');
-            } elseif (Auth::user()->roles == 2) {
-                $request->session()->regenerate();
-                return redirect()->intended('dashboardPengajar');
-            }
+
+            $request->session()->regenerate();
+            return redirect()->intended('dashboard');
         }
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',

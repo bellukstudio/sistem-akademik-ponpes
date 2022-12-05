@@ -1,4 +1,4 @@
-@if (Request::is('dashboardAdmin'))
+@if (Request::is('dashboard'))
     Dashboard
 @endif
 
@@ -42,4 +42,8 @@
 
 @if (Request::is('kelolaPengajar*'))
     Kelola Pengajar
+@endif
+
+@if (Request::is('kelolaSantri*'))
+    Kelola Santri
 @endif

@@ -141,3 +141,26 @@ Breadcrumbs::for('kelolaPengajar.trash', function (BreadcrumbTrail $trail) {
     $trail->parent('kelolaPengajar');
     $trail->push('Trash Bin', route('trashTeachers'));
 });
+
+/**
+ * manage santri
+ */
+Breadcrumbs::for('kelolaSantri', function (BreadcrumbTrail $trail) {
+    $trail->push('Data Santri', route('kelolaSantri.index'));
+});
+Breadcrumbs::for('kelolaSantri.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('kelolaSantri');
+    $trail->push('Tambah Data ', route('kelolaSantri.create'));
+});
+Breadcrumbs::for('kelolaSantri.edit', function (BreadcrumbTrail $trail, $students) {
+    $trail->parent('kelolaSantri');
+    $trail->push('Edit Data ', route('kelolaSantri.edit', $students->id));
+});
+Breadcrumbs::for('kelolaSantri.show', function (BreadcrumbTrail $trail, $students) {
+    $trail->parent('kelolaSantri');
+    $trail->push('Data ' . $students->name . '', route('kelolaSantri.edit', $students->id));
+});
+Breadcrumbs::for('kelolaSantri.trash', function (BreadcrumbTrail $trail) {
+    $trail->parent('kelolaSantri');
+    $trail->push('Trash Bin', route('trashStudents'));
+});

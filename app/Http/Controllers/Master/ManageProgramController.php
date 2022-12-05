@@ -136,7 +136,7 @@ class ManageProgramController extends Controller
     public function restore($id)
     {
         try {
-            $data = MasterAcademicProgram::onlyTrashed()->where('id', $id);
+            $data = MasterAcademicProgram::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
             return redirect()->route('kelolaProgramAkademik.index')
                 ->with('success', 'Data program akademik ' . $data->program_name . ' berhasil dipulihkan ');
@@ -158,7 +158,7 @@ class ManageProgramController extends Controller
     public function deletePermanent($id)
     {
         try {
-            $data = MasterAcademicProgram::onlyTrashed()->where('id', $id);
+            $data = MasterAcademicProgram::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
             return redirect()->route('trashProgram')
                 ->with('success', 'Data program akademik ' . $data->program_name . ' berhasil dihapus permanent');
