@@ -130,7 +130,7 @@ class ManageProvinsiController extends Controller
     public function restore($id)
     {
         try {
-            $data = MasterProvince::onlyTrashed()->where('id', $id);
+            $data = MasterProvince::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
             return redirect()->route('kelolaProvinsi.index')
                 ->with('success', 'Data ' . $data->province_name . ' berhasil dipulihkan ');
@@ -152,7 +152,7 @@ class ManageProvinsiController extends Controller
     public function deletePermanent($id)
     {
         try {
-            $data = MasterProvince::onlyTrashed()->where('id', $id);
+            $data = MasterProvince::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
             return redirect()->route('trashProgram')
                 ->with('success', 'Data ' . $data->province_name . ' berhasil dihapus permanent');

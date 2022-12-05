@@ -145,6 +145,16 @@ class ManageRuanganController extends Controller
     {
         try {
             $data = MasterRoom::find($id);
+            /// remove  photo
+            if ($data->photo != 'http://localhost:8000/storage/') {
+                $img = explode('/', $data->photo);
+                $path = $img[3] . '/' . $img[4] . '/' . $img[5] . '/' . $img[6];
+                if (File::exists($path)) {
+                    unlink($path);
+                    $data->photo = null;
+                    $data->update();
+                }
+            }
             $data->delete();
             return redirect()->route('kelolaRuangan.index')
                 ->with('success', 'Data ruangan ' . $data->room_name . ' berhasil dihapus');
@@ -164,7 +174,7 @@ class ManageRuanganController extends Controller
     public function restore($id)
     {
         try {
-            $data = MasterRoom::onlyTrashed()->where('id', $id);
+            $data = MasterRoom::onlyTrashed()->find($id);
             $data->restore();
             return redirect()->route('kelolaRuangan.index')
                 ->with('success', 'Data ' . $data->room_name . ' berhasil dipulihkan ');
@@ -187,15 +197,6 @@ class ManageRuanganController extends Controller
     {
         try {
             $data = MasterRoom::onlyTrashed()->find($id);
-            $photo = $data->photo;
-            /// remove old photo
-            if ($photo != 'http://localhost:8000/storage/') {
-                $img = explode('/', $photo);
-                $path = $img[3] . '/' . $img[4] . '/' . $img[5] . '/' . $img[6];
-                if (File::exists($path)) {
-                    unlink($path);
-                }
-            }
             $data->forceDelete();
             return redirect()->route('trashRoom')
                 ->with('success', 'Data' . $data->room_name . ' berhasil dihapus permanent');

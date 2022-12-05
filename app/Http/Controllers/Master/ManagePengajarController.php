@@ -194,6 +194,7 @@ class ManagePengajarController extends Controller
                 $img = explode('/', $data->photo);
                 $path = $img[3] . '/' . $img[4] . '/' . $img[5] . '/' . $img[6];
                 if (File::exists($path)) {
+                    unlink($path);
                     $data->photo = null;
                     $data->update();
                 }
@@ -218,9 +219,10 @@ class ManagePengajarController extends Controller
     public function restore($id)
     {
         try {
-            $data = MasterTeacher::onlyTrashed()->where('id', $id);
+            $data = MasterTeacher::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
-            return redirect()->route('kelolaPengajar.index')->with('success', 'Data berhasil dipulihkan ');
+            return redirect()->route('kelolaPengajar.index')
+                ->with('success', 'Data ' . $data->name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -239,9 +241,10 @@ class ManagePengajarController extends Controller
     public function deletePermanent($id)
     {
         try {
-            $data = MasterTeacher::onlyTrashed()->where('id', $id);
+            $data = MasterTeacher::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
-            return redirect()->route('trashTeachers')->with('success', 'Data berhasil dihapus permanent');
+            return redirect()->route('trashTeachers')
+                ->with('success', 'Data ' . $data->name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

@@ -30,22 +30,22 @@
                     <div class="form-group">
                         <label for="id_number">Nomor Induk</label>
                         <input type="number" name="id_number" id="id_number" class="form-control"
-                            value="{{ old('id_number') }}">
+                            value="{{ old('id_number') }}" placeholder="Nomor Identitas">
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" name="email" id="email" class="form-control"
-                            value="{{ old('email') }}">
+                        <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}"
+                            placeholder="Alamat Email">
                     </div>
                     <div class="form-group">
                         <label for="fullName">Nama Lengkap</label>
                         <input type="text" name="fullName" id="fullName" class="form-control" autocomplete="off"
-                            value="{{ old('fullName') }}">
+                            value="{{ old('fullName') }}" placeholder="Nama Lengkap">
                     </div>
                     <div class="form-group">
                         <label for="dateBirth">Tanggal Lahir</label>
                         <input type="date" name="dateBirth" id="dateBirth" class="form-control" autocomplete="off"
-                            value="{{ old('dateBirth') }}">
+                            value="{{ old('dateBirth') }}" placeholder="Tanggal Lahir">
                     </div>
                     <div class="form-group">
                         <label for="gender">Jenis Kelamin</label>
@@ -58,7 +58,7 @@
                     <div class="form-group">
                         <label for="phone_number">Nomor Telepon <code>*Optional</code></label>
                         <input type="number" name="phone_number" id="phone_number" class="form-control"
-                            value="{{ old('phone_number') }}">
+                            value="{{ old('phone_number') }}" placeholder="Nomor Telepon">
                     </div>
                     <div class="form-group">
                         <label for="province">Provinsi</label>
@@ -83,7 +83,7 @@
                     </div>
                     <div class="form-group">
                         <label for="address">Alamat</label>
-                        <textarea name="address" id="" cols="30" rows="10" class="form-control">{{ old('address') }}</textarea>
+                        <textarea name="address" id="" cols="30" rows="10" class="form-control" placeholder="Alamat">{{ old('address') }}</textarea>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputFile">Foto <code>*optional</code></label>

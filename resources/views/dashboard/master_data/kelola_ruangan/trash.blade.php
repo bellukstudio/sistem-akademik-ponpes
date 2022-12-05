@@ -29,71 +29,71 @@
                         data-target="#modal-deletePermanent">
                         <i class="fa fa-undo mr-2"></i> Delete Permanent All
                     </button>
-                    @endi
-                    {{-- Modal Restore All --}}
-                    <div class="modal fade" id="modal-restoreAll">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title">Konfirmasi</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="card">
-                                        <div class="card-header bg-info">
-                                            <h4>Anda yakin ingin melakukan (restore all data) /
-                                                memulihkan semua data ?</h4><br>
-                                        </div>
+                @endif
+                {{-- Modal Restore All --}}
+                <div class="modal fade" id="modal-restoreAll">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Konfirmasi</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card">
+                                    <div class="card-header bg-info">
+                                        <h4>Anda yakin ingin melakukan (restore all data) /
+                                            memulihkan semua data ?</h4><br>
                                     </div>
                                 </div>
-                                <div class="modal-footer justify-content-between">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                                        Close</button>
-
-                                    <a href="{{ route('restoreAllRoom') }}" class="btn btn-sm btn-danger">
-                                        <i class="fa fa-undo mr-2"></i>
-                                        Ya, Pulihkan</a>
-
-                                </div>
                             </div>
-                            <!-- /.modal-content -->
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    Close</button>
+
+                                <a href="{{ route('restoreAllRoom') }}" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-undo mr-2"></i>
+                                    Ya, Pulihkan</a>
+
+                            </div>
                         </div>
-                        <!-- /.modal-dialog -->
+                        <!-- /.modal-content -->
                     </div>
-                    {{-- Modal delete All --}}
-                    <div class="modal fade" id="modal-deletePermanent">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title">Konfirmasi</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="card">
-                                        <div class="card-header bg-info">
-                                            <h4>Anda yakin ingin melakukan (delete permanent all data) /
-                                                menghapus permanent semua data ?</h4><br>
-                                        </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                {{-- Modal delete All --}}
+                <div class="modal fade" id="modal-deletePermanent">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Konfirmasi</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card">
+                                    <div class="card-header bg-info">
+                                        <h4>Anda yakin ingin melakukan (delete permanent all data) /
+                                            menghapus permanent semua data ?</h4><br>
                                     </div>
                                 </div>
-                                <div class="modal-footer justify-content-between">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                                        Close</button>
-
-                                    <a href="{{ route('deletePermanentAllRoom') }}" class="btn btn-sm btn-danger">
-                                        <i class="fa fa-trash mr-2"></i>
-                                        Ya, Hapus </a>
-
-                                </div>
                             </div>
-                            <!-- /.modal-content -->
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    Close</button>
+
+                                <a href="{{ route('deletePermanentAllRoom') }}" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-trash mr-2"></i>
+                                    Ya, Hapus </a>
+
+                            </div>
                         </div>
-                        <!-- /.modal-dialog -->
+                        <!-- /.modal-content -->
                     </div>
+                    <!-- /.modal-dialog -->
+                </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -114,11 +114,8 @@
                                 <td>{{ $item->room_name }}</td>
                                 <td>{{ $item->capasity }} Orang</td>
                                 <td>
-                                    @if ($item->photo == 'http://localhost:8000/storage/')
-                                        <i class="badge badge-info">N/A</i>
-                                    @else
-                                        <img src="{{ $item->photo }}" alt="" class="photo-rooms">
-                                    @endif
+                                    <i class="badge badge-info">Null</i>
+
                                 </td>
                                 <td>
                                     {{-- {restore} --}}

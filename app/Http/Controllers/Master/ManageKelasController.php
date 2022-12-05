@@ -132,7 +132,7 @@ class ManageKelasController extends Controller
     public function restore($id)
     {
         try {
-            $data = MasterClass::onlyTrashed()->where('id', $id);
+            $data = MasterClass::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
             return redirect()->route('kelolaKelas.index')->with('success', 'Data berhasil dipulihkan ');
         } catch (\Exception $e) {
@@ -152,7 +152,7 @@ class ManageKelasController extends Controller
     public function deletePermanent($id)
     {
         try {
-            $data = MasterClass::onlyTrashed()->where('id', $id);
+            $data = MasterClass::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
             return redirect()->route('trashClass')->with('success', 'Data berhasil dihapus permanent');
         } catch (\Exception $e) {

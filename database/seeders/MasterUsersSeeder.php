@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\MasterUsers;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
 
 class MasterUsersSeeder extends Seeder
 {
@@ -15,10 +15,23 @@ class MasterUsersSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('master_users')->insert([
-            'email' => 'adminponpes@gmail.com',
-            'password' => Hash::make('adminponpes'),
-            'roles' => 1,
-        ]);
+        $email = 'email';
+        $password = 'password';
+        $roles = 'roles';
+        $user = [
+            [
+                $email => 'adminponpes@gmail.com',
+                $password => Hash::make('adminponpes'),
+                $roles => 1,
+            ],
+            [
+                $email => 'lukman@gmail.com',
+                $password => Hash::make('masuk123'),
+                $roles => 2,
+            ],
+        ];
+        foreach ($user as $data) {
+            MasterUsers::create($data);
+        }
     }
 }

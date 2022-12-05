@@ -164,7 +164,7 @@ class ManageKotaController extends Controller
     public function restore($id)
     {
         try {
-            $data = MasterCity::onlyTrashed()->where('id', $id);
+            $data = MasterCity::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
             return redirect()->route('kelolaKota.index')
                 ->with('success', 'Data ' . $data->city_name . ' berhasil dipulihkan ');
@@ -186,7 +186,7 @@ class ManageKotaController extends Controller
     public function deletePermanent($id)
     {
         try {
-            $data = MasterCity::onlyTrashed()->where('id', $id);
+            $data = MasterCity::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
             return redirect()->route('trashCity')
                 ->with('success', 'Data ' . $data->city_name . ' berhasil dihapus permanent');

@@ -11,6 +11,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        // $this->authorize('admin');
         // count data
         $dataUser = MasterUsers::whereNotIn('roles', [1])->count();
         $dataSantri = MasterStudent::count();
