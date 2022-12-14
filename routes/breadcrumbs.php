@@ -164,3 +164,64 @@ Breadcrumbs::for('kelolaSantri.trash', function (BreadcrumbTrail $trail) {
     $trail->parent('kelolaSantri');
     $trail->push('Trash Bin', route('trashStudents'));
 });
+
+/**
+ * manage pengurus
+ */
+Breadcrumbs::for('kelolaPengurus', function (BreadcrumbTrail $trail) {
+    $trail->push('Data Pengurus', route('kelolaPengurus.index'));
+});
+Breadcrumbs::for('kelolaPengurus.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('kelolaPengurus');
+    $trail->push('Tambah Data ', route('kelolaPengurus.create'));
+});
+Breadcrumbs::for('kelolaPengurus.edit', function (BreadcrumbTrail $trail, $data) {
+    $trail->parent('kelolaPengurus');
+    $trail->push('Edit Data ', route('kelolaPengurus.edit', $data->id));
+});
+Breadcrumbs::for('kelolaPengurus.trash', function (BreadcrumbTrail $trail) {
+    $trail->parent('kelolaPengurus');
+    $trail->push('Trash Bin ', route('trashCaretakers'));
+});
+
+/**
+ * manage absen
+ */
+Breadcrumbs::for('kelolaAbsen', function (BreadcrumbTrail $trail) {
+    $trail->push('Data Absen', route('kelolaAbsen.index'));
+});
+Breadcrumbs::for('kelolaAbsen.trash', function (BreadcrumbTrail $trail) {
+    $trail->parent('kelolaAbsen');
+    $trail->push('Trash Bin', route('trashAttendance'));
+});
+/**
+ * manage pembayaran
+ */
+Breadcrumbs::for('kelolaPembayaran', function (BreadcrumbTrail $trail) {
+    $trail->push('Data Pembayaran', route('kelolaPembayaran.index'));
+});
+Breadcrumbs::for('kelolaPembayaran.trash', function (BreadcrumbTrail $trail) {
+    $trail->parent('kelolaPembayaran');
+    $trail->push('Trash Bin', route('trashPayment'));
+});
+
+/**
+ * data perizinan
+ */
+Breadcrumbs::for('perizinan', function (BreadcrumbTrail $trail) {
+    $trail->push('Data Perizinan', route('perizinan.index'));
+});
+Breadcrumbs::for('perizinan.trash', function (BreadcrumbTrail $trail) {
+    $trail->parent('perizinan');
+    $trail->push('Trash Bin', route('trashPermit'));
+});
+/**
+ * data mapel
+ */
+Breadcrumbs::for('kelolaMapel', function (BreadcrumbTrail $trail) {
+    $trail->push('Data Mata Pelajaran', route('kelolaMapel.index'));
+});
+Breadcrumbs::for('kelolaMapel.trash', function (BreadcrumbTrail $trail) {
+    $trail->parent('kelolaMapel');
+    $trail->push('Trash Bin', route('trashCourse'));
+});

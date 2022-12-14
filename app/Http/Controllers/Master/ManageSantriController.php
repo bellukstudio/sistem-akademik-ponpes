@@ -88,7 +88,15 @@ class ManageSantriController extends Controller
             return back()->withErrors($e);
         }
     }
+    /**
+     * get all student with json
+     */
+    public function getAllStudents()
+    {
+        $empData['data'] = MasterStudent::all();
 
+        return response()->json($empData);
+    }
     /**
      * Display the specified resource.
      *
@@ -229,6 +237,8 @@ class ManageSantriController extends Controller
 
     public function trash()
     {
+        $this->authorize('admin');
+
         $data = MasterStudent::with(['province', 'city', 'program', 'period'])->onlyTrashed()->get();
         return view('dashboard.master_data.kelola_santri.trash', [
             'trash' => $data

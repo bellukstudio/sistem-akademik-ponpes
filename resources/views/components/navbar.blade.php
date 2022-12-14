@@ -27,10 +27,11 @@
                       <div class="dropdown-divider"></div>
                       <a href="#" class="dropdown-item">
                           <div class="form-inline">
+
                               <i class="fas fa-sign-out-alt mr-2"></i>
                               <form action="{{ route('logout') }}" method="post" class="text-sm">
                                   @csrf
-                                  <button type="submit" class="btn btn-lg btn-danger text-sm">Keluar</button>
+                                  <button type="submit" class="btn" style="width: 220px;"><p class="float-left">Keluar</p></button>
                               </form>
                           </div>
                       </a>

@@ -121,6 +121,7 @@ class ManageProvinsiController extends Controller
 
     public function trash()
     {
+        $this->authorize('admin');
         $data = MasterProvince::onlyTrashed()->get();
         return view('dashboard.master_data.kelola_provinsi.trash', [
             'trash' => $data

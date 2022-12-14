@@ -155,6 +155,7 @@ class ManageKotaController extends Controller
     }
     public function trash()
     {
+        $this->authorize('admin');
         $data = MasterCity::with(['province'])->onlyTrashed()->get();
         return view('dashboard.master_data.kelola_kota.trash', [
             'trash' => $data

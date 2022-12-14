@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
-class MasterUsers extends Authenticatable
+class MasterUsers extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, SoftDeletes;
     protected $table = 'master_users';
@@ -20,7 +20,7 @@ class MasterUsers extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'email', 'password',
+        'email', 'password', 'roles_id', 'name'
     ];
 
     /**
@@ -29,7 +29,7 @@ class MasterUsers extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'no_induk'
+        'password', 'remember_token', 'roles_id'
     ];
 
     /**
@@ -48,5 +48,10 @@ class MasterUsers extends Authenticatable
     public function getUpdatedAttribute($value)
     {
         return Carbon::parse($value)->timestamp;
+    }
+
+    public function roles()
+    {
+        return $this->belongsTo(Roles::class, 'roles_id');
     }
 }

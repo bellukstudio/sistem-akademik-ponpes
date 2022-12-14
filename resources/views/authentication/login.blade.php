@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Si PMM | Log in</title>
 
     <!-- Google Font: Source Sans Pro -->
@@ -54,9 +55,10 @@
                     <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                 </form>
 
-                <p class="mb-1">
-                    <a href="#">I forgot my password</a>
-                </p>
+
+                <div class="d-flex justify-content-center mt-3">
+                    <a href="{{ route('activate') }}">Aktivasi Akun</a>
+                </div>
             </div>
             <!-- /.login-card-body -->
         </div>

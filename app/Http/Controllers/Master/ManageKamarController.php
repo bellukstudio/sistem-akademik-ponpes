@@ -126,6 +126,7 @@ class ManageKamarController extends Controller
 
     public function trash()
     {
+        $this->authorize('admin');
         $data = MasterRoom::onlyTrashed()->get();
         return view('dashboard.master_data.kelola_kamar.trash', [
             'trash' => $data

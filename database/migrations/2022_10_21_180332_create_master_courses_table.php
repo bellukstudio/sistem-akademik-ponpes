@@ -18,7 +18,8 @@ class CreateMasterCoursesTable extends Migration
             $table->string('course_name');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreignId('program_id')->nullable()->references('id')->on('master_academic_programs')->onDelete('cascade');
+            $table->foreignId('program_id')->nullable()
+                ->references('id')->on('master_academic_programs')->onDelete('cascade');
         });
     }
 

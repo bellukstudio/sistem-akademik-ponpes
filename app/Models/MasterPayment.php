@@ -10,7 +10,10 @@ use Illuminate\Support\Carbon;
 class MasterPayment extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $fillable = ['payment_name', 'total', 'method', 'payment_number'];
     protected $dates = ['deleted_at'];
+
+    protected $hidden = ['payment_number', 'method'];
 
     public function getCreatedAttribute($value)
     {

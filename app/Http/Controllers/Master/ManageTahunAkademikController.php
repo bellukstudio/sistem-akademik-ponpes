@@ -147,6 +147,7 @@ class ManageTahunAkademikController extends Controller
 
     public function trash()
     {
+        $this->authorize('admin');
         $data = MasterPeriod::onlyTrashed()->get();
         return view('dashboard.master_data.kelola_tahunAkademik.trash', [
             'trash' => $data

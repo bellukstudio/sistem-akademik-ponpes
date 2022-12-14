@@ -30,7 +30,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="example" class="table table-bordered table-striped">
+                <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -149,15 +149,4 @@
 
     </div>
 @endsection
-@extends('components.footer_table')
-@push('new-script')
-    <script>
-        $(document).ready(function() {
-            var table = $('#example').DataTable({
-                responsive: true
-            });
-
-            new $.fn.dataTable.FixedHeader(table);
-        });
-    </script>
-@endpush
+@include('components.footer_table')

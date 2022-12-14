@@ -5,6 +5,10 @@
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1 class="m-0">Data Pengajar</h1>
+                <div class="new-user d-none">
+                    <a href="{{ route('trashTeachers') }}" class="btn btn-info">
+                        <i class="fa fa-plus mr-2"></i>Buat Akun Baru</a>
+                </div>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -30,7 +34,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="example" class="table table-bordered table-striped">
+                <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -46,7 +50,7 @@
                     </thead>
                     <tbody>
                         @forelse ($pengajar as $index => $item)
-                            <tr>
+                            <tr id="tr_{{ $item->id }}">
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->email }}</td>
@@ -134,21 +138,11 @@
                         </tr>
                     </tfoot>
                 </table>
+
             </div>
             <!-- /.card-body -->
         </div>
 
     </div>
 @endsection
-@extends('components.footer_table')
-@push('new-script')
-    <script>
-        $(document).ready(function() {
-            var table = $('#example').DataTable({
-                responsive: true
-            });
-
-            new $.fn.dataTable.FixedHeader(table);
-        });
-    </script>
-@endpush
+@include('components.footer_table')
