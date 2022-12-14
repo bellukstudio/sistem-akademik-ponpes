@@ -123,6 +123,7 @@ class ManageKelasController extends Controller
 
     public function trash()
     {
+        $this->authorize('admin');
         $data = MasterClass::onlyTrashed()->get();
         return view('dashboard.master_data.kelola_kelas.trash', [
             'trash' => $data

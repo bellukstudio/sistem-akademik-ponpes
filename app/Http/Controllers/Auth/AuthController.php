@@ -5,6 +5,12 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Mail\Activation;
+use App\Models\MasterStudent;
+use App\Models\MasterTeacher;
+use Illuminate\Support\Facades\Mail;
+
+use function PHPUnit\Framework\isEmpty;
 
 class AuthController extends Controller
 {
@@ -24,9 +30,9 @@ class AuthController extends Controller
             'email' => ['required', 'email:dns'],
             'password' => ['required'],
         ]);
+        
         // check credentials user
         if (Auth::attempt($credentials)) {
-
             $request->session()->regenerate();
             return redirect()->intended('dashboard');
         }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\TrxStudentPermits;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,10 +15,19 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
+            RoleSedeer::class,
             MasterUsersSeeder::class,
+            ProgramSeeder::class,
+            PerizinanSeeder::class,
             BeritaSeeder::class,
             ProvinsiSeeder::class,
-            KotaSeeder::class
+            KotaSeeder::class,
+            TahunAkademikSeeder::class,
+            KamarSeeder::class,
+            KelasSeeder::class,
+            PengajarSeeder::class,
+            RuangSeeder::class,
+            SantriSeeder::class,
         ]);
     }
 }

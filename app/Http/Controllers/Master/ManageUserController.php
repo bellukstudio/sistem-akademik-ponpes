@@ -15,7 +15,7 @@ class ManageUserController extends Controller
      */
     public function index()
     {
-        $data = MasterUsers::whereNotIn('roles', [1])->latest()->get();
+        $data = MasterUsers::with(['roles'])->whereNotIn('roles_id', [1])->latest()->get();
         return view(
             'dashboard.master_data.kelola_user.index',
             [

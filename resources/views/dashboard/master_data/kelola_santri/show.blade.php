@@ -36,7 +36,7 @@
                                     <label for="" class="mr-2">:</label>
                                 </td>
                                 <td>
-                                    <label style="font-weight: 100;">{{ $data->no_id }}</label>
+                                    <label style="font-weight: 100;">{{ $data->noId }}</label>
                                 </td>
                             </tr>
                             <tr>

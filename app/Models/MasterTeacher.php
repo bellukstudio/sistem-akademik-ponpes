@@ -14,7 +14,8 @@ class MasterTeacher extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'no_id', 'email', 'name', 'photo', 'gender', 'address', 'province_id', 'city_id', 'date_birth', 'no_tlp'
+        'noId', 'email', 'name', 'photo', 'gender', 'address',
+        'province_id', 'city_id', 'date_birth', 'no_tlp', 'is_activate'
     ];
     protected $dates = ['deleted_at'];
 

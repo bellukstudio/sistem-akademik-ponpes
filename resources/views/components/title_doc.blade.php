@@ -8,42 +8,57 @@
 
 
 @if (Request::is('kelolaUser*'))
-    Kelola User
+    Master User
 @endif
 
 @if (Request::is('kelolaTahunAkademik*'))
-    Kelola Tahun Akademik
+    Master Tahun Akademik
 @endif
 
 
 @if (Request::is('kelolaProgramAkademik*'))
-    Kelola Program
+    Master Program
 @endif
 
 @if (Request::is('kelolaKota*'))
-    Kelola Kota
+    Master Kota
 @endif
 
 @if (Request::is('kelolaProvinsi*'))
-    Kelola Provinsi
+    Master Provinsi
 @endif
 
 @if (Request::is('kelolaKamar*'))
-    Kelola Kamar
+    Master Kamar
 @endif
 
 @if (Request::is('kelolaRuangan*'))
-    Kelola Ruang
+    Master Ruang
 @endif
 
 @if (Request::is('kelolaKelas*'))
-    Kelola Kelas
+    Master Kelas
 @endif
 
 @if (Request::is('kelolaPengajar*'))
-    Kelola Pengajar
+    Master Pengajar
 @endif
 
 @if (Request::is('kelolaSantri*'))
-    Kelola Santri
+    Master Santri
+@endif
+@if (Request::is('kelolaPengurus*'))
+    Master Pengurus
+@endif
+@if (Request::is('kelolaAbsen*'))
+    Master Absen
+@endif
+@if (Request::is('kelolaPembayaran*'))
+    Master Pembayaran
+@endif
+@if (Request::is('kelolaMapel*'))
+    Master Mata Pelajaran
+@endif
+@if (Request::is('perizinan*'))
+    Perizinan
 @endif

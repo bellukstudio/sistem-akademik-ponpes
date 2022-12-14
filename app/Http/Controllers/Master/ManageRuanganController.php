@@ -165,6 +165,7 @@ class ManageRuanganController extends Controller
 
     public function trash()
     {
+        $this->authorize('admin');
         $data = MasterRoom::where('type', 'RUANGAN')->onlyTrashed()->get();
         return view('dashboard.master_data.kelola_ruangan.trash', [
             'trash' => $data

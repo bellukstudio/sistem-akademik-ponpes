@@ -15,7 +15,7 @@ class CreateMasterStudentsTable extends Migration
     {
         Schema::create('master_students', function (Blueprint $table) {
             $table->id();
-            $table->string('no_id', 50);
+            $table->string('noId', 50);
             $table->string('email')->unique();
             $table->string('name');
             $table->text('photo')->nullable();

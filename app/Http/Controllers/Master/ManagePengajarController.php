@@ -79,7 +79,15 @@ class ManagePengajarController extends Controller
             return back()->withErrors($e);
         }
     }
+    /**
+     * get all teachers with json
+     */
+    public function getAllTeachers()
+    {
+        $empData['data'] = MasterTeacher::all();
 
+        return response()->json($empData);
+    }
     /**
      * Display the specified resource.
      *
@@ -210,6 +218,7 @@ class ManagePengajarController extends Controller
 
     public function trash()
     {
+        $this->authorize('admin');
         $data = MasterTeacher::with(['province', 'city'])->onlyTrashed()->get();
         return view('dashboard.master_data.kelola_pengajar.trash', [
             'trash' => $data

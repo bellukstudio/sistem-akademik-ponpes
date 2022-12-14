@@ -11,6 +11,7 @@ class MasterCourse extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = ['course_name', 'program_id'];
     protected $dates = ['deleted_at'];
 
     public function getCreatedAttribute($value)
@@ -21,5 +22,11 @@ class MasterCourse extends Model
     public function getUpdatedAttribute($value)
     {
         return Carbon::parse($value)->timestamp;
+    }
+
+    // relationship
+    public function program()
+    {
+        return $this->belongsTo(MasterAcademicProgram::class, 'program_id');
     }
 }

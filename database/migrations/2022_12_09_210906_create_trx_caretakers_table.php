@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMasterPresencesTable extends Migration
+class CreateTrxCaretakersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateMasterPresencesTable extends Migration
      */
     public function up()
     {
-        Schema::create('master_presences', function (Blueprint $table) {
+        Schema::create('trx_caretakers', function (Blueprint $table) {
             $table->id();
-            $table->string('presence_name');
-            $table->text('presence_column');
+            $table->string('no_induk', 50);
+            $table->string('name', 100);
+            $table->foreignId('id_room')->references('id')->on('master_rooms')->onDelete('cascade');
+            $table->string('categories', 20);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +31,6 @@ class CreateMasterPresencesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_presences');
+        Schema::dropIfExists('trx_caretakers');
     }
 }
