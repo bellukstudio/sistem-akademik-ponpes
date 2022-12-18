@@ -5,23 +5,13 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TrxCaretakers extends Model
+class TrxPicketSchedule extends Model
 {
-    use HasFactory, SoftDeletes;
-
+    use HasFactory;
     protected $fillable = [
-        'no_induk', 'id_room', 'categories', 'name'
+        'student_id', 'room_id', 'time'
     ];
-    protected $hidden = [
-        'no_induk'
-    ];
-    protected $dates = ['deleted_at'];
-    public function room()
-    {
-        return $this->belongsTo(MasterRoom::class, 'id_room');
-    }
 
     public function getCreatedAttribute($value)
     {
@@ -31,5 +21,14 @@ class TrxCaretakers extends Model
     public function getUpdatedAttribute($value)
     {
         return Carbon::parse($value)->timestamp;
+    }
+    // relationship
+    public function student()
+    {
+        return $this->belongsTo(MasterStudent::class, 'student_id');
+    }
+    public function room()
+    {
+        return $this->belongsTo(MasterRoom::class, 'room_id');
     }
 }

@@ -50,7 +50,7 @@ class ManageAbsenController extends Controller
                 'name' => $request->name,
                 'column' => $request->column_name
             ]);
-            return back()->with('success', 'Data ' . $request->name . ' berhasil disimpan');
+            return back()->with('success', 'Absen ' . $request->name . ' berhasil disimpan');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -97,7 +97,7 @@ class ManageAbsenController extends Controller
             $data->name = $request->name;
             $data->column = $request->column_name;
             $data->update();
-            return back()->with('success', 'Data ' . $request->name . ' berhasil diupdate');
+            return back()->with('success', 'Absen ' . $request->name . ' berhasil diupdate');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -114,7 +114,7 @@ class ManageAbsenController extends Controller
         try {
             $data = MasterAttendance::find($id);
             $data->delete();
-            return back()->with('success', 'Data ' . $data->name . ' berhasil dihapus');
+            return back()->with('success', 'Absen ' . $data->name . ' berhasil dihapus');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -135,7 +135,7 @@ class ManageAbsenController extends Controller
             $data = MasterAttendance::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
             return redirect()->route('kelolaAbsen.index')
-                ->with('success', 'Data ' . $data->name . ' berhasil dipulihkan ');
+                ->with('success', 'Absen ' . $data->name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -157,7 +157,7 @@ class ManageAbsenController extends Controller
             $data = MasterAttendance::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
             return redirect()->route('trashAttendance')
-                ->with('success', 'Data ' . $data->name . ' berhasil dihapus permanent');
+                ->with('success', 'Absen ' . $data->name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

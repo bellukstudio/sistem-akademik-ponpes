@@ -60,7 +60,7 @@ class ManageRuanganController extends Controller
             );
 
             return redirect()->route('kelolaRuangan.index')
-                ->with('success', 'Data ruangan ' . $request->room_name . ' berhasil disimpan');
+                ->with('success', 'Ruangan ' . $request->room_name . ' berhasil disimpan');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -129,7 +129,7 @@ class ManageRuanganController extends Controller
             }
 
             return redirect()->route('kelolaRuangan.index')
-                ->with('success', 'Data ruangan ' . $request->room_name . ' berhasil diubah');
+                ->with('success', 'Ruangan ' . $request->room_name . ' berhasil diubah');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -157,7 +157,7 @@ class ManageRuanganController extends Controller
             }
             $data->delete();
             return redirect()->route('kelolaRuangan.index')
-                ->with('success', 'Data ruangan ' . $data->room_name . ' berhasil dihapus');
+                ->with('success', 'Ruangan ' . $data->room_name . ' berhasil dihapus');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -178,7 +178,7 @@ class ManageRuanganController extends Controller
             $data = MasterRoom::onlyTrashed()->find($id);
             $data->restore();
             return redirect()->route('kelolaRuangan.index')
-                ->with('success', 'Data ' . $data->room_name . ' berhasil dipulihkan ');
+                ->with('success', 'Ruangan ' . $data->room_name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -200,7 +200,7 @@ class ManageRuanganController extends Controller
             $data = MasterRoom::onlyTrashed()->find($id);
             $data->forceDelete();
             return redirect()->route('trashRoom')
-                ->with('success', 'Data' . $data->room_name . ' berhasil dihapus permanent');
+                ->with('success', 'Ruangan' . $data->room_name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

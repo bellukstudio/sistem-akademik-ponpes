@@ -227,8 +227,9 @@
                      </li>
 
                      <li class="nav-header">AKADEMIK</li>
-                     <li class="nav-item">
-                         <a href="#" class="nav-link">
+                     <li class="nav-item {{ Request::is(['jadwalPelajaran*', 'jadwalPiket*']) ? 'menu-open' : '' }}">
+                         <a href="#"
+                             class="nav-link {{ Request::is(['jadwalPelajaran*', 'jadwalPiket*']) ? 'active' : '' }}">
                              <i class="nav-icon fas fa-archive"></i>
                              <p>
                                  Akademik
@@ -237,13 +238,15 @@
                          </a>
                          <ul class="nav nav-treeview">
                              <li class="nav-item">
-                                 <a href="pages/layout/top-nav.html" class="nav-link">
+                                 <a href="{{ route('jadwalPelajaran.index') }}"
+                                     class="nav-link {{ Request::is('jadwalPelajaran*') ? 'active' : '' }}">
                                      <i class="far fa-circle nav-icon"></i>
                                      <p>Jadwal Pelajaran</p>
                                  </a>
                              </li>
                              <li class="nav-item">
-                                 <a href="pages/layout/top-nav.html" class="nav-link">
+                                 <a href="{{ route('jadwalPiket.index') }}"
+                                     class="nav-link {{ Request::is('jadwalPiket*') ? 'active' : '' }}">
                                      <i class="far fa-circle nav-icon"></i>
                                      <p>Jadwal Piket</p>
                                  </a>

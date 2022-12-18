@@ -54,7 +54,7 @@ class ManageProgramController extends Controller
                 ]
             );
             return redirect()->route('kelolaProgramAkademik.index')
-                ->with('success', 'Data (' . $request->nama_program . ') berhasil di tambahkan');
+                ->with('success', 'Program ' . $request->nama_program . ' berhasil di tambahkan');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -97,11 +97,11 @@ class ManageProgramController extends Controller
         ]);
         try {
             $data = MasterAcademicProgram::findOrfail($id);
-            // $data->code = $request->kode;
+            $data->code = $request->kode;
             $data->program_name = $request->nama_program;
             $data->update();
             return redirect()->route('kelolaProgramAkademik.index')
-                ->with('success', 'Data (' . $request->nama_program . ') berhasil di update');
+                ->with('success', 'Program ' . $request->nama_program . ' berhasil di update');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -119,7 +119,7 @@ class ManageProgramController extends Controller
             $data = MasterAcademicProgram::find($id);
             $data->delete();
             return redirect()->route('kelolaProgramAkademik.index')
-                ->with('success', 'Data program akademik ' . $data->program_name . 'berhasil dihapus');
+                ->with('success', 'Program ' . $data->program_name . 'berhasil dihapus');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -140,7 +140,7 @@ class ManageProgramController extends Controller
             $data = MasterAcademicProgram::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
             return redirect()->route('kelolaProgramAkademik.index')
-                ->with('success', 'Data program akademik ' . $data->program_name . ' berhasil dipulihkan ');
+                ->with('success', 'Program ' . $data->program_name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -162,7 +162,7 @@ class ManageProgramController extends Controller
             $data = MasterAcademicProgram::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
             return redirect()->route('trashProgram')
-                ->with('success', 'Data program akademik ' . $data->program_name . ' berhasil dihapus permanent');
+                ->with('success', 'Program ' . $data->program_name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

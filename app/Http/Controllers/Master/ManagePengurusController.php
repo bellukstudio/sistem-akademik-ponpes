@@ -62,7 +62,7 @@ class ManagePengurusController extends Controller
                 'id_room' => $request->room
             ]);
             return redirect()->route('kelolaPengurus.index')
-                ->with('success', 'Data pengurus ' . $request->fullName . ' berhasil disimpan');
+                ->with('success', 'Pengurus ' . $request->fullName . ' berhasil disimpan');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -117,7 +117,7 @@ class ManagePengurusController extends Controller
             $data->id_room = $request->room;
             $data->update();
             return redirect()->route('kelolaPengurus.index')
-                ->with('success', 'Data pengurus ' . $request->fullName . ' berhasil diubah');
+                ->with('success', 'Pengurus ' . $request->fullName . ' berhasil diubah');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -135,7 +135,7 @@ class ManagePengurusController extends Controller
             $data = TrxCaretakers::find($id);
             $data->delete();
             return redirect()->route('kelolaPengurus.index')
-                ->with('success', 'Data pengurus ' . $data->name . ' berhasil disimpan');
+                ->with('success', 'Pengurus ' . $data->name . ' berhasil disimpan');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -157,7 +157,7 @@ class ManagePengurusController extends Controller
             $data = TrxCaretakers::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
             return redirect()->route('kelolaPengurus.index')
-                ->with('success', 'Data ' . $data->name . ' berhasil dipulihkan ');
+                ->with('success', 'Pengurus ' . $data->name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -179,7 +179,7 @@ class ManagePengurusController extends Controller
             $data = TrxCaretakers::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
             return redirect()->route('trashCaretakers')
-                ->with('success', 'Data ' . $data->name . ' berhasil dihapus permanent');
+                ->with('success', 'Pengurus ' . $data->name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
