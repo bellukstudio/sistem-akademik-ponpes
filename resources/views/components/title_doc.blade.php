@@ -62,3 +62,11 @@
 @if (Request::is('perizinan*'))
     Perizinan
 @endif
+@if (Request::is('jadwalPelajaran*'))
+    Jadwal Pelajaran
+@endif
+
+@if (Request::is('jadwalPiket*'))
+    Jadwal Piket
+@endif
+

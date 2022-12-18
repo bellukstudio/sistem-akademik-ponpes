@@ -142,7 +142,7 @@ class ManageMapelController extends Controller
             $data = MasterCourse::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
             return redirect()->route('kelolaMapel.index')
-                ->with('success', 'Data ' . $data->course_name . ' berhasil dipulihkan ');
+                ->with('success', 'Mata Pelajaran ' . $data->course_name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -164,7 +164,7 @@ class ManageMapelController extends Controller
             $data = MasterCourse::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
             return redirect()->route('trashCourse')
-                ->with('success', 'Data ' . $data->course_name . ' berhasil dihapus permanent');
+                ->with('success', 'Mata Pelajaran ' . $data->course_name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

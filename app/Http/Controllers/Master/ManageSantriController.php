@@ -83,7 +83,7 @@ class ManageSantriController extends Controller
                 'period_id' => $request->period
             ]);
             return redirect()->route('kelolaSantri.index')
-                ->with('success', 'Data Santri ' . $request->fullName . ' berhasil disimpan');
+                ->with('success', 'Santri ' . $request->fullName . ' berhasil disimpan');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -229,7 +229,7 @@ class ManageSantriController extends Controller
 
             $data->delete();
             return redirect()->route('kelolaSantri.index')
-                ->with('success', 'Data Santri ' . $data->name . ' berhasil dihapus');
+                ->with('success', 'Santri ' . $data->name . ' berhasil dihapus');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -251,7 +251,7 @@ class ManageSantriController extends Controller
             $data = MasterStudent::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
             return redirect()->route('kelolaSantri.index')
-                ->with('success', 'Data ' . $data->name . ' berhasil dipulihkan ');
+                ->with('success', 'Santri ' . $data->name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -273,7 +273,7 @@ class ManageSantriController extends Controller
             $data = MasterStudent::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
             return redirect()->route('trashStudents')
-                ->with('success', 'Data ' . $data->name . ' berhasil dihapus permanent');
+                ->with('success', 'Santri ' . $data->name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

@@ -74,7 +74,7 @@ class ManagePengajarController extends Controller
             ]);
 
             return redirect()->route('kelolaPengajar.index')
-                ->with('success', 'Data Pengajar ' . $request->fullName . ' berhasil disimpan');
+                ->with('success', 'Pengajar ' . $request->fullName . ' berhasil disimpan');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -181,7 +181,7 @@ class ManagePengajarController extends Controller
 
 
             return redirect()->route('kelolaPengajar.index')
-                ->with('success', 'Data Pengajar ' . $request->fullName . ' berhasil diubah');
+                ->with('success', 'Pengajar ' . $request->fullName . ' berhasil diubah');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -210,7 +210,7 @@ class ManagePengajarController extends Controller
 
             $data->delete();
             return redirect()->route('kelolaPengajar.index')
-                ->with('success', 'Data Pengajar ' . $data->name . ' berhasil dihapus');
+                ->with('success', 'Pengajar ' . $data->name . ' berhasil dihapus');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -231,7 +231,7 @@ class ManagePengajarController extends Controller
             $data = MasterTeacher::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
             return redirect()->route('kelolaPengajar.index')
-                ->with('success', 'Data ' . $data->name . ' berhasil dipulihkan ');
+                ->with('success', 'Pengajar ' . $data->name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -253,7 +253,7 @@ class ManagePengajarController extends Controller
             $data = MasterTeacher::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
             return redirect()->route('trashTeachers')
-                ->with('success', 'Data ' . $data->name . ' berhasil dihapus permanent');
+                ->with('success', 'Pengajar ' . $data->name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

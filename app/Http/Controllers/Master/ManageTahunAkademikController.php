@@ -54,7 +54,8 @@ class ManageTahunAkademikController extends Controller
                 'end_date' => $request->tgl_selesai
             ]);
 
-            return redirect()->route('kelolaTahunAkademik.index')->with('success', 'Berhasil menambah data baru');
+            return redirect()->route('kelolaTahunAkademik.index')
+                ->with('success', 'Tahun Akademik ' . $request->kode . ' berhasil disimpan');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -121,7 +122,7 @@ class ManageTahunAkademikController extends Controller
             $data->update();
 
             return redirect()->route('kelolaTahunAkademik.index')
-                ->with('success', 'Berhasil mengubah data ' . $data->code . '');
+                ->with('success', 'Tahun Akademik ' . $request->kode . ' berhasil dihapus');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -139,7 +140,7 @@ class ManageTahunAkademikController extends Controller
             $data = MasterPeriod::find($id);
             $data->delete();
             return redirect()->route('kelolaTahunAkademik.index')
-                ->with('success', 'Berhasil menghapus data ' . $data->code . '');
+                ->with('success', 'Tahun Akademik ' . $data->code . ' berhasil dihapus');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -160,7 +161,7 @@ class ManageTahunAkademikController extends Controller
             $data = MasterPeriod::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
             return redirect()->route('kelolaTahunAkademik.index')
-                ->with('success', 'Data ' . $data->code . ' berhasil dipulihkan ');
+                ->with('success', 'Tahun Akademik ' . $data->code . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -183,7 +184,7 @@ class ManageTahunAkademikController extends Controller
             $data = MasterPeriod::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
             return redirect()->route('trashTahunAkademik')
-                ->with('success', 'Data ' . $data->code . ' berhasil dihapus permanent');
+                ->with('success', 'Tahun Akademik ' . $data->code . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

@@ -225,3 +225,32 @@ Breadcrumbs::for('kelolaMapel.trash', function (BreadcrumbTrail $trail) {
     $trail->parent('kelolaMapel');
     $trail->push('Trash Bin', route('trashCourse'));
 });
+
+/**
+ * data jadwal pelajaran
+ */
+Breadcrumbs::for('kelolaJadwal', function (BreadcrumbTrail $trail) {
+    $trail->push('Jadwal Pelajaran', route('jadwalPelajaran.index'));
+});
+Breadcrumbs::for('kelolaJadwal.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('kelolaJadwal');
+    $trail->push('Tambah Data', route('jadwalPelajaran.create'));
+});
+Breadcrumbs::for('kelolaJadwal.edit', function (BreadcrumbTrail $trail, $schedule) {
+    $trail->parent('kelolaJadwal');
+    $trail->push('Edit Data', route('jadwalPelajaran.edit', $schedule->id));
+});
+/**
+ * data jadwal piket
+ */
+Breadcrumbs::for('jadwalPiket', function (BreadcrumbTrail $trail) {
+    $trail->push('Jadwal Piket', route('jadwalPiket.index'));
+});
+Breadcrumbs::for('jadwalPiket.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('jadwalPiket');
+    $trail->push('Tambah Data', route('jadwalPiket.create'));
+});
+Breadcrumbs::for('jadwalPiket.edit', function (BreadcrumbTrail $trail, $schedule) {
+    $trail->parent('jadwalPiket');
+    $trail->push('Edit Data', route('jadwalPiket.edit', $schedule->id));
+});

@@ -49,7 +49,7 @@ class ManageKelasController extends Controller
             ]);
 
             return redirect()->route('kelolaKelas.index')
-                ->with('success', 'Data kamar ' . $request->class_name . ' berhasil disimpan');
+                ->with('success', 'Kelas ' . $request->class_name . ' berhasil disimpan');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -95,7 +95,7 @@ class ManageKelasController extends Controller
             $data->class_name = $request->class_name;
             $data->update();
             return redirect()->route('kelolaKelas.index')
-                ->with('success', 'Data kamar ' . $request->class_name . ' berhasil diupdate');
+                ->with('success', 'Kelas ' . $request->class_name . ' berhasil diupdate');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -113,7 +113,7 @@ class ManageKelasController extends Controller
             $data = MasterClass::find($id);
             $data->delete();
             return redirect()->route('kelolaKelas.index')
-                ->with('success', 'Data kelas ' . $data->class_name . ' berhasil dihapus');
+                ->with('success', 'Kelas ' . $data->class_name . ' berhasil dihapus');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -135,7 +135,8 @@ class ManageKelasController extends Controller
         try {
             $data = MasterClass::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
-            return redirect()->route('kelolaKelas.index')->with('success', 'Data berhasil dipulihkan ');
+            return redirect()->route('kelolaKelas.index')
+                ->with('success', 'Kelas ' . $data->class_name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -155,7 +156,8 @@ class ManageKelasController extends Controller
         try {
             $data = MasterClass::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
-            return redirect()->route('trashClass')->with('success', 'Data berhasil dihapus permanent');
+            return redirect()->route('trashClass')
+                ->with('success', 'Kelas ' . $data->class_name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

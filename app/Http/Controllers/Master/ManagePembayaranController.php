@@ -53,7 +53,7 @@ class ManagePembayaranController extends Controller
                 'method' => $request->method_name,
                 'payment_number' => $request->payment_number
             ]);
-            return back()->with('success', 'Data ' . $request->payment_name . ' berhasil disimpan');
+            return back()->with('success', 'Pembayaran ' . $request->payment_name . ' berhasil disimpan');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -104,7 +104,7 @@ class ManagePembayaranController extends Controller
             $data->method = $request->method_name;
             $data->payment_number = $request->payment_number;
             $data->update();
-            return back()->with('success', 'Data ' . $request->payment_name . ' berhasil disimpan');
+            return back()->with('success', 'Pembayaran ' . $request->payment_name . ' berhasil diubah');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -121,7 +121,7 @@ class ManagePembayaranController extends Controller
         try {
             $data = MasterPayment::find($id);
             $data->delete();
-            return back()->with('success', 'Data ' . $data->payment_name . ' berhasil dihapus');
+            return back()->with('success', 'Pembayaran ' . $data->payment_name . ' berhasil dihapus');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -142,7 +142,7 @@ class ManagePembayaranController extends Controller
             $data = MasterPayment::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
             return redirect()->route('kelolaPembayaran.index')
-                ->with('success', 'Data ' . $data->payment_name . ' berhasil dipulihkan ');
+                ->with('success', 'Pembayaran ' . $data->payment_name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -164,7 +164,7 @@ class ManagePembayaranController extends Controller
             $data = MasterPayment::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
             return redirect()->route('trashPayment')
-                ->with('success', 'Data ' . $data->payment_name . ' berhasil dihapus permanent');
+                ->with('success', 'Pembayaran ' . $data->payment_name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

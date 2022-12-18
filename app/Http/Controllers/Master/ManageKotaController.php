@@ -61,7 +61,7 @@ class ManageKotaController extends Controller
             ]);
 
             return redirect()->route('kelolaKota.index')
-                ->with('success', 'Berhasil menambah data kota ' . $request->city_name . '');
+                ->with('success', 'Kota ' . $request->city_name . ' berhasil disimpan');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -130,7 +130,7 @@ class ManageKotaController extends Controller
             $data->city_name = $request->city_name;
             $data->update();
             return redirect()->route('kelolaKota.index')
-                ->with('success', 'Berhasil menambah data kota ' . $request->city_name . '');
+                ->with('success', 'Kota' . $request->city_name . ' berhasil diubah');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -148,7 +148,7 @@ class ManageKotaController extends Controller
             $data = MasterCity::find($id);
             $data->delete();
             return back()
-                ->with('success', 'Data kamar ' . $data->city_name . ' berhasil dihapus');
+                ->with('success', 'Kota ' . $data->city_name . ' berhasil dihapus');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -168,7 +168,7 @@ class ManageKotaController extends Controller
             $data = MasterCity::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
             return redirect()->route('kelolaKota.index')
-                ->with('success', 'Data ' . $data->city_name . ' berhasil dipulihkan ');
+                ->with('success', 'Kota ' . $data->city_name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
@@ -190,7 +190,7 @@ class ManageKotaController extends Controller
             $data = MasterCity::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
             return redirect()->route('trashCity')
-                ->with('success', 'Data ' . $data->city_name . ' berhasil dihapus permanent');
+                ->with('success', 'Kota ' . $data->city_name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

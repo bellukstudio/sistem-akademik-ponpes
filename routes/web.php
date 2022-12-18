@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Akademik\ManageJadwalController;
+use App\Http\Controllers\Akademik\ManageJadwalPiketController;
 use App\Http\Controllers\Auth\ActivationController;
 use App\Http\Controllers\Master\ManageTahunAkademikController;
 use App\Http\Controllers\Auth\AuthController;
@@ -398,4 +400,16 @@ Route::middleware(['auth'])->group(function () {
         [ManagePerizinanController::class, 'restore']
     )->name('restorePermit');
     Route::resource('perizinan', ManagePerizinanController::class)->except(['create', 'show', 'edit', 'store']);
+
+    /**
+     * route akademik
+     */
+    /**
+     * route jadwal pelajaran
+     */
+    Route::resource('jadwalPelajaran', ManageJadwalController::class)->except('show');
+    /**
+     * route jadwal piket
+     */
+    Route::resource('jadwalPiket', ManageJadwalPiketController::class)->except('show');
 });
