@@ -20,16 +20,21 @@ class TahunAkademikSeeder extends Seeder
                 'code' => '2019/2020',
                 'start_date' => Date::now(),
                 'end_date' => Date::now(),
+                'status' => true,
             ],
             [
                 'code' => '2018/2019',
                 'start_date' => Date::now(),
                 'end_date' => Date::now(),
+                'status' => true,
+
             ],
             [
                 'code' => '2021/2022',
                 'start_date' => Date::now(),
                 'end_date' => Date::now(),
+                'status' => true,
+
             ],
         ];
 

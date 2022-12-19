@@ -61,7 +61,7 @@ class ManagePengajarController extends Controller
                 $request->photo = $file;
             }
             MasterTeacher::create([
-                'no_id' => $request->id_number,
+                'noId' => $request->id_number,
                 'email' => $request->email,
                 'name' => $request->fullName,
                 'photo' => $request->photo,
@@ -146,7 +146,7 @@ class ManagePengajarController extends Controller
                 $file = $request->file('photo')->store('assets/teachers', 'public');
                 $request->photo = $file;
 
-                $data->no_id = $request->id_number;
+                $data->noId = $request->id_number;
                 $data->email = $request->email;
                 $data->name = $request->fullName;
                 $data->photo = $request->photo;
@@ -167,7 +167,7 @@ class ManagePengajarController extends Controller
                     }
                 }
             } else {
-                $data->no_id = $request->id_number;
+                $data->noId = $request->id_number;
                 $data->email = $request->email;
                 $data->name = $request->fullName;
                 $data->gender = $request->gender;

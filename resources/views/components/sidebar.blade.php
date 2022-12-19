@@ -227,9 +227,10 @@
                      </li>
 
                      <li class="nav-header">AKADEMIK</li>
-                     <li class="nav-item {{ Request::is(['jadwalPelajaran*', 'jadwalPiket*']) ? 'menu-open' : '' }}">
+                     <li
+                         class="nav-item {{ Request::is(['jadwalPelajaran*', 'jadwalPiket*', 'kelompokKelas*', 'kelompokKamar*']) ? 'menu-open' : '' }}">
                          <a href="#"
-                             class="nav-link {{ Request::is(['jadwalPelajaran*', 'jadwalPiket*']) ? 'active' : '' }}">
+                             class="nav-link {{ Request::is(['jadwalPelajaran*', 'jadwalPiket*', 'kelompokKelas*', 'kelompokKamar*']) ? 'active' : '' }}">
                              <i class="nav-icon fas fa-archive"></i>
                              <p>
                                  Akademik
@@ -252,15 +253,17 @@
                                  </a>
                              </li>
                              <li class="nav-item">
-                                 <a href="pages/layout/top-nav.html" class="nav-link">
+                                 <a href="{{ route('kelompokKelas.index') }}"
+                                     class="nav-link {{ Request::is('kelompokKelas*') ? 'active' : '' }}">
                                      <i class="far fa-circle nav-icon"></i>
-                                     <p>Kelompok Kamar</p>
+                                     <p>Kelompok Kelas</p>
                                  </a>
                              </li>
                              <li class="nav-item">
-                                 <a href="pages/layout/top-nav.html" class="nav-link">
+                                 <a href="{{ route('kelompokKamar.index') }}"
+                                     class="nav-link {{ Request::is('kelompokKamar*') ? 'active' : '' }}">
                                      <i class="far fa-circle nav-icon"></i>
-                                     <p>Kelompok Kelas</p>
+                                     <p>Kelompok Kamar</p>
                                  </a>
                              </li>
                              <li class="nav-item">

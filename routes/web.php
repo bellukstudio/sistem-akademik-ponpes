@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Akademik\ManageJadwalController;
 use App\Http\Controllers\Akademik\ManageJadwalPiketController;
+use App\Http\Controllers\Akademik\ManageKelompokKamar;
+use App\Http\Controllers\Akademik\ManageKelompokKelas;
 use App\Http\Controllers\Auth\ActivationController;
 use App\Http\Controllers\Master\ManageTahunAkademikController;
 use App\Http\Controllers\Auth\AuthController;
@@ -412,4 +414,12 @@ Route::middleware(['auth'])->group(function () {
      * route jadwal piket
      */
     Route::resource('jadwalPiket', ManageJadwalPiketController::class)->except('show');
+    /**
+     * route kelompok kelas
+     */
+    Route::resource('kelompokKelas', ManageKelompokKelas::class)->except('show');
+    /**
+     * route kelompok kamar
+     */
+    Route::resource('kelompokKamar', ManageKelompokKamar::class)->except('show');
 });

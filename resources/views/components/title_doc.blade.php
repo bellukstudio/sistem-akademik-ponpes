@@ -69,4 +69,9 @@
 @if (Request::is('jadwalPiket*'))
     Jadwal Piket
 @endif
-
+@if (Request::is('kelompokKelas*'))
+    Kelompok Kelas
+@endif
+@if (Request::is('kelompokKamar*'))
+    Kelompok Kamar
+@endif

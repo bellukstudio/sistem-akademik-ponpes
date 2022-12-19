@@ -68,7 +68,7 @@ class ManageSantriController extends Controller
             }
 
             MasterStudent::create([
-                'no_id' => $request->id_number,
+                'noId' => $request->id_number,
                 'email' => $request->email,
                 'name' => $request->fullName,
                 'photo' => $request->photo,
@@ -162,7 +162,7 @@ class ManageSantriController extends Controller
                 $file = $request->file('photo')->store('assets/students', 'public');
                 $request->photo = $file;
 
-                $data->no_id = $request->id_number;
+                $data->noId = $request->id_number;
                 $data->email = $request->email;
                 $data->name = $request->fullName;
                 $data->photo = $request->photo;
