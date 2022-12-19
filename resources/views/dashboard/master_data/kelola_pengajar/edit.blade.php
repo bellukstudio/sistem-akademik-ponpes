@@ -31,7 +31,7 @@
                     <div class="form-group">
                         <label for="id_number">Nomor Induk</label>
                         <input type="number" name="id_number" id="id_number" class="form-control"
-                            value="{{ old('id_number') ?? $pengajar->no_id }}">
+                            value="{{ old('id_number') ?? $pengajar->noId }}">
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>

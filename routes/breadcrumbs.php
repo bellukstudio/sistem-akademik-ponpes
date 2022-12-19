@@ -254,3 +254,31 @@ Breadcrumbs::for('jadwalPiket.edit', function (BreadcrumbTrail $trail, $schedule
     $trail->parent('jadwalPiket');
     $trail->push('Edit Data', route('jadwalPiket.edit', $schedule->id));
 });
+/**
+ * data kelompok kelas
+ */
+Breadcrumbs::for('kelompokKelas', function (BreadcrumbTrail $trail) {
+    $trail->push('Kelompok Kelas', route('kelompokKelas.index'));
+});
+Breadcrumbs::for('kelompokKelas.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('kelompokKelas');
+    $trail->push('Tambah Data', route('kelompokKelas.create'));
+});
+Breadcrumbs::for('kelompokKelas.edit', function (BreadcrumbTrail $trail, $data) {
+    $trail->parent('kelompokKelas');
+    $trail->push('Edit Data', route('kelompokKelas.edit', $data->id));
+});
+/**
+ * data kelompok kamar
+ */
+Breadcrumbs::for('kelompokKamar', function (BreadcrumbTrail $trail) {
+    $trail->push('Kelompok Kamar', route('kelompokKamar.index'));
+});
+Breadcrumbs::for('kelompokKamar.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('kelompokKamar');
+    $trail->push('Tambah Data', route('kelompokKamar.create'));
+});
+Breadcrumbs::for('kelompokKamar.edit', function (BreadcrumbTrail $trail, $data) {
+    $trail->parent('kelompokKamar');
+    $trail->push('Edit Data', route('kelompokKamar.edit', $data->id));
+});

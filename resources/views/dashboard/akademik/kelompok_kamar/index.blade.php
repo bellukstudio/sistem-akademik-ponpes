@@ -4,11 +4,11 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Jadwal Piket</h1>
+                <h1 class="m-0">Kelompok Kamar</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    {{ Breadcrumbs::render('jadwalPiket') }}
+                    {{ Breadcrumbs::render('kelompokKamar') }}
                 </ol>
             </div>
             <!-- /.col -->
@@ -21,7 +21,7 @@
         @include('components.alert')
         <div class="card" style="overflow: auto;">
             <div class="card-header">
-                <a href="{{ route('jadwalPiket.create') }}" class="btn btn-primary">
+                <a href="{{ route('kelompokKamar.create') }}" class="btn btn-primary">
                     <i class="fa fa-plus mr-2"></i> Tambah Data Baru
                 </a>
             </div>
@@ -32,21 +32,21 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
-                            <th>Lokasi</th>
-                            <th>Waktu</th>
+                            <th>Kamar</th>
+                            <th>Program</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($piket as $index => $item)
+                        @forelse ($data as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->student->name }}</td>
                                 <td>{{ $item->room->room_name }}</td>
-                                <td>{{ $item->time }}</td>
+                                <td>{{ $item->student->program->program_name }}</td>
                                 <td>
                                     {{-- {Edit} --}}
-                                    <a href="{{ route('jadwalPiket.edit', $item->id) }}" class="btn"><i
+                                    <a href="{{ route('kelompokKamar.edit', $item->id) }}" class="btn"><i
                                             class="fa fa-edit"></i></a>
                                     {{-- {Hapus} --}}
                                     <button type="button" class="btn btn-sm" data-toggle="modal"
@@ -69,7 +69,6 @@
                                         <div class="modal-body">
                                             <div class="card">
                                                 <div class="card-header bg-danger">
-                                                    <h4>Lokasi {{ $item->room->room_name }}</h4>
                                                     <p>Nama {{ $item->student->name }}</p> <br>
                                                     <p>Yakin ingin menghapus data tersebut? </p>
                                                 </div>
@@ -79,7 +78,7 @@
                                         <div class="modal-footer justify-content-between">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">
                                                 Close</button>
-                                            <form action="{{ route('jadwalPiket.destroy', $item->id) }}" method="post">
+                                            <form action="{{ route('kelompokKamar.destroy', $item->id) }}" method="post">
                                                 @csrf
                                                 @method('delete')
                                                 <button type="submit" class="btn btn-sm btn-danger">
@@ -102,8 +101,8 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
-                            <th>Lokasi</th>
-                            <th>Waktu</th>
+                            <th>Kamar</th>
+                            <th>Program</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>

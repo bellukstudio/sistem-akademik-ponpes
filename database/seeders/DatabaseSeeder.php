@@ -31,7 +31,9 @@ class DatabaseSeeder extends Seeder
             RuangSeeder::class,
             SantriSeeder::class,
             JadwalSeeder::class,
-            JadwalPiketSeeder::class
+            JadwalPiketSeeder::class,
+            KelompokKelasSeeder::class,
+            KelompokKamarSeeder::class,
         ]);
     }
 }
