@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Akademik;
 
 use App\Http\Controllers\Controller;
+use App\Models\MasterAcademicProgram;
 use App\Models\MasterClass;
 use App\Models\MasterRoom;
 use App\Models\MasterStudent;
@@ -31,9 +32,8 @@ class ManageKelompokKelas extends Controller
      */
     public function create()
     {
-        $student = MasterStudent::all();
-        $class = MasterClass::all();
-        return view('dashboard.akademik.kelompok_kelas.create', compact('student', 'class'));
+        $program = MasterAcademicProgram::all();
+        return view('dashboard.akademik.kelompok_kelas.create', compact('program'));
     }
 
     /**
@@ -46,6 +46,7 @@ class ManageKelompokKelas extends Controller
     {
         $request->validate([
             'student_select' => 'required',
+            'program_select' => 'required',
             'class_select' => 'required'
         ]);
 
@@ -79,10 +80,9 @@ class ManageKelompokKelas extends Controller
      */
     public function edit($id)
     {
-        $student = MasterStudent::all();
-        $class = MasterClass::all();
+        $program = MasterAcademicProgram::all();
         $data = TrxClassGroup::find($id);
-        return view('dashboard.akademik.kelompok_kelas.edit', compact('student', 'class', 'data'));
+        return view('dashboard.akademik.kelompok_kelas.edit', compact('data', 'program'));
     }
 
     /**

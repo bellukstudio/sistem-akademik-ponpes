@@ -68,7 +68,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('beritaAcara', BeritaController::class)->except('show');
 
         //route manage user
-        Route::resource('kelolaUser', ManageUserController::class);
+        Route::resource('kelolaUser', ManageUserController::class)
+            ->except(['show', 'create', 'store', 'destroy', 'edit', 'update']);
 
 
         // route manage tahun ajar
@@ -221,6 +222,10 @@ Route::middleware(['auth'])->group(function () {
         /**
          * manage kelas
          */
+        Route::get(
+            'kelolaKelas/byProgram/{id}',
+            [ManageKelasController::class, 'getAllClassByProgram']
+        )->name('classByProgram');
         Route::get('kelolaKelas/trash', [ManageKelasController::class, 'trash'])->name('trashClass');
         Route::get(
             'kelolaKelas/trash/{id}/delete',
@@ -268,6 +273,15 @@ Route::middleware(['auth'])->group(function () {
         /**
          * manage santri
          */
+
+        Route::get(
+            'kelolaSantri/byProgram/{id}',
+            [ManageSantriController::class, 'getAllStudentsByProgramClass']
+        )->name('studentByProgram');
+        Route::get(
+            'kelolaSantri/byProgram/{id}/room',
+            [ManageSantriController::class, 'getAllStudentsByProgramRoom']
+        )->name('studentByProgramRoom');
         Route::get('kelolaSantri/all', [ManageSantriController::class, 'getAllStudents'])->name('allStudents');
         Route::get('kelolaSantri/trash', [ManageSantriController::class, 'trash'])->name('trashStudents');
         Route::get(

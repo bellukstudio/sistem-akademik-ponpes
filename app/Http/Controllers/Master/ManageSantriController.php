@@ -19,8 +19,7 @@ class ManageSantriController extends Controller
      */
     public function index()
     {
-        $santri = MasterStudent::with(['province', 'city', 'program', 'period'])->latest()->get();
-
+        $santri = MasterStudent::latest()->get();
         return view('dashboard.master_data.kelola_santri.index', compact('santri'));
     }
 
@@ -46,9 +45,9 @@ class ManageSantriController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_number' => 'required|integer',
+            'id_number' => 'required|integer|unique:master_students,noId',
             'address' => 'required',
-            'email' => 'required|email:dns|unique:master_teachers',
+            'email' => 'required|email:dns|unique:master_students',
             'fullName' => 'required|max:100',
             'dateBirth' => 'required|date',
             'gender' => 'required',
@@ -93,7 +92,31 @@ class ManageSantriController extends Controller
      */
     public function getAllStudents()
     {
-        $empData['data'] = MasterStudent::all();
+        $empData['data'] = MasterStudent::whereNotIn('noId', function ($query) {
+            $query->select('no_induk')->from('trx_caretakers');
+        })->get();
+
+        return response()->json($empData);
+    }
+    /**
+     * get all student with json
+     */
+    public function getAllStudentsByProgramClass($programId)
+    {
+        $empData['data'] = MasterStudent::where('program_id', $programId)->whereNotIn('id', function ($query) {
+            $query->select('student_id')->from('trx_class_groups');
+        })->get();
+
+        return response()->json($empData);
+    }
+    /**
+     * get all student with json
+     */
+    public function getAllStudentsByProgramRoom($programId)
+    {
+        $empData['data'] = MasterStudent::where('program_id', $programId)->whereNotIn('id', function ($query) {
+            $query->select('student_id')->from('trx_room_groups');
+        })->get();
 
         return response()->json($empData);
     }
@@ -142,7 +165,7 @@ class ManageSantriController extends Controller
         $request->validate([
             'id_number' => 'required|integer',
             'address' => 'required',
-            'email' => 'required|email:dns|unique:master_teachers',
+            'email' => 'required|email:dns',
             'fullName' => 'required|max:100',
             'dateBirth' => 'required|date',
             'gender' => 'required',
@@ -185,7 +208,7 @@ class ManageSantriController extends Controller
                     }
                 }
             } else {
-                $data->no_id = $request->id_number;
+                $data->noId = $request->id_number;
                 $data->email = $request->email;
                 $data->name = $request->fullName;
                 $data->gender = $request->gender;

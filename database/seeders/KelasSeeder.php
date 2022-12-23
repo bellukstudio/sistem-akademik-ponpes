@@ -16,19 +16,24 @@ class KelasSeeder extends Seeder
     {
         $kelas = [
             [
-                'class_name' => 'Kelas A'
+                'class_name' => 'Kelas A',
+                'program_id' => 1,
             ],
             [
-                'class_name' => 'Kelas B'
+                'class_name' => 'Kelas B',
+                'program_id' => 1,
             ],
             [
-                'class_name' => 'Kelas C'
+                'class_name' => 'Kelas C',
+                'program_id' => 2,
             ],
             [
-                'class_name' => 'Kelas D'
+                'class_name' => 'Kelas D',
+                'program_id' => 2,
             ],
             [
-                'class_name' => 'Kelas E'
+                'class_name' => 'Kelas E',
+                'program_id' => 1,
             ],
         ];
         foreach ($kelas as $data) {

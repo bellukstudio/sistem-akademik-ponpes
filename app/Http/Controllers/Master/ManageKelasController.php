@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
+use App\Models\MasterAcademicProgram;
 use App\Models\MasterClass;
 use Illuminate\Http\Request;
 
@@ -15,9 +16,11 @@ class ManageKelasController extends Controller
      */
     public function index()
     {
-        $data = MasterClass::latest()->get();
+        $data = MasterClass::with(['program'])->latest()->get();
+        $program = MasterAcademicProgram::all();
         return view('dashboard.master_data.kelola_kelas.index', [
-            'kelas' => $data
+            'kelas' => $data,
+            'program' => $program
         ]);
     }
 
@@ -40,12 +43,14 @@ class ManageKelasController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'class_name' => 'required|unique:master_classes,class_name'
+            'class_name' => 'required|unique:master_classes,class_name',
+            'program' => 'required'
         ]);
 
         try {
             MasterClass::create([
-                'class_name' => $request->class_name
+                'class_name' => $request->class_name,
+                'program_id' => $request->program
             ]);
 
             return redirect()->route('kelolaKelas.index')
@@ -54,7 +59,12 @@ class ManageKelasController extends Controller
             return back()->withErrors($e);
         }
     }
+    public function getAllClassByProgram($programId)
+    {
+        $empData['data'] = MasterClass::where('program_id', $programId)->get();
 
+        return response()->json($empData);
+    }
     /**
      * Display the specified resource.
      *
@@ -87,12 +97,15 @@ class ManageKelasController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'class_name' => 'required|unique:master_classes,class_name'
+            'class_name' => 'required',
+            'program' => 'required'
+
         ]);
 
         try {
             $data = MasterClass::findOrFail($id);
             $data->class_name = $request->class_name;
+            $data->program_id = $request->program;
             $data->update();
             return redirect()->route('kelolaKelas.index')
                 ->with('success', 'Kelas ' . $request->class_name . ' berhasil diupdate');

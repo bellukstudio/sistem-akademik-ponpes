@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Akademik;
 
 use App\Http\Controllers\Controller;
+use App\Models\MasterAcademicProgram;
 use App\Models\MasterRoom;
 use App\Models\MasterStudent;
 use App\Models\TrxRoomGroup;
@@ -28,9 +29,9 @@ class ManageKelompokKamar extends Controller
      */
     public function create()
     {
-        $student = MasterStudent::all();
+        $program = MasterAcademicProgram::all();
         $room = MasterRoom::where('type', 'KAMAR')->latest()->get();
-        return view('dashboard.akademik.kelompok_kamar.create', compact('student', 'room'));
+        return view('dashboard.akademik.kelompok_kamar.create', compact('room', 'program'));
     }
 
     /**
@@ -75,10 +76,10 @@ class ManageKelompokKamar extends Controller
      */
     public function edit($id)
     {
-        $student = MasterStudent::all();
+        $program = MasterAcademicProgram::all();
         $room = MasterRoom::where('type', 'KAMAR')->latest()->get();
         $data = TrxRoomGroup::find($id);
-        return view('dashboard.akademik.kelompok_kamar.edit', compact('student', 'room', 'data'));
+        return view('dashboard.akademik.kelompok_kamar.edit', compact('program', 'room', 'data'));
     }
 
     /**

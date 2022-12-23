@@ -41,9 +41,9 @@
                         @forelse ($class as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $item->student->name }}</td>
-                                <td>{{ $item->class->class_name }}</td>
-                                <td>{{ $item->student->program->program_name }}</td>
+                                <td>{!! $item->student->name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
+                                <td>{!! $item->class->class_name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
+                                <td>{!! $item->student->program->program_name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
                                 <td>
                                     {{-- {Edit} --}}
                                     <a href="{{ route('kelompokKelas.edit', $item->id) }}" class="btn"><i
@@ -69,7 +69,7 @@
                                         <div class="modal-body">
                                             <div class="card">
                                                 <div class="card-header bg-danger">
-                                                    <p>Nama {{ $item->student->name }}</p> <br>
+                                                    <p>Nama {!! $item->student->name ?? '<span class="badge badge-danger">Error</span>' !!}</p> <br>
                                                     <p>Yakin ingin menghapus data tersebut? </p>
                                                 </div>
 

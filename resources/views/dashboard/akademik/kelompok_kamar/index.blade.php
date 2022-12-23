@@ -41,9 +41,9 @@
                         @forelse ($data as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $item->student->name }}</td>
-                                <td>{{ $item->room->room_name }}</td>
-                                <td>{{ $item->student->program->program_name }}</td>
+                                <td>{!! $item->student->name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
+                                <td>{!! $item->room->room_name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
+                                <td>{!! $item->student->program->program_name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
                                 <td>
                                     {{-- {Edit} --}}
                                     <a href="{{ route('kelompokKamar.edit', $item->id) }}" class="btn"><i

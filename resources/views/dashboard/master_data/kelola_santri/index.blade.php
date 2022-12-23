@@ -62,12 +62,14 @@
                                             class="photo">
                                     @endif
                                 </td>
-                                <td>{{ $item->program->program_name }}</td>
+                                <td>{!! $item->program->program_name ?? '<span class="badge badge-danger">error</span>' !!}
+                                </td>
                                 <td>{{ $item->gender }}</td>
                                 <td>{{ $item->no_tlp }}</td>
-                                <td>{{ $item->province->province_name }}</td>
-                                <td>{{ $item->city->city_name }}</td>
-                                <td>{{ $item->period->code }}</td>
+                                <td>{!! $item->province->province_name ?? '<span class="badge badge-danger">error</span>' !!}
+                                </td>
+                                <td>{!! $item->city->city_name ?? '<span class="badge badge-danger">error</span>' !!}</td>
+                                <td>{!! $item->period->code ?? '<span class="badge badge-danger">error</span>' !!}</td>
                                 <td>
                                     {{-- {Edit} --}}
                                     <a href="{{ route('kelolaSantri.edit', $item->id) }}" class="btn btn-sm">

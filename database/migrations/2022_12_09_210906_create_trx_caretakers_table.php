@@ -17,7 +17,8 @@ class CreateTrxCaretakersTable extends Migration
             $table->id();
             $table->string('no_induk', 50);
             $table->string('name', 100);
-            $table->foreignId('id_room')->references('id')->on('master_rooms')->onDelete('cascade');
+            $table->foreignId('id_room')->references('id')
+                ->on('master_rooms')->onDelete('cascade')->onUpdate('cascade');
             $table->string('categories', 20);
             $table->timestamps();
             $table->softDeletes();

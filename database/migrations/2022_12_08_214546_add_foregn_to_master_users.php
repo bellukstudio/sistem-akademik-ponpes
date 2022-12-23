@@ -14,7 +14,7 @@ class AddForegnToMasterUsers extends Migration
     public function up()
     {
         Schema::table('master_users', function (Blueprint $table) {
-            $table->foreignId('roles_id')->references('id')->on('roles')->onDelete('cascade');
+            $table->foreignId('roles_id')->references('id')->on('roles')->onDelete('no action')->onUpdate('cascade');
         });
     }
 

@@ -46,7 +46,7 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->no_induk }}</td>
                                 <td>{{ $item->name }}</td>
-                                <td>{{ $item->room->room_name }}</td>
+                                <td>{!! $item->room->room_name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
 
                                 <td>
                                     {{-- {Edit} --}}

@@ -59,7 +59,6 @@ class ManageProgramController extends Controller
             return back()->withErrors($e);
         }
     }
-
     /**
      * Display the specified resource.
      *

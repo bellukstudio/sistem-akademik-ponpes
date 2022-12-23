@@ -8,7 +8,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    {{ Breadcrumbs::render('jadwalPiket.edit') }}
+                    {{ Breadcrumbs::render('jadwalPiket.edit', $picket) }}
                 </ol>
             </div>
             <!-- /.col -->

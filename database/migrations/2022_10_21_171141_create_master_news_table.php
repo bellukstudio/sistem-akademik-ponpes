@@ -19,7 +19,7 @@ class CreateMasterNewsTable extends Migration
             $table->text('description');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreignId('id_user')->nullable()->references('id')->on('master_users')->onDelete('cascade');
+            $table->foreignId('id_user')->nullable()->references('id')->on('master_users')->onDelete('set null')->onUpdate('cascade');
         });
     }
 

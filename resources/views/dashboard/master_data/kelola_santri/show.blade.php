@@ -131,7 +131,7 @@
                                     <label for="" class="mr-2">:</label>
                                 </td>
                                 <td>
-                                    <label style="font-weight: 100;">{{ $data->city->city_name }}</label>
+                                    <label style="font-weight: 100;">{!! $data->city->city_name ?? '<span class="badge badge-danger">Error</span>' !!}</label>
                                 </td>
                             </tr>
                             <tr>
@@ -143,7 +143,7 @@
                                     <label for="" class="mr-2">:</label>
                                 </td>
                                 <td>
-                                    <label style="font-weight: 100;">{{ $data->province->province_name }}</label>
+                                    <label style="font-weight: 100;">{!! $data->province->province_name ?? '<span class="badge badge-danger">Error</span>' !!}</label>
                                 </td>
                             </tr>
                             <tr>
@@ -167,7 +167,7 @@
                                     <label for="" class="mr-2">:</label>
                                 </td>
                                 <td>
-                                    <label style="font-weight: 100;">{{ $data->period->code }}</label>
+                                    <label style="font-weight: 100;">{!! $data->period->code ?? '<span class="badge badge-danger">Error</span>' !!}</label>
                                 </td>
                             </tr>
                         </table>

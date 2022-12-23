@@ -50,7 +50,7 @@
                     </thead>
                     <tbody>
                         @forelse ($pengajar as $index => $item)
-                            <tr id="tr_{{ $item->id }}">
+                            <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->email }}</td>
@@ -64,8 +64,9 @@
                                 </td>
                                 <td>{{ $item->gender }}</td>
                                 <td>{{ $item->no_tlp }}</td>
-                                <td>{{ $item->province->province_name }}</td>
-                                <td>{{ $item->city->city_name }}</td>
+                                <td>{!! $item->province->province_name ?? '<span class="badge badge-danger">Error</span>' !!}
+                                </td>
+                                <td>{!! $item->city->city_name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
                                 <td>
                                     {{-- {Edit} --}}
                                     <a href="{{ route('kelolaPengajar.edit', $item->id) }}" class="btn btn-sm">
