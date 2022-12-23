@@ -15,9 +15,9 @@ class CreateTrxSchedulesTable extends Migration
     {
         Schema::create('trx_schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('teacher_id')->references('id')->on('master_teachers')->onDelete('cascade');
-            $table->foreignId('course_id')->references('id')->on('master_courses')->onDelete('cascade');
-            $table->foreignId('class_id')->references('id')->on('master_classes')->onDelete('cascade');
+            $table->foreignId('teacher_id')->references('id')->on('master_teachers')->onDelete('no action')->onUpdate('cascade');
+            $table->foreignId('course_id')->references('id')->on('master_courses')->onDelete('no action')->onUpdate('cascade');
+            $table->foreignId('class_id')->references('id')->on('master_classes')->onDelete('no action')->onUpdate('cascade');
             $table->string('day', 20);
             $table->string('time', 20);
             $table->timestamps();

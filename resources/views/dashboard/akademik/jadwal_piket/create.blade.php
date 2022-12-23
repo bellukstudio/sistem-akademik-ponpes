@@ -50,8 +50,8 @@
                     </div>
                     <div class="form-group">
                         <label for="">Waktu</label>
-                        <input type="text" name="time" id="" class="form-control"
-                            placeholder="Jam" value="{{ old('time') }}">
+                        <input type="text" name="time" id="" class="form-control" placeholder="Jam / Hari"
+                            value="{{ old('time') }}">
                     </div>
                 </div>
                 <div class="card-footer">

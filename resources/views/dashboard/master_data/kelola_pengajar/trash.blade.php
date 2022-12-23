@@ -122,8 +122,8 @@
                                 </td>
                                 <td>{{ $item->gender }}</td>
                                 <td>{{ $item->no_tlp }}</td>
-                                <td>{{ $item->province->province_name }}</td>
-                                <td>{{ $item->city->city_name }}</td>
+                                <td>{!! $item->province->province_name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
+                                <td>{!! $item->city->city_name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
                                 <td>
                                     {{-- {restore} --}}
                                     <button type="button" class="btn" data-toggle="modal"

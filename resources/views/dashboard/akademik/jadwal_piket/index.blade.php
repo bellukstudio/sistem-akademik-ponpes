@@ -41,8 +41,8 @@
                         @forelse ($piket as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $item->student->name }}</td>
-                                <td>{{ $item->room->room_name }}</td>
+                                <td>{!! $item->student->name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
+                                <td>{!! $item->room->room_name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
                                 <td>{{ $item->time }}</td>
                                 <td>
                                     {{-- {Edit} --}}
@@ -69,8 +69,8 @@
                                         <div class="modal-body">
                                             <div class="card">
                                                 <div class="card-header bg-danger">
-                                                    <h4>Lokasi {{ $item->room->room_name }}</h4>
-                                                    <p>Nama {{ $item->student->name }}</p> <br>
+                                                    <h4>Lokasi {!! $item->room->room_name ?? '<span class="badge badge-danger">Error</span>' !!}</h4>
+                                                    <p>Nama{!! $item->student->name ?? '<span class="badge badge-danger">Error</span>' !!}</p> <br>
                                                     <p>Yakin ingin menghapus data tersebut? </p>
                                                 </div>
 

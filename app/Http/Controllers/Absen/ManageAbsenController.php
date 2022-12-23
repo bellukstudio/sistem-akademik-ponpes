@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Master;
+namespace App\Http\Controllers\Absen;
 
 use App\Http\Controllers\Controller;
-use App\Models\MasterUsers;
 use Illuminate\Http\Request;
 
-class ManageUserController extends Controller
+class ManageAbsenController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,17 +14,7 @@ class ManageUserController extends Controller
      */
     public function index()
     {
-        try {
-            $data = MasterUsers::with(['roles'])->whereNotIn('roles_id', [1])->latest()->get();
-            return view(
-                'dashboard.master_data.kelola_user.index',
-                [
-                    'user' => $data
-                ]
-            );
-        } catch (\Throwable $e) {
-            return redirect()->route('kelolaUser.index')->withErrors($e);
-        }
+        //
     }
 
     /**

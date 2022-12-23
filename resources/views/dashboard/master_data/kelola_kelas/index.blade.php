@@ -19,7 +19,7 @@
 @section('content-section')
     <div class="container-fluid">
         @include('components.alert')
-        <div class="card" style="overflow: auto;" >
+        <div class="card" style="overflow: auto;">
             <div class="card-header">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-AddData">
                     <i class="fa fa-plus mr-2"></i> Tambah Data Baru
@@ -47,7 +47,15 @@
                                     <input type="text" name="class_name" id="" class="form-control"
                                         value="{{ old('class_name') }}" placeholder="Nama Kelas"
                                         oninput="this.value = this.value.toUpperCase()">
-
+                                    <label for="">Program</label>
+                                    <select name="program" id="" class="custom-select form-control-border">
+                                        <option value="">Pilih Program</option>
+                                        @forelse ($program as $item)
+                                            <option value="{{ $item->id }}">{{ $item->program_name }}</option>
+                                        @empty
+                                            <option value=""></option>
+                                        @endforelse
+                                    </select>
                                 </div>
                                 <div class="modal-footer justify-content-between">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -78,6 +86,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama Kelas</th>
+                            <th>Program</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -86,6 +95,7 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->class_name }}</td>
+                                <td>{!! $item->program->program_name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
                                 <td>
                                     {{-- {Edit} --}}
                                     <button type="button" class="btn btn-sm" data-toggle="modal"
@@ -158,6 +168,19 @@
                                                     value="{{ old('class_name') ?? $item->class_name }}"
                                                     placeholder="Nama Kelas"
                                                     oninput="this.value = this.value.toUpperCase()">
+                                                <label for="">Program</label>
+                                                <select name="program" id=""
+                                                    class="custom-select form-control-border">
+                                                    <option value="">Pilih Program</option>
+                                                    @forelse ($program as $p)
+                                                        <option value="{{ $p->id }}"
+                                                            {{ $item->program_id == $p->id ? 'selected' : '' }}>
+                                                            {{ $p->program_name }}
+                                                        </option>
+                                                    @empty
+                                                        <option value=""></option>
+                                                    @endforelse
+                                                </select>
                                             </div>
                                             <div class="modal-footer justify-content-between">
                                                 <button type="button" class="btn btn-default"
@@ -184,7 +207,7 @@
                             </div>
                         @empty
                             <tr>
-                                <td colspan="3" align="center"> Data Tidak Tersedia</td>
+                                <td colspan="4" align="center"> Data Tidak Tersedia</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -192,6 +215,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama Kelas</th>
+                            <th>Program</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>

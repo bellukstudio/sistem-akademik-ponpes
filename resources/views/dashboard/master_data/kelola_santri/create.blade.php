@@ -172,7 +172,6 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(response) {
-                        console.log(response);
                         var len = 0;
                         if (response['data'] != null) {
                             len = response['data'].length;

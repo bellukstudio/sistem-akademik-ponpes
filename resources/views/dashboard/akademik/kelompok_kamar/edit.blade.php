@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Kelompok Kelas</h1>
+                <h1 class="m-0">Kelompok Kamar</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -28,15 +28,26 @@
                 @method('put')
                 <div class="card-body">
                     <div class="form-group">
+                        <div class="form-group">
+                            <label for="">Pilih Program</label>
+                            <select class="form-control select2" style="width: 100%;" name="program_select"
+                                id="program_select">
+                                <option value="">Pilih Program</option>
+                                @forelse ($program as $item)
+                                    <option value="{{ $item->id }}"
+                                        @if ($data->student != null) {{ $data->student->program_id == $item->id ? 'selected' : '' }}
+                                        @else
+                                        '' @endif>
+                                        {{ $item->program_name ?? 'Error' }}</option>
+                                @empty
+                                    <option value=""></option>
+                                @endforelse
+                            </select>
+                        </div>
                         <label for="">Pilih Santri</label>
-                        <select name="student_select" id="" class="form-control select2" style="width: 100%;">
+                        <select name="student_select" id="student_select" class="form-control select2" style="width: 100%;">
                             <option value="">Pilih Santri</option>
-                            @forelse ($student as $s)
-                                <option value="{{ $s->id }}" {{ $data->student_id == $s->id ? 'selected' : '' }}>
-                                    {{ $s->name }}</option>
-                            @empty
-                                <option value=""></option>
-                            @endforelse
+                            <option value="{{ $data->student_id ?? '' }}" selected>{!! $data->student->name ?? '<span class="badge badge-danger">Error</span>' !!}</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -65,6 +76,42 @@
     <script src="{{ asset('template/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
         $(function() {
+            // dropdown on select program
+            $('#program_select').change(function() {
+                // get value dropdown
+                var idProgram = $(this).val();
+                // student dropdown
+                $('#student_select').find('option').not(':first').remove();
+
+                //url student by program
+                var studentByProgramUrl = '{{ route('studentByProgramRoom', ':id') }}';
+                studentByProgramUrl = studentByProgramUrl.replace(':id', idProgram);
+                $.ajax({
+                    url: studentByProgramUrl,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        var len = 0;
+                        console.log(response)
+                        if (response['data'] != null) {
+                            len = response['data'].length;
+                        }
+                        if (len > 0) {
+                            // Read data and create <option >
+                            for (var i = 0; i < len; i++) {
+
+                                var id = response['data'][i].id;
+                                var name = response['data'][i].name;
+
+                                var option = "<option value='" + id + "'>" + name + "</option>";
+
+                                $("#student_select").append(option);
+                            }
+                        }
+                    }
+                });
+            });
+
             $('.select2').select2();
         });
     </script>

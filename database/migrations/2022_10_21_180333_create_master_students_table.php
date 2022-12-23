@@ -21,14 +21,18 @@ class CreateMasterStudentsTable extends Migration
             $table->text('photo')->nullable();
             $table->char('gender')->nullable();
             $table->text('address')->nullable();
-            $table->foreignId('province_id')->nullable()->references('id')->on('master_provinces')->onDelete('cascade');
-            $table->foreignId('city_id')->nullable()->references('id')->on('master_cities')->onDelete('cascade');
+            $table->foreignId('province_id')->nullable()->references('id')->on('master_provinces')
+                ->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('city_id')->nullable()->references('id')->on('master_cities')
+                ->onDelete('set null')->onUpdate('cascade');
             $table->date('date_birth')->nullable();
             $table->string('student_parent', 150)->nullable();
             $table->char('no_tlp', 30)->nullable();
             $table->foreignId('program_id')->nullable()
-                ->references('id')->on('master_academic_programs')->onDelete('cascade');
-            $table->foreignId('period_id')->nullable()->references('id')->on('master_periods')->onDelete('cascade');
+                ->references('id')->on('master_academic_programs')
+                ->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('period_id')->nullable()->references('id')
+                ->on('master_periods')->onDelete('set null')->onUpdate('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

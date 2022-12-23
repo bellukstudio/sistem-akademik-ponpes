@@ -15,8 +15,8 @@ class CreateTrxRoomGroupsTable extends Migration
     {
         Schema::create('trx_room_groups', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('room_id')->references('id')->on('master_rooms')->onDelete('cascade');
-            $table->foreignId('student_id')->references('id')->on('master_students')->onDelete('cascade');
+            $table->foreignId('room_id')->references('id')->on('master_rooms')->onDelete('no action')->onUpdate('cascade');
+            $table->foreignId('student_id')->references('id')->on('master_students')->onDelete('no action')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -125,12 +125,14 @@
                                     <i class="badge badge-info">Null</i>
 
                                 </td>
-                                <td>{{ $item->program->program_name }}</td>
+                                <td>{!! $item->program->program_name ?? '<span class="badge badge-danger">error</span>' !!}
+                                </td>
                                 <td>{{ $item->gender }}</td>
                                 <td>{{ $item->no_tlp }}</td>
-                                <td>{{ $item->province->province_name }}</td>
-                                <td>{{ $item->city->city_name }}</td>
-                                <td>{{ $item->period->code }}</td>
+                                <td>{!! $item->province->province_name ?? '<span class="badge badge-danger">error</span>' !!}
+                                </td>
+                                <td>{!! $item->city->city_name ?? '<span class="badge badge-danger">error</span>' !!}</td>
+                                <td>{!! $item->period->code ?? '<span class="badge badge-danger">error</span>' !!}</td>
                                 <td>
                                     {{-- {restore} --}}
                                     <button type="button" class="btn" data-toggle="modal"

@@ -16,7 +16,7 @@ class CreateMasterCitiesTable extends Migration
         Schema::create('master_cities', function (Blueprint $table) {
             $table->id();
             $table->string('city_name');
-            $table->foreignId('id_province')->nullable()->references('id')->on('master_provinces')->onDelete('cascade');
+            $table->foreignId('id_province')->nullable()->references('id')->on('master_provinces')->onDelete('set null')->onUpdate('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

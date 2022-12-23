@@ -43,7 +43,7 @@
                         @forelse ($kota as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $item->province->province_name }}</td>
+                                <td>{!! $item->province->province_name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
                                 <td>{{ $item->city_name }}</td>
                                 <td>
                                     {{-- {Edit} --}}
@@ -72,7 +72,7 @@
                                         <div class="modal-body">
                                             <div class="card">
                                                 <div class="card-header bg-danger">
-                                                    <h1>{{ $item->province->province_name }}</h1>
+                                                    <h1>{!! $item->province->province_name ?? '<span class="badge badge-danger">Error</span>' !!}</h1>
                                                     <h4><sub>{{ $item->city_name }}</sub></h4> <br>
                                                     <p>Yakin ingin menghapus data tersebut? </p>
                                                 </div>

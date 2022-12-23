@@ -111,7 +111,7 @@
                         @forelse ($trash as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $item->province->province_name }}</td>
+                                <td>{!! $item->province->province_name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
                                 <td>{{ $item->city_name }}</td>
                                 <td>
                                     {{-- {restore} --}}

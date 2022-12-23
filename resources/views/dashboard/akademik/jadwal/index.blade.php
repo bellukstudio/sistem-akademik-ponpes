@@ -43,9 +43,9 @@
                         @forelse ($jadwal as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $item->teacher->name }}</td>
-                                <td>{{ $item->course->course_name }}</td>
-                                <td>{{ $item->class->class_name }}</td>
+                                <td>{!! $item->teacher->name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
+                                <td>{!! $item->course->course_name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
+                                <td>{!! $item->class->class_name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
                                 <td>{{ $item->day }}</td>
                                 <td>{{ $item->time }}</td>
                                 <td>
@@ -73,8 +73,8 @@
                                         <div class="modal-body">
                                             <div class="card">
                                                 <div class="card-header bg-danger">
-                                                    <h4>Jadwal {{ $item->course->course_name }}</h4>
-                                                    <p>Pada {{ $item->class->class_name }}</p> <br>
+                                                    <h4>Jadwal {!! $item->course->course_name ?? '<span class="badge badge-danger">Error</span>' !!}</h4>
+                                                    <p>Pada {!! $item->class->class_name ?? '<span class="badge badge-danger">Error</span>' !!}}</p> <br>
                                                     <p>Yakin ingin menghapus data tersebut? </p>
                                                 </div>
 
