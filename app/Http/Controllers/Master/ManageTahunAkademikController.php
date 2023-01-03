@@ -72,7 +72,7 @@ class ManageTahunAkademikController extends Controller
 
             return response()->json(['message' => 'Berhasil mengupdate status.']);
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return response()->json(['message' => 'Error']);
         }
     }
 

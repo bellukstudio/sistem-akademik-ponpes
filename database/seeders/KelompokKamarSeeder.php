@@ -20,7 +20,7 @@ class KelompokKamarSeeder extends Seeder
                 'student_id' => 2,
             ],
             [
-                'room_id' => 1,
+                'room_id' => 2,
                 'student_id' => 1,
             ],
 

@@ -32,7 +32,7 @@ class SantriSeeder extends Seeder
                 'period_id' => '2'
             ],
             [
-                'noId' => '82371283',
+                'noId' => '82371284',
                 'email' => 'myzee@gmail.com',
                 'name' => 'Akbar',
                 'photo' => null,

@@ -84,7 +84,6 @@
                     dataType: 'json',
                     success: function(response) {
                         var len = 0;
-                        console.log(response)
                         if (response['data'] != null) {
                             len = response['data'].length;
                         }

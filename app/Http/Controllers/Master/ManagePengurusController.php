@@ -32,7 +32,7 @@ class ManagePengurusController extends Controller
      */
     public function create()
     {
-        $room = MasterRoom::whereNotIn('id', function ($query) {
+        $room = MasterRoom::where('type','KAMAR')->whereNotIn('id', function ($query) {
             $query->select('id_room')->from('trx_caretakers');
         })->get();
         return view('dashboard.master_data.kelola_pengurus.create', [

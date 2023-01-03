@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMasterAttendancesTable extends Migration
+class CreateMasterCategorieSchedulesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateMasterAttendancesTable extends Migration
      */
     public function up()
     {
-        Schema::create('master_attendances', function (Blueprint $table) {
+        Schema::create('master_categorie_schedules', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100);
-            $table->string('categories', 50);
+            $table->string('categorie_name', 50);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +28,6 @@ class CreateMasterAttendancesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_attendances');
+        Schema::dropIfExists('master_categorie_schedules');
     }
 }

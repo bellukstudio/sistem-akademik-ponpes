@@ -42,13 +42,13 @@ class ManageAbsenController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'column_name' => 'required'
+            'categories' => 'required'
         ]);
 
         try {
             MasterAttendance::create([
                 'name' => $request->name,
-                'column' => $request->column_name
+                'categories' => $request->categories
             ]);
             return back()->with('success', 'Absen ' . $request->name . ' berhasil disimpan');
         } catch (\Exception $e) {
@@ -95,7 +95,7 @@ class ManageAbsenController extends Controller
         try {
             $data = MasterAttendance::find($id);
             $data->name = $request->name;
-            $data->column = $request->column_name;
+            $data->categories = $request->categories;
             $data->update();
             return back()->with('success', 'Absen ' . $request->name . ' berhasil diupdate');
         } catch (\Exception $e) {

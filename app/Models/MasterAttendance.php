@@ -11,7 +11,7 @@ class MasterAttendance extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'column'];
+    protected $fillable = ['name', 'categories'];
     protected $dates = ['deleted_at'];
 
     public function getCreatedAttribute($value)

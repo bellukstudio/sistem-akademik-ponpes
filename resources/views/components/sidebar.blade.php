@@ -53,6 +53,7 @@
                              'kelolaAbsen*',
                              'kelolaPembayaran*',
                              'kelolaMapel*',
+                             'kategoriMapel*',
                          ])
                              ? 'menu-open'
                              : '' }}">
@@ -71,6 +72,7 @@
                                  'kelolaAbsen*',
                                  'kelolaPembayaran*',
                                  'kelolaMapel*',
+                                 'kategoriMapel*',
                              ])
                                  ? 'active'
                                  : '' }}">
@@ -178,6 +180,13 @@
                                  </a>
                              </li>
                              <li class="nav-item">
+                                 <a href="{{ route('kategoriMapel.index') }}"
+                                     class="nav-link {{ Request::is('kategoriMapel*') ? 'active ' : '' }}">
+                                     <i class="far fa-circle nav-icon"></i>
+                                     <p>Kategori Mapel</p>
+                                 </a>
+                             </li>
+                             <li class="nav-item">
                                  <a href="{{ route('kelolaMapel.index') }}"
                                      class="nav-link {{ Request::is('kelolaMapel*') ? 'active ' : '' }}">
                                      <i class="far fa-circle nav-icon"></i>
@@ -196,8 +205,9 @@
                      </li>
                      <li class="nav-header">ABSENSI</li>
                      <li class="nav-item">
-                         <a href="#" class="nav-link">
-                             <i class="nav-icon fas fa-folder-minus"></i>
+                         <a href="{{ route('presensi.index') }}"
+                             class="nav-link {{ Request::is('presensi*') ? 'active ' : '' }}">
+                             <i class="nav-icon fas fa-tasks"></i>
                              <p>Absensi</p>
                          </a>
                      </li>

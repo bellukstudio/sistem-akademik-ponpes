@@ -59,6 +59,9 @@
 @if (Request::is('kelolaMapel*'))
     Master Mata Pelajaran
 @endif
+@if (Request::is('kategoriMapel*'))
+    Kategori Mapel
+@endif
 @if (Request::is('perizinan*'))
     Perizinan
 @endif
@@ -74,4 +77,7 @@
 @endif
 @if (Request::is('kelompokKamar*'))
     Kelompok Kamar
+@endif
+@if (Request::is('presensi*'))
+    Presensi
 @endif
