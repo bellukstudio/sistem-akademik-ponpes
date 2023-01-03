@@ -17,7 +17,7 @@ class TrxCaretakers extends Model
     protected $hidden = [
         'no_induk'
     ];
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at',];
     public function room()
     {
         return $this->belongsTo(MasterRoom::class, 'id_room');

@@ -21,7 +21,7 @@ class KelompokKelasSeeder extends Seeder
             ],
             [
                 'student_id' => 2,
-                'class_id' => 1
+                'class_id' => 2
             ],
         ];
 

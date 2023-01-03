@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
 use App\Models\MasterAcademicProgram;
+use App\Models\MasterCategorieSchedule;
 use App\Models\MasterCourse;
 use Illuminate\Http\Request;
 
@@ -19,9 +20,11 @@ class ManageMapelController extends Controller
         try {
             $data = MasterCourse::with(['program'])->latest()->get();
             $program = MasterAcademicProgram::all();
+            $categoriSchedule = MasterCategorieSchedule::latest()->get();
             return view('dashboard.master_data.kelola_mapel.index', [
                 'mapel' => $data,
-                'program' => $program
+                'program' => $program,
+                'kategori' => $categoriSchedule
             ]);
         } catch (\Throwable $e) {
             abort(500);
@@ -47,21 +50,31 @@ class ManageMapelController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'course_name' => 'required',
-            'program' => 'required'
+            'course_name' => 'required|max:100',
+            'program' => 'required',
+            'category' => 'required'
         ]);
 
         try {
             MasterCourse::create([
                 'course_name' => $request->course_name,
-                'program_id' => $request->program
+                'program_id' => $request->program,
+                'category_id' => $request->category
             ]);
             return back()->with('success', 'Mata Pelajaran ' . $request->course_name . ' berhasil disimpan');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }
     }
+    /**
+     * get all student with json
+     */
+    public function getAllCourse()
+    {
+        $empData['data'] = MasterCourse::all();
 
+        return response()->json($empData);
+    }
     /**
      * Display the specified resource.
      *
@@ -94,14 +107,16 @@ class ManageMapelController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'course_name' => 'required',
-            'program' => 'required'
+            'course_name' => 'required|max:100',
+            'program' => 'required',
+            'category' => 'required'
         ]);
 
         try {
             $data = MasterCourse::find($id);
             $data->course_name = $request->course_name;
             $data->program_id = $request->program;
+            $data->category_id = $request->category;
             $data->update();
             return back()->with('success', 'Mata Pelajaran ' . $request->course_name . ' berhasil diubah');
         } catch (\Exception $e) {

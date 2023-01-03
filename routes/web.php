@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Absen\ManagePresensiController;
 use App\Http\Controllers\Akademik\ManageJadwalController;
 use App\Http\Controllers\Akademik\ManageJadwalPiketController;
 use App\Http\Controllers\Akademik\ManageKelompokKamar;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Master\ManageAbsenController;
 use App\Http\Controllers\Master\ManageKamarController;
+use App\Http\Controllers\Master\ManageKategoriMapelController;
 use App\Http\Controllers\Master\ManageKelasController;
 use App\Http\Controllers\Master\ManageKotaController;
 use App\Http\Controllers\Master\ManageMapelController;
@@ -48,6 +50,7 @@ Route::get('/aktivasi', [ActivationController::class, 'activation'])->name('acti
 Route::post('/send-email', [ActivationController::class, 'sendEmail'])->name('sendEmail');
 Route::get('aktivasi/{hash}', [ActivationController::class, 'redemCode'])->name('redemCode');
 Route::middleware(['auth'])->group(function () {
+    Route::resource('beritaAcara', BeritaController::class)->except('show');
     /**
      * Middleware Admin
      * Master data
@@ -65,7 +68,7 @@ Route::middleware(['auth'])->group(function () {
             'beritaAcara/trash/delete',
             [BeritaController::class, 'deletePermanentAll']
         )->name('deletePermanenAlltBeritaAcara');
-        Route::resource('beritaAcara', BeritaController::class)->except('show');
+
 
         //route manage user
         Route::resource('kelolaUser', ManageUserController::class)
@@ -105,6 +108,10 @@ Route::middleware(['auth'])->group(function () {
         /**
          * route master program
          */
+        Route::get(
+            'kelolaProgramAkademik/all',
+            [ManageProgramController::class, 'getAllProgram']
+        )->name('getAllProgram');
         Route::get('kelolaProgramAkademik/trash', [ManageProgramController::class, 'trash'])->name('trashProgram');
         Route::get(
             'kelolaProgramAkademik/trash/{id}/restore',
@@ -226,6 +233,10 @@ Route::middleware(['auth'])->group(function () {
             'kelolaKelas/byProgram/{id}',
             [ManageKelasController::class, 'getAllClassByProgram']
         )->name('classByProgram');
+        Route::get(
+            'kelolaKelas/allClass',
+            [ManageKelasController::class, 'getAllClass']
+        )->name('allClass');
         Route::get('kelolaKelas/trash', [ManageKelasController::class, 'trash'])->name('trashClass');
         Route::get(
             'kelolaKelas/trash/{id}/delete',
@@ -249,7 +260,14 @@ Route::middleware(['auth'])->group(function () {
         /**
          * manage pengajar
          */
-        Route::get('kelolaPengajar/all', [ManagePengajarController::class, 'getAllTeachers'])->name('allTeachers');
+        Route::get(
+            'kelolaPengajar/teacherCaretakers',
+            [ManagePengajarController::class, 'getAllTeachersCaretakers']
+        )->name('allTeachersCaretakers');
+        Route::get(
+            'kelolaPengajar/all',
+            [ManagePengajarController::class, 'getAllTeachers']
+        )->name('allTeachers');
         Route::get('kelolaPengajar/trash', [ManagePengajarController::class, 'trash'])->name('trashTeachers');
         Route::get(
             'kelolaPengajar/trash/{id}/delete',
@@ -370,6 +388,7 @@ Route::middleware(['auth'])->group(function () {
         /**
          * manage mapel
          */
+        Route::get('kelolaMapel/allCourse', [ManageMapelController::class, 'getAllCourse'])->name('allCourse');
         Route::get('kelolaMapel/trash', [ManageMapelController::class, 'trash'])->name('trashCourse');
         Route::get(
             'kelolaMapel/trash/{id}/delete',
@@ -388,6 +407,35 @@ Route::middleware(['auth'])->group(function () {
             [ManageMapelController::class, 'restore']
         )->name('restoreCourse');
         Route::resource('kelolaMapel', ManageMapelController::class)->except(['create', 'show', 'edit']);
+
+        /**
+         * manage kategori mapel
+         */
+        Route::get(
+            'kategoriMapel/all',
+            [ManageKategoriMapelController::class, 'getAllCategoryCourse']
+        )->name('getAllCategoryCourse');
+        Route::get(
+            'kategoriMapel/trash',
+            [ManageKategoriMapelController::class, 'trash']
+        )->name('trashCategorieSchedule');
+        Route::get(
+            'kategoriMapel/trash/{id}/delete',
+            [ManageKategoriMapelController::class, 'deletePermanent']
+        )->name('deletePermanentCategorieSchedule');
+        Route::get(
+            'kategoriMapel/trash/restore',
+            [ManageKategoriMapelController::class, 'restoreAll']
+        )->name('restoreAllCategorieSchedule');
+        Route::get(
+            'kategoriMapel/trash/delete',
+            [ManageKategoriMapelController::class, 'deletePermanentAll']
+        )->name('deletePermanentAllCategorieSchedule');
+        Route::get(
+            'kategoriMapel/trash/{id}/restore',
+            [ManageKategoriMapelController::class, 'restore']
+        )->name('restoreCategorieSchedule');
+        Route::resource('kategoriMapel', ManageKategoriMapelController::class)->except(['create', 'show', 'edit']);
     });
 
     /**
@@ -423,6 +471,14 @@ Route::middleware(['auth'])->group(function () {
     /**
      * route jadwal pelajaran
      */
+    Route::post(
+        'jadwalPelajaran/filter',
+        [ManageJadwalController::class, 'filterScheduleByCategories']
+    )->name('getAllSchedule');
+    Route::get(
+        'jadwalPelajaran/filter',
+        [ManageJadwalController::class, 'filterScheduleByCategories']
+    )->name('getAllSchedule');
     Route::resource('jadwalPelajaran', ManageJadwalController::class)->except('show');
     /**
      * route jadwal piket
@@ -436,4 +492,12 @@ Route::middleware(['auth'])->group(function () {
      * route kelompok kamar
      */
     Route::resource('kelompokKamar', ManageKelompokKamar::class)->except('show');
+    /**
+     * route absen
+     */
+    Route::get(
+        'presensi/action/saveAttendance',
+        [ManagePresensiController::class, 'saveAttendance']
+    )->name('saveAttendance');
+    Route::resource('presensi', ManagePresensiController::class)->except(['show', 'edit', 'delete', 'create', 'store']);
 });

@@ -4,17 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TrxAttendance extends Model
+class MasterCategorieSchedule extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'student_id', 'presence_type', 'category_attendance', 'status',
-        'date_presence', 'program_id', 'id_operator', 'other_category'
+        'categorie_name'
     ];
+
     protected $dates = [
+        'updated_at',
         'created_at',
-        'updated_at'
+        'deleted_at'
     ];
 }

@@ -17,11 +17,21 @@ class AbsenSeeder extends Seeder
         $absen = [
             [
                 'name' => 'TAKLIM',
-                'column' => "No,Nama,Kelas,Program"
+                'categories' => "Kelas"
             ],
             [
-                'name' => 'ABC',
-                'column' => "No,Nama,Kelas,Program"
+                'name' => 'SETORAN',
+                'categories' => "Pengajar"
+
+            ],
+            [
+                'name' => 'SHALAT',
+                'categories' => "Program"
+
+            ],
+            [
+                'name' => 'QIYAMULAIL',
+                'categories' => "Program"
             ],
         ];
         foreach ($absen as $data) {

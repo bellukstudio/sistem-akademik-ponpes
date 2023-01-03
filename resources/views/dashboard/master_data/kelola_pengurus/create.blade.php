@@ -122,7 +122,7 @@
                         }
                     });
                 } else if (value === 'teachers') {
-                    var url = '{{ route('allTeachers') }}';
+                    var url = '{{ route('allTeachersCaretakers') }}';
                     $.ajax({
                         url: url,
                         type: 'GET',

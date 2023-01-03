@@ -29,7 +29,7 @@ class PengajarSeeder extends Seeder
                 'address' => 'Lorem Ipsum'
             ],
             [
-                'noId' => '1280128102',
+                'noId' => '1280128103',
                 'email' => 'akbar@gmail.com',
                 'name' => 'Ahmad Akbar',
                 'photo' => null,
@@ -41,7 +41,7 @@ class PengajarSeeder extends Seeder
                 'address' => 'Lorem Ipsum'
             ],
             [
-                'noId' => '1280128102',
+                'noId' => '1280128104',
                 'email' => 'udin@gmail.com',
                 'name' => 'Ahmad Udin',
                 'photo' => null,

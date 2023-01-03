@@ -82,11 +82,17 @@ class ManagePengajarController extends Controller
     /**
      * get all teachers with json
      */
-    public function getAllTeachers()
+    public function getAllTeachersCaretakers()
     {
         $empData['data'] = MasterTeacher::whereNotIn('noId', function ($query) {
             $query->select('no_induk')->from('trx_caretakers');
         })->get();
+
+        return response()->json($empData);
+    }
+    public function getAllTeachers()
+    {
+        $empData['data'] = MasterTeacher::all();
 
         return response()->json($empData);
     }

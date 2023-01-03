@@ -16,25 +16,22 @@ class KelasSeeder extends Seeder
     {
         $kelas = [
             [
-                'class_name' => 'Kelas A',
-                'program_id' => 1,
-            ],
-            [
-                'class_name' => 'Kelas B',
-                'program_id' => 1,
-            ],
-            [
-                'class_name' => 'Kelas C',
+                'class_name' => 'HOLAQOH 1',
                 'program_id' => 2,
             ],
             [
-                'class_name' => 'Kelas D',
+                'class_name' => 'HOLAQOH 2',
                 'program_id' => 2,
             ],
             [
-                'class_name' => 'Kelas E',
-                'program_id' => 1,
+                'class_name' => 'HOLAQOH 3',
+                'program_id' => 2,
             ],
+            [
+                'class_name' => 'HOLAQOH 4',
+                'program_id' => 2,
+            ],
+
         ];
         foreach ($kelas as $data) {
             MasterClass::create($data);

@@ -16,19 +16,19 @@ class RuangSeeder extends Seeder
     {
         $ruang = [
             [
-                'room_name' => 'Ruang A',
+                'room_name' => 'Ruang A Lt.2',
                 'capasity' => '100',
                 'type' => 'RUANGAN',
                 'photo' => null
             ],
             [
-                'room_name' => 'Ruang B',
+                'room_name' => 'Ruang B Lt.3',
                 'capasity' => '100',
                 'type' => 'RUANGAN',
                 'photo' => null
             ],
             [
-                'room_name' => 'Ruang B',
+                'room_name' => 'Ruang C Lt.3',
                 'capasity' => '100',
                 'type' => 'RUANGAN',
                 'photo' => null

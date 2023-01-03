@@ -60,6 +60,15 @@ class ManageProgramController extends Controller
         }
     }
     /**
+     * get all student with json
+     */
+    public function getAllProgram()
+    {
+        $empData['data'] = MasterAcademicProgram::all();
+
+        return response()->json($empData);
+    }
+    /**
      * Display the specified resource.
      *
      * @param  int  $id

@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             RoleSedeer::class,
             MasterUsersSeeder::class,
             AbsenSeeder::class,
+            KategoriMapelSeeder::class,
             ProgramSeeder::class,
             MapelSeeder::class,
             PerizinanSeeder::class,

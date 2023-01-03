@@ -241,6 +241,16 @@ Breadcrumbs::for('kelolaJadwal.edit', function (BreadcrumbTrail $trail, $schedul
     $trail->push('Edit Data', route('jadwalPelajaran.edit', $schedule->id));
 });
 /**
+ * manage kategori mapel
+ */
+Breadcrumbs::for('kategoriMapel', function (BreadcrumbTrail $trail) {
+    $trail->push('Data Kategori Mapel', route('kategoriMapel.index'));
+});
+Breadcrumbs::for('kategoriMapel.trash', function (BreadcrumbTrail $trail) {
+    $trail->parent('kategoriMapel');
+    $trail->push('Trash Bin', route('trashCategorieSchedule'));
+});
+/**
  * data jadwal piket
  */
 Breadcrumbs::for('jadwalPiket', function (BreadcrumbTrail $trail) {

@@ -39,14 +39,15 @@
                     </div>
                     <div class="form-group">
                         <label for="">Pilih Kelas</label>
-                        <select name="class_select" id="" class="form-control select2" style="width: 100%;">
-                            <option value="">Pilih Kelas</option>
+                        <select name="class_select[]" id="" class="form-control select2" style="width: 100%;"
+                            multiple="multiple" data-placeholder="Pilih Kelas">
                             @forelse ($class as $c)
                                 <option value="{{ $c->id }}">{{ $c->class_name }}</option>
                             @empty
                                 <option value=""></option>
                             @endforelse
                         </select>
+
                     </div>
                     <div class="form-group">
                         <label for="">Pilih Mata Pelajaran</label>
@@ -61,13 +62,26 @@
                     </div>
                     <div class="form-group">
                         <label for="">Hari</label>
-                        <input type="text" name="day" id="" class="form-control" placeholder="Contoh:Senin"
-                            value="{{ old('day') }}">
+                        <select name="day" id="" class="custom-select form-control-border">
+                            <option value="">Pilih Hari</option>
+                            <option value="Ahad">Ahad</option>
+                            <option value="Senin">Senin</option>
+                            <option value="Selasa">Selasa</option>
+                            <option value="Rabu">Rabu</option>
+                            <option value="Kamis">Kamis</option>
+                            <option value="Jumat">Jumat</option>
+                            <option value="Sabtu">Sabtu</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="">Waktu</label>
-                        <input type="text" name="time" id="" class="form-control"
-                            placeholder="Pagi,Siang,Malam, DLL" value="{{ old('time') }}">
+                        <select name="time" id="" class="custom-select form-control-border">
+                            <option value="">Pilih Waktu</option>
+                            <option value="Pagi">Pagi</option>
+                            <option value="Siang">Siang</option>
+                            <option value="Sore">Sore</option>
+                            <option value="Malam">Malam</option>
+                        </select>
                     </div>
                 </div>
                 <div class="card-footer">

@@ -7,6 +7,7 @@ use App\Models\MasterStudent;
 use App\Models\MasterTeacher;
 use App\Models\MasterUsers;
 use App\Models\TrxCaretakers;
+use App\Models\TrxStudentPermits;
 
 class DashboardController extends Controller
 {
@@ -21,6 +22,14 @@ class DashboardController extends Controller
 
         // get latest data
         $beritaAcara = MasterNews::latest()->paginate(5);
-        return view('dashboard.index', compact('dataUser', 'dataSantri', 'dataPengajar', 'beritaAcara', 'dataPengurus'));
+        $perizinan = TrxStudentPermits::with(['user'])->latest()->paginate(5);
+        return view('dashboard.index', compact(
+            'dataUser',
+            'dataSantri',
+            'dataPengajar',
+            'beritaAcara',
+            'dataPengurus',
+            'perizinan'
+        ));
     }
 }

@@ -55,6 +55,16 @@
                                             <option value=""></option>
                                         @endforelse
                                     </select>
+                                    <br><br>
+                                    <label for="">Kategori</label>
+                                    <select name="category" id="" class="custom-select form-control-border">
+                                        <option value="">Pilih Kategori</option>
+                                        @forelse ($kategori as $item)
+                                            <option value="{{ $item->id }}">{{ $item->categorie_name }}</option>
+                                        @empty
+                                            <option value=""></option>
+                                        @endforelse
+                                    </select>
 
                                 </div>
                                 <div class="modal-footer justify-content-between">
@@ -87,6 +97,7 @@
                             <th>No</th>
                             <th>Mata Pelajaran</th>
                             <th>Program</th>
+                            <th>Kategori Mapel</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -95,7 +106,10 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->course_name }}</td>
-                                <td>{{ $item->program->program_name }}</td>
+                                <td>{!! $item->program->program_name ?? '<span class="badge badge-danger">Error</span>' !!}
+                                </td>
+                                <td>{!! $item->category->categorie_name ?? '<span class="badge badge-danger">Error</span>' !!}
+                                </td>
                                 <td>
                                     {{-- {Edit} --}}
                                     <button type="button" class="btn btn-sm" data-toggle="modal"
@@ -181,7 +195,20 @@
                                                         <option value=""></option>
                                                     @endforelse
                                                 </select>
-
+                                                <br><br>
+                                                <label for="">Kategori</label>
+                                                <select name="category" id=""
+                                                    class="custom-select form-control-border">
+                                                    <option value="">Pilih Kategori</option>
+                                                    @forelse ($kategori as $data)
+                                                        <option value="{{ $data->id }}"
+                                                            {{ $item->category_id == $data->id ? 'selected' : '' }}>
+                                                            {{ $data->categorie_name }}
+                                                        </option>
+                                                    @empty
+                                                        <option value=""></option>
+                                                    @endforelse
+                                                </select>
                                             </div>
                                             <div class="modal-footer justify-content-between">
                                                 <button type="button" class="btn btn-default"
@@ -217,6 +244,7 @@
                             <th>No</th>
                             <th>Mata Pelajaran</th>
                             <th>Program</th>
+                            <th>Kategori Mapel</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>

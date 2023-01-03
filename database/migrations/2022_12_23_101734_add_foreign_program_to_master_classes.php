@@ -14,7 +14,8 @@ class AddForeignProgramToMasterClasses extends Migration
     public function up()
     {
         Schema::table('master_classes', function (Blueprint $table) {
-            $table->foreignId('program_id')->references('id')->on('master_academic_programs')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreignId('program_id')->references('id')
+                ->on('master_academic_programs')->onDelete('no action')->onUpdate('cascade');
         });
     }
 

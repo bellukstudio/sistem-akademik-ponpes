@@ -4,11 +4,11 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Data Absen</h1>
+                <h1 class="m-0">Data Kategori Mapel</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    {{ Breadcrumbs::render('kelolaAbsen') }}
+                    {{ Breadcrumbs::render('kategoriMapel') }}
                 </ol>
             </div>
             <!-- /.col -->
@@ -24,13 +24,13 @@
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-AddData">
                     <i class="fa fa-plus mr-2"></i> Tambah Data Baru
                 </button>
-                <a href="{{ route('trashAttendance') }}" class="btn btn-secondary">
+                <a href="{{ route('trashCategorieSchedule') }}" class="btn btn-secondary">
                     <i class="fa fa-trash mr-2"></i>Trash
                     Bin</a>
 
                 {{-- Modal new data --}}
                 <div class="modal fade" id="modal-AddData">
-                    <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-dialog  modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">Tambah Data Baru</h4>
@@ -38,21 +38,13 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form action="{{ route('kelolaAbsen.store') }}" method="post">
+                            <form action="{{ route('kategoriMapel.store') }}" method="post">
                                 @csrf
                                 <div class="modal-body">
-                                    <label for="">Nama Absen</label>
+                                    <label for="">Nama Kategori</label>
                                     <input type="text" name="name" id="" class="form-control"
-                                        value="{{ old('name') }}" placeholder="Nama Absen"
+                                        value="{{ old('name') }}" placeholder="Nama Kategori"
                                         oninput="this.value = this.value.toUpperCase()">
-                                    <br>
-                                    <label for="">Kategori</label>
-                                    <select name="categories" id="" class="custom-select form-control-border">
-                                        <option value="">Pilih Kategori</option>
-                                        <option value="Kelas">Kelas</option>
-                                        <option value="Program">Program</option>
-                                        <option value="Pengajar">Pengajar</option>
-                                    </select>
 
                                 </div>
                                 <div class="modal-footer justify-content-between">
@@ -83,17 +75,15 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama Absen</th>
-                            <th>Kategori</th>
+                            <th>Nama</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($absen as $index => $item)
+                        @forelse ($data as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->categories }}</td>
+                                <td>{{ $item->categorie_name }}</td>
                                 <td>
                                     {{-- {Edit} --}}
                                     <button type="button" class="btn btn-sm" data-toggle="modal"
@@ -122,7 +112,7 @@
                                         <div class="modal-body">
                                             <div class="card">
                                                 <div class="card-header bg-danger">
-                                                    <h4>{{ $item->name }}</h4> <br>
+                                                    <h1>{{ $item->categorie_name }}</h1>
                                                     <p>Yakin ingin menghapus data tersebut? </p>
                                                 </div>
 
@@ -131,11 +121,11 @@
                                         <div class="modal-footer justify-content-between">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">
                                                 Close</button>
-                                            <form action="{{ route('kelolaAbsen.destroy', $item->id) }}" method="post">
+                                            <form action="{{ route('kategoriMapel.destroy', $item->id) }}" method="post">
                                                 @csrf
                                                 @method('delete')
                                                 <button type="submit" class="btn btn-sm btn-danger">
-                                                    <i class="fa fa-trash mr-2"></i>
+                                                    <i class="fa fa-trash"></i>
                                                     Hapus</button>
                                             </form>
                                         </div>
@@ -151,35 +141,19 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Edit Data</h4>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form action="{{ route('kelolaAbsen.update', $item->id) }}" method="post">
+                                        <form action="{{ route('kategoriMapel.update', $item->id) }}" method="post">
                                             @csrf
                                             @method('put')
                                             <div class="modal-body">
-                                                <label for="">Nama Absen</label>
+                                                <label for="">Nama Program</label>
                                                 <input type="text" name="name" id="" class="form-control"
-                                                    value="{{ old('name') ?? $item->name }}" placeholder="Nama Absen"
+                                                    value="{{ old('name') ?? $item->categorie_name }}"
+                                                    placeholder="Nama Kategori"
                                                     oninput="this.value = this.value.toUpperCase()">
-                                                <br>
-                                                <label for="">Kategori</label>
-                                                <select name="categories" id=""
-                                                    class="custom-select form-control-border">
-                                                    <option value="">Pilih Kategori</option>
-                                                    <option value="Kelas"
-                                                        {{ $item->categories === 'Kelas' ? 'selected' : '' }}>Kelas
-                                                    </option>
-                                                    <option value="Program"
-                                                        {{ $item->categories === 'Program' ? 'selected' : '' }}>Program
-                                                    </option>
-                                                    <option value="Pengajar"
-                                                        {{ $item->categories === 'Pengajar' ? 'selected' : '' }}>Pengajar
-                                                    </option>
-                                                </select>
-
                                             </div>
                                             <div class="modal-footer justify-content-between">
                                                 <button type="button" class="btn btn-default"
@@ -199,22 +173,20 @@
                                                     Update</button>
                                             </div>
                                         </form>
+                                        <!-- /.modal-content -->
                                     </div>
-                                    <!-- /.modal-content -->
+                                    <!-- /.modal-dialog -->
                                 </div>
-                                <!-- /.modal-dialog -->
-                            </div>
-                        @empty
-                            <tr>
-                                <td colspan="4" align="center"> Data Tidak Tersedia</td>
-                            </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" align="center"> Data Tidak Tersedia</td>
+                                </tr>
                         @endforelse
                     </tbody>
                     <tfoot>
                         <tr>
                             <th>No</th>
-                            <th>Nama Absen</th>
-                            <th>Kolom Absen</th>
+                            <th>Nama</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>
