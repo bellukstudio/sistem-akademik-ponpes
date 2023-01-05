@@ -81,3 +81,6 @@
 @if (Request::is('presensi*'))
     Presensi
 @endif
+@if (Request::is('pembayaran*'))
+    SPP
+@endif

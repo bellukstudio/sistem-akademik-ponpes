@@ -33,7 +33,7 @@ class SantriSeeder extends Seeder
             ],
             [
                 'noId' => '82371284',
-                'email' => 'myzee@gmail.com',
+                'email' => 'bellukchips@gmail.com',
                 'name' => 'Akbar',
                 'photo' => null,
                 'gender' => 'Laki-Laki',

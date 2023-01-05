@@ -25,8 +25,8 @@ use App\Http\Controllers\Master\ManageProvinsiController;
 use App\Http\Controllers\Master\ManageRuanganController;
 use App\Http\Controllers\Master\ManageSantriController;
 use App\Http\Controllers\Master\ManageUserController;
+use App\Http\Controllers\Pembayaran\ManageTrxPembayaranController;
 use App\Http\Controllers\Perizinan\ManagePerizinanController;
-use PHPUnit\TextUI\XmlConfiguration\Group;
 
 /*
 |--------------------------------------------------------------------------
@@ -500,4 +500,9 @@ Route::middleware(['auth'])->group(function () {
         [ManagePresensiController::class, 'saveAttendance']
     )->name('saveAttendance');
     Route::resource('presensi', ManagePresensiController::class)->except(['show', 'edit', 'delete', 'create', 'store']);
+
+    /**
+     * route pembayaran spp
+     */
+    Route::resource('pembayaran', ManageTrxPembayaranController::class)->except(['store', 'edit', 'create']);
 });

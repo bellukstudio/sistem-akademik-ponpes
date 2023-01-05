@@ -252,38 +252,38 @@ class ManagePresensiController extends Controller
 
         switch ($hari) {
             case 'Sun':
-                $hari_ini = "Ahad";
+                $currentDay = "Ahad";
                 break;
 
             case 'Mon':
-                $hari_ini = "Senin";
+                $currentDay = "Senin";
                 break;
 
             case 'Tue':
-                $hari_ini = "Selasa";
+                $currentDay = "Selasa";
                 break;
 
             case 'Wed':
-                $hari_ini = "Rabu";
+                $currentDay = "Rabu";
                 break;
 
             case 'Thu':
-                $hari_ini = "Kamis";
+                $currentDay = "Kamis";
                 break;
 
             case 'Fri':
-                $hari_ini = "Jumat";
+                $currentDay = "Jumat";
                 break;
 
             case 'Sat':
-                $hari_ini = "Sabtu";
+                $currentDay = "Sabtu";
                 break;
 
             default:
-                $hari_ini = "Tidak di ketahui";
+                $currentDay = "Tidak di ketahui";
                 break;
         }
 
-        return $hari_ini;
+        return $currentDay;
     }
 }
