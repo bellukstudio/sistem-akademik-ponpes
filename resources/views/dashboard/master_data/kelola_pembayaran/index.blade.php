@@ -46,11 +46,18 @@
                                         value="{{ old('payment_name') }}" placeholder="Nama Pembayaran"
                                         oninput="this.value = this.value.toUpperCase()">
                                     <br>
-                                    <label for="">Metode</label>
+                                    <label for="">Tranfer Via</label>
                                     <select name="method_name" id="" class="custom-select form-control-border">
-                                        <option value="transfer">Transfer</option>
+                                        <option value="">Pilih</option>
+                                        <option value="DOMPET DIGITAL">Dompet Digital</option>
+                                        <option value="TRANSFER BANK">Transfer Bank</option>
                                     </select>
                                     <br><br>
+                                    <label for="">Nama Media Pembayaran</label>
+                                    <input type="text" name="media_payment" id="" class="form-control"
+                                        value="{{ old('media_payment') }}" placeholder="Media Pembayaran"
+                                        oninput="this.value = this.value.toUpperCase()">
+                                    <br>
                                     <label for="">Total</label>
                                     <input type="number" name="total_payment" id="" class="form-control"
                                         value="{{ old('total_payment') }}" placeholder="Total Pembayaran">
@@ -89,6 +96,7 @@
                             <th>No</th>
                             <th>Nama Pembayaran</th>
                             <th>Metode Pembayaran</th>
+                            <th>Media Pembayaran</th>
                             <th>Total</th>
                             <th>Nomor Pembayaran</th>
                             <th>Aksi</th>
@@ -100,7 +108,8 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->payment_name }}</td>
                                 <td>{{ $item->method }}</td>
-                                <td>{{ $item->total }}</td>
+                                <td>{{ $item->media_payment }}</td>
+                                <td>@currency($item->total)</td>
                                 <td>{{ $item->payment_number }}</td>
                                 <td>
                                     {{-- {Edit} --}}
@@ -123,7 +132,8 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Konfirmasi hapus data</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
@@ -176,12 +186,25 @@
                                                     placeholder="Nama Pembayaran"
                                                     oninput="this.value = this.value.toUpperCase()">
                                                 <br>
-                                                <label for="">Metode</label>
-                                                <select name="method_name" id="">
-                                                    <option value="transfer"
-                                                        {{ $item->method === 'transfer' ? 'active' : '' }}>Transfer
-                                                    </option>
+                                                <label for="">Tranfer Via</label>
+                                                <select name="method_name" id=""
+                                                    class="custom-select form-control-border">
+                                                    <option value="">Pilih</option>
+                                                    <option value="DOMPET DIGITAL"
+                                                        {{ $item->method === 'DOMPET DIGITAL' ? 'selected' : '' }}>Dompet
+                                                        Digital</option>
+                                                    <option value="TRANSFER BANK"
+                                                        {{ $item->method === 'TRANSFER BANK' ? 'selected' : '' }}>Transfer
+                                                        Bank</option>
                                                 </select>
+                                                <br>
+                                                <label for="">Nama Media Pembayaran</label>
+                                                <input type="text" name="media_payment" id=""
+                                                    class="form-control"
+                                                    value="{{ old('media_payment') ?? $item->media_payment }}"
+                                                    placeholder="Media Pembayaran"
+                                                    oninput="this.value = this.value.toUpperCase()">
+                                                <br>
                                                 <label for="">Total</label>
                                                 <input type="number" name="total_payment" id=""
                                                     class="form-control"
@@ -219,7 +242,7 @@
                             </div>
                         @empty
                             <tr>
-                                <td colspan="6" align="center"> Data Tidak Tersedia</td>
+                                <td colspan="7" align="center"> Data Tidak Tersedia</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -228,6 +251,7 @@
                             <th>No</th>
                             <th>Nama Pembayaran</th>
                             <th>Metode Pembayaran</th>
+                            <th>Media Pembayaran</th>
                             <th>Total</th>
                             <th>Nomor Pembayaran</th>
                             <th>Aksi</th>

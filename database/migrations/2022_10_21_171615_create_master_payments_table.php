@@ -18,6 +18,7 @@ class CreateMasterPaymentsTable extends Migration
             $table->string('payment_name');
             $table->string('total', 50);
             $table->string('method', 100);
+            $table->string('media_payment', 50);
             $table->string('payment_number');
             $table->timestamps();
             $table->softDeletes();

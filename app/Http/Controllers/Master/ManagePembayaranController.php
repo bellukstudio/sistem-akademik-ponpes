@@ -42,6 +42,7 @@ class ManagePembayaranController extends Controller
         $request->validate([
             'payment_name' => 'required',
             'method_name' => 'required',
+            'media_payment' => 'required|max:50',
             'total_payment' => 'required|numeric',
             'payment_number' => 'required|numeric'
         ]);
@@ -51,7 +52,8 @@ class ManagePembayaranController extends Controller
                 'payment_name' => $request->payment_name,
                 'total' => $request->total_payment,
                 'method' => $request->method_name,
-                'payment_number' => $request->payment_number
+                'payment_number' => $request->payment_number,
+                'media_payment' => $request->media_payment
             ]);
             return back()->with('success', 'Pembayaran ' . $request->payment_name . ' berhasil disimpan');
         } catch (\Exception $e) {
@@ -93,6 +95,7 @@ class ManagePembayaranController extends Controller
         $request->validate([
             'payment_name' => 'required',
             'method_name' => 'required',
+            'media_payment' => 'required|max:50',
             'total_payment' => 'required|numeric',
             'payment_number' => 'required|numeric'
         ]);
@@ -102,6 +105,7 @@ class ManagePembayaranController extends Controller
             $data->payment_name = $request->payment_name;
             $data->total = $request->total_payment;
             $data->method = $request->method_name;
+            $data->media_payment = $request->media_payment;
             $data->payment_number = $request->payment_number;
             $data->update();
             return back()->with('success', 'Pembayaran ' . $request->payment_name . ' berhasil diubah');

@@ -13,13 +13,13 @@ class CreateMasterFileSharesTable extends Migration
      */
     public function up()
     {
-        Schema::create('master_file_share', function (Blueprint $table) {
+        Schema::create('master_file_shares', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_file');
+            $table->string('file_name');
             $table->text('link');
-            $table->char('tipe');
+            $table->text('id_file')->nullable();
+            $table->char('type');
             $table->timestamps();
-            $table->softDeletes();
             $table->foreignId('id_user')->nullable()
                 ->references('id')->on('master_users')->onDelete('set null')->onUpdate('cascade');
         });
@@ -32,6 +32,6 @@ class CreateMasterFileSharesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_file_share');
+        Schema::dropIfExists('master_file_shares');
     }
 }

@@ -11,6 +11,8 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Berita\BeritaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\File\GoogleDriveController;
+use App\Http\Controllers\File\ManageFileShareController;
 use App\Http\Controllers\Master\ManageAbsenController;
 use App\Http\Controllers\Master\ManageKamarController;
 use App\Http\Controllers\Master\ManageKategoriMapelController;
@@ -25,8 +27,8 @@ use App\Http\Controllers\Master\ManageProvinsiController;
 use App\Http\Controllers\Master\ManageRuanganController;
 use App\Http\Controllers\Master\ManageSantriController;
 use App\Http\Controllers\Master\ManageUserController;
+use App\Http\Controllers\Pembayaran\ManageTrxPembayaranController;
 use App\Http\Controllers\Perizinan\ManagePerizinanController;
-use PHPUnit\TextUI\XmlConfiguration\Group;
 
 /*
 |--------------------------------------------------------------------------
@@ -291,7 +293,6 @@ Route::middleware(['auth'])->group(function () {
         /**
          * manage santri
          */
-
         Route::get(
             'kelolaSantri/byProgram/{id}',
             [ManageSantriController::class, 'getAllStudentsByProgramClass']
@@ -439,6 +440,26 @@ Route::middleware(['auth'])->group(function () {
     });
 
     /**
+     * route ebook file
+     */
+    Route::get('ebook', [ManageFileShareController::class, 'indexEbook'])->name('ebook.index');
+    Route::post('ebook', [ManageFileShareController::class, 'uploadFileToGdrive'])->name('ebook.store');
+    Route::delete('ebook/{id}/delete', [ManageFileShareController::class, 'destroy'])->name('ebook.destroy');
+    Route::put('ebook/{id}/update', [ManageFileShareController::class, 'update'])->name('ebook.update');
+    /**
+     * route video file
+     */
+    Route::get('video', [ManageFileShareController::class, 'indexVideo'])->name('video.index');
+    Route::post('video', [ManageFileShareController::class, 'saveVideo'])->name('video.store');
+    Route::put('video/{id}/update', [ManageFileShareController::class, 'updateVideo'])->name('video.update');
+    Route::delete('video/{id}/delete', [ManageFileShareController::class, 'destroyVideo'])->name('video.destroy');
+
+    /**
+     * route google login
+     */
+    Route::get('google/login', [GoogleDriveController::class, 'googleAuth'])->name('google.login');
+    Route::get('google/checkToken', [GoogleDriveController::class, 'checkRefreshToken'])->name('google.check');
+    /**
      * route dashboard
      */
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -500,4 +521,9 @@ Route::middleware(['auth'])->group(function () {
         [ManagePresensiController::class, 'saveAttendance']
     )->name('saveAttendance');
     Route::resource('presensi', ManagePresensiController::class)->except(['show', 'edit', 'delete', 'create', 'store']);
+
+    /**
+     * route pembayaran spp
+     */
+    Route::resource('pembayaran', ManageTrxPembayaranController::class)->except(['store', 'edit', 'create']);
 });

@@ -35,6 +35,8 @@ class DatabaseSeeder extends Seeder
             JadwalPiketSeeder::class,
             KelompokKelasSeeder::class,
             KelompokKamarSeeder::class,
+            MasterPaymentSeeder::class,
+            TrxPaymentSeeder::class
         ]);
     }
 }

@@ -212,8 +212,8 @@
                          </a>
                      </li>
                      <li class="nav-header">PEMBAYARAN</li>
-                     <li class="nav-item">
-                         <a href="#" class="nav-link">
+                     <li class="nav-item {{ Request::is(['pembayaran*']) ? 'menu-open' : '' }}">
+                         <a href="#" class="nav-link {{ Request::is(['pembayaran*']) ? 'active' : '' }}">
                              <i class="nav-icon fas fa-money-check"></i>
                              <p>
                                  Pembayaran
@@ -222,15 +222,10 @@
                          </a>
                          <ul class="nav nav-treeview">
                              <li class="nav-item">
-                                 <a href="" class="nav-link">
+                                 <a href="{{ route('pembayaran.index') }}"
+                                     class="nav-link {{ Request::is('pembayaran*') ? 'active' : '' }}">
                                      <i class="far fa-circle nav-icon"></i>
-                                     <p>SPP</p>
-                                 </a>
-                             </li>
-                             <li class="nav-item">
-                                 <a href="" class="nav-link">
-                                     <i class="far fa-circle nav-icon"></i>
-                                     <p>Iuran Bulanan</p>
+                                     <p>Bulanan</p>
                                  </a>
                              </li>
                          </ul>
@@ -288,17 +283,19 @@
                                      <p>Raport</p>
                                  </a>
                              </li>
-                         </ul>
+                        </ul>
                      </li>
                      <li class="nav-header">File Sharing</li>
                      <li class="nav-item">
-                         <a href="#" class="nav-link">
+                         <a href="{{ route('video.index') }}"
+                             class="nav-link {{ Request::is('video*') ? 'active' : '' }}">
                              <i class="nav-icon fas fa-video"></i>
                              <p>Video</p>
                          </a>
                      </li>
                      <li class="nav-item">
-                         <a href="#" class="nav-link">
+                         <a href="{{ route('ebook.index') }}"
+                             class="nav-link {{ Request::is('ebook*') ? 'active' : '' }}">
                              <i class="nav-icon fas fa-book"></i>
                              <p>E-Book</p>
                          </a>

@@ -103,6 +103,7 @@
                             <th>No</th>
                             <th>Nama Pembayaran</th>
                             <th>Metode Pembayaran</th>
+                            <th>Media Pembayaran</th>
                             <th>Total</th>
                             <th>Nomor Pembayaran</th>
                             <th>Aksi</th>
@@ -114,7 +115,8 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->payment_name }}</td>
                                 <td>{{ $item->method }}</td>
-                                <td>{{ $item->total }}</td>
+                                <td>{{ $item->media_payment }}</td>
+                                <td>@currency($item->total)</td>
                                 <td>{{ $item->payment_number }}</td>
                                 <td>
                                     {{-- {restore} --}}
@@ -199,7 +201,7 @@
                             </div>
                         @empty
                             <tr>
-                                <td colspan="6" align="center"> Data Tidak Tersedia</td>
+                                <td colspan="7" align="center"> Data Tidak Tersedia</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -208,6 +210,7 @@
                             <th>No</th>
                             <th>Nama Pembayaran</th>
                             <th>Metode Pembayaran</th>
+                            <th>Media Pembayaran</th>
                             <th>Total</th>
                             <th>Nomor Pembayaran</th>
                             <th>Aksi</th>

@@ -123,7 +123,7 @@ class ActivationController extends Controller
                 MasterUsers::create([
                     'name' => $table->name,
                     'email' => $table->email,
-                    'roles' => 4,
+                    'roles_id' => 4,
                     'password' => Hash::make($dateBirth)
                 ]);
             } elseif ($token->table_name === 'master_teachers') {
@@ -131,7 +131,7 @@ class ActivationController extends Controller
                 MasterUsers::create([
                     'name' => $table->name,
                     'email' => $table->email,
-                    'roles' => 2,
+                    'roles_id' => 2,
                     'password' => Hash::make($dateBirth)
                 ]);
             }

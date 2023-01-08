@@ -95,8 +95,10 @@
                                         <div class="product-info">
                                             <a href="javascript:void(0)" class="product-title">
                                                 {!! $item->user->name ?? '<span class="badge badge-danger">Error</span>' !!}
-                                                <span
-                                                    class="badge badge-info float-right">{{ $item->status ?? 'Menunggu persetujuan' }}</span></a>
+                                                {!! $item->status == '1'
+                                                    ? '<span class="badge badge-success float-right">Di Setujui</span>'
+                                                    : '<span class="badge badge-info float-right">Menunggu persetujuan</span>' !!}
+                                            </a>
                                             <span class="product-description">
                                                 {{ $item->description }}
                                             </span>

@@ -64,7 +64,13 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
         ],
-
+        // 'google' => [
+        //     'driver' => env('FILESYSTEM_CLOUD'),
+        //     'client' => env('GOOGLE_DRIVE_CLIENT_ID'),
+        //     'secret' => env('GOOGLE_DRIVE_CLIENT_SECRET'),
+        //     'token' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
+        //     'root' => env('GOOGLE_DRIVE_FOLDER')
+        // ],
     ],
 
     /*
