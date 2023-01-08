@@ -292,3 +292,13 @@ Breadcrumbs::for('kelompokKamar.edit', function (BreadcrumbTrail $trail, $data) 
     $trail->parent('kelompokKamar');
     $trail->push('Edit Data', route('kelompokKamar.edit', $data->id));
 });
+
+/**
+ * data ebook & video
+ */
+Breadcrumbs::for('ebook', function (BreadcrumbTrail $trail) {
+    $trail->push('Data Ebook', route('ebook.index'));
+});
+Breadcrumbs::for('video', function (BreadcrumbTrail $trail) {
+    $trail->push('Data Video', route('video.index'));
+});

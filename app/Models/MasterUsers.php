@@ -20,7 +20,7 @@ class MasterUsers extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'email', 'password', 'roles_id', 'name'
+        'email', 'password', 'roles_id', 'name', 'access_token'
     ];
 
     /**
@@ -29,7 +29,7 @@ class MasterUsers extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'roles_id'
+        'password', 'remember_token', 'roles_id', 'access_token'
     ];
 
     /**

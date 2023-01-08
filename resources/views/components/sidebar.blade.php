@@ -283,17 +283,19 @@
                                      <p>Raport</p>
                                  </a>
                              </li>
-                         </ul>
+                        </ul>
                      </li>
                      <li class="nav-header">File Sharing</li>
                      <li class="nav-item">
-                         <a href="#" class="nav-link">
+                         <a href="{{ route('video.index') }}"
+                             class="nav-link {{ Request::is('video*') ? 'active' : '' }}">
                              <i class="nav-icon fas fa-video"></i>
                              <p>Video</p>
                          </a>
                      </li>
                      <li class="nav-item">
-                         <a href="#" class="nav-link">
+                         <a href="{{ route('ebook.index') }}"
+                             class="nav-link {{ Request::is('ebook*') ? 'active' : '' }}">
                              <i class="nav-icon fas fa-book"></i>
                              <p>E-Book</p>
                          </a>

@@ -4,14 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 class MasterFileShare extends Model
 {
-    use HasFactory, SoftDeletes;
-    protected $table = 'master_file_share';
-    protected $dates = ['deleted_at'];
+    use HasFactory;
+
+    protected $fillable = [
+        'file_name', 'type', 'id_user', 'link', 'id_file'
+    ];
+    protected $dates = ['created_at', 'updated_at'];
+
 
     public function getCreatedAttribute($value)
     {

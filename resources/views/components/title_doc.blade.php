@@ -68,7 +68,6 @@
 @if (Request::is('jadwalPelajaran*'))
     Jadwal Pelajaran
 @endif
-
 @if (Request::is('jadwalPiket*'))
     Jadwal Piket
 @endif
@@ -83,4 +82,10 @@
 @endif
 @if (Request::is('pembayaran*'))
     SPP
+@endif
+@if (Request::is('ebook*'))
+    E-Book
+@endif
+@if (Request::is('video*'))
+    Video
 @endif
