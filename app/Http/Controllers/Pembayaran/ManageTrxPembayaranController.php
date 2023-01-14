@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 
 class ManageTrxPembayaranController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -17,6 +18,10 @@ class ManageTrxPembayaranController extends Controller
      */
     public function index()
     {
+        if (auth()->user()->roles_id === 2  || auth()->user()->roles_id === 4) {
+
+            abort(403);
+        }
         //category
         $category = MasterPayment::latest()->get();
         //class
@@ -41,9 +46,12 @@ class ManageTrxPembayaranController extends Controller
             'master_payments.total as total',
             'trx_payments.total as total_payment',
             'trx_payments.status as status'
-        )->selectRaw('master_payments.total - trx_payments.total as remaining')
+        )
+            ->selectRaw('SUM(trx_payments.total) as sum_total')
+            ->selectRaw('master_payments.total - SUM(trx_payments.total) as remaining')
+            ->groupBy('trx_payments.id_student', 'trx_payments.id_payment', 'trx_payments.status')
             ->latest('trx_payments.created_at')->get();
-        return view('dashboard.pembayaran.spp.index', compact('data', 'category', 'class'));
+        return view('dashboard.pembayaran.index', compact('data', 'category', 'class'));
     }
 
     /**
@@ -98,7 +106,22 @@ class ManageTrxPembayaranController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if (auth()->user()->roles_id === 2  || auth()->user()->roles_id === 4) {
+            abort(403);
+        }
+        $request->validate([
+            'status' => 'required'
+        ]);
+
+        try {
+            $data = TrxPayment::find($id);
+            $data->status = $request->status;
+            $data->update();
+
+            return back()->with('success', 'Berhasil mengubah status ' . $data->user->name);
+        } catch (\Throwable $e) {
+            return back()->withErrors($e);
+        }
     }
 
     /**
@@ -109,6 +132,17 @@ class ManageTrxPembayaranController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (auth()->user()->roles_id === 2  || auth()->user()->roles_id === 4) {
+
+            abort(403);
+        }
+        try {
+            $data = TrxPayment::find($id);
+            $data->delete();
+
+            return back()->with('success', 'Berhasil menghapus data  ' . $data->user->name);
+        } catch (\Throwable $e) {
+            return back()->withErrors($e);
+        }
     }
 }

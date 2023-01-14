@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Perizinan;
 use App\Http\Controllers\Controller;
 use App\Models\TrxStudentPermits;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ManagePerizinanController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -15,6 +17,9 @@ class ManagePerizinanController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->roles_id === 2 || Auth::user()->roles_id === 4) {
+            abort(403);
+        }
         $data = TrxStudentPermits::with(['user', 'program'])->latest()->get();
         return view('dashboard.perizinan.index', [
             'perizinan' => $data
@@ -73,6 +78,10 @@ class ManagePerizinanController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (Auth::user()->roles_id === 2 || Auth::user()->roles_id === 4) {
+
+            abort(403);
+        }
         $request->validate([
             'status' => 'required'
         ]);
@@ -96,6 +105,10 @@ class ManagePerizinanController extends Controller
      */
     public function destroy($id)
     {
+        if (Auth::user()->roles_id === 2 || Auth::user()->roles_id === 4) {
+
+            abort(403);
+        }
         try {
             $data = TrxStudentPermits::find($id);
             $data->delete();
@@ -120,6 +133,8 @@ class ManagePerizinanController extends Controller
 
     public function restore($id)
     {
+        $this->authorize('admin');
+
         try {
             $data = TrxStudentPermits::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
@@ -131,6 +146,8 @@ class ManagePerizinanController extends Controller
     }
     public function restoreAll()
     {
+        $this->authorize('admin');
+
         try {
             $data = TrxStudentPermits::onlyTrashed();
             $data->restore();
@@ -142,6 +159,8 @@ class ManagePerizinanController extends Controller
 
     public function deletePermanent($id)
     {
+        $this->authorize('admin');
+
         try {
             $data = TrxStudentPermits::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
@@ -153,6 +172,8 @@ class ManagePerizinanController extends Controller
     }
     public function deletePermanentAll()
     {
+        $this->authorize('admin');
+
         try {
             $data = TrxStudentPermits::onlyTrashed();
             $data->forceDelete();

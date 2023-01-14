@@ -81,11 +81,17 @@
     Presensi
 @endif
 @if (Request::is('pembayaran*'))
-    SPP
+    Pembayaran
 @endif
 @if (Request::is('ebook*'))
     E-Book
 @endif
 @if (Request::is('video*'))
     Video
+@endif
+@if (Request::is('hafalanSurah*'))
+    Nilai Hafalan
+@endif
+@if (Request::is('kategoriNilai*'))
+    Kategori Nilai
 @endif

@@ -193,6 +193,13 @@
                                      <p>Mata Pelajaran</p>
                                  </a>
                              </li>
+                             <li class="nav-item">
+                                 <a href="{{ route('kategoriNilai.index') }}"
+                                     class="nav-link {{ Request::is('kategoriNilai*') ? 'active ' : '' }}">
+                                     <i class="far fa-circle nav-icon"></i>
+                                     <p>Kategori Penilaian</p>
+                                 </a>
+                             </li>
                          </ul>
                      </li>
                      <li class="nav-header">PERIZINAN</li>
@@ -233,9 +240,9 @@
 
                      <li class="nav-header">AKADEMIK</li>
                      <li
-                         class="nav-item {{ Request::is(['jadwalPelajaran*', 'jadwalPiket*', 'kelompokKelas*', 'kelompokKamar*']) ? 'menu-open' : '' }}">
+                         class="nav-item {{ Request::is(['jadwalPelajaran*', 'jadwalPiket*', 'kelompokKelas*', 'kelompokKamar*', 'hafalanSurah*']) ? 'menu-open' : '' }}">
                          <a href="#"
-                             class="nav-link {{ Request::is(['jadwalPelajaran*', 'jadwalPiket*', 'kelompokKelas*', 'kelompokKamar*']) ? 'active' : '' }}">
+                             class="nav-link {{ Request::is(['jadwalPelajaran*', 'jadwalPiket*', 'kelompokKelas*', 'kelompokKamar*', 'hafalanSurah*']) ? 'active' : '' }}">
                              <i class="nav-icon fas fa-archive"></i>
                              <p>
                                  Akademik
@@ -272,18 +279,20 @@
                                  </a>
                              </li>
                              <li class="nav-item">
-                                 <a href="pages/layout/top-nav.html" class="nav-link">
+                                 <a href="{{ route('hafalanSurah.index') }}"
+                                     class="nav-link {{ Request::is('hafalanSurah*') ? 'active' : '' }}">
                                      <i class="far fa-circle nav-icon"></i>
-                                     <p>Nilai</p>
+                                     <p>Penilaian Hafalan</p>
                                  </a>
                              </li>
+
                              <li class="nav-item">
                                  <a href="pages/layout/top-nav.html" class="nav-link">
                                      <i class="far fa-circle nav-icon"></i>
                                      <p>Raport</p>
                                  </a>
                              </li>
-                        </ul>
+                         </ul>
                      </li>
                      <li class="nav-header">File Sharing</li>
                      <li class="nav-item">
@@ -305,6 +314,60 @@
                          <a href="#" class="nav-link">
                              <i class="nav-icon fas fa-file-export"></i>
                              <p>Laporan</p>
+                         </a>
+                     </li>
+                 @endcan
+                 @can('pengurus')
+                     <li class="nav-header">PERIZINAN</li>
+                     <li class="nav-item">
+                         <a href="{{ route('perizinan.index') }}"
+                             class="nav-link {{ Request::is('perizinan*') ? 'active ' : '' }}">
+                             <i class="nav-icon fas fa-user-check"></i>
+                             <p>Perizinan</p>
+                         </a>
+                     </li>
+                     <li class="nav-header">ABSENSI</li>
+                     <li class="nav-item">
+                         <a href="{{ route('presensi.index') }}"
+                             class="nav-link {{ Request::is('presensi*') ? 'active ' : '' }}">
+                             <i class="nav-icon fas fa-tasks"></i>
+                             <p>Absensi</p>
+                         </a>
+                     </li>
+                     <li class="nav-header">PEMBAYARAN</li>
+                     <li class="nav-item {{ Request::is(['pembayaran*']) ? 'menu-open' : '' }}">
+                         <a href="#" class="nav-link {{ Request::is(['pembayaran*']) ? 'active' : '' }}">
+                             <i class="nav-icon fas fa-money-check"></i>
+                             <p>
+                                 Pembayaran
+                                 <i class="fas fa-angle-left right"></i>
+                             </p>
+                         </a>
+                         <ul class="nav nav-treeview">
+                             <li class="nav-item">
+                                 <a href="{{ route('pembayaran.index') }}"
+                                     class="nav-link {{ Request::is('pembayaran*') ? 'active' : '' }}">
+                                     <i class="far fa-circle nav-icon"></i>
+                                     <p>Bulanan</p>
+                                 </a>
+                             </li>
+                         </ul>
+                     </li>
+                 @endcan
+                 @can('pengajar')
+                     <li class="nav-header">ABSENSI</li>
+                     <li class="nav-item">
+                         <a href="{{ route('presensi.index') }}"
+                             class="nav-link {{ Request::is('presensi*') ? 'active ' : '' }}">
+                             <i class="nav-icon fas fa-tasks"></i>
+                             <p>Absensi</p>
+                         </a>
+                     </li>
+                     <li class="nav-header">NILAI</li>
+                     <li class="nav-item">
+                         <a href="{{ route('nilaiHafalan.index') }}" class="nav-link">
+                             <i class="far fa-circle nav-icon"></i>
+                             <p>Penilaian Hafalan</p>
                          </a>
                      </li>
                  @endcan

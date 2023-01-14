@@ -57,9 +57,6 @@
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-AddData">
                     <i class="fa fa-plus mr-2"></i> Tambah Data Baru
                 </button>
-                <a href="{{ route('trashPayment') }}" class="btn btn-secondary">
-                    <i class="fa fa-trash mr-2"></i>Trash
-                    Bin</a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -73,6 +70,7 @@
                             <th>Media Pembayaran</th>
                             <th>Total Pembayaran</th>
                             <th>Total Yang Di Bayar</th>
+                            <th>Total Yang Sudah Dibayar</th>
                             <th>Selisih</th>
                             <th>Tanggal Bayar</th>
                             <th>Status</th>
@@ -90,21 +88,25 @@
                                 <td>{!! $item->media_payment ?? '<span class="badge badge-danger">Error</span>' !!}</td>
                                 <td>@currency($item->total ?? '')</td>
                                 <td>@currency($item->total_payment ?? '')</td>
+                                <td>@currency($item->sum_total ?? '')</td>
                                 <td>@currency($item->remaining ?? '')</td>
                                 <td>{{ $item->date ?? '' }}</td>
                                 <td>
-                                    @if ($item->status == null)
-                                        <span class="badge badge-info">Sedang ditinjau</span>
-                                    @endif
-                                    @if ($item->status === true)
+                                    @if (is_null($item->status))
+                                        <span class="badge badge-info">Sedang di tinjau</span>
+                                    @elseif ($item->status == 1)
                                         <span class="badge badge-success">Lunas</span>
-                                    @endif
-                                    @if ($item->status === false)
-                                        <span class="badge badge-danger">Belum Lunas</span>
+                                    @elseif ($item->status == 0)
+                                        <span class="badge badge-warning">Belum Lunas</span>
                                     @endif
                                 </td>
-                                <td> <img src="{{ $item->photo }}" alt="" width="100" height="130"
-                                        class="photo"></td>
+                                <td>
+                                    @if (is_null($item->photo))
+                                        <i class="badge badge-info">Null</i>
+                                    @else
+                                        <img src="@gdrive($item->photo)" alt="" class="photo">
+                                    @endif
+                                </td>
                                 <td>
                                     {{-- {Edit} --}}
                                     <button type="button" class="btn btn-sm" data-toggle="modal"
@@ -133,6 +135,7 @@
                                         <div class="modal-body">
                                             <div class="card">
                                                 <div class="card-header bg-danger">
+                                                    {!! $item->name ?? '<span class="badge badge-danger">Error</span>' !!}
                                                     <h4>{{ $item->payment_name }}</h4> <br>
                                                     <p>Yakin ingin menghapus data tersebut? </p>
                                                 </div>
@@ -157,11 +160,58 @@
                                 <!-- /.modal-dialog -->
                             </div>
 
+                            {{-- Modal update data --}}
+                            <div class="modal fade" id="modal-Edit{{ $item->id }}">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Edit Data {!! $item->name ?? '<span class="badge badge-danger">Error</span>' !!} </h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="{{ route('pembayaran.update', $item->id) }}" method="post">
+                                            @csrf
+                                            @method('put')
+                                            <div class="modal-body">
+                                                <p>{{ $item->payment_name }}</p>
+                                                <br>
+                                                <label for="">Status</label>
+                                                <select name="status" id=""
+                                                    class="custom-select form-control-border">
+                                                    <option value="">Pilih Status</option>
+                                                    <option value="1">Lunas</option>
+                                                    <option value="0">Belum Lunas</option>
+                                                </select>
 
-                        @empty
-                            <tr>
-                                <td colspan="11" align="center"> Data Tidak Tersedia</td>
-                            </tr>
+                                            </div>
+                                            <div class="modal-footer justify-content-between">
+                                                <button type="button" class="btn btn-default"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-sm btn-warning">
+                                                    <svg style="color: white" xmlns="http://www.w3.org/2000/svg"
+                                                        width="16" height="16" fill="currentColor"
+                                                        class="bi bi-send mr-2" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329
+                                                .124l-3.178-4.995L.643 7.184a.75.75 0 0 1
+                                                 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761
+                                                 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591
+                                                 6.602l4.339 2.76 7.494-7.493Z"
+                                                            fill="white"></path>
+                                                    </svg>
+                                                    Update</button>
+                                            </div>
+                                        </form>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
+
+                            @empty
+                                <tr>
+                                    <td colspan="13" align="center"> Data Tidak Tersedia</td>
+                                </tr>
                         @endforelse
                     </tbody>
                     <tfoot>
@@ -173,6 +223,7 @@
                             <th>Media Pembayaran</th>
                             <th>Total Pembayaran</th>
                             <th>Total Yang Di Bayar</th>
+                            <th>Total Yang Sudah Dibayar</th>
                             <th>Selisih</th>
                             <th>Tanggal Bayar</th>
                             <th>Status</th>

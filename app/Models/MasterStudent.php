@@ -35,17 +35,17 @@ class MasterStudent extends Model
         'email', 'photo', 'province_id', 'city_id', 'address', 'no_id', 'student_parent', 'no_tlp'
     ];
 
-    public function toArray()
-    {
-        $toArray = parent::toArray();
-        $toArray['photo'] = $this->photo;
-        return $toArray;
-    }
+    // public function toArray()
+    // {
+    //     $toArray = parent::toArray();
+    //     $toArray['photo'] = $this->photo;
+    //     return $toArray;
+    // }
 
-    public function getPhotoAttribute()
-    {
-        return url('') . Storage::url($this->attributes['photo']);
-    }
+    // public function getPhotoAttribute()
+    // {
+    //     return url('') . Storage::url($this->attributes['photo']);
+    // }
 
     // relationship
     public function province()

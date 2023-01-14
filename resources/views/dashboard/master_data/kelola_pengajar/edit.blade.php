@@ -64,7 +64,7 @@
                     <div class="form-group">
                         <label for="phone_number">Nomor Telepon <code>*Optional</code></label>
                         <input type="number" name="phone_number" id="phone_number" class="form-control"
-                            value="{{ old('phone_number') ?? $pengajar->no_tlp }}">
+                            value="{{ old('phone_number') ?? $pengajar->no_tlp }}" placeholder="62123456">
                     </div>
                     <div class="form-group">
                         <label for="province">Provinsi</label>
@@ -102,8 +102,13 @@
                             </div>
                         </div>
                         <h6 class="mt-5">Preview</h6>
-                        <img src="{{ $pengajar->photo != 'http://localhost:8000/storage/' ? $pengajar->photo : 'https://via.placeholder.com/150x200' }}"
-                            alt="" width="150" height="200" id="photo" class="photo">
+                        @if (is_null($pengajar->photo))
+                            <img src='https://via.placeholder.com/150x200' alt="" width="150" height="200"
+                                id="photo" class="photo">
+                        @else
+                            <img src="@gdrive($pengajar->photo)" alt="" class="photo">
+                        @endif
+
                     </div>
                 </div>
                 <div class="card-footer">

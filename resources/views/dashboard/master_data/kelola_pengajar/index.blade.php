@@ -55,11 +55,10 @@
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->email }}</td>
                                 <td>
-                                    @if ($item->photo == 'http://localhost:8000/storage/')
+                                    @if (is_null($item->photo))
                                         <i class="badge badge-info">Null</i>
                                     @else
-                                        <img src="{{ $item->photo }}" alt="" width="100" height="130"
-                                            class="photo">
+                                        <img src="@gdrive($item->photo)" alt="" class="photo">
                                     @endif
                                 </td>
                                 <td>{{ $item->gender }}</td>

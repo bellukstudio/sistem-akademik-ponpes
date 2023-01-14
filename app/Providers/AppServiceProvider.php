@@ -32,5 +32,10 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('currency', function ($expression) {
             return "<?php echo number_format($expression,0,',','.'); ?>";
         });
+        // view gdrive
+        Blade::directive('gdrive', function ($id) {
+            $data = "<?php echo $id ?>";
+            return "https://drive.google.com/uc?export=view&id=$data";
+        });
     }
 }

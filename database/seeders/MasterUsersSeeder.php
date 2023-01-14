@@ -22,16 +22,17 @@ class MasterUsersSeeder extends Seeder
         $user = [
             [
                 $name => 'admin',
-                $email => 'adminponpes@gmail.com',
+                $email => 'sispendikapps@gmail.com',
                 $password => Hash::make('adminponpes'),
                 $roles => 1,
             ],
             [
-                $name => 'Muh Lukman Akbar P',
-                $email => 'muhamadlukman937@gmail.com',
-                $password => Hash::make('masuk123'),
+                $name => 'Ahmad Agung',
+                $email => 'sibelluk12@gmail.com',
+                $password => Hash::make('20230111'),
                 $roles => 2,
-            ]
+            ],
+
         ];
         foreach ($user as $data) {
             MasterUsers::create($data);

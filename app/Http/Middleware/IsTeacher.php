@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class IsNotStudent
+class IsTeacher
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class IsNotStudent
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!auth()->check() || auth()->user()->roles_id === 4) {
+        if (!auth()->check() || auth()->user()->roles_id !== 2) {
             abort(403);
         }
 

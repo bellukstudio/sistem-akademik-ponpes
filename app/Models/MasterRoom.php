@@ -32,15 +32,17 @@ class MasterRoom extends Model
         return Carbon::parse($value)->timestamp;
     }
 
-    public function toArray()
-    {
-        $toArray = parent::toArray();
-        $toArray['photo'] = $this->photo;
-        return $toArray;
-    }
+    // public function toArray()
+    // {
+    //     $toArray = parent::toArray();
+    //     $toArray['photo'] = $this->photo;
+    //     return $toArray;
+    // }
 
-    public function getPhotoAttribute()
-    {
-        return url('') . Storage::url($this->attributes['photo']);
-    }
+    /** 
+     *public function getPhotoAttribute()
+     *{
+     *   return url('') . Storage::url($this->attributes['photo']);
+     *}
+     */
 }

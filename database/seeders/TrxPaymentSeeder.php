@@ -21,9 +21,15 @@ class TrxPaymentSeeder extends Seeder
                 'id_payment' => 1,
                 'id_student' => 1,
                 'date_payment' => Date::now(),
-                'status' => false,
                 'total' => '500000'
-            ]
+            ],
+            [
+                'id_user' => 2,
+                'id_payment' => 1,
+                'id_student' => 1,
+                'date_payment' => Date::now(),
+                'total' => '200000'
+            ],
         ];
 
         foreach ($data as $value) {

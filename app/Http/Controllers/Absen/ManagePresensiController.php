@@ -11,9 +11,12 @@ use App\Models\MasterTeacher;
 use App\Models\TrxAttendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\UtilHelper;
 
 class ManagePresensiController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -21,6 +24,9 @@ class ManagePresensiController extends Controller
      */
     public function index()
     {
+        if (auth()->user()->roles_id === 4) {
+            abort(404);
+        }
         $type = MasterAttendance::all();
         // cek data presence
         $student = MasterStudent::join('trx_class_groups', 'trx_class_groups.student_id', '=', 'master_students.id')
@@ -41,24 +47,56 @@ class ManagePresensiController extends Controller
             $dataCategory = '';
             $typeAttendance = MasterAttendance::where('id', $category[0])->firstOrFail();
             $nameAttendance = $typeAttendance->name;
-            $day = $this->currentDay(strtotime(request('date_select')));
+            $day = UtilHelper::currentDay(strtotime(request('date_select')));
 
             if ($category[1] === 'Kelas') {
                 $getClass = MasterClass::where('id', request('optionSelect'))->firstOrFail();
                 $dataCategory = $getClass->class_name;
                 if ($category[2] === 'TAKLIM') {
                     $student->join('trx_schedules', 'trx_schedules.class_id', '=', 'master_classes.id')
-                        ->where('trx_class_groups.class_id', request('optionSelect'))
                         ->where('trx_schedules.time', request('otherSelect'))
-                        ->where('trx_schedules.day', $day)->groupBy('master_students.id');
+                        ->where('trx_schedules.day', $day)
+                        ->leftJoin('trx_attendances', function ($join) {
+                            $class =
+                                MasterClass::where('id', request('optionSelect'))->firstOrFail();
+                            $join->on('trx_attendances.student_id', '=', 'master_students.id')
+                                ->where('trx_attendances.category_attendance', '=', $class->class_name)
+                                ->where('trx_attendances.other_category', '=', request('otherSelect'))
+                                ->where('trx_attendances.date_presence', '=', request('date_select'));
+                        })->where('trx_class_groups.class_id', '=', request('optionSelect'));
                 } else {
-                    $student->join('trx_schedules', 'trx_schedules.class_id', '=', 'master_classes.id')
-                        ->where('trx_class_groups.class_id', request('optionSelect'))->groupBy('master_students.id');
+                    $student->leftJoin('trx_attendances', function ($join) {
+                        $class =
+                            MasterClass::where('id', request('optionSelect'))->firstOrFail();
+                        $type = explode('+', request('type'));
+                        $join->on('trx_attendances.student_id', '=', 'master_students.id')
+                            ->where('trx_attendances.category_attendance', '=', $class->class_name)
+                            ->where('trx_attendances.date_presence', '=', request('date_select'))
+                            ->where('trx_attendances.presence_type', '=', $type[0]);
+                    })->where('trx_class_groups.class_id', '=', request('optionSelect'));
                 }
             } elseif ($category[1] === 'Program') {
                 $getProgram = MasterAcademicProgram::where('id', request('optionSelect'))->firstOrFail();
                 $dataCategory = $getProgram->program_name;
-                $student->where('master_students.program_id', request('optionSelect'))->groupBy('master_students.id');
+                if ($category[2] === 'SHALAT') {
+                    $student->leftJoin('trx_attendances', function ($join) {
+                        //type
+                        $type =
+                            explode('+', request('type'));
+                        $join->on('trx_attendances.student_id', '=', 'master_students.id')
+                            ->where('trx_attendances.other_category', '=', request('otherSelect'))
+                            ->where('trx_attendances.date_presence', '=', request('date_select'))
+                            ->where('trx_attendances.presence_type', '=', $type[0]);
+                    })->where('master_academic_programs.id', request('optionSelect'));
+                } else {
+                    $student->leftJoin('trx_attendances', function ($join) {
+                        $type =
+                            explode('+', request('type'));
+                        $join->on('trx_attendances.student_id', '=', 'master_students.id')
+                            ->where('trx_attendances.date_presence', '=', request('date_select'))
+                            ->where('trx_attendances.presence_type', '=', $type[0]);
+                    })->where('master_academic_programs.id', request('optionSelect'));
+                }
             } elseif ($category[1] === 'Pengajar') {
                 $getTeacher = MasterTeacher::where('id', request('optionSelect'))->firstOrFail();
                 $dataCategory = $getTeacher->name;
@@ -71,22 +109,30 @@ class ManagePresensiController extends Controller
                             'master_categorie_schedules.id',
                             '=',
                             'master_courses.category_id'
-                        )
+                        )->leftJoin('trx_attendances', function ($join) {
+                            $teacher = MasterTeacher::where('id', request('optionSelect'))->firstOrFail();
+                            $type = explode('+', request('type'));
+                            $join->on('trx_attendances.student_id', '=', 'master_students.id')
+                                ->where('trx_attendances.category_attendance', '=', $teacher->name)
+                                ->where('trx_attendances.other_category', '=', request('otherSelect'))
+                                ->where('trx_attendances.date_presence', '=', request('date_select'))
+                                ->where('trx_attendances.presence_type', '=', $type[0]);
+                        })
                         ->where('master_teachers.id', request('optionSelect'))
+                        ->where('master_categorie_schedules.categorie_name', '=', 'SETORAN')
                         ->where('trx_schedules.day', $day)
-                        ->where('master_categorie_schedules.categorie_name', 'SETORAN')->groupBy('master_students.id');
+                        ->where('trx_schedules.time', request('otherSelect'))
+                        ->groupBy('master_students.id');
                 } else {
-                    $student->join('trx_schedules', 'trx_schedules.class_id', '=', 'master_classes.id')
-                        ->join('master_teachers', 'master_teachers.id', '=', 'trx_schedules.teacher_id')
-                        ->join('master_courses', 'master_courses.id', '=', 'trx_schedules.course_id')
-                        ->join(
-                            'master_categorie_schedules',
-                            'master_categorie_schedules.id',
-                            '=',
-                            'master_courses.category_id'
-                        )
+                    $student->leftJoin('trx_attendances', function ($join) {
+                        $teacher = MasterTeacher::where('id', request('optionSelect'))->firstOrFail();
+                        $type = explode('+', request('type'));
+                        $join->on('trx_attendances.student_id', '=', 'master_students.id')
+                            ->where('trx_attendances.category_attendance', '=', $teacher->name)
+                            ->where('trx_attendances.date_presence', '=', request('date_select'))
+                            ->where('trx_attendances.presence_type', '=', $type[0]);
+                    })
                         ->where('master_teachers.id', request('optionSelect'))
-                        ->where('trx_schedules.day', $day)
                         ->groupBy('master_students.id');
                 }
             }
@@ -102,21 +148,12 @@ class ManagePresensiController extends Controller
                     'master_students.name as student_name',
                     'master_classes.class_name as class_name',
                     'master_academic_programs.program_name as program_name',
-                    'master_academic_programs.id as id_program'
+                    'master_academic_programs.id as id_program',
+                    'trx_attendances.status as status'
                 )->get();
 
 
-            $status = '';
-            foreach ($data as $value) {
-                // cek status apakah user sudah absen atau belum
-                $attendance = TrxAttendance::where('student_id', $value->student_id)
-                    ->where('category_attendance', $dataCategory)
-                    ->where('presence_type', $dataType)
-                    ->where('other_category', $otherCategory)
-                    ->where('date_presence', request('date_select'))
-                    ->first();
-                $status = $attendance->status ?? 'Belum Absen';
-            }
+
             return view(
                 'dashboard.absensi.index',
                 compact(
@@ -129,7 +166,6 @@ class ManagePresensiController extends Controller
                     'otherCategory',
                     'day',
                     'dateSelect',
-                    'status'
                 )
             );
         }
@@ -141,6 +177,10 @@ class ManagePresensiController extends Controller
      */
     public function saveAttendance(Request $request)
     {
+        if (auth()->user()->roles_id === 4) {
+
+            abort(404);
+        }
         try {
             // check student for attendances
             $student = TrxAttendance::where('student_id', $request->student)
@@ -242,48 +282,5 @@ class ManagePresensiController extends Controller
     public function destroy($id)
     {
         //
-    }
-    /**
-     * format day in indonesian
-     */
-    public function currentDay($data)
-    {
-        $hari = date("D", $data);
-
-        switch ($hari) {
-            case 'Sun':
-                $currentDay = "Ahad";
-                break;
-
-            case 'Mon':
-                $currentDay = "Senin";
-                break;
-
-            case 'Tue':
-                $currentDay = "Selasa";
-                break;
-
-            case 'Wed':
-                $currentDay = "Rabu";
-                break;
-
-            case 'Thu':
-                $currentDay = "Kamis";
-                break;
-
-            case 'Fri':
-                $currentDay = "Jumat";
-                break;
-
-            case 'Sat':
-                $currentDay = "Sabtu";
-                break;
-
-            default:
-                $currentDay = "Tidak di ketahui";
-                break;
-        }
-
-        return $currentDay;
     }
 }

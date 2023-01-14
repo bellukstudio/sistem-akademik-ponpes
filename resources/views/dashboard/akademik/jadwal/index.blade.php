@@ -122,7 +122,7 @@
                                             <div class="card">
                                                 <div class="card-header bg-danger">
                                                     <h4>Jadwal {!! $item->course_name ?? '<span class="badge badge-danger">Error</span>' !!}</h4>
-                                                    <p>Pada {!! $item->class_name ?? '<span class="badge badge-danger">Error</span>' !!}}</p> <br>
+                                                    <p>Pada {!! $item->class_name ?? '<span class="badge badge-danger">Error</span>' !!}</p> <br>
                                                     <p>Yakin ingin menghapus data tersebut? </p>
                                                 </div>
 

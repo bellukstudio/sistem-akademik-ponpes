@@ -34,7 +34,11 @@ class AuthController extends Controller
         // check credentials user
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('google.check');
+            if (Auth::user()->id === 1) {
+                return redirect()->route('google.check');
+            } else {
+                return redirect()->intended('dashboard');
+            }
         }
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',

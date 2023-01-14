@@ -30,6 +30,11 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('admin', function (MasterUsers $user) {
             return $user->roles_id === 1;
         });
-
+        Gate::define('pengajar', function (MasterUsers $user) {
+            return $user->roles_id === 2;
+        });
+        Gate::define('pengurus', function (MasterUsers $user) {
+            return $user->roles_id === 3;
+        });
     }
 }

@@ -33,17 +33,17 @@ class MasterTeacher extends Model
         'email', 'address', 'no_tlp', 'province_id', 'city_id', 'no_id', 'photo'
     ];
 
-    public function toArray()
-    {
-        $toArray = parent::toArray();
-        $toArray['photo'] = $this->photo;
-        return $toArray;
-    }
+    // public function toArray()
+    // {
+    //     $toArray = parent::toArray();
+    //     $toArray['photo'] = $this->photo;
+    //     return $toArray;
+    // }
 
-    public function getPhotoAttribute()
-    {
-        return url('') . Storage::url($this->attributes['photo']);
-    }
+    // public function getPhotoAttribute()
+    // {
+    //     return url('') . Storage::url($this->attributes['photo']);
+    // }
 
     // relationship
     public function province()

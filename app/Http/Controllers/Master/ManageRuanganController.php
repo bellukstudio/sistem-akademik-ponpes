@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\MasterRoom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use App\Helpers\GoogleDriveHelper;
+
+use function PHPUnit\Framework\isEmpty;
 
 class ManageRuanganController extends Controller
 {
@@ -42,20 +45,26 @@ class ManageRuanganController extends Controller
         $request->validate([
             'room_name' => 'required|max:100|unique:master_rooms,room_name',
             'capasity' => 'required|integer',
-            'photo' => 'image|max:2048|mimes:png,jpg,jpeg'
+            'photo' => 'sometimes|image|max:2048|mimes:png,jpg,jpeg'
         ]);
 
         try {
+            $upload = null;
             if ($request->file('photo')) {
-                $file = $request->file('photo')->store('assets/rooms', 'public');
-                $request->photo = $file;
+                $file = $request->file('photo');
+                $upload =  GoogleDriveHelper::googleDriveFileUpload(
+                    $request->room_name . '.png',
+                    $file,
+                    'ROOM',
+                    GoogleDriveHelper::$img
+                );
             }
             MasterRoom::create(
                 [
                     'room_name' => $request->room_name,
                     'capasity' => $request->capasity,
                     'type' => 'RUANGAN',
-                    'photo' => $request->photo
+                    'photo' => $upload
                 ]
             );
 
@@ -100,33 +109,45 @@ class ManageRuanganController extends Controller
         $request->validate([
             'room_name' => 'required|max:100',
             'capasity' => 'required|integer',
-            'photo' => 'image|max:2048|mimes:png,jpg,jpeg'
+            'photo' => 'sometimes|image|max:2048|mimes:png,jpg,jpeg'
         ]);
 
         try {
             $data = MasterRoom::findOrFail($id);
-            $photo = $data->photo;
             if ($request->file('photo')) {
-                $file = $request->file('photo')->store('assets/rooms', 'public');
-                $request->photo = $file;
-                $data->room_name = $request->room_name;
-                $data->capasity = $request->capasity;
-                $data->photo = $request->photo;
-                $data->update();
-
-                /// remove old photo
-                if ($photo != 'http://localhost:8000/storage/') {
-                    $img = explode('/', $photo);
-                    $path = $img[3] . '/' . $img[4] . '/' . $img[5] . '/' . $img[6];
-                    if (File::exists($path)) {
-                        unlink($path);
-                    }
+                $file = $request->file('photo');
+                if (isEmpty($data->photo)) {
+                    //new file
+                    $upload =  GoogleDriveHelper::googleDriveFileUpload(
+                        $request->room_name . '.png',
+                        $file,
+                        'ROOM',
+                        GoogleDriveHelper::$img
+                    );
+                    $data->photo = $upload;
+                } else {
+                    //delete file
+                    GoogleDriveHelper::deleteFile($data->room_name, GoogleDriveHelper::$img);
+                    //new file
+                    $upload =  GoogleDriveHelper::googleDriveFileUpload(
+                        $request->room_name . '.png',
+                        $file,
+                        'ROOM',
+                        GoogleDriveHelper::$img
+                    );
+                    $data->photo = $upload;
                 }
-            } else {
-                $data->room_name = $request->room_name;
-                $data->capasity = $request->capasity;
-                $data->update();
             }
+
+            if ($data->photo != null) {
+                // rename img
+                $fileName = $request->room_name . '.png';
+                GoogleDriveHelper::renameFile($data->photo, $fileName);
+            }
+
+            $data->room_name = $request->room_name;
+            $data->capasity = $request->capasity;
+            $data->update();
 
             return redirect()->route('kelolaRuangan.index')
                 ->with('success', 'Ruangan ' . $request->room_name . ' berhasil diubah');
@@ -144,16 +165,14 @@ class ManageRuanganController extends Controller
     public function destroy($id)
     {
         try {
+            // delete file
             $data = MasterRoom::find($id);
-            /// remove  photo
-            if ($data->photo != 'http://localhost:8000/storage/') {
-                $img = explode('/', $data->photo);
-                $path = $img[3] . '/' . $img[4] . '/' . $img[5] . '/' . $img[6];
-                if (File::exists($path)) {
-                    unlink($path);
-                    $data->photo = null;
-                    $data->update();
-                }
+            //delete image
+            if ($data->photo != null) {
+                $fileName = $data->room_name . '.png';
+                GoogleDriveHelper::deleteFile($fileName, GoogleDriveHelper::$img);
+                $data->photo = null;
+                $data->update();
             }
             $data->delete();
             return redirect()->route('kelolaRuangan.index')

@@ -302,3 +302,13 @@ Breadcrumbs::for('ebook', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('video', function (BreadcrumbTrail $trail) {
     $trail->push('Data Video', route('video.index'));
 });
+
+//data nilai
+
+Breadcrumbs::for('nilaiHafalan', function (BreadcrumbTrail $trail) {
+    $trail->push('Form Penilaian', route('hafalanSurah.index'));
+});
+Breadcrumbs::for('nilaiHafalan.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('nilaiHafalan');
+    $trail->push('Penilaian', route('hafalanSurah.create'));
+});

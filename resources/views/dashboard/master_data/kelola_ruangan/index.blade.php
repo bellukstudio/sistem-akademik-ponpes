@@ -96,10 +96,10 @@
                                 <td>{{ $item->room_name }}</td>
                                 <td>{{ $item->capasity }} Orang</td>
                                 <td>
-                                    @if ($item->photo == 'http://localhost:8000/storage/')
+                                    @if (is_null($item->photo))
                                         <i class="badge badge-info">Null</i>
                                     @else
-                                        <img src="{{ $item->photo }}" alt="" class="photo-rooms">
+                                        <img src="@gdrive($item->photo)" alt="" class="photo-rooms">
                                     @endif
                                 </td>
                                 <td>
