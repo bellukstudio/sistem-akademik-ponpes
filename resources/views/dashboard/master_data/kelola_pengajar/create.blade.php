@@ -57,8 +57,8 @@
                     </div>
                     <div class="form-group">
                         <label for="phone_number">Nomor Telepon <code>*Optional</code></label>
-                        <input type="number" name="phone_number" id="phone_number" class="form-control"
-                            value="{{ old('phone_number') }}" placeholder="Nomor Telepon">
+                        <input type="tel" name="phone_number" id="phone_number" class="form-control"
+                            value="{{ old('phone_number') }}" placeholder="6212345678">
                     </div>
                     <div class="form-group">
                         <label for="province">Provinsi</label>

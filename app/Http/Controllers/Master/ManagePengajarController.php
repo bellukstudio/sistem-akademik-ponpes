@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Master;
 
+use App\Helpers\GoogleDriveHelper;
 use App\Http\Controllers\Controller;
 use App\Models\MasterProvince;
 use App\Models\MasterTeacher;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
+use function PHPUnit\Framework\isEmpty;
 
 class ManagePengajarController extends Controller
 {
@@ -56,15 +57,21 @@ class ManagePengajarController extends Controller
         ]);
 
         try {
+            $upload = null;
             if ($request->file('photo')) {
-                $file = $request->file('photo')->store('assets/teachers', 'public');
-                $request->photo = $file;
+                $file = $request->file('photo');
+                $upload = GoogleDriveHelper::googleDriveFileUpload(
+                    $request->id_number . '.png',
+                    $file,
+                    'TEACHER',
+                    GoogleDriveHelper::$img
+                );
             }
             MasterTeacher::create([
                 'noId' => $request->id_number,
                 'email' => $request->email,
                 'name' => $request->fullName,
-                'photo' => $request->photo,
+                'photo' => $upload,
                 'gender' => $request->gender,
                 'province_id' => $request->province,
                 'city_id' => $request->city,
@@ -149,43 +156,47 @@ class ManagePengajarController extends Controller
 
         try {
             $data = MasterTeacher::findOrFail($id);
-            $photo = $data->photo;
             if ($request->file('photo')) {
-                $file = $request->file('photo')->store('assets/teachers', 'public');
-                $request->photo = $file;
+                $file = $request->file('photo');
+                if (isEmpty($data->photo)) {
+                    $upload = GoogleDriveHelper::googleDriveFileUpload(
+                        $request->noId . '.png',
+                        $file,
+                        'TEACHER',
+                        GoogleDriveHelper::$img
+                    );
 
-                $data->noId = $request->id_number;
-                $data->email = $request->email;
-                $data->name = $request->fullName;
-                $data->photo = $request->photo;
-                $data->gender = $request->gender;
-                $data->province_id = $request->province;
-                $data->city_id = $request->city;
-                $data->date_birth = $request->dateBirth;
-                $data->no_tlp = $request->phone_number;
-                $data->address = $request->address;
-                $data->update();
+                    $data->photo = $upload;
+                } else {
+                    //delete file
+                    GoogleDriveHelper::deleteFile($data->noId, GoogleDriveHelper::$img);
+                    //upload new file
+                    $upload = GoogleDriveHelper::googleDriveFileUpload(
+                        $request->noId . '.png',
+                        $file,
+                        'TEACHER',
+                        GoogleDriveHelper::$img
+                    );
 
-                /// remove old photo
-                if ($photo != 'http://localhost:8000/storage/') {
-                    $img = explode('/', $photo);
-                    $path = $img[3] . '/' . $img[4] . '/' . $img[5] . '/' . $img[6];
-                    if (File::exists($path)) {
-                        unlink($path);
-                    }
+                    $data->photo = $upload;
                 }
-            } else {
-                $data->noId = $request->id_number;
-                $data->email = $request->email;
-                $data->name = $request->fullName;
-                $data->gender = $request->gender;
-                $data->province_id = $request->province;
-                $data->city_id = $request->city;
-                $data->date_birth = $request->dateBirth;
-                $data->no_tlp = $request->phone_number;
-                $data->address = $request->address;
-                $data->update();
             }
+
+            if ($data->photo != null) {
+                // rename img
+                $fileName = $request->id_number . '.png';
+                GoogleDriveHelper::renameFile($data->photo, $fileName);
+            }
+            $data->noId = $request->id_number;
+            $data->email = $request->email;
+            $data->name = $request->fullName;
+            $data->gender = $request->gender;
+            $data->province_id = $request->province;
+            $data->city_id = $request->city;
+            $data->date_birth = $request->dateBirth;
+            $data->no_tlp = $request->phone_number;
+            $data->address = $request->address;
+            $data->update();
 
 
             return redirect()->route('kelolaPengajar.index')
@@ -206,14 +217,11 @@ class ManagePengajarController extends Controller
         try {
             $data = MasterTeacher::find($id);
             /// remove  photo
-            if ($data->photo != 'http://localhost:8000/storage/') {
-                $img = explode('/', $data->photo);
-                $path = $img[3] . '/' . $img[4] . '/' . $img[5] . '/' . $img[6];
-                if (File::exists($path)) {
-                    unlink($path);
-                    $data->photo = null;
-                    $data->update();
-                }
+            if ($data->photo != null) {
+                $fileName = $data->noId . '.png';
+                GoogleDriveHelper::deleteFile($fileName, GoogleDriveHelper::$img);
+                $data->photo = null;
+                $data->update();
             }
 
             $data->delete();
@@ -249,7 +257,7 @@ class ManagePengajarController extends Controller
         try {
             $data = MasterTeacher::onlyTrashed();
             $data->restore();
-            return redirect()->route('kelolaPengajar.index')->with('success', 'Data berhasil dipulihkan');
+            return redirect()->route('kelolaPengajar.index')->with('success', 'Semua Data berhasil dipulihkan');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

@@ -9,6 +9,9 @@ use App\Models\MasterStudent;
 use Illuminate\Http\Request;
 use App\Models\MasterProvince;
 use Illuminate\Support\Facades\File;
+use App\Helpers\GoogleDriveHelper;
+
+use function PHPUnit\Framework\isEmpty;
 
 class ManageSantriController extends Controller
 {
@@ -61,16 +64,22 @@ class ManageSantriController extends Controller
         ]);
 
         try {
+            $upload = null;
             if ($request->file('photo')) {
-                $file = $request->file('photo')->store('assets/students', 'public');
-                $request->photo = $file;
+                $file = $request->file('photo');
+                $upload = GoogleDriveHelper::googleDriveFileUpload(
+                    $request->id_number . '.png',
+                    $file,
+                    'STUDENT',
+                    GoogleDriveHelper::$img
+                );
             }
 
             MasterStudent::create([
                 'noId' => $request->id_number,
                 'email' => $request->email,
                 'name' => $request->fullName,
-                'photo' => $request->photo,
+                'photo' => $upload,
                 'gender' => $request->gender,
                 'address' => $request->address,
                 'province_id' => $request->province,
@@ -180,48 +189,49 @@ class ManageSantriController extends Controller
 
         try {
             $data = MasterStudent::find($id);
-            $photo = $data->photo;
             if ($request->file('photo')) {
-                $file = $request->file('photo')->store('assets/students', 'public');
-                $request->photo = $file;
+                $file = $request->file('photo');
+                if (isEmpty($data->photo)) {
+                    $upload = GoogleDriveHelper::googleDriveFileUpload(
+                        $request->noId . '.png',
+                        $file,
+                        'STUDENT',
+                        GoogleDriveHelper::$img
+                    );
 
-                $data->noId = $request->id_number;
-                $data->email = $request->email;
-                $data->name = $request->fullName;
-                $data->photo = $request->photo;
-                $data->gender = $request->gender;
-                $data->province_id = $request->province;
-                $data->city_id = $request->city;
-                $data->date_birth = $request->dateBirth;
-                $data->no_tlp = $request->phone_number;
-                $data->address = $request->address;
-                $data->student_parent = $request->student_parent;
-                $data->program_id = $request->program;
-                $data->period_id = $request->period;
-                $data->update();
-                /// remove old photo
-                if ($photo != 'http://localhost:8000/storage/') {
-                    $img = explode('/', $photo);
-                    $path = $img[3] . '/' . $img[4] . '/' . $img[5] . '/' . $img[6];
-                    if (File::exists($path)) {
-                        unlink($path);
-                    }
+                    $data->photo = $upload;
+                } else {
+                    //delete file
+                    GoogleDriveHelper::deleteFile($data->noId, GoogleDriveHelper::$img);
+                    //upload new file
+                    $upload = GoogleDriveHelper::googleDriveFileUpload(
+                        $request->noId . '.png',
+                        $file,
+                        'TEACHER',
+                        GoogleDriveHelper::$img
+                    );
+
+                    $data->photo = $upload;
                 }
-            } else {
-                $data->noId = $request->id_number;
-                $data->email = $request->email;
-                $data->name = $request->fullName;
-                $data->gender = $request->gender;
-                $data->province_id = $request->province;
-                $data->city_id = $request->city;
-                $data->date_birth = $request->dateBirth;
-                $data->no_tlp = $request->phone_number;
-                $data->address = $request->address;
-                $data->student_parent = $request->student_parent;
-                $data->program_id = $request->program;
-                $data->period_id = $request->period;
-                $data->update();
             }
+            if ($data->photo != null) {
+                // rename img
+                $fileName = $request->id_number . '.png';
+                GoogleDriveHelper::renameFile($data->photo, $fileName);
+            }
+            $data->noId = $request->id_number;
+            $data->email = $request->email;
+            $data->name = $request->fullName;
+            $data->gender = $request->gender;
+            $data->province_id = $request->province;
+            $data->city_id = $request->city;
+            $data->date_birth = $request->dateBirth;
+            $data->no_tlp = $request->phone_number;
+            $data->address = $request->address;
+            $data->student_parent = $request->student_parent;
+            $data->program_id = $request->program;
+            $data->period_id = $request->period;
+            $data->update();
             return redirect()->route('kelolaSantri.index')
                 ->with('success', 'Data Santri ' . $request->fullName . ' berhasil diubah');
         } catch (\Exception $e) {
@@ -240,14 +250,11 @@ class ManageSantriController extends Controller
         try {
             $data = MasterStudent::find($id);
             /// remove  photo
-            if ($data->photo != 'http://localhost:8000/storage/') {
-                $img = explode('/', $data->photo);
-                $path = $img[3] . '/' . $img[4] . '/' . $img[5] . '/' . $img[6];
-                if (File::exists($path)) {
-                    unlink($path);
-                    $data->photo = null;
-                    $data->update();
-                }
+            if ($data->photo != null) {
+                $fileName = $data->noId . '.png';
+                GoogleDriveHelper::deleteFile($fileName, GoogleDriveHelper::$img);
+                $data->photo = null;
+                $data->update();
             }
 
             $data->delete();
@@ -284,7 +291,7 @@ class ManageSantriController extends Controller
         try {
             $data = MasterStudent::onlyTrashed();
             $data->restore();
-            return redirect()->route('kelolaSantri.index')->with('success', 'Data berhasil dipulihkan');
+            return redirect()->route('kelolaSantri.index')->with('success', 'Semua Data berhasil dipulihkan');
         } catch (\Exception $e) {
             return back()->withErrors($e);
         }

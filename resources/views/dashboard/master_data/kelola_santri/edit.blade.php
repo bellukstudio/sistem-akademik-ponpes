@@ -137,8 +137,12 @@
                             </div>
                         </div>
                         <h6 class="mt-5">Preview</h6>
-                        <img src="{{ $santri->photo != 'http://localhost:8000/storage/' ? $santri->photo : 'https://via.placeholder.com/150x200' }}"
-                            alt="" width="150" height="200" id="photo" class="photo">
+                        @if (is_null($santri->photo))
+                            <img src='https://via.placeholder.com/150x200' alt="" width="150" height="200"
+                                id="photo" class="photo">
+                        @else
+                            <img src="@gdrive($santri->photo)" alt="" class="photo">
+                        @endif
                     </div>
                 </div>
                 <div class="card-footer">

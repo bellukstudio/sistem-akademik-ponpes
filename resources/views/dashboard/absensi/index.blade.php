@@ -52,24 +52,25 @@
                 </div>
                 <div class="form-group">
                     <label for="">Pilih Tanggal</label>
-                    <input type="date" name="date_select" id="" class="form-control">
+                    <input type="date" name="date_select" id="" class="form-control"
+                        value="{{ old('date_select') }}">
                 </div>
                 <button type="submit" class="btn btn-primary" name="showData">
                     <i class="fa fa-eye mr-2"></i> Lihat Absen </button>
 
             </form>
         </div>
-        <div class="card">
-            <div class="card-header bg-gradient-indigo">
+        <div class="card" style="overflow: auto;">
+            <div class="card-header bg-gradient-success">
                 @if ($tableHide == false)
-                    Tabel Absen {{ $nameAttendance . '  ' . $dataCategory }}
+                    <strong>TABEL ABSEN {{ $nameAttendance . ' (' . $otherCategory . ')  ' . $dataCategory }}</strong>
                 @else
-                    Tabel Absen
+                    <strong>TABEL ABSEN</strong>
                 @endif
             </div>
             <div class="card-body">
                 @if ($tableHide == false)
-                    <table id="studentTable" class="table table-bordered table-striped">
+                    <table id="example1" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -91,19 +92,20 @@
                                             data-type="{{ $dataType }}" data-category="{{ $dataCategory }}"
                                             data-program="{{ $item->id_program }}" data-other="{{ $otherCategory }}"
                                             data-date="{{ $dateSelect }}">
-                                            <option value="" {{ $status === 'Belum Absen' ? 'selected' : '' }}>Pilih
+                                            <option value="" {{ $item->status === null ? 'selected' : '' }}>
+                                                Pilih
                                                 Status
                                             </option>
-                                            <option value="Hadir" {{ $status === 'Hadir' ? 'selected' : '' }}>
+                                            <option value="Hadir" {{ $item->status === 'Hadir' ? 'selected' : '' }}>
                                                 Hadir
                                             </option>
-                                            <option value="Izin" {{ $status === 'Izin' ? 'selected' : '' }}>
+                                            <option value="Izin" {{ $item->status === 'Izin' ? 'selected' : '' }}>
                                                 Izin
                                             </option>
-                                            <option value="Alfa" {{ $status === 'Alfa' ? 'selected' : '' }}>
+                                            <option value="Alfa" {{ $item->status === 'Alfa' ? 'selected' : '' }}>
                                                 Alfa
                                             </option>
-                                            <option value="Sakit" {{ $status === 'Sakit' ? 'selected' : '' }}>
+                                            <option value="Sakit" {{ $item->status === 'Sakit' ? 'selected' : '' }}>
                                                 Sakit
                                             </option>
                                         </select>
@@ -128,8 +130,6 @@
 @push('new-script')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js"></script>
     <script>
         $(function() {
             //add class d-none
@@ -140,7 +140,7 @@
             function saveAttendance() {
                 //save attendance
                 //count row
-                var rowCount = $('#studentTable tbody tr').length;
+                var rowCount = $('#example1 tbody tr').length;
                 for (var i = 0; i < rowCount; i++) {
                     $('#status_' + i).change(function() {
                         let id = $(this).data('id');
@@ -190,69 +190,136 @@
                     $('#optionSelect').find('option').not(':first').remove();
 
                     if (category === 'Pengajar') {
-                        //add class d-none
-                        $('#other').addClass('d-none');
-                        $.ajax({
-                            url: '{{ route('allTeachers') }}',
-                            type: 'GET',
-                            dataType: 'json',
-                            success: function(response) {
-                                if (response['data'] != null) {
-                                    len = response['data'].length;
-                                }
-                                if (len > 0) {
-                                    // Read data and create <option >
-                                    for (var i = 0; i < len; i++) {
+                        if (category1 === 'SETORAN') {
+                            //remove class d-none
+                            $('#other').removeClass('d-none');
+                            $('#otherSelect').find('option').not(':first').remove();
 
-                                        var id = response['data'][i].id;
-                                        var name = response['data'][i].name;
-                                        // variable option
-                                        var option = "";
-                                        option = "<option value='" + id + "'>" + name +
-                                            "</option>";
+                            let times = ["Pagi", "Siang", "Sore", "Malam"];
+                            let tag = "";
+                            for (let index = 0; index < times.length; index++) {
+                                tag = "<option value=" + "'" + times[index] + "'" + ">" + times[index] +
+                                    "</option>";
+                                $("#otherSelect").append(tag);
+                            }
+                            $.ajax({
+                                url: '{{ route('allTeachers') }}',
+                                type: 'GET',
+                                dataType: 'json',
+                                success: function(response) {
+                                    if (response['data'] != null) {
+                                        len = response['data'].length;
+                                    }
+                                    if (len > 0) {
+                                        // Read data and create <option >
+                                        for (var i = 0; i < len; i++) {
 
-                                        $("#optionSelect").append(option);
+                                            var id = response['data'][i].id;
+                                            var name = response['data'][i].name;
+                                            // variable option
+                                            var option = "";
+                                            option = "<option value='" + id + "'>" + name +
+                                                "</option>";
+
+                                            $("#optionSelect").append(option);
+                                        }
                                     }
                                 }
-                            }
-                        });
-                    } else if (category === 'Kelas') {
-                        //remove class d-none
-                        $('#other').removeClass('d-none');
-                        $('#otherSelect').find('option').not(':first').remove();
+                            });
+                        } else {
+                            //add class d-none
+                            $('#other').removeClass('d-none');
+                            $.ajax({
+                                url: '{{ route('allTeachers') }}',
+                                type: 'GET',
+                                dataType: 'json',
+                                success: function(response) {
+                                    if (response['data'] != null) {
+                                        len = response['data'].length;
+                                    }
+                                    if (len > 0) {
+                                        // Read data and create <option >
+                                        for (var i = 0; i < len; i++) {
 
-                        let times = ["Pagi", "Siang", "Sore", "Malam"];
-                        let tag = "";
-                        for (let index = 0; index < times.length; index++) {
-                            tag = "<option value=" + "'" + times[index] + "'" + ">" + times[index] +
-                                "</option>";
-                            $("#otherSelect").append(tag);
+                                            var id = response['data'][i].id;
+                                            var name = response['data'][i].name;
+                                            // variable option
+                                            var option = "";
+                                            option = "<option value='" + id + "'>" + name +
+                                                "</option>";
+
+                                            $("#optionSelect").append(option);
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    } else if (category === 'Kelas') {
+                        if (category1 === 'TAKLIM') {
+                            //remove class d-none
+                            $('#other').removeClass('d-none');
+                            $('#otherSelect').find('option').not(':first').remove();
+
+                            let times = ["Pagi", "Siang", "Sore", "Malam"];
+                            let tag = "";
+                            for (let index = 0; index < times.length; index++) {
+                                tag = "<option value=" + "'" + times[index] + "'" + ">" + times[index] +
+                                    "</option>";
+                                $("#otherSelect").append(tag);
+                            }
+
+                            $.ajax({
+                                url: '{{ route('allClass') }}',
+                                type: 'GET',
+                                dataType: 'json',
+                                success: function(response) {
+                                    if (response['data'] != null) {
+                                        len = response['data'].length;
+                                    }
+                                    if (len > 0) {
+                                        // Read data and create <option >
+                                        for (var i = 0; i < len; i++) {
+
+                                            var id = response['data'][i].id;
+                                            var name = response['data'][i].class_name;
+                                            // variable option
+                                            var option = "";
+                                            option = "<option value='" + id + "'>" + name +
+                                                "</option>";
+
+                                            $("#optionSelect").append(option);
+                                        }
+                                    }
+                                }
+                            });
+                        } else {
+                            $('#other').addClass('d-none');
+                            $.ajax({
+                                url: '{{ route('allClass') }}',
+                                type: 'GET',
+                                dataType: 'json',
+                                success: function(response) {
+                                    if (response['data'] != null) {
+                                        len = response['data'].length;
+                                    }
+                                    if (len > 0) {
+                                        // Read data and create <option >
+                                        for (var i = 0; i < len; i++) {
+
+                                            var id = response['data'][i].id;
+                                            var name = response['data'][i].class_name;
+                                            // variable option
+                                            var option = "";
+                                            option = "<option value='" + id + "'>" + name +
+                                                "</option>";
+
+                                            $("#optionSelect").append(option);
+                                        }
+                                    }
+                                }
+                            });
                         }
 
-                        $.ajax({
-                            url: '{{ route('allClass') }}',
-                            type: 'GET',
-                            dataType: 'json',
-                            success: function(response) {
-                                if (response['data'] != null) {
-                                    len = response['data'].length;
-                                }
-                                if (len > 0) {
-                                    // Read data and create <option >
-                                    for (var i = 0; i < len; i++) {
-
-                                        var id = response['data'][i].id;
-                                        var name = response['data'][i].class_name;
-                                        // variable option
-                                        var option = "";
-                                        option = "<option value='" + id + "'>" + name +
-                                            "</option>";
-
-                                        $("#optionSelect").append(option);
-                                    }
-                                }
-                            }
-                        });
                     } else if (category === 'Program') {
                         //add class d-none
                         $('#other').addClass('d-none');

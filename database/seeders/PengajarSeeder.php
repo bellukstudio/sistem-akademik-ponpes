@@ -18,11 +18,12 @@ class PengajarSeeder extends Seeder
         $pengajar = [
             [
                 'noId' => '1280128102',
-                'email' => 'ahmad@gmail.com',
+                'email' => 'sibelluk12@gmail.com',
                 'name' => 'Ahmad Agung',
                 'photo' => null,
                 'gender' => 'Laki-Laki',
                 'province_id' => 3,
+                'is_activate' => 1,
                 'city_id' => 59,
                 'date_birth' => Date::now(),
                 'no_tlp' => '12198291',
@@ -30,7 +31,7 @@ class PengajarSeeder extends Seeder
             ],
             [
                 'noId' => '1280128103',
-                'email' => 'akbar@gmail.com',
+                'email' => 'ucihadianz@gmail.com',
                 'name' => 'Ahmad Akbar',
                 'photo' => null,
                 'gender' => 'Laki-Laki',
@@ -42,7 +43,7 @@ class PengajarSeeder extends Seeder
             ],
             [
                 'noId' => '1280128104',
-                'email' => 'udin@gmail.com',
+                'email' => 'myzee390@gmail.com',
                 'name' => 'Ahmad Udin',
                 'photo' => null,
                 'gender' => 'Laki-Laki',

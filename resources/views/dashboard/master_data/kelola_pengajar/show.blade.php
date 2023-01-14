@@ -22,8 +22,13 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-3">
-                        <img src="{{ $data->photo != 'http://localhost:8000/storage/' ? $data->photo : 'https://via.placeholder.com/150x200?text=Nothing' }}"
-                            alt="" width="150" height="200" id="photo" class="photo-show">
+                        @if (is_null($data->photo))
+                            <img src='https://via.placeholder.com/150x200?text=Nothing' alt="" width="150"
+                                height="200" id="photo" class="photo-show">
+                        @else
+                            <img src="@gdrive($data->photo)" alt="" class="photo-show">
+                        @endif
+
                     </div>
                     <div class="col-lg-6 mt-2">
                         <table width="100%">

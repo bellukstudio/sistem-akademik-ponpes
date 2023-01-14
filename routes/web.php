@@ -5,6 +5,8 @@ use App\Http\Controllers\Akademik\ManageJadwalController;
 use App\Http\Controllers\Akademik\ManageJadwalPiketController;
 use App\Http\Controllers\Akademik\ManageKelompokKamar;
 use App\Http\Controllers\Akademik\ManageKelompokKelas;
+use App\Http\Controllers\Akademik\ManageNilaiController;
+use App\Http\Controllers\Akademik\ManagePenilaianHafalanController;
 use App\Http\Controllers\Auth\ActivationController;
 use App\Http\Controllers\Master\ManageTahunAkademikController;
 use App\Http\Controllers\Auth\AuthController;
@@ -16,6 +18,7 @@ use App\Http\Controllers\File\ManageFileShareController;
 use App\Http\Controllers\Master\ManageAbsenController;
 use App\Http\Controllers\Master\ManageKamarController;
 use App\Http\Controllers\Master\ManageKategoriMapelController;
+use App\Http\Controllers\Master\ManageKategoriNilaiController;
 use App\Http\Controllers\Master\ManageKelasController;
 use App\Http\Controllers\Master\ManageKotaController;
 use App\Http\Controllers\Master\ManageMapelController;
@@ -52,13 +55,15 @@ Route::get('/aktivasi', [ActivationController::class, 'activation'])->name('acti
 Route::post('/send-email', [ActivationController::class, 'sendEmail'])->name('sendEmail');
 Route::get('aktivasi/{hash}', [ActivationController::class, 'redemCode'])->name('redemCode');
 Route::middleware(['auth'])->group(function () {
-    Route::resource('beritaAcara', BeritaController::class)->except('show');
     /**
      * Middleware Admin
      * Master data
      */
     Route::middleware('isAdmin')->group(function () {
-        // route berita acara
+        /**
+         * [ROUTE MANAGE NEWS / BERITA ACARA]
+         */
+        Route::resource('beritaAcara', BeritaController::class)->except('show');
         Route::get('beritaAcara/trash', [BeritaController::class, 'trash'])->name('trashBeritaAcara');
         Route::get('beritaAcara/trash/{id}/restore', [BeritaController::class, 'restore'])->name('restoreBeritaAcara');
         Route::get('beritaAcara/trash/restore', [BeritaController::class, 'restoreAll'])->name('restoreAllBeritaAcara');
@@ -72,12 +77,16 @@ Route::middleware(['auth'])->group(function () {
         )->name('deletePermanenAlltBeritaAcara');
 
 
-        //route manage user
+        /**
+         * [ROUTE MANAGE USER]
+         */
         Route::resource('kelolaUser', ManageUserController::class)
             ->except(['show', 'create', 'store', 'destroy', 'edit', 'update']);
 
 
-        // route manage tahun ajar
+        /**
+         * [ROUTE MANAGE PERIOD / TAHUN AKADEMIK]
+         */
         Route::get(
             'kelolaTahunAkademik/status/update',
             [ManageTahunAkademikController::class, 'updateStatus']
@@ -108,7 +117,7 @@ Route::middleware(['auth'])->group(function () {
         )->except(['show', 'create', 'edit']);
 
         /**
-         * route master program
+         * [ROUTE ACADEMIC PROGRAM / PROGRAM AKADEMIK]
          */
         Route::get(
             'kelolaProgramAkademik/all',
@@ -135,7 +144,7 @@ Route::middleware(['auth'])->group(function () {
 
 
         /**
-         * manage kota
+         * [ROUTE MANAGE CITY / KOTA]
          */
         Route::get(
             'kelolaKota/cityByProvince/{id}',
@@ -159,7 +168,7 @@ Route::middleware(['auth'])->group(function () {
 
 
         /**
-         * manage provinsi
+         * [ROUTE MANAGE PROVINCE / PROVINSI]
          */
         Route::get('kelolaProvinsi/trash', [ManageProvinsiController::class, 'trash'])->name('trashProvince');
         Route::get(
@@ -182,7 +191,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('kelolaProvinsi', ManageProvinsiController::class)->except(['create', 'show', 'edit']);
 
         /**
-         * manage kamar
+         * [ROUTE MANAGE BEDROOM / KAMAR]
          */
         Route::get('kelolaKamar/trash', [ManageKamarController::class, 'trash'])->name('trashBedroom');
         Route::get(
@@ -206,7 +215,7 @@ Route::middleware(['auth'])->group(function () {
 
 
         /**
-         * manage ruangan
+         * [ROUTE MANAGE ROOM / RUANGAN]
          */
         Route::get('kelolaRuangan/trash', [ManageRuanganController::class, 'trash'])->name('trashRoom');
         Route::get(
@@ -229,7 +238,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('kelolaRuangan', ManageRuanganController::class)->except(['create', 'show', 'edit']);
 
         /**
-         * manage kelas
+         * [ROUTE MANAGE CLASS / KELAS]
          */
         Route::get(
             'kelolaKelas/byProgram/{id}',
@@ -260,7 +269,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('kelolaKelas', ManageKelasController::class)->except(['create', 'show', 'edit']);
 
         /**
-         * manage pengajar
+         * [ROUTE MANAGE TEACHER / PENGAJAR]
          */
         Route::get(
             'kelolaPengajar/teacherCaretakers',
@@ -291,7 +300,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('kelolaPengajar', ManagePengajarController::class);
 
         /**
-         * manage santri
+         * [ROUTE MANAGE STUDENT / SANTRI]
          */
         Route::get(
             'kelolaSantri/byProgram/{id}',
@@ -322,7 +331,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('kelolaSantri', ManageSantriController::class);
 
         /**
-         * manage pengurus
+         * [ROUTE PENGURUS]
          */
         Route::get('kelolaPengurus/trash', [ManagePengurusController::class, 'trash'])->name('trashCaretakers');
         Route::get(
@@ -344,7 +353,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('kelolaPengurus', ManagePengurusController::class)->except('show');
 
         /**
-         * manage absen
+         * [ROUTE MANAGE PRESENCE / ATTENDANCE / ABSENSI]
          */
         Route::get('kelolaAbsen/trash', [ManageAbsenController::class, 'trash'])->name('trashAttendance');
         Route::get(
@@ -365,7 +374,7 @@ Route::middleware(['auth'])->group(function () {
         )->name('restoreAttendance');
         Route::resource('kelolaAbsen', ManageAbsenController::class)->except(['create', 'show', 'edit']);
         /**
-         * manage pembayaran
+         * [ROUTE MANAGE PAYMENTS]
          */
         Route::get('kelolaPembayaran/trash', [ManagePembayaranController::class, 'trash'])->name('trashPayment');
         Route::get(
@@ -387,7 +396,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('kelolaPembayaran', ManagePembayaranController::class)->except(['create', 'show', 'edit']);
 
         /**
-         * manage mapel
+         * [ROUTE MANAGE COURSE]
          */
         Route::get('kelolaMapel/allCourse', [ManageMapelController::class, 'getAllCourse'])->name('allCourse');
         Route::get('kelolaMapel/trash', [ManageMapelController::class, 'trash'])->name('trashCourse');
@@ -410,7 +419,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('kelolaMapel', ManageMapelController::class)->except(['create', 'show', 'edit']);
 
         /**
-         * manage kategori mapel
+         * [ROUTE MANAGE CATEGORIES COURSE]
          */
         Route::get(
             'kategoriMapel/all',
@@ -437,35 +446,73 @@ Route::middleware(['auth'])->group(function () {
             [ManageKategoriMapelController::class, 'restore']
         )->name('restoreCategorieSchedule');
         Route::resource('kategoriMapel', ManageKategoriMapelController::class)->except(['create', 'show', 'edit']);
+        /**
+         * [ROUTE MANAGE EBOOK FILE]
+         */
+        Route::get('ebook', [ManageFileShareController::class, 'indexEbook'])->name('ebook.index');
+        Route::post('ebook', [ManageFileShareController::class, 'uploadFileToGdrive'])->name('ebook.store');
+        Route::delete('ebook/{id}/delete', [ManageFileShareController::class, 'destroy'])->name('ebook.destroy');
+        Route::put('ebook/{id}/update', [ManageFileShareController::class, 'update'])->name('ebook.update');
+        /**
+         * [ROUTE MANAGE VIDEO URL]
+         */
+        Route::get('video', [ManageFileShareController::class, 'indexVideo'])->name('video.index');
+        Route::post('video', [ManageFileShareController::class, 'saveVideo'])->name('video.store');
+        Route::put('video/{id}/update', [ManageFileShareController::class, 'updateVideo'])->name('video.update');
+        Route::delete('video/{id}/delete', [ManageFileShareController::class, 'destroyVideo'])->name('video.destroy');
+
+        /**
+         * [ROUTE GOOGLE SIGN IN]
+         */
+        Route::get(
+            'google/login',
+            [GoogleDriveController::class, 'googleAuth']
+        )->name('google.login');
+        Route::get('google/checkToken', [GoogleDriveController::class, 'checkRefreshToken'])->name('google.check');
+
+        /**
+         * [ROUTE ACADEMIC]
+         */
+        /**
+         * [ROUTE SCHEDULE]
+         */
+        Route::post(
+            'jadwalPelajaran/filter',
+            [
+                ManageJadwalController::class, 'filterScheduleByCategories'
+            ]
+        )->name('getAllSchedule');
+        Route::get(
+            'jadwalPelajaran/filter',
+            [
+                ManageJadwalController::class, 'filterScheduleByCategories'
+            ]
+        )->name('getAllSchedule');
+        Route::resource('jadwalPelajaran', ManageJadwalController::class)->except('show');
+        /**
+         * [ROUTE PICKET SCHEDULE]
+         */
+        Route::resource('jadwalPiket', ManageJadwalPiketController::class)->except('show');
+        /**
+         * [ROUTE CLASS GROUPS]
+         */
+        Route::resource('kelompokKelas', ManageKelompokKelas::class)->except('show');
+        /**
+         * [ROUTE ROOM GROUPS]
+         */
+        Route::resource('kelompokKamar', ManageKelompokKamar::class)->except('show');
+        /**
+         * [ROUTE CATEGORIES ASSESSMENT]
+         */
+        Route::resource('kategoriNilai', ManageKategoriNilaiController::class)->except(['show', 'edit', 'create']);
     });
 
     /**
-     * route ebook file
-     */
-    Route::get('ebook', [ManageFileShareController::class, 'indexEbook'])->name('ebook.index');
-    Route::post('ebook', [ManageFileShareController::class, 'uploadFileToGdrive'])->name('ebook.store');
-    Route::delete('ebook/{id}/delete', [ManageFileShareController::class, 'destroy'])->name('ebook.destroy');
-    Route::put('ebook/{id}/update', [ManageFileShareController::class, 'update'])->name('ebook.update');
-    /**
-     * route video file
-     */
-    Route::get('video', [ManageFileShareController::class, 'indexVideo'])->name('video.index');
-    Route::post('video', [ManageFileShareController::class, 'saveVideo'])->name('video.store');
-    Route::put('video/{id}/update', [ManageFileShareController::class, 'updateVideo'])->name('video.update');
-    Route::delete('video/{id}/delete', [ManageFileShareController::class, 'destroyVideo'])->name('video.destroy');
-
-    /**
-     * route google login
-     */
-    Route::get('google/login', [GoogleDriveController::class, 'googleAuth'])->name('google.login');
-    Route::get('google/checkToken', [GoogleDriveController::class, 'checkRefreshToken'])->name('google.check');
-    /**
-     * route dashboard
+     * [ROUTE DASHBOARD]
      */
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
     /**
-     * route perzinan
+     * [ROUTE PERMITS]
      */
     Route::get('perizinan/trash', [ManagePerizinanController::class, 'trash'])->name('trashPermit');
     Route::get(
@@ -487,43 +534,32 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('perizinan', ManagePerizinanController::class)->except(['create', 'show', 'edit', 'store']);
 
     /**
-     * route akademik
-     */
-    /**
-     * route jadwal pelajaran
-     */
-    Route::post(
-        'jadwalPelajaran/filter',
-        [ManageJadwalController::class, 'filterScheduleByCategories']
-    )->name('getAllSchedule');
-    Route::get(
-        'jadwalPelajaran/filter',
-        [ManageJadwalController::class, 'filterScheduleByCategories']
-    )->name('getAllSchedule');
-    Route::resource('jadwalPelajaran', ManageJadwalController::class)->except('show');
-    /**
-     * route jadwal piket
-     */
-    Route::resource('jadwalPiket', ManageJadwalPiketController::class)->except('show');
-    /**
-     * route kelompok kelas
-     */
-    Route::resource('kelompokKelas', ManageKelompokKelas::class)->except('show');
-    /**
-     * route kelompok kamar
-     */
-    Route::resource('kelompokKamar', ManageKelompokKamar::class)->except('show');
-    /**
-     * route absen
+     * [ROUTE ATTENNDANCES STUDENT]
      */
     Route::get(
         'presensi/action/saveAttendance',
         [ManagePresensiController::class, 'saveAttendance']
     )->name('saveAttendance');
-    Route::resource('presensi', ManagePresensiController::class)->except(['show', 'edit', 'delete', 'create', 'store']);
+    Route::resource('presensi', ManagePresensiController::class)
+        ->except(['show', 'edit', 'delete', 'create', 'store']);
 
     /**
-     * route pembayaran spp
+     * [ROUTE PAYMENTS]
      */
-    Route::resource('pembayaran', ManageTrxPembayaranController::class)->except(['store', 'edit', 'create']);
+    Route::resource('pembayaran', ManageTrxPembayaranController::class)
+        ->except(['store', 'edit', 'create', 'show']);
+
+    /**
+     * [ROUTE MEMORIZE SURAH]
+     */
+    Route::get('hafalanSurah', [ManagePenilaianHafalanController::class, 'index'])->name('hafalanSurah.index');
+    Route::get('hafalanSurah/create', [ManagePenilaianHafalanController::class, 'create'])->name('hafalanSurah.create');
+    Route::post(
+        'hafalanSurah/create/{student}/{class}',
+        [ManagePenilaianHafalanController::class, 'store']
+    )->name('hafalanSurah.store');
+    Route::get(
+        'hafalanSurah/getVerseBySurah',
+        [ManagePenilaianHafalanController::class, 'getVerseBySurahNamed']
+    )->name('getVerseBySurahNamed');
 });

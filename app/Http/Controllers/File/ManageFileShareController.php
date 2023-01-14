@@ -36,7 +36,12 @@ class ManageFileShareController extends Controller
         try {
             $file = $request->file('file');
             //upload file
-            $upload = GoogleDriveHelper::googleDriveFileUpload($request->file_name, $file, 'EBOOK');
+            $upload = GoogleDriveHelper::googleDriveFileUpload(
+                $request->file_name . '.pdf',
+                $file,
+                'EBOOK',
+                GoogleDriveHelper::$pdf
+            );
             // link
             $link = 'https://drive.google.com/file/d/' . $upload . '/view';
             MasterFileShare::create([
@@ -65,9 +70,14 @@ class ManageFileShareController extends Controller
             if ($request->file('file')) {
                 $file = $request->file('file');
                 //delete file
-                GoogleDriveHelper::deleteFile($data->file_name);
+                GoogleDriveHelper::deleteFile($data->file_name, GoogleDriveHelper::$pdf);
                 //upload file
-                $upload = GoogleDriveHelper::googleDriveFileUpload($request->file_name, $file, 'EBOOK');
+                $upload = GoogleDriveHelper::googleDriveFileUpload(
+                    $request->file_name . '.pdf',
+                    $file,
+                    'EBOOK',
+                    GoogleDriveHelper::$pdf
+                );
                 //link
                 $link = 'https://drive.google.com/file/d/' . $upload . '/view';
                 //save link
@@ -91,7 +101,7 @@ class ManageFileShareController extends Controller
 
             $data = MasterFileShare::findOrFail($id);
             //remove file
-            GoogleDriveHelper::deleteFile($data->file_name);
+            GoogleDriveHelper::deleteFile($data->file_name . '.pdf', GoogleDriveHelper::$pdf);
             $data->delete();
 
             return back()->with('success', 'File ' . $data->file_name . ' berhasil dihapus');
