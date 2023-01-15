@@ -6,6 +6,7 @@ use App\Http\Controllers\Akademik\ManageJadwalPiketController;
 use App\Http\Controllers\Akademik\ManageKelompokKamar;
 use App\Http\Controllers\Akademik\ManageKelompokKelas;
 use App\Http\Controllers\Akademik\ManageNilaiController;
+use App\Http\Controllers\Akademik\ManagePenilaianController;
 use App\Http\Controllers\Akademik\ManagePenilaianHafalanController;
 use App\Http\Controllers\Auth\ActivationController;
 use App\Http\Controllers\Master\ManageTahunAkademikController;
@@ -55,6 +56,34 @@ Route::get('/aktivasi', [ActivationController::class, 'activation'])->name('acti
 Route::post('/send-email', [ActivationController::class, 'sendEmail'])->name('sendEmail');
 Route::get('aktivasi/{hash}', [ActivationController::class, 'redemCode'])->name('redemCode');
 Route::middleware(['auth'])->group(function () {
+    /**
+     * [ROUTE RESPONSE JSON]
+     */
+    Route::get(
+        'kelolaPengajar/all',
+        [ManagePengajarController::class, 'getAllTeachers']
+    )->name('allTeachers');
+    Route::get(
+        'kelolaKelas/allClass',
+        [ManageKelasController::class, 'getAllClass']
+    )->name('allClass');
+    Route::get(
+        'kelolaProgramAkademik/all',
+        [ManageProgramController::class, 'getAllProgram']
+    )->name('getAllProgram');
+    Route::get(
+        'kategoriNilai/getByProgramId',
+        [ManageKategoriNilaiController::class, 'getCategoryAssessmentByProgramId']
+    )->name('getCategoryAssessmentByProgramId');
+    Route::get(
+        'kelolaKelas/byProgram/{id}',
+        [ManageKelasController::class, 'getAllClassByProgram']
+    )->name('classByProgram');
+    Route::get(
+        'kelolaMapel/getCourseByProgram',
+        [ManageMapelController::class, 'getAllCourseByProgram']
+    )->name('getAllCourseByProgram');
+    Route::get('kelolaUser/userByRoles', [ManageUserController::class, 'getUserByRoles'])->name('getUserByRoles');
     /**
      * Middleware Admin
      * Master data
@@ -119,10 +148,6 @@ Route::middleware(['auth'])->group(function () {
         /**
          * [ROUTE ACADEMIC PROGRAM / PROGRAM AKADEMIK]
          */
-        Route::get(
-            'kelolaProgramAkademik/all',
-            [ManageProgramController::class, 'getAllProgram']
-        )->name('getAllProgram');
         Route::get('kelolaProgramAkademik/trash', [ManageProgramController::class, 'trash'])->name('trashProgram');
         Route::get(
             'kelolaProgramAkademik/trash/{id}/restore',
@@ -240,14 +265,6 @@ Route::middleware(['auth'])->group(function () {
         /**
          * [ROUTE MANAGE CLASS / KELAS]
          */
-        Route::get(
-            'kelolaKelas/byProgram/{id}',
-            [ManageKelasController::class, 'getAllClassByProgram']
-        )->name('classByProgram');
-        Route::get(
-            'kelolaKelas/allClass',
-            [ManageKelasController::class, 'getAllClass']
-        )->name('allClass');
         Route::get('kelolaKelas/trash', [ManageKelasController::class, 'trash'])->name('trashClass');
         Route::get(
             'kelolaKelas/trash/{id}/delete',
@@ -275,10 +292,6 @@ Route::middleware(['auth'])->group(function () {
             'kelolaPengajar/teacherCaretakers',
             [ManagePengajarController::class, 'getAllTeachersCaretakers']
         )->name('allTeachersCaretakers');
-        Route::get(
-            'kelolaPengajar/all',
-            [ManagePengajarController::class, 'getAllTeachers']
-        )->name('allTeachers');
         Route::get('kelolaPengajar/trash', [ManagePengajarController::class, 'trash'])->name('trashTeachers');
         Route::get(
             'kelolaPengajar/trash/{id}/delete',
@@ -506,7 +519,6 @@ Route::middleware(['auth'])->group(function () {
          */
         Route::resource('kategoriNilai', ManageKategoriNilaiController::class)->except(['show', 'edit', 'create']);
     });
-
     /**
      * [ROUTE DASHBOARD]
      */
@@ -562,4 +574,14 @@ Route::middleware(['auth'])->group(function () {
         'hafalanSurah/getVerseBySurah',
         [ManagePenilaianHafalanController::class, 'getVerseBySurahNamed']
     )->name('getVerseBySurahNamed');
+
+    /**
+     * [ROUTE ASSESSMENT / PENILAIAN AKHIR]
+     */
+    Route::get('penilaianAkhir', [ManagePenilaianController::class, 'index'])->name('penilaianAkhir.index');
+    Route::get('penilaianAkhir/create', [ManagePenilaianController::class, 'create'])->name('penilaianAkhir.create');
+    Route::post(
+        'penilaianAkhir/create/{id}',
+        [ManagePenilaianController::class, 'store']
+    )->name('penilaianAkhir.store');
 });

@@ -7,6 +7,7 @@ use App\Models\MasterAcademicProgram;
 use App\Models\MasterCategorieSchedule;
 use App\Models\MasterCourse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ManageMapelController extends Controller
 {
@@ -73,6 +74,14 @@ class ManageMapelController extends Controller
     {
         $empData['data'] = MasterCourse::all();
 
+        return response()->json($empData);
+    }
+    public function getAllCourseByProgram(Request $request)
+    {
+        if (Auth::user()->roles_id === 4) {
+            abort(403);
+        }
+        $empData['data'] = MasterCourse::where('program_id', $request->program)->get();
         return response()->json($empData);
     }
     /**

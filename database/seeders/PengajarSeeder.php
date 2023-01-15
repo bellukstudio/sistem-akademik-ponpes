@@ -36,6 +36,7 @@ class PengajarSeeder extends Seeder
                 'photo' => null,
                 'gender' => 'Laki-Laki',
                 'province_id' => 3,
+                'is_activate' => 1,
                 'city_id' => 59,
                 'date_birth' => Date::now(),
                 'no_tlp' => '12198291',

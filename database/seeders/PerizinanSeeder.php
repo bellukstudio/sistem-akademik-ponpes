@@ -17,7 +17,7 @@ class PerizinanSeeder extends Seeder
     {
         $permit = [
             [
-                'id_user' => 1,
+                'student_id' => 1,
                 'description' => 'Izin taklim, untuk mengerjakan tugas',
                 'permit_date' => Date::now(),
                 'permit_type' => 'TAKLIM',
@@ -25,21 +25,7 @@ class PerizinanSeeder extends Seeder
 
             ],
             [
-                'id_user' => 1,
-                'description' => 'Izin taklim, untuk mengerjakan tugas',
-                'permit_date' => Date::now(),
-                'permit_type' => 'TAKLIM',
-                'id_program' => 2
-            ],
-            [
-                'id_user' => 1,
-                'description' => 'Izin taklim, untuk mengerjakan tugas',
-                'permit_date' => Date::now(),
-                'permit_type' => 'TAKLIM',
-                'id_program' => 2
-            ],
-            [
-                'id_user' => 1,
+                'student_id' => 2,
                 'description' => 'Izin taklim, untuk mengerjakan tugas',
                 'permit_date' => Date::now(),
                 'permit_type' => 'TAKLIM',

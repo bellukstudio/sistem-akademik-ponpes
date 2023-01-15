@@ -20,7 +20,7 @@ class ManagePerizinanController extends Controller
         if (Auth::user()->roles_id === 2 || Auth::user()->roles_id === 4) {
             abort(403);
         }
-        $data = TrxStudentPermits::with(['user', 'program'])->latest()->get();
+        $data = TrxStudentPermits::with(['student', 'program'])->latest()->get();
         return view('dashboard.perizinan.index', [
             'perizinan' => $data
         ]);
@@ -125,7 +125,7 @@ class ManagePerizinanController extends Controller
     {
         $this->authorize('admin');
 
-        $data = TrxStudentPermits::with(['user', 'program'])->onlyTrashed()->get();
+        $data = TrxStudentPermits::with(['student', 'program'])->onlyTrashed()->get();
         return view('dashboard.perizinan.trash', [
             'trash' => $data
         ]);

@@ -22,9 +22,9 @@
         <div class="card" style="overflow: auto;">
             <div class="card-header">
                 @if (count($trash) > 0)
-                    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#modal-restoreAll">
+                    {{-- <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#modal-restoreAll">
                         <i class="fa fa-undo mr-2"></i> Restore All
-                    </button>
+                    </button> --}}
                     <button type="button" class="btn btn-outline-danger" data-toggle="modal"
                         data-target="#modal-deletePermanent">
                         <i class="fa fa-undo mr-2"></i> Delete Permanent All
@@ -101,7 +101,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>No Induk</th>
+                            <th>Email</th>
                             <th>Nama</th>
                             <th>Kamar</th>
                             <th>Aksi</th>
@@ -111,7 +111,7 @@
                         @forelse ($trash as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $item->no_induk }}</td>
+                                <td>{{ $item->email }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{!! $item->room->room_name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
 
@@ -166,8 +166,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Konfirmasi restore data</h4>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
@@ -203,7 +202,7 @@
                     <tfoot>
                         <tr>
                             <th>No</th>
-                            <th>No Induk</th>
+                            <th>Email</th>
                             <th>Nama</th>
                             <th>Kamar</th>
                             <th>Aksi</th>

@@ -15,7 +15,7 @@ class CreateTrxStudentPermitsTable extends Migration
     {
         Schema::create('trx_student_permits', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_user')->references('id')->on('master_users')->onDelete('no action')->onUpdate('cascade');
+            $table->foreignId('student_id')->references('id')->on('master_students')->onDelete('no action')->onUpdate('cascade');
             $table->text('description');
             $table->date('permit_date');
             $table->string('permit_type');

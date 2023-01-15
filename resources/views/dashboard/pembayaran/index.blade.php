@@ -19,44 +19,47 @@
 @section('content-section')
     <div class="container-fluid">
         @include('components.alert')
-        <div class="card">
-            <div class="card-header">Filter</div>
-            <div class="card-body">
-                <form action="{{ route('pembayaran.index') }}" method="get">
-                    @csrf
-                    <div class="form-group">
-                        <label for="">Kategori</label>
-                        <select name="category" id="category" class="custom-select form-control-border">
-                            <option value="">Pilih</option>
-                            @forelse ($category as $item)
-                                <option value="{{ $item->id }}">{{ $item->payment_name }}</option>
-                            @empty
-                                <option value="">Tidak ada data</option>
-                            @endforelse
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Kelas</label>
-                        <select name="class" id="class" class="custom-select form-control-border">
-                            <option value="">Pilih</option>
-                            @forelse ($class as $item)
-                                <option value="{{ $item->id }}">{{ $item->class_name }}</option>
-                            @empty
-                                <option value="">Tidak ada data</option>
-                            @endforelse
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary" name="search">Cari</button>
-                    </div>
-                </form>
+        @can('admin')
+            <div class="card">
+                <div class="card-header">Filter</div>
+                <div class="card-body">
+                    <form action="{{ route('pembayaran.index') }}" method="get">
+                        @csrf
+                        <div class="form-group">
+                            <label for="">Kategori</label>
+                            <select name="category" id="category" class="custom-select form-control-border">
+                                <option value="">Pilih</option>
+                                @forelse ($category as $item)
+                                    <option value="{{ $item->id }}">{{ $item->payment_name }}</option>
+                                @empty
+                                    <option value="">Tidak ada data</option>
+                                @endforelse
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Kelas</label>
+                            <select name="class" id="class" class="custom-select form-control-border">
+                                <option value="">Pilih</option>
+                                @forelse ($class as $item)
+                                    <option value="{{ $item->id }}">{{ $item->class_name }}</option>
+                                @empty
+                                    <option value="">Tidak ada data</option>
+                                @endforelse
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary" name="search">Cari</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
+        @endcan
         <div class="card" style="overflow: auto;">
             <div class="card-header">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-AddData">
+                {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-AddData">
                     <i class="fa fa-plus mr-2"></i> Tambah Data Baru
-                </button>
+                </button> --}}
+                <strong>Data Pembayaran</strong>
             </div>
             <!-- /.card-header -->
             <div class="card-body">

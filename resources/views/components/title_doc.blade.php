@@ -95,3 +95,6 @@
 @if (Request::is('kategoriNilai*'))
     Kategori Nilai
 @endif
+@if (Request::is('penilaianAkhir*'))
+    Penilaian Akhir
+@endif

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MasterAcademicProgram;
 use App\Models\MasterClass;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ManageKelasController extends Controller
 {
@@ -61,12 +62,18 @@ class ManageKelasController extends Controller
     }
     public function getAllClassByProgram($programId)
     {
+        if (Auth::user()->roles_id === 4) {
+            abort(403);
+        }
         $empData['data'] = MasterClass::where('program_id', $programId)->get();
 
         return response()->json($empData);
     }
     public function getAllClass()
     {
+        if (Auth::user()->roles_id === 4) {
+            abort(403);
+        }
         $empData['data'] = MasterClass::all();
 
         return response()->json($empData);
