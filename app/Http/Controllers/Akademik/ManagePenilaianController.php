@@ -20,6 +20,9 @@ class ManagePenilaianController extends Controller
 
     public function index()
     {
+        if (Auth::user()->roles_id === 3 || Auth::user()->roles_id === 4) {
+            abort(403);
+        }
         $categoryAssessment = MasterAssessment::all();
         $program = MasterAcademicProgram::all();
         return view(
@@ -33,6 +36,9 @@ class ManagePenilaianController extends Controller
      */
     public function create(Request $request)
     {
+        if (Auth::user()->roles_id === 3 || Auth::user()->roles_id === 4) {
+            abort(403);
+        }
         $request->validate([
             'program' => 'required',
             'category' => 'required',
@@ -98,6 +104,9 @@ class ManagePenilaianController extends Controller
 
     public function store(Request $request, $id)
     {
+        if (Auth::user()->roles_id === 3 || Auth::user()->roles_id === 4) {
+            abort(403);
+        }
         $request->validate([
             'score' => 'required',
             'category' => 'required',

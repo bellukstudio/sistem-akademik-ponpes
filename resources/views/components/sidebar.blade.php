@@ -378,6 +378,13 @@
                              <p>Penilaian Hafalan</p>
                          </a>
                      </li>
+                     <li class="nav-item">
+                         <a href="{{ route('penilaianAkhir.index') }}"
+                             class="nav-link {{ Request::is('penilaianAkhir*') ? 'active' : '' }}">
+                             <i class="nav-icon fas fa-list"></i>
+                             <p>Input Nilai Akhir</p>
+                         </a>
+                     </li>
                  @endcan
              </ul>
          </nav>

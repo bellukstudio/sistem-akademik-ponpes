@@ -32,7 +32,7 @@
 <!-- AdminLTE for demo purposes -->
 {{-- <script src="{{ asset('template/dist/js/demo.js') }}"></script>  --}}
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{ asset('template/dist/js/pages/dashboard.js') }}"></script>
+{{-- <script src="{{ asset('template/dist/js/pages/dashboard.js') }}"></script> --}}
 
 
 @stack('new-script')

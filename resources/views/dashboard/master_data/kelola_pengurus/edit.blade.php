@@ -48,7 +48,7 @@
                     <div class="form-group">
                         <label for="id_number">Nomor Induk</label>
                         <input type="number" name="id_number" id="id_number" class="form-control"
-                            value="{{ old('id_number') ?? $data->no_induk }}" placeholder="Nomor Identitas" readonly>
+                            value="{{ old('id_number') ?? $data->user_id }}" placeholder="Nomor Identitas" readonly>
                     </div>
                     <div class="form-group">
                         <label for="fullName">Nama Lengkap</label>
@@ -56,12 +56,17 @@
                             value="{{ old('fullName') ?? $data->name }}" placeholder="Nama Lengkap" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="gender">Kamar</label>
-                        <select class="custom-select form-control-border" id="room" name="room">
-                            <option value="">Pilih Kamar</option>
-                            @forelse ($room as $item)
-                                <option value="{{ $item->id }}" {{ $data->id_room == $item->id ? 'selected' : '' }}>
-                                    {{ $item->room_name }}
+                        <label for="email">Email</label>
+                        <input type="text" name="email" id="email" class="form-control" autocomplete="off"
+                            value="{{ old('email') ?? $data->email }}" placeholder="Email" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Program</label>
+                        <select class="custom-select form-control-border" id="program" name="program">
+                            <option value="">Pilih Program</option>
+                            @forelse ($program as $item)
+                                <option value="{{ $item->id }}" {{ $data->program_id == $item->id ? 'selected' : '' }}>
+                                    {{ $item->program_name }}
                                 </option>
                             @empty
                                 <option value=""></option>
@@ -87,17 +92,22 @@
             $('#dataList').change(function() {
                 var data = $(this).val();
                 let splitData = data.split(':');
-                let name = splitData[2];
-                let noId = splitData[1];
+                let name = splitData[1];
+                let noId = splitData[0];
+                let email = splitData[2];
                 $('#id_number').val(noId);
                 $('#fullName').val(name);
+                $('#email').val(email);
             });
             if (categories === 'students') {
-                var url = '{{ route('allStudents') }}';
+                var url = '{{ route('getUserByRoles') }}';
                 $.ajax({
                     url: url,
                     type: 'GET',
                     dataType: 'json',
+                    data: {
+                        'name': 'Santri'
+                    },
                     success: function(response) {
                         var len = 0;
                         if (response['data'] != null) {
@@ -109,12 +119,11 @@
 
                                 var id = response['data'][i].id;
                                 var name = response['data'][i].name;
-                                var no_induk = response['data'][i].noId;
+                                var email = response['data'][i].email;
 
 
-                                option = "<option value='" + id + ':' + no_induk + ':' +
-                                    name +
-                                    "'>" +
+                                option = "<option value='" + id + ':' +
+                                    name + ':' + email + "'>" +
                                     name +
                                     "</option>";
 
@@ -124,11 +133,14 @@
                     }
                 });
             } else if (categories === 'teachers') {
-                var url = '{{ route('allTeachers') }}';
+                var url = '{{ route('getUserByRoles') }}';
                 $.ajax({
                     url: url,
                     type: 'GET',
                     dataType: 'json',
+                    data: {
+                        'name': 'Pengajar'
+                    },
                     success: function(response) {
                         var len = 0;
                         if (response['data'] != null) {
@@ -140,13 +152,11 @@
 
                                 var id = response['data'][i].id;
                                 var name = response['data'][i].name;
-                                var no_induk = response['data'][i].noId;
+                                var email = response['data'][i].email;
 
-                                var option = '';
 
-                                option = "<option value='" + id + ':' + no_induk + ':' +
-                                    name +
-                                    "'>" +
+                                option = "<option value='" + id + ':' +
+                                    name + ':' + email + "'>" +
                                     name +
                                     "</option>";
                                 $("#dataList").append(option);
@@ -162,16 +172,21 @@
                 $('#dataList').change(function() {
                     var data = $(this).val();
                     let splitData = data.split(':');
-                    let name = splitData[2];
-                    let noId = splitData[1];
+                    let name = splitData[1];
+                    let noId = splitData[0];
+                    let email = splitData[2];
                     $('#id_number').val(noId);
                     $('#fullName').val(name);
+                    $('#email').val(email);
                 });
                 if (value === 'students') {
-                    var url = '{{ route('allStudents') }}';
+                    var url = '{{ route('getUserByRoles') }}';
                     $.ajax({
                         url: url,
                         type: 'GET',
+                        data: {
+                            'name': 'Santri'
+                        },
                         dataType: 'json',
                         success: function(response) {
                             var len = 0;
@@ -184,12 +199,11 @@
 
                                     var id = response['data'][i].id;
                                     var name = response['data'][i].name;
-                                    var no_induk = response['data'][i].noId;
+                                    var email = response['data'][i].email;
 
 
-                                    option = "<option value='" + id + ':' + no_induk + ':' +
-                                        name +
-                                        "'>" +
+                                    option = "<option value='" + id + ':' +
+                                        name + ':' + email + "'>" +
                                         name +
                                         "</option>";
 
@@ -199,10 +213,13 @@
                         }
                     });
                 } else if (value === 'teachers') {
-                    var url = '{{ route('allTeachers') }}';
+                    var url = '{{ route('getUserByRoles') }}';
                     $.ajax({
                         url: url,
                         type: 'GET',
+                        data: {
+                            'name': 'Pengajar'
+                        },
                         dataType: 'json',
                         success: function(response) {
                             var len = 0;
@@ -215,13 +232,11 @@
 
                                     var id = response['data'][i].id;
                                     var name = response['data'][i].name;
-                                    var no_induk = response['data'][i].noId;
+                                    var email = response['data'][i].email;
 
-                                    var option = '';
 
-                                    option = "<option value='" + id + ':' + no_induk + ':' +
-                                        name +
-                                        "'>" +
+                                    option = "<option value='" + id + ':' +
+                                        name + ':' + email + "'>" +
                                         name +
                                         "</option>";
                                     $("#dataList").append(option);
@@ -233,7 +248,6 @@
             });
 
             $('.select2').select2();
-            bsCustomFileInput.init();
         });
     </script>
 @endpush

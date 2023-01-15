@@ -5,12 +5,10 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\Mail\Activation;
-use App\Models\MasterStudent;
-use App\Models\MasterTeacher;
-use Illuminate\Support\Facades\Mail;
-
-use function PHPUnit\Framework\isEmpty;
+use Illuminate\Support\Str;
+use App\Models\MasterUsers;
+use App\Models\SessionUser;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -34,6 +32,29 @@ class AuthController extends Controller
         // check credentials user
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            $user = MasterUsers::where('email', $request->email)->first();
+            $checkSession = SessionUser::where('user_id', $user->id)->doesntExist();
+            if ($checkSession) {
+                //Save users session
+                $session = [
+                    'id' => Str::random(40),
+                    'user_id' => $user->id,
+                    'ip_address' => $request->ip(),
+                    'user_agent' => $request->server('HTTP_USER_AGENT'),
+                    'last_activity' => strtotime(Carbon::now()),
+                    'status' => 'ON'
+                ];
+                SessionUser::create($session);
+            } else {
+                SessionUser::where('user_id', $user->id)
+                    ->update([
+                        'id' => Str::random(40),
+                        'ip_address' => $request->ip(),
+                        'user_agent' => $request->server('HTTP_USER_AGENT'),
+                        'last_activity' => strtotime(Carbon::now()),
+                        'status' => 'ON'
+                    ]);
+            }
             if (Auth::user()->id === 1) {
                 return redirect()->route('google.check');
             } else {
@@ -47,6 +68,27 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        $user = MasterUsers::where('email', auth()->user()->email)->first();
+        $checkSession = SessionUser::where('user_id', $user->id)->doesntExist();
+        if ($checkSession) {
+            //Save users session
+            $session = [
+                'user_id' => $user->id,
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->server('HTTP_USER_AGENT'),
+                'last_activity' => strtotime(Carbon::now()),
+                'status' => 'OFF'
+            ];
+            SessionUser::create($session);
+        } else {
+            SessionUser::where('user_id', $user->id)
+                ->update([
+                    'ip_address' => $request->ip(),
+                    'user_agent' => $request->server('HTTP_USER_AGENT'),
+                    'last_activity' => strtotime(Carbon::now()),
+                    'status' => 'OFF'
+                ]);
+        }
         Auth::logout();
 
         $request->session()->invalidate();

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
+use App\Models\MasterAcademicProgram;
 use App\Models\MasterRoom;
 use App\Models\MasterStudent;
 use App\Models\MasterTeacher;
+use App\Models\MasterUsers;
 use App\Models\TrxCaretakers;
 use Illuminate\Http\Request;
 
@@ -18,7 +20,7 @@ class ManagePengurusController extends Controller
      */
     public function index()
     {
-        $data = TrxCaretakers::with(['room'])->latest()->get();
+        $data = TrxCaretakers::with(['program'])->latest()->get();
 
         return view('dashboard.master_data.kelola_pengurus.index', [
             'pengurus' => $data
@@ -32,11 +34,9 @@ class ManagePengurusController extends Controller
      */
     public function create()
     {
-        $room = MasterRoom::where('type','KAMAR')->whereNotIn('id', function ($query) {
-            $query->select('id_room')->from('trx_caretakers');
-        })->get();
+        $program = MasterAcademicProgram::all();
         return view('dashboard.master_data.kelola_pengurus.create', [
-            'room' => $room
+            'program' => $program
         ]);
     }
 
@@ -53,16 +53,24 @@ class ManagePengurusController extends Controller
             'dataList' => 'required',
             'id_number' => 'required',
             'fullName' => 'required',
-            'room' => 'required'
+            'email' => 'required',
+            'program' => 'required'
         ]);
 
         try {
             TrxCaretakers::create([
-                'no_induk' => $request->id_number,
+                'user_id' => $request->id_number,
                 'name' => $request->fullName,
                 'categories' => $request->categories,
-                'id_room' => $request->room
+                'program_id' => $request->program,
+                'email' => $request->email
             ]);
+
+            //update users roles
+            $user = MasterUsers::find($request->id_number);
+            $user->roles_id = 3;
+            $user->update();
+
             return redirect()->route('kelolaPengurus.index')
                 ->with('success', 'Pengurus ' . $request->fullName . ' berhasil disimpan');
         } catch (\Exception $e) {
@@ -90,9 +98,9 @@ class ManagePengurusController extends Controller
     public function edit($id)
     {
         $data = TrxCaretakers::find($id);
-        $room = MasterRoom::where('type', 'KAMAR')->get();
+        $program = MasterAcademicProgram::all();
 
-        return view('dashboard.master_data.kelola_pengurus.edit', compact('data', 'room'));
+        return view('dashboard.master_data.kelola_pengurus.edit', compact('data', 'program'));
     }
 
     /**
@@ -108,16 +116,42 @@ class ManagePengurusController extends Controller
             'categories' => 'required',
             'id_number' => 'required',
             'fullName' => 'required',
-            'room' => 'required'
+            'email' => 'required',
+            'program' => 'required'
         ]);
 
         try {
+
             $data = TrxCaretakers::find($id);
+            if (
+                $request->id_number !== $data->user_id
+                && $request->email !== $data->email && $request->fullName !== $data->name
+            ) {
+                //update users roles
+                $user = MasterUsers::find($data->user_id);
+                $user->roles_id = 2;
+                $user->update();
+
+                $data->categories = $request->categories;
+                $data->user_id = $request->id_number;
+                $data->name = $request->fullName;
+                $data->program_id = $request->program;
+                $data->email = $request->email;
+                $data->update();
+
+                //update users roles
+                $userUpdate = MasterUsers::find($request->id_number);
+                $userUpdate->roles_id = 3;
+                $userUpdate->update();
+            }
             $data->categories = $request->categories;
-            $data->no_induk = $request->id_number;
+            $data->user_id = $request->id_number;
             $data->name = $request->fullName;
-            $data->id_room = $request->room;
+            $data->program_id = $request->program;
+            $data->email = $request->email;
             $data->update();
+
+
             return redirect()->route('kelolaPengurus.index')
                 ->with('success', 'Pengurus ' . $request->fullName . ' berhasil diubah');
         } catch (\Exception $e) {
@@ -135,6 +169,12 @@ class ManagePengurusController extends Controller
     {
         try {
             $data = TrxCaretakers::find($id);
+
+            //update users roles
+            $user = MasterUsers::find($data->user_id);
+            $user->roles_id = 2;
+            $user->update();
+            //delete
             $data->delete();
             return redirect()->route('kelolaPengurus.index')
                 ->with('success', 'Pengurus ' . $data->name . ' berhasil disimpan');
@@ -157,6 +197,10 @@ class ManagePengurusController extends Controller
     {
         try {
             $data = TrxCaretakers::onlyTrashed()->where('id', $id)->firstOrFail();
+            //update users roles
+            $userUpdate = MasterUsers::find($data->user_id);
+            $userUpdate->roles_id = 3;
+            $userUpdate->update();
             $data->restore();
             return redirect()->route('kelolaPengurus.index')
                 ->with('success', 'Pengurus ' . $data->name . ' berhasil dipulihkan ');

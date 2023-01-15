@@ -12,15 +12,15 @@ class TrxCaretakers extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'no_induk', 'id_room', 'categories', 'name'
+        'user_id', 'program_id', 'categories', 'name', 'email'
     ];
     protected $hidden = [
-        'no_induk'
+        'user_id', 'email'
     ];
     protected $dates = ['deleted_at',];
-    public function room()
+    public function program()
     {
-        return $this->belongsTo(MasterRoom::class, 'id_room');
+        return $this->belongsTo(MasterAcademicProgram::class, 'program_id');
     }
 
     public function getCreatedAttribute($value)

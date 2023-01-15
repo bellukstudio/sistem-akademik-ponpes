@@ -27,6 +27,16 @@ class ManageUserController extends Controller
             return redirect()->route('kelolaUser.index')->withErrors($e);
         }
     }
+    /**
+     * get user by roles
+     */
+    public function getUserByRoles(Request $request)
+    {
+        $empData['data'] = MasterUsers::join('roles', 'roles.id', '=', 'master_users.roles_id')
+            ->where('roles.name', $request->name)
+            ->select('master_users.name as name', 'master_users.id as id', 'master_users.email as email')->get();
+        return response()->json($empData);
+    }
 
     /**
      * Show the form for creating a new resource.

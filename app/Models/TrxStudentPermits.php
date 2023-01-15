@@ -11,7 +11,7 @@ class TrxStudentPermits extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = [
-        'id_user', 'description', 'permit_date', 'permit_type', 'id_program', 'status'
+        'student_id', 'description', 'permit_date', 'permit_type', 'id_program', 'status'
     ];
     protected $dates = ['deleted_at'];
     public function getCreatedAttribute($value)
@@ -28,8 +28,8 @@ class TrxStudentPermits extends Model
     {
         return $this->belongsTo(MasterAcademicProgram::class, 'id_program');
     }
-    public function user()
+    public function student()
     {
-        return $this->belongsTo(MasterUsers::class, 'id_user');
+        return $this->belongsTo(MasterStudent::class, 'student_id');
     }
 }

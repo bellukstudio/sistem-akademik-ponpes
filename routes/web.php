@@ -83,6 +83,7 @@ Route::middleware(['auth'])->group(function () {
         'kelolaMapel/getCourseByProgram',
         [ManageMapelController::class, 'getAllCourseByProgram']
     )->name('getAllCourseByProgram');
+    Route::get('kelolaUser/userByRoles', [ManageUserController::class, 'getUserByRoles'])->name('getUserByRoles');
     /**
      * Middleware Admin
      * Master data

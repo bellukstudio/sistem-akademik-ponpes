@@ -32,6 +32,12 @@ class MasterUsersSeeder extends Seeder
                 $password => Hash::make('20230111'),
                 $roles => 2,
             ],
+            [
+                $email => 'ucihadianz@gmail.com',
+                $name => 'Ahmad Akbar',
+                $password => Hash::make('20230111'),
+                $roles => 2,
+            ],
 
         ];
         foreach ($user as $data) {
