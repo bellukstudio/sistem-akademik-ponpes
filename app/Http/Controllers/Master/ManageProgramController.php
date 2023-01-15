@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Master;
 use App\Http\Controllers\Controller;
 use App\Models\MasterAcademicProgram;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ManageProgramController extends Controller
 {
@@ -64,6 +65,9 @@ class ManageProgramController extends Controller
      */
     public function getAllProgram()
     {
+        if (Auth::user()->roles_id === 4) {
+            abort(403);
+        }
         $empData['data'] = MasterAcademicProgram::all();
 
         return response()->json($empData);

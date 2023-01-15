@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\MasterProvince;
 use App\Models\MasterTeacher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use function PHPUnit\Framework\isEmpty;
 
 class ManagePengajarController extends Controller
@@ -99,6 +101,9 @@ class ManagePengajarController extends Controller
     }
     public function getAllTeachers()
     {
+        if (Auth::user()->roles_id === 4) {
+            abort(403);
+        }
         $empData['data'] = MasterTeacher::all();
 
         return response()->json($empData);

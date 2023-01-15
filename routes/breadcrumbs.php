@@ -303,7 +303,7 @@ Breadcrumbs::for('video', function (BreadcrumbTrail $trail) {
     $trail->push('Data Video', route('video.index'));
 });
 
-//data nilai
+//data nilai hafalan surah
 
 Breadcrumbs::for('nilaiHafalan', function (BreadcrumbTrail $trail) {
     $trail->push('Form Penilaian', route('hafalanSurah.index'));
@@ -311,4 +311,13 @@ Breadcrumbs::for('nilaiHafalan', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('nilaiHafalan.create', function (BreadcrumbTrail $trail) {
     $trail->parent('nilaiHafalan');
     $trail->push('Penilaian', route('hafalanSurah.create'));
+});
+
+// data nilai akhir
+Breadcrumbs::for('penilaianAkhir', function (BreadcrumbTrail $trail) {
+    $trail->push('Form Penilaian', route('penilaianAkhir.index'));
+});
+Breadcrumbs::for('penilaianAkhir.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('penilaianAkhir');
+    $trail->push('Penilaian', route('penilaianAkhir.create'));
 });

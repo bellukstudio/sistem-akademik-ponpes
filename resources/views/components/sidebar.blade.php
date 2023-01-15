@@ -285,6 +285,13 @@
                                      <p>Penilaian Hafalan</p>
                                  </a>
                              </li>
+                             <li class="nav-item">
+                                 <a href="{{ route('penilaianAkhir.index') }}"
+                                     class="nav-link {{ Request::is('penilaianAkhir*') ? 'active' : '' }}">
+                                     <i class="far fa-circle nav-icon"></i>
+                                     <p>Input Nilai Akhir</p>
+                                 </a>
+                             </li>
 
                              <li class="nav-item">
                                  <a href="pages/layout/top-nav.html" class="nav-link">
@@ -365,8 +372,9 @@
                      </li>
                      <li class="nav-header">NILAI</li>
                      <li class="nav-item">
-                         <a href="{{ route('nilaiHafalan.index') }}" class="nav-link">
-                             <i class="far fa-circle nav-icon"></i>
+                         <a href="{{ route('hafalanSurah.index') }}"
+                             class="nav-link {{ Request::is('hafalanSurah*') ? 'active' : '' }}">
+                             <i class="nav-icon fas fa-list"></i>
                              <p>Penilaian Hafalan</p>
                          </a>
                      </li>

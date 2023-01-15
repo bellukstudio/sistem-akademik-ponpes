@@ -37,17 +37,20 @@
                             <form action="{{ route('kategoriNilai.store') }}" method="post">
                                 @csrf
                                 <div class="modal-body">
-                                    <label for="">Nama Kategori</label>
-                                    <input type="text" name="category" id="" class="form-control"
-                                        value="{{ old('category') }}">
-                                    <br><br>
-                                    <label for="">Program</label>
-                                    <select name="program" id="" class="custom-select form-control-border">
-                                        <option value="">Pilih</option>
-                                        @foreach ($program as $value)
-                                            <option value="{{ $value->id }}">{{ $value->program_name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <div class="form-group">
+                                        <label for="">Nama Kategori</label>
+                                        <input type="text" name="category" id="" class="form-control"
+                                            value="{{ old('category') }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Program</label>
+                                        <select name="program" id="" class="custom-select form-control-border">
+                                            <option value="">Pilih</option>
+                                            @foreach ($program as $value)
+                                                <option value="{{ $value->id }}">{{ $value->program_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="modal-footer justify-content-between">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -146,7 +149,8 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Edit Data {{ $item->code }} </h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
@@ -154,21 +158,26 @@
                                             @csrf
                                             @method('put')
                                             <div class="modal-body">
-                                                <label for="">Nama Kategori</label>
-                                                <input type="text" name="category" id=""
-                                                    class="form-control" value="{{ old('category') ?? $item->name }}">
-                                                <br><br>
-                                                <label for="">Program</label>
-                                                <select name="program" id=""
-                                                    class="custom-select form-control-border">
-                                                    <option value="">Pilih</option>
-                                                    @foreach ($program as $value)
-                                                        <option value="{{ $value->id }}"
-                                                            {{ $item->program_id == $value->id ? 'selected' : '' }}>
-                                                            {{ $value->program_name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
+                                                <div class="form-group">
+                                                    <label for="">Nama Kategori</label>
+                                                    <input type="text" name="category" id=""
+                                                        class="form-control"
+                                                        value="{{ old('category') ?? $item->name }}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="">Program</label>
+                                                    <select name="program" id=""
+                                                        class="custom-select form-control-border">
+                                                        <option value="">Pilih</option>
+                                                        @foreach ($program as $value)
+                                                            <option value="{{ $value->id }}"
+                                                                {{ $item->program_id == $value->id ? 'selected' : '' }}>
+                                                                {{ $value->program_name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+
                                             </div>
                                             <div class="modal-footer justify-content-between">
                                                 <button type="button" class="btn btn-default"

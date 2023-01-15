@@ -122,5 +122,14 @@ class ManageKategoriNilaiController extends Controller
             return back()->withErrors($e);
         }
     }
-   
+
+    /**
+     * json response get category by program id
+     */
+    public function getCategoryAssessmentByProgramId(Request $request)
+    {
+        $empData['data'] = MasterAcademicProgram::where('id', $request->program)->get();
+
+        return response()->json($empData);
+    }
 }
