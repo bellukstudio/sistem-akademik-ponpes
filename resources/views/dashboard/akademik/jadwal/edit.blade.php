@@ -65,13 +65,26 @@
                     </div>
                     <div class="form-group">
                         <label for="">Hari</label>
-                        <input type="text" name="day" id="" class="form-control" placeholder="Contoh:Senin"
-                            value="{{ old('day') ?? $data->day }}">
+                        <select name="day" id="" class="custom-select form-control-border">
+                            <option value="">Pilih Hari</option>
+                            <option value="Ahad" {{ $data->day === 'Ahad' ? 'selected' : '' }}>Ahad</option>
+                            <option value="Senin" {{ $data->day === 'Senin' ? 'selected' : '' }}>Senin</option>
+                            <option value="Selasa" {{ $data->day === 'Selasa' ? 'selected' : '' }}>Selasa</option>
+                            <option value="Rabu" {{ $data->day === 'Rabu' ? 'selected' : '' }}>Rabu</option>
+                            <option value="Kamis" {{ $data->day === 'Kamis' ? 'selected' : '' }}>Kamis</option>
+                            <option value="Jumat" {{ $data->day === 'Jumat' ? 'selected' : '' }}>Jumat</option>
+                            <option value="Sabtu" {{ $data->day === 'Sabtu' ? 'selected' : '' }}>Sabtu</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="">Waktu</label>
-                        <input type="text" name="time" id="" class="form-control"
-                            placeholder="Pagi,Siang,Malam, DLL" value="{{ old('time') ?? $data->time }}">
+                        <select name="time" id="" class="custom-select form-control-border">
+                            <option value="">Pilih Waktu</option>
+                            <option value="Pagi" {{ $data->time === 'Pagi' ? 'selected' : '' }}>Pagi</option>
+                            <option value="Siang" {{ $data->time === 'Siang' ? 'selected' : '' }}>Siang</option>
+                            <option value="Sore" {{ $data->time === 'Sore' ? 'selected' : '' }}>Sore</option>
+                            <option value="Malam" {{ $data->time === 'Malam' ? 'selected' : '' }}>Malam</option>
+                        </select>
                     </div>
                 </div>
                 <div class="card-footer">
