@@ -167,36 +167,221 @@
             </div>
             <!-- /.card-body -->
         </div>
-        <div class="card">
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Kelas</th>
-                        <th>Waktu</th>
-                        <th>Ahad</th>
-                        <th>Senin</th>
-                        <th>Selasa</th>
-                        <th>Rabu</th>
-                        <th>Kamis</th>
-                        <th>Jumat</th>
-                        <th>Sabtu</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td rowspan="4">-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        @if ($filter == true)
+            <div class="card" style="text-align: center;overflow: auto;">
+                <div class="card-header">
+                    <h1>Preview</h1>
+                </div>
+                <div class="card-body">
+                    @if ($category === 'program')
+                        <table class="table table-bordered table-striped" style="overflow: auto;">
+                            <tr>
+                                <th>Kelas</th>
+                                <th>Waktu</th>
+                                <th>Ahad</th>
+                                <th>Senin</th>
+                                <th>Selasa</th>
+                                <th>Rabu</th>
+                                <th>Kamis</th>
+                                <th>Jumat</th>
+                                <th>Sabtu</th>  
+                            </tr>
+                            @forelse ($preview as $item)
+                                <tr>
+                                    <td rowspan="4">{{ $item->class_name }}</td>
+                                    <td bgcolor="yellow">Pagi</td>
+                                    <td>
+                                        @foreach ($sundayMorning->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($mondayMorning->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($tuesdayMorning->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($wednesdayMorning->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($thursdayMorning->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($fridayMorning->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($saturdayMorning->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td bgcolor="yellow">Siang</td>
+                                    <td>
+                                        @foreach ($sundayAfternoon->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($mondayAfternoon->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($tuesdayAfternoon->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($wednesdayAfternoon->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($thursdayAfternoon->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($fridayAfternoon->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($saturdayAfternoon->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td bgcolor="yellow">Sore</td>
+                                    <td>
+                                        @foreach ($sundayEvening->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($mondayEvening->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($tuesdayEvening->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($wednesdayEvening->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($thursdayEvening->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($fridayEvening->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($saturdayEvening->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td bgcolor="yellow">Malam</td>
+                                    <td>
+                                        @foreach ($sundayNight->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($mondayNight->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($tuesdayNight->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($wednesdayNight->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($thursdayNight->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($fridayNight->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($saturdayNight->where('class_id', $item->class_id) as $data)
+                                            {{ $data->course->course_name ?? '-' }}
+                                        @endforeach
+                                    </td>
+
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="9">Tidak ada data</td>
+                                </tr>
+                            @endforelse
+                        </table>
+                    @else
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <th rowspan="2">Nama Pengajar</th>
+                                <th rowspan="2">Mata Pelajaran</th>
+                                <th rowspan="2">Kelas</th>
+                                <th colspan="2">Jadwal</th>
+                            </tr>
+                            <tr>
+                                <th>Hari</th>
+                                <th>Waktu</th>
+                            </tr>
+                            @foreach ($jadwal as $item)
+                                <tr>
+                                    <td>{{ $item->teacher_name }}</td>
+                                    <td>{{ $item->course_name }}</td>
+                                    <td>{{ $item->class_name }}</td>
+                                    <td>{{ $item->day }}</td>
+                                    <td>{{ $item->times }}</td>
+                                </tr>
+                            @endforeach
+
+                        </table>
+                    @endif
+
+
+                </div>
+            </div>
+        @else
+            <div></div>
+        @endif
+
+
 
     </div>
 @endsection
