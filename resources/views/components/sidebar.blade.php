@@ -54,6 +54,9 @@
                              'kelolaPembayaran*',
                              'kelolaMapel*',
                              'kategoriMapel*',
+                             'kategoriNilai*',
+                             'kategoriAbsen*',
+                             'kategoriPiket*',
                          ])
                              ? 'menu-open'
                              : '' }}">
@@ -73,6 +76,9 @@
                                  'kelolaPembayaran*',
                                  'kelolaMapel*',
                                  'kategoriMapel*',
+                                 'kategoriNilai*',
+                                 'kategoriAbsen*',
+                                 'kategoriPiket*',
                              ])
                                  ? 'active'
                                  : '' }}">
@@ -166,17 +172,25 @@
                                  </a>
                              </li>
                              <li class="nav-item">
+                                 <a href="{{ route('kelolaMapel.index') }}"
+                                     class="nav-link {{ Request::is('kelolaMapel*') ? 'active ' : '' }}">
+                                     <i class="far fa-circle nav-icon"></i>
+                                     <p>Mata Pelajaran</p>
+                                 </a>
+                             </li>
+                             <li class="nav-header">Data Kategori</li>
+                             <li class="nav-item">
                                  <a href="{{ route('kelolaPembayaran.index') }}"
                                      class="nav-link {{ Request::is('kelolaPembayaran*') ? 'active ' : '' }} ">
                                      <i class="far fa-circle nav-icon"></i>
-                                     <p>Pembayaran</p>
+                                     <p>Kategori Pembayaran</p>
                                  </a>
                              </li>
                              <li class="nav-item">
                                  <a href="{{ route('kelolaAbsen.index') }}"
                                      class="nav-link {{ Request::is('kelolaAbsen*') ? 'active ' : '' }}">
                                      <i class="far fa-circle nav-icon"></i>
-                                     <p>Absen</p>
+                                     <p>Kategori Absen</p>
                                  </a>
                              </li>
                              <li class="nav-item">
@@ -187,17 +201,17 @@
                                  </a>
                              </li>
                              <li class="nav-item">
-                                 <a href="{{ route('kelolaMapel.index') }}"
-                                     class="nav-link {{ Request::is('kelolaMapel*') ? 'active ' : '' }}">
-                                     <i class="far fa-circle nav-icon"></i>
-                                     <p>Mata Pelajaran</p>
-                                 </a>
-                             </li>
-                             <li class="nav-item">
                                  <a href="{{ route('kategoriNilai.index') }}"
                                      class="nav-link {{ Request::is('kategoriNilai*') ? 'active ' : '' }}">
                                      <i class="far fa-circle nav-icon"></i>
                                      <p>Kategori Penilaian</p>
+                                 </a>
+                             </li>
+                             <li class="nav-item">
+                                 <a href="{{ route('kategoriPiket.index') }}"
+                                     class="nav-link {{ Request::is('kategoriPiket*') ? 'active ' : '' }}">
+                                     <i class="far fa-circle nav-icon"></i>
+                                     <p>Kategori Piket</p>
                                  </a>
                              </li>
                          </ul>

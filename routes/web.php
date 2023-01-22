@@ -5,7 +5,6 @@ use App\Http\Controllers\Akademik\ManageJadwalController;
 use App\Http\Controllers\Akademik\ManageJadwalPiketController;
 use App\Http\Controllers\Akademik\ManageKelompokKamar;
 use App\Http\Controllers\Akademik\ManageKelompokKelas;
-use App\Http\Controllers\Akademik\ManageNilaiController;
 use App\Http\Controllers\Akademik\ManagePenilaianController;
 use App\Http\Controllers\Akademik\ManagePenilaianHafalanController;
 use App\Http\Controllers\Auth\ActivationController;
@@ -26,6 +25,7 @@ use App\Http\Controllers\Master\ManageMapelController;
 use App\Http\Controllers\Master\ManagePembayaranController;
 use App\Http\Controllers\Master\ManagePengajarController;
 use App\Http\Controllers\Master\ManagePengurusController;
+use App\Http\Controllers\Master\ManagePiketController;
 use App\Http\Controllers\Master\ManageProgramController;
 use App\Http\Controllers\Master\ManageProvinsiController;
 use App\Http\Controllers\Master\ManageRuanganController;
@@ -57,7 +57,7 @@ Route::post('/send-email', [ActivationController::class, 'sendEmail'])->name('se
 Route::get('aktivasi/{hash}', [ActivationController::class, 'redemCode'])->name('redemCode');
 Route::middleware(['auth'])->group(function () {
     /**
-     * [ROUTE RESPONSE JSON]
+     * [ROUTE DATA WITH RESPONSE JSON]
      */
     Route::get(
         'kelolaPengajar/all',
@@ -85,7 +85,7 @@ Route::middleware(['auth'])->group(function () {
     )->name('getAllCourseByProgram');
     Route::get('kelolaUser/userByRoles', [ManageUserController::class, 'getUserByRoles'])->name('getUserByRoles');
     /**
-     * Middleware Admin
+     * [MIDDLEWARE ADMIN]
      * Master data
      */
     Route::middleware('isAdmin')->group(function () {
@@ -505,6 +505,20 @@ Route::middleware(['auth'])->group(function () {
         /**
          * [ROUTE PICKET SCHEDULE]
          */
+        Route::get(
+            'jadwalPiket/filter',
+            [
+                ManageJadwalPiketController::class,
+                'filterDataByCategory'
+            ]
+        )->name('filterDataPicket');
+        Route::post(
+            'jadwalPiket/filter',
+            [
+                ManageJadwalPiketController::class,
+                'filterDataByCategory'
+            ]
+        )->name('filterDataPicket');
         Route::resource('jadwalPiket', ManageJadwalPiketController::class)->except('show');
         /**
          * [ROUTE CLASS GROUPS]
@@ -518,6 +532,27 @@ Route::middleware(['auth'])->group(function () {
          * [ROUTE CATEGORIES ASSESSMENT]
          */
         Route::resource('kategoriNilai', ManageKategoriNilaiController::class)->except(['show', 'edit', 'create']);
+        /**
+         * [ROUTE MASTER PICKETS]
+         */
+        Route::get('kategoriPiket/trash', [ManagePiketController::class, 'trash'])->name('trashPicketCategories');
+        Route::get(
+            'kategoriPiket/trash/{id}/delete',
+            [ManagePiketController::class, 'deletePermanent']
+        )->name('deletePermanentPicketCategories');
+        Route::get(
+            'kategoriPiket/trash/restore',
+            [ManagePiketController::class, 'restoreAll']
+        )->name('restoreAllPicketCategories');
+        Route::get(
+            'kategoriPiket/trash/delete',
+            [ManagePiketController::class, 'deletePermanentAll']
+        )->name('deletePermanentAllPicketCategories');
+        Route::get(
+            'kategoriPiket/trash/{id}/restore',
+            [ManagePiketController::class, 'restore']
+        )->name('restorePicketCategories');
+        Route::resource('kategoriPiket', ManagePiketController::class)->except(['create', 'edit', 'show']);
     });
     /**
      * [ROUTE DASHBOARD]

@@ -10,7 +10,7 @@ class TrxPicketSchedule extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'student_id', 'room_id', 'time'
+        'student_id', 'room_id', 'time', 'id_category'
     ];
 
     public function getCreatedAttribute($value)
@@ -30,5 +30,9 @@ class TrxPicketSchedule extends Model
     public function room()
     {
         return $this->belongsTo(MasterRoom::class, 'room_id');
+    }
+    public function picket()
+    {
+        return $this->belongsTo(MasterPicket::class, 'id_category');
     }
 }

@@ -98,3 +98,6 @@
 @if (Request::is('penilaianAkhir*'))
     Penilaian Akhir
 @endif
+@if (Request::is('kategoriPiket*'))
+    Kategori Piket
+@endif

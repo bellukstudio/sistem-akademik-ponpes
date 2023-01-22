@@ -184,7 +184,7 @@
                                 <th>Rabu</th>
                                 <th>Kamis</th>
                                 <th>Jumat</th>
-                                <th>Sabtu</th>  
+                                <th>Sabtu</th>
                             </tr>
                             @forelse ($preview as $item)
                                 <tr>

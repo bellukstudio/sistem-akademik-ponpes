@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\TrxPicketSchedule;
+use App\Models\MasterPicket;
 use Illuminate\Database\Seeder;
 
 class JadwalPiketSeeder extends Seeder
@@ -14,22 +14,17 @@ class JadwalPiketSeeder extends Seeder
      */
     public function run()
     {
-        $jadwal = [
+        $category = [
             [
-                'student_id' => 1,
-                'time' => 'Jumat',
-                'room_id' => 1,
-
+                'name' => 'MASAK',
             ],
             [
-                'student_id' => 2,
-                'time' => 'Jumat',
-                'room_id' => 2,
-            ],
-
+                'name' => 'KEBERSIHAN',
+            ]
         ];
-        foreach ($jadwal as $data) {
-            TrxPicketSchedule::create($data);
+
+        foreach ($category as $data) {
+            MasterPicket::create($data);
         }
     }
 }

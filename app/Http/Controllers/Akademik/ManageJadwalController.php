@@ -10,7 +10,7 @@ use App\Models\MasterCourse;
 use App\Models\MasterTeacher;
 use App\Models\TrxSchedule;
 use Illuminate\Http\Request;
-use PDF;
+use Barryvdh\DomPDF\PDF;
 
 class ManageJadwalController extends Controller
 {

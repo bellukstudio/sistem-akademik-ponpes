@@ -321,3 +321,12 @@ Breadcrumbs::for('penilaianAkhir.create', function (BreadcrumbTrail $trail) {
     $trail->parent('penilaianAkhir');
     $trail->push('Penilaian', route('penilaianAkhir.create'));
 });
+
+// kategori piket
+Breadcrumbs::for('kategoriPiket', function (BreadcrumbTrail $trail) {
+    $trail->push('Kategori Piket', route('kategoriPiket.index'));
+});
+Breadcrumbs::for('kategoriPiket.trash', function (BreadcrumbTrail $trail) {
+    $trail->parent('kategoriPiket');
+    $trail->push('Kategori Piket (Trash)', route('trashPicketCategories'));
+});

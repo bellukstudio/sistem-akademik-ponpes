@@ -32,13 +32,13 @@
                     <label for="">Judul Berita Acara / Pengumuman</label>
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Perubahan Jadwal pengajian"
-                            value="{{ old('judul') ?? $berita->judul }}" name="judul">
+                            value="{{ old('judul') ?? $berita->title }}" name="judul">
                     </div>
                     <label for="">Keterangan</label>
                     <div class="card card-outline card-info">
                         <div class="card-body">
                             <textarea id="summernote" name="keterangan">
-                                {{ old('keterangan') ?? $berita->keterangan }}</textarea>
+                                {{ old('keterangan') ?? $berita->description }}</textarea>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-warning">

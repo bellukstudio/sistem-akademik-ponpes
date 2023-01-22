@@ -9,6 +9,9 @@ use Google_Service_Drive_DriveFile;
 use Google_Service_Drive_Permission;
 use Illuminate\Support\Facades\Auth;
 use App\Models\MasterUsers;
+use App\Models\SessionUser;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class GoogleDriveHelper
 {
@@ -47,7 +50,34 @@ class GoogleDriveHelper
         }
 
         if ($gClient->getAccessToken()) {
+
+            // save session
+            // save acceess token
             $user = MasterUsers::find(Auth::user()->id);
+            $checkSession = SessionUser::where('user_id', $user->id)->doesntExist();
+            if ($checkSession) {
+                //Save users session
+                $session = [
+                    'id' => Str::random(40),
+                    'user_id' => $user->id,
+                    'ip_address' => $request->ip(),
+                    'user_agent' => $request->server('HTTP_USER_AGENT'),
+                    'last_activity' => strtotime(Carbon::now()),
+                    'status' => 'ON'
+                ];
+                SessionUser::create($session);
+            } else {
+                SessionUser::where('user_id', $user->id)
+                    ->update([
+                        'id' => Str::random(40),
+                        'ip_address' => $request->ip(),
+                        'user_agent' => $request->server('HTTP_USER_AGENT'),
+                        'last_activity' => strtotime(Carbon::now()),
+                        'status' => 'ON'
+                    ]);
+            }
+
+
             $user->access_token = json_encode($request->session()->get('token'));
             $user->save();
 

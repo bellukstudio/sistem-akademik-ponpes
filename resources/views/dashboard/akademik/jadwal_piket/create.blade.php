@@ -27,6 +27,17 @@
                 @csrf
                 <div class="card-body">
                     <div class="form-group">
+                        <label for="">Pilih Kategori</label>
+                        <select name="category" id="" class="form-control select2" style="width: 100%;">
+                            <option value="">Pilih</option>
+                            @forelse ($category as $s)
+                                <option value="{{ $s->id }}">{{ $s->name }}</option>
+                            @empty
+                                <option value=""></option>
+                            @endforelse
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="">Pilih Santri</label>
                         <select name="student_select" id="" class="form-control select2" style="width: 100%;">
                             <option value="">Pilih Santri</option>

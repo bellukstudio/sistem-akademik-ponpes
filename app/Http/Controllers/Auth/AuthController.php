@@ -37,7 +37,6 @@ class AuthController extends Controller
             if ($checkSession) {
                 //Save users session
                 $session = [
-                    'id' => Str::random(40),
                     'user_id' => $user->id,
                     'ip_address' => $request->ip(),
                     'user_agent' => $request->server('HTTP_USER_AGENT'),
@@ -48,7 +47,6 @@ class AuthController extends Controller
             } else {
                 SessionUser::where('user_id', $user->id)
                     ->update([
-                        'id' => Str::random(40),
                         'ip_address' => $request->ip(),
                         'user_agent' => $request->server('HTTP_USER_AGENT'),
                         'last_activity' => strtotime(Carbon::now()),
