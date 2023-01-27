@@ -32,7 +32,8 @@ class MasterStudent extends Model
     }
 
     protected $hidden = [
-        'email', 'photo', 'province_id', 'city_id', 'address', 'no_id', 'student_parent', 'no_tlp'
+        'province_id', 'city_id', 'address', 'no_id',
+        'no_tlp', 'program_id', 'period_id', 'deleted_at',
     ];
 
     // public function toArray()

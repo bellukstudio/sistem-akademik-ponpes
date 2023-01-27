@@ -113,7 +113,7 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->email }}</td>
                                 <td>{{ $item->name }}</td>
-                                <td>{!! $item->room->room_name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
+                                <td>{!! $item->program->program_name ?? '<span class="badge badge-danger">Error</span>' !!}</td>
 
                                 <td>
                                     {{-- {restore} --}}

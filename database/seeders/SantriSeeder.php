@@ -29,7 +29,8 @@ class SantriSeeder extends Seeder
                 'student_parent' => 'Jhon Doe',
                 'no_tlp' => '293829320',
                 'program_id' => '2',
-                'period_id' => '2'
+                'period_id' => '2',
+                'is_activate' => 1
             ],
             [
                 'noId' => '82371284',

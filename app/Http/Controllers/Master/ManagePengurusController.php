@@ -172,7 +172,11 @@ class ManagePengurusController extends Controller
 
             //update users roles
             $user = MasterUsers::find($data->user_id);
-            $user->roles_id = 2;
+            if ($data->categories === 'students') {
+                $user->roles_id = 4;
+            } elseif ($data->categories === 'teachers') {
+                $user->roles_id = 2;
+            }
             $user->update();
             //delete
             $data->delete();
@@ -187,7 +191,7 @@ class ManagePengurusController extends Controller
     {
         $this->authorize('admin');
 
-        $data = TrxCaretakers::with(['room'])->onlyTrashed()->get();
+        $data = TrxCaretakers::with(['program'])->onlyTrashed()->get();
         return view('dashboard.master_data.kelola_pengurus.trash', [
             'trash' => $data
         ]);

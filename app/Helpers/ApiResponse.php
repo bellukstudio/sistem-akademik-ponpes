@@ -1,6 +1,6 @@
 <?php
 
-namespace Helper\ApiResponse;
+namespace App\Helpers;
 
 class ApiResponse
 {

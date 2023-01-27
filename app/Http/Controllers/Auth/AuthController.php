@@ -53,7 +53,7 @@ class AuthController extends Controller
                         'status' => 'ON'
                     ]);
             }
-            if (Auth::user()->id === 1) {
+            if (Auth::user()->roles_id === 1) {
                 return redirect()->route('google.check');
             } else {
                 return redirect()->intended('dashboard');
