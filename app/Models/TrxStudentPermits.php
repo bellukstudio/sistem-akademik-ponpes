@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Helpers\ApiResponse;
 
 class TrxStudentPermits extends Model
 {
@@ -14,6 +15,9 @@ class TrxStudentPermits extends Model
         'student_id', 'description', 'permit_date', 'permit_type', 'id_program', 'status'
     ];
     protected $dates = ['deleted_at'];
+    protected $hidden = [
+        'deleted_at'
+    ];
     public function getCreatedAttribute($value)
     {
         return Carbon::parse($value)->timestamp;

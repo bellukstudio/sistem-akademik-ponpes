@@ -12,10 +12,10 @@ class MasterNews extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'title','description','id_user'
+        'title', 'description', 'id_user'
     ];
 
-    protected $hidden = ['id_user'];
+    protected $hidden = ['id_user', 'deleted_at'];
 
     protected $dates = ['deleted_at'];
 

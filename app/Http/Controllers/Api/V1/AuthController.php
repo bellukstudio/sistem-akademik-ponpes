@@ -12,7 +12,6 @@ use App\Models\MasterUsers;
 use App\Models\SessionUser;
 use App\Models\TrxCaretakers;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
