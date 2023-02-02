@@ -23,4 +23,8 @@ class MasterProvince extends Model
     {
         return Carbon::parse($value)->timestamp;
     }
+    protected $hidden = [
+        'deleted_at', 'created_at', 'updated_at'
+    ];
+
 }

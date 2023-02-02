@@ -104,10 +104,10 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if (is_null($item->photo))
+                                    @if ($item->photo === 'http://127.0.0.1:8000/storage/')
                                         <i class="badge badge-info">Null</i>
                                     @else
-                                        <img src="@gdrive($item->photo)" alt="" class="photo">
+                                        <img src="{{ $item->photo }}" alt="" class="photo">
                                     @endif
                                 </td>
                                 <td>

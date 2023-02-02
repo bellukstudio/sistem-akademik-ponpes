@@ -32,7 +32,8 @@ class MasterUsers extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'roles_id', 'access_token', 'deleted_at', 'created_at', 'updated_at', 'email_verified_at'
+        'password', 'remember_token', 'roles_id', 'access_token',
+        'deleted_at', 'created_at', 'updated_at', 'email_verified_at'
     ];
 
     /**

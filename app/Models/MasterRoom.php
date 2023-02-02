@@ -16,11 +16,12 @@ class MasterRoom extends Model
         'room_name', 'photo', 'capasity', 'type'
     ];
 
-    protected $hidden = [
-        'photo', 'type'
-    ];
+
 
     protected $dates = ['deleted_at'];
+    protected $hidden = [
+        'deleted_at', 'created_at', 'updated_at',  'photo', 'type'
+    ];
 
     public function getCreatedAttribute($value)
     {

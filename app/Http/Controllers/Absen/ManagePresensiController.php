@@ -150,7 +150,7 @@ class ManagePresensiController extends Controller
                     'master_academic_programs.program_name as program_name',
                     'master_academic_programs.id as id_program',
                     'trx_attendances.status as status'
-                )->get();
+                )->groupBy('master_students.id')->get();
 
 
 

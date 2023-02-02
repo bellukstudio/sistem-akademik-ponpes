@@ -13,6 +13,9 @@ class MasterCategorieSchedule extends Model
     protected $fillable = [
         'categorie_name'
     ];
+    protected $hidden = [
+        'deleted_at', 'created_at', 'updated_at'
+    ];
 
     protected $dates = [
         'updated_at',

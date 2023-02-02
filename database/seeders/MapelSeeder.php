@@ -135,6 +135,7 @@ class MapelSeeder extends Seeder
 
             ],
 
+
             //setoran
             [
                 'course_name' => "TAKLIM ABAH DAN SETORAN",
@@ -155,6 +156,14 @@ class MapelSeeder extends Seeder
                 'course_name' => "BURDAH DAN SHALAWAT IBRAHIMIYAH",
                 'program_id' => 2,
                 'category_id' => 1,
+            ],
+
+            // new
+            [
+                'course_name' => "SENAM",
+                'program_id' => 2,
+                'category_id' => 2,
+
             ],
         ];
         foreach ($mapel as $data) {

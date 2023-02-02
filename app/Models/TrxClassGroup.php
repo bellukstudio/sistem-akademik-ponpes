@@ -12,6 +12,9 @@ class TrxClassGroup extends Model
     protected $fillable = [
         'student_id', 'class_id'
     ];
+    protected $hidden = [
+       'created_at', 'updated_at'
+    ];
 
     //relationship
 

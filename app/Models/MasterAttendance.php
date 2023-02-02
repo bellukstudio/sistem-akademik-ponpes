@@ -13,6 +13,9 @@ class MasterAttendance extends Model
 
     protected $fillable = ['name', 'categories'];
     protected $dates = ['deleted_at'];
+    protected $hidden = [
+        'deleted_at', 'created_at', 'updated_at'
+    ];
 
     public function getCreatedAttribute($value)
     {

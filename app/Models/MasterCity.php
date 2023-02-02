@@ -16,8 +16,9 @@ class MasterCity extends Model
     ];
 
     protected $hidden = [
-        'id_province'
+        'deleted_at', 'created_at', 'updated_at', 'id_province'
     ];
+
 
     protected $dates = ['deleted_at'];
 
@@ -30,7 +31,7 @@ class MasterCity extends Model
     {
         return Carbon::parse($value)->timestamp;
     }
-    
+
     // relationship
     public function province()
     {

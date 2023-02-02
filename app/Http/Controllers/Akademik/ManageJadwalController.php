@@ -69,119 +69,261 @@ class ManageJadwalController extends Controller
         /**
          *  get schedule in sunday alltime
          * */
-        $sundayMorning = TrxSchedule::with(['course'])->where('day', 'Ahad')
-            ->where('time', 'Pagi')->get();
+        $sundayMorning = TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Ahad')
+            ->where('trx_schedules.time', 'Pagi')
+            ->where('master_courses.category_id', request('courseCategory'))
+            ->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+
+            )->get();
         $sundayAfternoon =
-            TrxSchedule::with(['course'])->where('day', 'Ahad')
-            ->where('time', 'Siang')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Ahad')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Siang')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         $sundayEvening =
-            TrxSchedule::with(['course'])->where('day', 'Ahad')
-            ->where('time', 'Sore')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Ahad')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Sore')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         $sundayNight =
-            TrxSchedule::with(['course'])->where('day', 'Ahad')
-            ->where('time', 'Malam')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Ahad')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Malam')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         /**
          * end
          */
         /**
          * get schedule in monday alltime
          */
-        $mondayMorning = TrxSchedule::with(['course'])->where('day', 'Senin')
-            ->where('time', 'Pagi')->get();
+        $mondayMorning = TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Senin')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Pagi')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         $mondayAfternoon =
-            TrxSchedule::with(['course'])->where('day', 'Senin')
-            ->where('time', 'Siang')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Senin')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Siang')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         $mondayEvening =
-            TrxSchedule::with(['course'])->where('day', 'Senin')
-            ->where('time', 'Sore')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Senin')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Sore')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         $mondayNight =
-            TrxSchedule::with(['course'])->where('day', 'Senin')
-            ->where('time', 'Malam')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Senin')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Malam')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         /**
          * end
          */
         /**
          * get schedule in tuesday alltime
          */
-        $tuesdayMorning = TrxSchedule::with(['course'])->where('day', 'Selasa')
-            ->where('time', 'Pagi')->get();
+        $tuesdayMorning = TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Selasa')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Pagi')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         $tuesdayAfternoon =
-            TrxSchedule::with(['course'])->where('day', 'Selasa')
-            ->where('time', 'Siang')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Selasa')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Siang')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         $tuesdayEvening =
-            TrxSchedule::with(['course'])->where('day', 'Selasa')
-            ->where('time', 'Sore')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Selasa')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Sore')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         $tuesdayNight =
-            TrxSchedule::with(['course'])->where('day', 'Selasa')
-            ->where('time', 'Malam')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Selasa')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Malam')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         /**
          * end
          */
         /**
          * get schedule in wednesday alltime
          */
-        $wednesdayMorning = TrxSchedule::with(['course'])->where('day', 'Rabu')
-            ->where('time', 'Pagi')->get();
+        $wednesdayMorning = TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Rabu')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Pagi')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         $wednesdayAfternoon =
-            TrxSchedule::with(['course'])->where('day', 'Rabu')
-            ->where('time', 'Siang')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Rabu')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Siang')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         $wednesdayEvening =
-            TrxSchedule::with(['course'])->where('day', 'Rabu')
-            ->where('time', 'Sore')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Rabu')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Sore')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         $wednesdayNight =
-            TrxSchedule::with(['course'])->where('day', 'Rabu')
-            ->where('time', 'Malam')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Rabu')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Malam')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         /**
          * end
          */
         /**
          * get schedule in thursday alltime
          */
-        $thursdayMorning = TrxSchedule::with(['course'])->where('day', 'Kamis')
-            ->where('time', 'Pagi')->get();
+        $thursdayMorning = TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Kamis')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Pagi')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         $thursdayAfternoon =
-            TrxSchedule::with(['course'])->where('day', 'Kamis')
-            ->where('time', 'Siang')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Kamis')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Siang')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         $thursdayEvening =
-            TrxSchedule::with(['course'])->where('day', 'Kamis')
-            ->where('time', 'Sore')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Kamis')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Sore')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         $thursdayNight =
-            TrxSchedule::with(['course'])->where('day', 'Kamis')
-            ->where('time', 'Malam')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Kamis')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Malam')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         /**
          * end
          */
         /**
          * get schedule in friday alltime
          */
-        $fridayMorning = TrxSchedule::with(['course'])->where('day', 'Jumat')
-            ->where('time', 'Pagi')->get();
+        $fridayMorning = TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Jumat')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Pagi')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         $fridayAfternoon =
-            TrxSchedule::with(['course'])->where('day', 'Jumat')
-            ->where('time', 'Siang')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Jumat')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Siang')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         $fridayEvening =
-            TrxSchedule::with(['course'])->where('day', 'Jumat')
-            ->where('time', 'Sore')->get();
-        $fridayNight =
-            TrxSchedule::with(['course'])->where('day', 'Jumat')
-            ->where('time', 'Malam')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Jumat')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Sore')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
+        $fridayNight = TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Jumat')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Malam')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         /**
          * end
          */
         /**
          * get schedule in saturday alltime
          */
-        $saturdayMorning = TrxSchedule::with(['course'])->where('day', 'Sabtu')
-            ->where('time', 'Pagi')->get();
+        $saturdayMorning = TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Sabtu')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Pagi')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         $saturdayAfternoon =
-            TrxSchedule::with(['course'])->where('day', 'Sabtu')
-            ->where('time', 'Siang')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Sabtu')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Siang')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         $saturdayEvening =
-            TrxSchedule::with(['course'])->where('day', 'Sabtu')
-            ->where('time', 'Sore')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Sabtu')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Sore')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         $saturdayNight =
-            TrxSchedule::with(['course'])->where('day', 'Sabtu')
-            ->where('time', 'Malam')->get();
+            TrxSchedule::join('master_courses', 'trx_schedules.course_id', '=', 'master_courses.id')
+            ->join('master_categorie_schedules', 'master_courses.category_id', '=', 'master_categorie_schedules.id')
+            ->where('trx_schedules.day', 'Sabtu')->where('master_courses.category_id', request('courseCategory'))
+            ->where('trx_schedules.time', 'Malam')->select(
+                'master_courses.course_name as course_name',
+                'trx_schedules.class_id as class_id'
+            )->get();
         /**
          * end
          */
@@ -270,7 +412,8 @@ class ManageJadwalController extends Controller
                     $program = MasterAcademicProgram::where('id', request('data'))->firstOrFail();
                     $courseCategory = MasterCategorieSchedule::where('id', request('courseCategory'))->firstOrFail();
                     $byProgram = $data->where('master_courses.program_id', request('data'))
-                        ->where('master_courses.category_id', request('courseCategory'))->orderByRaw("field(trx_schedules.day,'Ahad',
+                        ->where('master_courses.category_id', request('courseCategory'))
+                        ->orderByRaw("field(trx_schedules.day,'Ahad',
                         'Senin','Selasa','Rabu','Kamis','Jumat','Sabtu')")
                         ->groupBy('master_classes.id')->get();
 

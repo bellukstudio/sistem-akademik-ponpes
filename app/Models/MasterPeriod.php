@@ -16,6 +16,9 @@ class MasterPeriod extends Model
     ];
 
     protected $dates = ['deleted_at'];
+    protected $hidden = [
+        'deleted_at', 'created_at', 'updated_at'
+    ];
 
     public function getCreatedAttribute($value)
     {

@@ -13,7 +13,9 @@ class MasterPayment extends Model
     protected $fillable = ['payment_name', 'total', 'method', 'payment_number', 'media_payment'];
     protected $dates = ['deleted_at', 'updated_at', 'created_at'];
 
-    protected $hidden = ['payment_number', 'method'];
+    protected $hidden = [
+        'deleted_at', 'created_at', 'updated_at', 'payment_number', 'method'
+    ];
 
     public function getCreatedAttribute($value)
     {

@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
             KelompokKamarSeeder::class,
             MasterPaymentSeeder::class,
             // TrxPaymentSeeder::class
+            KategoriNilaiSeeder::class
         ]);
     }
 }

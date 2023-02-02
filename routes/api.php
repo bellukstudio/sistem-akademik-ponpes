@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\BeritaController;
+use App\Http\Controllers\Api\V1\JadwalController;
 use App\Http\Controllers\Api\V1\PembayaranController;
+use App\Http\Controllers\Api\V1\PenilaianController;
 use App\Http\Controllers\Api\V1\PerizinanController;
 use App\Http\Controllers\Api\V1\PresensiController;
 use Illuminate\Http\Request;
@@ -38,17 +40,33 @@ Route::group(['prefix' => 'v1'], function () {
          * [ROUTE NEWS]
          */
         Route::get('/app/news', [BeritaController::class, 'getAllNews']);
+        Route::post('/app/news/{news}/read', [BeritaController::class, 'readNews']);
         /**
          * [ROUTE PERMIT]
          */
         Route::get('/app/permit/history', [PerizinanController::class, 'getHistoryPermit']);
+        Route::get('/app/permit/history/count', [PerizinanController::class, 'countHistoryPermit']);
+        Route::post('/app/permit/save', [PerizinanController::class, 'saveNewPermit']);
         /**
          * [ROUTE PAYMENT]
          */
         Route::get('/app/payment/history', [PembayaranController::class, 'getHistoryPayment']);
+        Route::post('/app/payment/uploadPhoto/{id}', [PembayaranController::class, 'uploadPhoto']);
+        Route::post('/app/payment/save', [PembayaranController::class, 'saveNewPayment']);
+        Route::get('/app/payment/category', [PembayaranController::class, 'getAllCategoriePayment']);
         /**
          * [ROUTE PRESENCE]
          */
         Route::get('/app/presence/history', [PresensiController::class, 'getHistoryPresence']);
+        Route::get('/app/presence/history/count', [PresensiController::class, 'countHistoryPresence']);
+        Route::get('/app/presence/type', [PresensiController::class, 'getTypePresence']);
+        /**
+         * [ROUTE ASSESSMENT]
+         */
+        Route::get('/app/assessment/memorize', [PenilaianController::class, 'getAssessmentSurah']);
+        /**
+         * [ROUTE SCHEDULE]
+         */
+        Route::get('/app/schedules', [JadwalController::class, 'getScheduleByClass']);
     });
 });

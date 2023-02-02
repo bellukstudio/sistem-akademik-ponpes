@@ -12,6 +12,9 @@ class TrxRoomGroup extends Model
     protected $fillable = [
         'room_id', 'student_id',
     ];
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
 
     //relationship
 

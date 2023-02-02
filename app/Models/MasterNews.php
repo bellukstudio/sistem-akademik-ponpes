@@ -15,7 +15,9 @@ class MasterNews extends Model
         'title', 'description', 'id_user'
     ];
 
-    protected $hidden = ['id_user', 'deleted_at'];
+    protected $hidden = [
+        'deleted_at', 'created_at', 'updated_at', 'id_user'
+    ];
 
     protected $dates = ['deleted_at'];
 

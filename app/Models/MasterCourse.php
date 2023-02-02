@@ -13,6 +13,9 @@ class MasterCourse extends Model
 
     protected $fillable = ['course_name', 'program_id', 'category_id'];
     protected $dates = ['deleted_at'];
+    protected $hidden = [
+        'deleted_at', 'created_at', 'updated_at'
+    ];
 
     public function getCreatedAttribute($value)
     {

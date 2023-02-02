@@ -12,6 +12,9 @@ class MasterAssessment extends Model
     protected $fillable = [
         'name', 'program_id'
     ];
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
 
     public function program()
     {

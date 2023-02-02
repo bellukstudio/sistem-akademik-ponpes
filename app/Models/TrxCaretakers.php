@@ -15,9 +15,11 @@ class TrxCaretakers extends Model
         'user_id', 'program_id', 'categories', 'name', 'email'
     ];
     protected $hidden = [
-        'user_id', 'email'
+        'deleted_at', 'created_at', 'updated_at', 'user_id', 'email'
     ];
+
     protected $dates = ['deleted_at',];
+
     public function program()
     {
         return $this->belongsTo(MasterAcademicProgram::class, 'program_id');

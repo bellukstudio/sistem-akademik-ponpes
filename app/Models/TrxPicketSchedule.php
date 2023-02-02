@@ -12,6 +12,9 @@ class TrxPicketSchedule extends Model
     protected $fillable = [
         'student_id', 'room_id', 'time', 'id_category'
     ];
+    protected $hidden = [
+         'created_at', 'updated_at'
+    ];
 
     public function getCreatedAttribute($value)
     {

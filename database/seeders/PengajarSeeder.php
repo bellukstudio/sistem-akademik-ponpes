@@ -54,6 +54,18 @@ class PengajarSeeder extends Seeder
                 'no_tlp' => '12198291',
                 'address' => 'Lorem Ipsum'
             ],
+            [
+                'noId' => '12801281024',
+                'email' => 'akunberkah561@gmail.com',
+                'name' => 'Jailani',
+                'photo' => null,
+                'gender' => 'Laki-Laki',
+                'province_id' => 3,
+                'city_id' => 59,
+                'date_birth' => Date::now(),
+                'no_tlp' => '12198291',
+                'address' => 'Lorem Ipsum'
+            ],
         ];
 
         foreach ($pengajar as $data) {

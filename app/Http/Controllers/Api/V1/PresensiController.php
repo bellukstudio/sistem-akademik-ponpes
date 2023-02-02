@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Models\MasterAttendance;
 use App\Models\MasterStudent;
 use App\Models\TrxAttendance;
 use Illuminate\Http\Request;
@@ -16,12 +17,12 @@ class PresensiController extends Controller
     public function getHistoryPresence(Request $request)
     {
         try {
+            $type = $request->input('type');
             // get student data by email
             $student = MasterStudent::where('email', $request->user()->email)->first();
             $presence = TrxAttendance::join('master_users', 'master_users.id', '=', 'trx_attendances.id_operator')
                 ->join('master_students', 'master_students.id', '=', 'trx_attendances.student_id')
                 ->join('master_attendances', 'master_attendances.id', '=', 'trx_attendances.presence_type')
-                ->where('trx_attendances.student_id', '=', $student->id)
                 ->select(
                     'trx_attendances.id as id',
                     'master_users.name as name_operator',
@@ -32,11 +33,17 @@ class PresensiController extends Controller
                     'trx_attendances.status as status',
                     'trx_attendances.date_presence as date_presence'
                 )
-                ->latest('trx_attendances.created_at')->get();
+                ->where('trx_attendances.student_id', '=', $student->id);
 
+            if ($type) {
+                $presence->where('master_attendances.id', $type);
+            }
+
+            $data = $presence
+                ->latest('trx_attendances.created_at')->get();
             return ApiResponse::success(
                 [
-                    'presence' => $presence
+                    'presence' =>  $data
                 ],
                 'Get history presence successfully'
             );
@@ -44,7 +51,44 @@ class PresensiController extends Controller
             return ApiResponse::error([
                 'message' => 'Something went wrong',
                 'error' => $e
-            ], 'Authentication failed', 500);
+            ], 'Opps', 500);
+        }
+    }
+    /**
+     * count history permit
+     */
+    public function countHistoryPresence(Request $request)
+    {
+        try {
+            // get student data by email
+            $student = MasterStudent::where('email', $request->user()->email)->first();
+            $data = TrxAttendance::where('student_id', $student->id)->count();
+            return ApiResponse::success([
+                'total' => $data,
+            ], 'Get count history presence successfully');
+        } catch (\Exception $e) {
+            return ApiResponse::error([
+                'message' => 'Something went wrong',
+                'error' => $e
+            ], 'Opps', 500);
+        }
+    }
+    /**
+     * get list type presence
+     */
+
+    public function getTypePresence()
+    {
+        try {
+            $data = MasterAttendance::latest()->get();
+            return ApiResponse::success([
+                'presence' => $data
+            ], 'Get type presence Successfully');
+        } catch (\Exception $e) {
+            return ApiResponse::error([
+                'message' => 'Something went wrong',
+                'error' => $e
+            ], 'Opps', 500);
         }
     }
 }

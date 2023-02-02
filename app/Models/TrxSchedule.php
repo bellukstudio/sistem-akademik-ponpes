@@ -13,6 +13,9 @@ class TrxSchedule extends Model
     protected $fillable = [
         'teacher_id', 'course_id', 'class_id', 'day', 'time'
     ];
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
 
     // relationship
     public function teacher()

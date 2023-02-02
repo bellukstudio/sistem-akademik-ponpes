@@ -33,20 +33,10 @@ class MasterStudent extends Model
 
     protected $hidden = [
         'province_id', 'city_id', 'address', 'no_id',
-        'no_tlp', 'program_id', 'period_id', 'deleted_at',
+        'no_tlp', 'program_id', 'period_id', 'deleted_at', 'created_at', 'updated_at', 'deleted_at'
     ];
 
-    // public function toArray()
-    // {
-    //     $toArray = parent::toArray();
-    //     $toArray['photo'] = $this->photo;
-    //     return $toArray;
-    // }
 
-    // public function getPhotoAttribute()
-    // {
-    //     return url('') . Storage::url($this->attributes['photo']);
-    // }
 
     // relationship
     public function province()

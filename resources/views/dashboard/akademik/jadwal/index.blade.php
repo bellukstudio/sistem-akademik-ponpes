@@ -192,37 +192,37 @@
                                     <td bgcolor="yellow">Pagi</td>
                                     <td>
                                         @foreach ($sundayMorning->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($mondayMorning->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($tuesdayMorning->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($wednesdayMorning->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($thursdayMorning->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($fridayMorning->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($saturdayMorning->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                 </tr>
@@ -230,37 +230,37 @@
                                     <td bgcolor="yellow">Siang</td>
                                     <td>
                                         @foreach ($sundayAfternoon->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($mondayAfternoon->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($tuesdayAfternoon->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($wednesdayAfternoon->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($thursdayAfternoon->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($fridayAfternoon->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($saturdayAfternoon->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
 
@@ -269,37 +269,37 @@
                                     <td bgcolor="yellow">Sore</td>
                                     <td>
                                         @foreach ($sundayEvening->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($mondayEvening->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($tuesdayEvening->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($wednesdayEvening->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($thursdayEvening->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($fridayEvening->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($saturdayEvening->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
 
@@ -308,37 +308,37 @@
                                     <td bgcolor="yellow">Malam</td>
                                     <td>
                                         @foreach ($sundayNight->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($mondayNight->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($tuesdayNight->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($wednesdayNight->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($thursdayNight->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($fridayNight->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($saturdayNight->where('class_id', $item->class_id) as $data)
-                                            {{ $data->course->course_name ?? '-' }}
+                                            {{ $data->course_name ?? '-' }}
                                         @endforeach
                                     </td>
 
