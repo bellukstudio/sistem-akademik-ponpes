@@ -68,5 +68,6 @@ Route::group(['prefix' => 'v1'], function () {
          * [ROUTE SCHEDULE]
          */
         Route::get('/app/schedules', [JadwalController::class, 'getScheduleByClass']);
+        Route::get('/app/schedules/category', [JadwalController::class, 'getCategorySchedule']);
     });
 });

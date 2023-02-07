@@ -22,6 +22,7 @@
         href="{{ asset('template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
     <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('template/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/img.css') }}">
 

@@ -20,6 +20,7 @@ class PembayaranController extends Controller
     {
         try {
             $category = $request->input('id_payment');
+            $date = $request->input('date');
 
             $payment = TrxPayment::join('master_users', 'master_users.id', '=', 'trx_payments.id_user')
                 ->join('master_payments', 'master_payments.id', '=', 'trx_payments.id_payment')
@@ -34,6 +35,9 @@ class PembayaranController extends Controller
 
             if ($category) {
                 $payment->where('master_payments.id', $category);
+            }
+            if ($date) {
+                $payment->where('trx_payments.date_payment', $date);
             }
             $data = $payment->select(
                 'trx_payments.id as id',

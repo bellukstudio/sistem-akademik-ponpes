@@ -38,6 +38,7 @@ class ManageUserController extends Controller
         return response()->json($empData);
     }
 
+
     /**
      * Show the form for creating a new resource.
      *

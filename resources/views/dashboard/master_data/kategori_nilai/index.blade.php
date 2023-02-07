@@ -94,12 +94,12 @@
 
                                 <td>
                                     {{-- {Edit} --}}
-                                    <button type="button" class="btn btn-sm" data-toggle="modal"
+                                    <button type="button" class="btn btn-default" data-toggle="modal"
                                         data-target="#modal-Edit{{ $item->id }}">
                                         <i class="fa fa-edit"></i>
                                     </button>
                                     {{-- {Hapus} --}}
-                                    <button type="button" class="btn btn-sm" data-toggle="modal"
+                                    <button type="button" class="btn btn-danger" data-toggle="modal"
                                         data-target="#modal-Delete{{ $item->id }}">
                                         <i class="fa fa-trash"></i>
                                     </button>

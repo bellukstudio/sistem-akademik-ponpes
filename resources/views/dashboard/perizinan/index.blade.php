@@ -21,9 +21,14 @@
         @include('components.alert')
         <div class="card" style="overflow: auto;">
             <div class="card-header">
-                <a href="{{ route('trashPermit') }}" class="btn btn-secondary">
-                    <i class="fa fa-trash mr-2"></i>Trash
-                    Bin</a>
+                @can('admin')
+                    <a href="{{ route('perizinan.create') }}" class="btn btn-primary">
+                        <i class="fa fa-plus mr-2"></i>Buat Perizinan
+                        Baru</a>
+                    <a href="{{ route('trashPermit') }}" class="btn btn-secondary">
+                        <i class="fa fa-trash mr-2"></i>Trash
+                        Bin</a>
+                @endcan
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -34,7 +39,7 @@
                             <th>Nama</th>
                             <th>Keterangan</th>
                             <th>Tanggal Izin</th>
-                            <th>Jenis Izin</th>
+                            <th>Judul Izin</th>
                             <th>Program</th>
                             <th>Status</th>
                             <th>Aksi</th>
@@ -60,15 +65,16 @@
                                 </td>
                                 <td>
                                     {{-- {Edit} --}}
-                                    <button type="button" class="btn btn-sm" data-toggle="modal"
+                                    <button type="button" class="btn btn-default" data-toggle="modal"
                                         data-target="#modal-Edit{{ $item->id }}">
                                         <i class="fa fa-edit"></i>
                                     </button>
                                     {{-- {Hapus} --}}
-                                    <button type="button" class="btn btn-sm" data-toggle="modal"
+                                    <button type="button" class="btn btn-danger" data-toggle="modal"
                                         data-target="#modal-Delete{{ $item->id }}">
                                         <i class="fa fa-trash"></i>
                                     </button>
+                                    <a href="{{ route('perizinan.edit', $item->id) }}" class="btn btn-warning">Edit</a>
 
                                 </td>
                             </tr>
@@ -169,7 +175,7 @@
                             <th>Nama</th>
                             <th>Keterangan</th>
                             <th>Tanggal Izin</th>
-                            <th>Jenis Izin</th>
+                            <th>Judul Izin</th>
                             <th>Program</th>
                             <th>Status</th>
                             <th>Aksi</th>

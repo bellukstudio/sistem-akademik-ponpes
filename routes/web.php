@@ -315,6 +315,10 @@ Route::middleware(['auth'])->group(function () {
         /**
          * [ROUTE MANAGE STUDENT / SANTRI]
          */
+        Route::get('kelolaSantri/userByEmail', [
+            ManageSantriController::class,
+            'getStudentByEmail'
+        ])->name('getStudentByEmail');
         Route::get(
             'kelolaSantri/byProgram/{id}',
             [ManageSantriController::class, 'getAllStudentsByProgramClass']
@@ -553,6 +557,33 @@ Route::middleware(['auth'])->group(function () {
             [ManagePiketController::class, 'restore']
         )->name('restorePicketCategories');
         Route::resource('kategoriPiket', ManagePiketController::class)->except(['create', 'edit', 'show']);
+        /**
+         * [ROUTE PERMITS ADMIN]
+         */
+        Route::get('perizinan/trash', [ManagePerizinanController::class, 'trash'])->name('trashPermit');
+        Route::get(
+            'perizinan/trash/{id}/delete',
+            [ManagePerizinanController::class, 'deletePermanent']
+        )->name('deletePermanentPermit');
+        Route::get(
+            'perizinan/trash/restore',
+            [ManagePerizinanController::class, 'restoreAll']
+        )->name('restoreAllPermit');
+        Route::get(
+            'perizinan/trash/delete',
+            [ManagePerizinanController::class, 'deletePermanentAll']
+        )->name('deletePermanentAllPermit');
+        Route::get(
+            'perizinan/trash/{id}/restore',
+            [ManagePerizinanController::class, 'restore']
+        )->name('restorePermit');
+        Route::put('perizinan/{id}/change', [ManagePerizinanController::class, 'updatePermit'])
+            ->name('updatePermit');
+
+        /**
+         * [ROUTE PAYMENT ADMIN]
+         */
+        Route::put('pembayaran/{id}/updateUserPayment', [ManageTrxPembayaranController::class, 'updateUserPayment'])->name('updateUserPayment');
     });
     /**
      * [ROUTE DASHBOARD]
@@ -561,24 +592,8 @@ Route::middleware(['auth'])->group(function () {
     /**
      * [ROUTE PERMITS]
      */
-    Route::get('perizinan/trash', [ManagePerizinanController::class, 'trash'])->name('trashPermit');
-    Route::get(
-        'perizinan/trash/{id}/delete',
-        [ManagePerizinanController::class, 'deletePermanent']
-    )->name('deletePermanentPermit');
-    Route::get(
-        'perizinan/trash/restore',
-        [ManagePerizinanController::class, 'restoreAll']
-    )->name('restoreAllPermit');
-    Route::get(
-        'perizinan/trash/delete',
-        [ManagePerizinanController::class, 'deletePermanentAll']
-    )->name('deletePermanentAllPermit');
-    Route::get(
-        'perizinan/trash/{id}/restore',
-        [ManagePerizinanController::class, 'restore']
-    )->name('restorePermit');
-    Route::resource('perizinan', ManagePerizinanController::class)->except(['create', 'show', 'edit', 'store']);
+
+    Route::resource('perizinan', ManagePerizinanController::class)->except(['show']);
 
     /**
      * [ROUTE ATTENNDANCES STUDENT]
@@ -594,7 +609,7 @@ Route::middleware(['auth'])->group(function () {
      * [ROUTE PAYMENTS]
      */
     Route::resource('pembayaran', ManageTrxPembayaranController::class)
-        ->except(['store', 'edit', 'create', 'show']);
+        ->except(['show']);
 
     /**
      * [ROUTE MEMORIZE SURAH]

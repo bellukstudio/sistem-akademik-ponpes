@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Perizinan;
 
 use App\Http\Controllers\Controller;
+use App\Models\MasterStudent;
 use App\Models\TrxStudentPermits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +34,9 @@ class ManagePerizinanController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('admin');
+        $student = MasterStudent::latest()->get();
+        return view('dashboard.perizinan.create', compact('student'));
     }
 
     /**
@@ -44,7 +47,27 @@ class ManagePerizinanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'student' => 'required',
+            'datePermit' => 'required|date',
+            'titlePermit' => 'required|max:100',
+            'desc' => 'required|max:100'
+        ]);
+
+        try {
+            $student = MasterStudent::find($request->student);
+            TrxStudentPermits::create([
+                'student_id' => $student->id,
+                'description' => $request->desc,
+                'permit_date' => $request->datePermit,
+                'permit_type' => $request->titlePermit,
+                'id_program' => $student->program_id
+            ]);
+            return redirect()->route('perizinan.index')
+                ->with('success', 'Berhasil membuat perizinan ' . $request->titlePermit);
+        } catch (\Exception $e) {
+            return back()->withErrors($e);
+        }
     }
 
     /**
@@ -66,9 +89,37 @@ class ManagePerizinanController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->authorize('admin');
+        $student = MasterStudent::latest()->get();
+        $data =  TrxStudentPermits::find($id);
+        return view('dashboard.perizinan.edit', compact('student', 'data'));
     }
 
+    public function updatePermit(Request $request, $id)
+    {
+        $request->validate([
+            'student' => 'required',
+            'datePermit' => 'required|date',
+            'titlePermit' => 'required|max:100',
+            'desc' => 'required|max:100'
+        ]);
+
+        try {
+            $student = MasterStudent::find($request->student);
+            $data = TrxStudentPermits::find($id);
+            $data->student_id = $request->student;
+            $data->description = $request->desc;
+            $data->permit_date = $request->datePermit;
+            $data->permit_type = $request->titlePermit;
+            $data->id_program = $student->program_id;
+            $data->update();
+
+            return redirect()->route('perizinan.index')
+                ->with('success', 'Berhasil mengubah perizinan ' . $request->titlePermit);
+        } catch (\Exception $e) {
+            return back()->withErrors($e);
+        }
+    }
     /**
      * Update the specified resource in storage.
      *

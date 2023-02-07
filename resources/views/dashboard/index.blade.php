@@ -2,6 +2,9 @@
 {{--  --}}
 @extends('template.template')
 @section('content-section')
+    @php
+        use Carbon\Carbon;
+    @endphp
     <section class="content">
         <div class="container-fluid">
             @if ($isAdmin == false)
@@ -396,6 +399,7 @@
                             <!-- /.card-header -->
                             <div class="card-body p-0">
                                 <ul class="products-list product-list-in-card pl-2 pr-2">
+
                                     @forelse ($beritaAcara as $index => $item)
                                         <li class="item">
                                             <div class="product-img">
@@ -403,7 +407,7 @@
                                             </div>
                                             <div class="product-info">
                                                 <a href="javascript:void(0)" class="product-title">{{ $item->title }}
-                                                    @if ($index == 0)
+                                                    @if ($item->created_at >= Carbon::now()->subDays(1))
                                                         <span class="badge badge-primary float-right">new</span>
                                                     @else
                                                         <span class="badge badge-warning float-right">latest</span>
@@ -499,6 +503,5 @@
 
 @extends('components.footer_table')
 @push('new-script')
-    <script>
-    </script>
+    <script></script>
 @endpush

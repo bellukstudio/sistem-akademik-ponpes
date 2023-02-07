@@ -18,6 +18,7 @@ class PresensiController extends Controller
     {
         try {
             $type = $request->input('type');
+            $date = $request->input('date');
             // get student data by email
             $student = MasterStudent::where('email', $request->user()->email)->first();
             $presence = TrxAttendance::join('master_users', 'master_users.id', '=', 'trx_attendances.id_operator')
@@ -37,6 +38,9 @@ class PresensiController extends Controller
 
             if ($type) {
                 $presence->where('master_attendances.id', $type);
+            }
+            if ($date) {
+                $presence->where('trx_attendances.date_presence', $date);
             }
 
             $data = $presence

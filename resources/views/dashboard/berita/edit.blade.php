@@ -37,7 +37,7 @@
                     <label for="">Keterangan</label>
                     <div class="card card-outline card-info">
                         <div class="card-body">
-                            <textarea id="summernote" name="keterangan">
+                            <textarea name="keterangan" cols="20" rows="15" class="form-control">
                                 {{ old('keterangan') ?? $berita->description }}</textarea>
                         </div>
                     </div>

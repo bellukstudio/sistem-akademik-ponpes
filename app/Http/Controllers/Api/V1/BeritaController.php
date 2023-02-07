@@ -17,7 +17,11 @@ class BeritaController extends Controller
         try {
             $new = MasterNews::whereNotIn('id', function ($query) {
                 $query->select('news_id')->from('trx_read_news')->where('user_id', Auth::user()->id);
-            })->get();
+            })->select(
+                'master_news.id as id',
+                'master_news.title as title',
+                'master_news.description as desc',
+            )->latest()->get();
             $old = TrxReadNews::join('master_news', 'master_news.id', '=', 'trx_read_news.news_id')
                 ->select(
                     'master_news.id as id',

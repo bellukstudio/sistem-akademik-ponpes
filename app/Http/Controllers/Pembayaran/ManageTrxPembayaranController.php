@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Pembayaran;
 use App\Http\Controllers\Controller;
 use App\Models\MasterClass;
 use App\Models\MasterPayment;
+use App\Models\MasterStudent;
+use Illuminate\Support\Facades\DB;
+use App\Models\MasterUsers;
 use App\Models\TrxCaretakers;
 use App\Models\TrxPayment;
 use Illuminate\Http\Request;
@@ -27,6 +30,23 @@ class ManageTrxPembayaranController extends Controller
         $category = MasterPayment::latest()->get();
         //class
         $class = MasterClass::latest()->get();
+        // student
+        $student = MasterStudent::all();
+        // sum total and diff payment
+        $sum =
+            DB::table('trx_payments')
+            ->select(DB::raw('id_student, sum(total) as sum_total'))
+            ->get();
+        $diff =
+            DB::table('master_payments')
+            ->join('trx_payments', 'master_payments.id', '=', 'trx_payments.id_payment')
+            ->select(
+                'trx_payments.id_student as id_student',
+                DB::raw(
+                    'master_payments.total - SUM(trx_payments.total) as difference'
+                )
+            )
+            ->get();
         //payment
         if (auth()->user()->roles_id === 3) {
             $payment = TrxPayment::join('master_users', 'master_users.id', '=', 'trx_payments.id_user')
@@ -48,24 +68,32 @@ class ManageTrxPembayaranController extends Controller
                 'trx_payments.total as total_payment',
                 'trx_payments.status as status'
             )->where('trx_caretakers.program_id', '=', $caretakers->program_id)
-                ->selectRaw('SUM(trx_payments.total) as sum_total')
-                ->selectRaw('master_payments.total - SUM(trx_payments.total) as remaining')
-                ->groupBy('trx_payments.id_student', 'trx_payments.id_payment', 'trx_payments.status')
+                ->groupBy(
+                    'trx_payments.id_student',
+                    'trx_payments.id_payment',
+                    'trx_payments.status',
+                    'trx_payments.date_payment'
+                )
                 ->latest('trx_payments.created_at')->get();
-            return view('dashboard.pembayaran.index', compact('data', 'category', 'class'));
+            return view('dashboard.pembayaran.index', compact('data', 'category', 'class', 'sum', 'diff'));
         }
         $payment = TrxPayment::join('master_users', 'master_users.id', '=', 'trx_payments.id_user')
             ->join('master_payments', 'master_payments.id', '=', 'trx_payments.id_payment')
             ->join('master_students', 'master_students.id', '=', 'trx_payments.id_student')
             ->join('trx_class_groups', 'trx_class_groups.student_id', '=', 'master_students.id');
 
-        if (request('category') && request('class')) {
-            $payment->where('trx_payments.id_payment', request('category'))
-                ->where('trx_class_groups.class_id', request('class'));
+        if (request('filter')) {
+            if (request('category') && request('class') || request('student')) {
+                $payment->where('trx_payments.id_payment', request('category'))
+                    ->where('trx_class_groups.class_id', request('class'))
+                    ->orWhere('trx_payments.id_student', request('student'));
+            }
         }
+
         $data = $payment->select(
             'trx_payments.id as id',
             'master_users.name as name',
+            'trx_payments.id_student as id_student',
             'master_payments.payment_name as payment_name',
             'master_payments.media_payment',
             'master_payments.method as method',
@@ -75,11 +103,14 @@ class ManageTrxPembayaranController extends Controller
             'trx_payments.total as total_payment',
             'trx_payments.status as status'
         )
-            ->selectRaw('SUM(trx_payments.total) as sum_total')
-            ->selectRaw('master_payments.total - SUM(trx_payments.total) as remaining')
-            ->groupBy('trx_payments.id_student', 'trx_payments.id_payment', 'trx_payments.status')
+            ->groupBy(
+                'trx_payments.id_student',
+                'trx_payments.id_payment',
+                'trx_payments.status',
+                'trx_payments.date_payment'
+            )
             ->latest('trx_payments.created_at')->get();
-        return view('dashboard.pembayaran.index', compact('data', 'category', 'class'));
+        return view('dashboard.pembayaran.index', compact('data', 'category', 'class', 'sum', 'diff', 'student'));
     }
 
     /**
@@ -89,7 +120,9 @@ class ManageTrxPembayaranController extends Controller
      */
     public function create()
     {
-        //
+        $student = MasterUsers::where('roles_id', 4)->get();
+        $metode = MasterPayment::all();
+        return view('dashboard.pembayaran.create', compact('student', 'metode'));
     }
 
     /**
@@ -100,7 +133,29 @@ class ManageTrxPembayaranController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->authorize('admin');
+        $request->validate([
+            'student_id' => 'required',
+            'santriList' => 'required',
+            'metode' => 'required',
+            'datePayment' => 'required',
+            'total' => 'required'
+        ]);
+
+        try {
+            $student = explode(':', $request->santriList);
+            TrxPayment::create([
+                'id_user' => $student[0],
+                'id_student' => $request->student_id,
+                'id_payment' => $request->metode,
+                'date_payment' => $request->datePayment,
+                'total' => $request->total
+            ]);
+            return redirect()->route('pembayaran.index')
+                ->with('success', 'Pembayaran ' . $student[1] . ' berhasil disimpan');
+        } catch (\Exception $e) {
+            return back()->withErrors($e);
+        }
     }
 
     /**
@@ -122,7 +177,38 @@ class ManageTrxPembayaranController extends Controller
      */
     public function edit($id)
     {
-        //
+        $student = MasterUsers::where('roles_id', 4)->get();
+        $metode = MasterPayment::all();
+        $data = TrxPayment::find($id);
+        return view('dashboard.pembayaran.edit', compact('student', 'metode', 'data'));
+    }
+
+    public function updateUserPayment(Request $request, $id)
+    {
+        $this->authorize('admin');
+        $request->validate([
+            'student_id' => 'required',
+            'santriList' => 'required',
+            'metode' => 'required',
+            'datePayment' => 'required',
+            'total' => 'required'
+        ]);
+
+        try {
+            $student = explode(':', $request->santriList);
+            $data = TrxPayment::find($id);
+            $data->id_user = $student[0];
+            $data->id_student = $request->student_id;
+            $data->id_payment = $request->metode;
+            $data->date_payment = $request->datePayment;
+            $data->total = $request->total;
+            $data->update();
+
+            return redirect()->route('pembayaran.index')
+                ->with('success', 'Pembayaran ' . $student[1] . ' berhasil diubah');
+        } catch (\Exception $e) {
+            return back()->withErrors($e);
+        }
     }
 
     /**

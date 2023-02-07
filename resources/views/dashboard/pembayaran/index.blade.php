@@ -8,7 +8,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    {{ Breadcrumbs::render('kelolaPembayaran') }}
+                    {{ Breadcrumbs::render('pembayaran.index') }}
                 </ol>
             </div>
             <!-- /.col -->
@@ -26,7 +26,15 @@
                     <form action="{{ route('pembayaran.index') }}" method="get">
                         @csrf
                         <div class="form-group">
-                            <label for="">Kategori</label>
+                            <label for="">Kategori Filter</label>
+                            <select name="filter" id="filter" class="custom-select form-control-border">
+                                <option value="">Pilih</option>
+                                <option value="Kelas">Kelas</option>
+                                <option value="Individu">Individu</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Kategori Pembayaran</label>
                             <select name="category" id="category" class="custom-select form-control-border">
                                 <option value="">Pilih</option>
                                 @forelse ($category as $item)
@@ -36,15 +44,24 @@
                                 @endforelse
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="class-group">
                             <label for="">Kelas</label>
-                            <select name="class" id="class" class="custom-select form-control-border">
+                            <select class="form-control select2" style="width: 100%;" name="class" id="class">
                                 <option value="">Pilih</option>
                                 @forelse ($class as $item)
                                     <option value="{{ $item->id }}">{{ $item->class_name }}</option>
                                 @empty
                                     <option value="">Tidak ada data</option>
                                 @endforelse
+                            </select>
+                        </div>
+                        <div class="form-group" id="student-group">
+                            <label for="">Santri</label>
+                            <select class="form-control select2" style="width: 100%;" name="student" id="student">
+                                <option value="">Pilih</option>
+                                @foreach ($student as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">
@@ -56,10 +73,12 @@
         @endcan
         <div class="card" style="overflow: auto;">
             <div class="card-header">
-                {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-AddData">
-                    <i class="fa fa-plus mr-2"></i> Tambah Data Baru
-                </button> --}}
-                <strong>Data Pembayaran</strong>
+                @can('admin')
+                    <a href="{{ route('pembayaran.create') }}" class="btn btn-primary">
+                        <i class="fa fa-plus mr-2"></i>Buat Pembayaran
+                        Baru</a>
+                @endcan
+                {{-- <strong>Data Pembayaran</strong> --}}
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -91,16 +110,24 @@
                                 <td>{!! $item->media_payment ?? '<span class="badge badge-danger">Error</span>' !!}</td>
                                 <td>@currency($item->total ?? '')</td>
                                 <td>@currency($item->total_payment ?? '')</td>
-                                <td>@currency($item->sum_total ?? '')</td>
-                                <td>@currency($item->remaining ?? '')</td>
+                                <td>
+                                    @foreach ($sum->where('id_student', $item->id_student) as $data)
+                                        @currency($data->sum_total)
+                                    @endforeach
+                                </td>
+                                <td>
+                                    @foreach ($diff->where('id_student', $item->id_student) as $data)
+                                        @currency($data->difference)
+                                    @endforeach
+                                </td>
                                 <td>{{ $item->date ?? '' }}</td>
                                 <td>
                                     @if (is_null($item->status))
                                         <span class="badge badge-info">Sedang di tinjau</span>
                                     @elseif ($item->status == 1)
-                                        <span class="badge badge-success">Lunas</span>
+                                        <span class="badge badge-success">Di Terima</span>
                                     @elseif ($item->status == 0)
-                                        <span class="badge badge-warning">Belum Lunas</span>
+                                        <span class="badge badge-warning">Di Tolak</span>
                                     @endif
                                 </td>
                                 <td>
@@ -111,16 +138,20 @@
                                     @endif
                                 </td>
                                 <td>
-                                    {{-- {Edit} --}}
-                                    <button type="button" class="btn btn-sm" data-toggle="modal"
-                                        data-target="#modal-Edit{{ $item->id }}">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    {{-- {Hapus} --}}
-                                    <button type="button" class="btn btn-sm" data-toggle="modal"
-                                        data-target="#modal-Delete{{ $item->id }}">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
+                                    <div class="d-flex justify-content-around mt-3">
+                                        {{-- {Edit} --}}
+                                        <button type="button" class="btn btn-default" data-toggle="modal"
+                                            data-target="#modal-Edit{{ $item->id }}">
+                                            <i class="fa fa-edit"></i>
+                                        </button> &nbsp;
+                                        {{-- {Hapus} --}}
+                                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                            data-target="#modal-Delete{{ $item->id }}">
+                                            <i class="fa fa-trash"></i>
+                                        </button>&nbsp;
+                                        <a href="{{ route('pembayaran.edit', $item->id) }}" class="btn btn-warning"><i
+                                                class="fa fa-user-edit"></i></a>
+                                    </div>
 
                                 </td>
                             </tr>
@@ -148,8 +179,7 @@
                                         <div class="modal-footer justify-content-between">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">
                                                 Close</button>
-                                            <form action="{{ route('kelolaPembayaran.destroy', $item->id) }}"
-                                                method="post">
+                                            <form action="{{ route('pembayaran.destroy', $item->id) }}" method="post">
                                                 @csrf
                                                 @method('delete')
                                                 <button type="submit" class="btn btn-sm btn-danger">
@@ -169,7 +199,8 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Edit Data {!! $item->name ?? '<span class="badge badge-danger">Error</span>' !!} </h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
@@ -183,8 +214,8 @@
                                                 <select name="status" id=""
                                                     class="custom-select form-control-border">
                                                     <option value="">Pilih Status</option>
-                                                    <option value="1">Lunas</option>
-                                                    <option value="0">Belum Lunas</option>
+                                                    <option value="1">Di Terima</option>
+                                                    <option value="0">Di Tolak</option>
                                                 </select>
 
                                             </div>
@@ -241,4 +272,29 @@
 
     </div>
 @endsection
-@include('components.footer_table')
+@extends('components.footer_table')
+@push('new-script')
+    <script src="{{ asset('template/plugins/select2/js/select2.full.min.js') }}"></script>
+
+    <script>
+        $(function() {
+            $('#class-group').addClass('d-none');
+            $('#student-group').addClass('d-none');
+
+            $('#filter').change(function() {
+                var value = $(this).val();
+
+                if (value === 'Kelas') {
+                    $('#class-group').removeClass('d-none');
+                    $('#student-group').addClass('d-none');
+                }
+                if (value === 'Individu') {
+                    $('#class-group').addClass('d-none');
+                    $('#student-group').removeClass('d-none');
+                }
+            })
+            $('.select2').select2();
+
+        });
+    </script>
+@endpush

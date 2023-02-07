@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\ApiResponse;
+use App\Models\MasterCategorieSchedule;
 use App\Models\MasterStudent;
 use App\Models\TrxSchedule;
 
@@ -18,6 +19,7 @@ class JadwalController extends Controller
     {
         try {
             $categorie = $request->input('category');
+            $day = $request->input('day');
             //student
             $student = MasterStudent::where('email', $request->user()->email)->first();
 
@@ -42,11 +44,27 @@ class JadwalController extends Controller
             if ($categorie) {
                 $schedule->where('master_categorie_schedules.categorie_name', $categorie);
             }
+            if ($day) {
+                $schedule->where('trx_schedules.day', $day);
+            }
 
             $data = $schedule->orderByRaw("field(trx_schedules.day,'Ahad',
                 'Senin','Selasa','Rabu','Kamis','Jumat','Sabtu')")->get();
             return ApiResponse::success($data, 'Get schedules successfully');
         } catch (\Exception $e) {
+            return ApiResponse::error([
+                'message' => 'Something went wrong',
+                'error' => $e
+            ], 'Opps', 500);
+        }
+    }
+
+    public function getCategorySchedule()
+    {
+        try {
+            $category = MasterCategorieSchedule::all();
+            return ApiResponse::success($category, 'Get category schedules success');
+        } catch (\Exception  $e) {
             return ApiResponse::error([
                 'message' => 'Something went wrong',
                 'error' => $e

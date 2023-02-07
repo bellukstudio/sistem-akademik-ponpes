@@ -18,9 +18,15 @@ class PerizinanController extends Controller
     public function getHistoryPermit(Request $request)
     {
         try {
+            $date = $request->input('date');
             // get student data by email
             $student = MasterStudent::where('email', $request->user()->email)->first();
-            $data = TrxStudentPermits::where('student_id', $student->id)->latest()->get();
+            $permit = TrxStudentPermits::where('student_id', $student->id);
+            if ($date) {
+                $permit->where('permit_date', $date);
+            }
+            $data =
+                $permit->latest()->get();
             return ApiResponse::success([
                 'permit' => $data,
             ], 'Get history permit successfully');

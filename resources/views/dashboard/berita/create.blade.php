@@ -36,7 +36,7 @@
                     <label for="">Keterangan</label>
                     <div class="card card-outline card-info">
                         <div class="card-body">
-                            <textarea id="summernote" name="keterangan">{{ old('keterangan') }}</textarea>
+                            <textarea name="keterangan" cols="20" rows="15" class="form-control">{{ old('keterangan') }}</textarea>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">

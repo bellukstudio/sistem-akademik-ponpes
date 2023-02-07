@@ -205,11 +205,20 @@ Breadcrumbs::for('kelolaPembayaran.trash', function (BreadcrumbTrail $trail) {
     $trail->push('Trash Bin', route('trashPayment'));
 });
 
+
 /**
  * data perizinan
  */
 Breadcrumbs::for('perizinan', function (BreadcrumbTrail $trail) {
     $trail->push('Data Perizinan', route('perizinan.index'));
+});
+Breadcrumbs::for('perizinan.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('perizinan');
+    $trail->push('Form Perizinan', route('perizinan.create'));
+});
+Breadcrumbs::for('perizinan.edit', function (BreadcrumbTrail $trail, $id) {
+    $trail->parent('perizinan');
+    $trail->push('Form Edit Perizinan', route('perizinan.edit', $id));
 });
 Breadcrumbs::for('perizinan.trash', function (BreadcrumbTrail $trail) {
     $trail->parent('perizinan');
@@ -329,4 +338,19 @@ Breadcrumbs::for('kategoriPiket', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('kategoriPiket.trash', function (BreadcrumbTrail $trail) {
     $trail->parent('kategoriPiket');
     $trail->push('Kategori Piket (Trash)', route('trashPicketCategories'));
+});
+
+/**
+ * trx pembayaran
+ */
+Breadcrumbs::for('pembayaran.index', function (BreadcrumbTrail $trail) {
+    $trail->push('Data Pembayaran', route('pembayaran.index'));
+});
+Breadcrumbs::for('pembayaran.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('pembayaran.index');
+    $trail->push('Form Pembayaran', route('pembayaran.create'));
+});
+Breadcrumbs::for('pembayaran.edit', function (BreadcrumbTrail $trail, $id) {
+    $trail->parent('pembayaran.index');
+    $trail->push('Form Edit Pembayaran', route('pembayaran.edit', $id));
 });

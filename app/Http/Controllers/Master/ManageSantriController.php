@@ -129,6 +129,11 @@ class ManageSantriController extends Controller
 
         return response()->json($empData);
     }
+    public function getStudentByEmail(Request $request)
+    {
+        $empData['data'] = MasterStudent::where('email', $request->email)->firstOrFail();
+        return response()->json($empData);
+    }
     /**
      * Display the specified resource.
      *

@@ -114,7 +114,7 @@
                         @forelse ($trash as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $item->user->name }}</td>
+                                <td>{{ $item->student->name }}</td>
                                 <td>{{ $item->description }}</td>
                                 <td>{{ $item->permit_date }}</td>
                                 <td>{{ $item->permit_type }}</td>
@@ -156,7 +156,7 @@
                                         <div class="modal-body">
                                             <div class="card">
                                                 <div class="card-header bg-info">
-                                                    <h1>{{ $item->user->name }}</h1><br>
+                                                    <h1>{{ $item->student->name }}</h1><br>
                                                     <p>{{ $item->description }}</p> <br>
                                                     <p>Yakin ingin menghapus permanen data tersebut? </p>
                                                 </div>
@@ -189,7 +189,7 @@
                                         <div class="modal-body">
                                             <div class="card">
                                                 <div class="card-header bg-info">
-                                                    <h1>{{ $item->user->name }}</h1><br>
+                                                    <h1>{{ $item->student->name }}</h1><br>
                                                     <p>{{ $item->description }}</p> <br>
                                                     <p>Yakin ingin memulihkan data tersebut? </p>
                                                 </div>
