@@ -28,7 +28,7 @@
                     @csrf
                     <div class="form-group">
                         <label for="">Kategori</label>
-                        <select name="category" id="category" class="custom-select form-control">
+                        <select name="category" id="category" class="form-control select2">
                             <option value="">Pilih</option>
                             @foreach ($categoryAssessment as $category)
                                 <option value="{{ $category->id . '+' . $category->program_id }}">
@@ -38,19 +38,19 @@
                     </div>
                     <div class="form-group">
                         <label for="">Program</label>
-                        <select name="program" id="program" class="custom-select form-control">
+                        <select name="program" id="program" class="form-control select2">
                             <option value="">Pilih</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="">Kelas</label>
-                        <select name="class" id="class" class="custom-select form-control">
+                        <select name="class" id="class" class="form-control select2">
                             <option value="">Pilih</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="">Mata Pelajaran</label>
-                        <select name="course" id="course" class="custom-select form-control">
+                        <select name="course" id="course" class="form-control select2">
                             <option value="">Pilih</option>
                         </select>
                     </div>
@@ -65,8 +65,10 @@
 @endsection
 @extends('components.footer_table')
 @push('new-script')
+    <script src="{{ asset('template/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
         $(function() {
+            $('.select2').select2();
             getCategoryAssessmentByProgram();
             getClassByProgram();
             getCourseByProgram();

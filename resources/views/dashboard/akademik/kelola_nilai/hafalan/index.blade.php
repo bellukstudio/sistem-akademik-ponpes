@@ -28,7 +28,7 @@
                     @csrf
                     <div class="form-group">
                         <label for="">Program</label>
-                        <select name="program" id="program" class="custom-select form-control">
+                        <select name="program" id="program" class="form-control select2 ">
                             <option value="">Pilih</option>
                             @foreach ($program as $c)
                                 <option value="{{ $c->id }}">{{ $c->program_name }}</option>
@@ -37,13 +37,13 @@
                     </div>
                     <div class="form-group">
                         <label for="">Kelas</label>
-                        <select name="class" id="class" class="custom-select form-control">
+                        <select name="class" id="class" class="form-control select2 ">
                             <option value="">Pilih</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="">Nama Surah</label>
-                        <select name="surah_name" id="surah" class="custom-select form-control-border">
+                        <select name="surah_name" id="surah" class="form-control select2">
                             <option value="">Pilih Surah</option>
                             @foreach ($apiQuran as $surah)
                                 <option value="{{ $surah->nama_latin }}">{{ $surah->nama_latin }}</option>
@@ -57,7 +57,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Pilih Ayat Yang Sudah Ada</label>
-                        <select name="verseOption" id="verseOption" class="custom-select form-control-border">
+                        <select name="verseOption" id="verseOption" class="form-control select2">
                             <option value="">Pilih Ayat</option>
                         </select>
                     </div>
@@ -73,8 +73,10 @@
 @endsection
 @extends('components.footer_table')
 @push('new-script')
+    <script src="{{ asset('template/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
         $(function() {
+            $('.select2').select2();
             getClassByProgramId();
             getVerseBySurah();
 

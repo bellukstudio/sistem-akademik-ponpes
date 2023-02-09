@@ -28,7 +28,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="">Tipe Absen</label>
-                    <select name="type" id="type" class="custom-select form-control-border">
+                    <select name="type" id="type" class="form-control select2">
                         <option value="">Pilih Absen</option>
                         @forelse ($type as $item)
                             <option value="{{ $item->id }}+{{ $item->categories }}+{{ $item->name }}">
@@ -40,13 +40,13 @@
                 </div>
                 <div class="form-group" id="other">
                     <label for="">Pilih Kategori</label>
-                    <select name="otherSelect" id="otherSelect" class="custom-select form-control-border">
+                    <select name="otherSelect" id="otherSelect" class="form-control select2">
                         <option value="">Pilih</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="">Pilih</label>
-                    <select name="optionSelect" id="optionSelect" class="custom-select form-control-border">
+                    <select name="optionSelect" id="optionSelect" class="form-control select2">
                         <option value="">Pilih</option>
                     </select>
                 </div>
@@ -130,8 +130,10 @@
 @push('new-script')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="{{ asset('template/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
         $(function() {
+            $('.select2').select2();
             //add class d-none
             $('#other').addClass('d-none');
             getTypeAbsen();

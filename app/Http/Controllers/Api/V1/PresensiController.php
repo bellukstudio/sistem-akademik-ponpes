@@ -64,9 +64,10 @@ class PresensiController extends Controller
     public function countHistoryPresence(Request $request)
     {
         try {
+            $type = $request->input('type');
             // get student data by email
             $student = MasterStudent::where('email', $request->user()->email)->first();
-            $data = TrxAttendance::where('student_id', $student->id)->count();
+            $data = TrxAttendance::where('student_id', $student->id)->where('presence_type', $type)->count();
             return ApiResponse::success([
                 'total' => $data,
             ], 'Get count history presence successfully');

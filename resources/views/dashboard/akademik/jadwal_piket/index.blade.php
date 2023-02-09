@@ -183,8 +183,11 @@
 @endsection
 @extends('components.footer_table')
 @push('new-script')
+    <script src="{{ asset('template/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
         $(function() {
+            $('.select2').select2();
+
             $('#class_select').addClass('d-none');
             $('#room_select').addClass('d-none');
 

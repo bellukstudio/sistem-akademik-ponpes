@@ -27,7 +27,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="">Kategori Filter</label>
-                            <select name="filter" id="filter" class="custom-select form-control-border">
+                            <select name="filter" id="filter" class="form-control select2">
                                 <option value="">Pilih</option>
                                 <option value="Kelas">Kelas</option>
                                 <option value="Individu">Individu</option>
@@ -35,7 +35,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Kategori Pembayaran</label>
-                            <select name="category" id="category" class="custom-select form-control-border">
+                            <select name="category" id="category" class="form-control select2">
                                 <option value="">Pilih</option>
                                 @forelse ($category as $item)
                                     <option value="{{ $item->id }}">{{ $item->payment_name }}</option>

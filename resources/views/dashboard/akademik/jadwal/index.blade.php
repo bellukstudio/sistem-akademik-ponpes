@@ -28,7 +28,7 @@
                     @csrf
                     <div class="form-group">
                         <label for="">Kategori</label>
-                        <select name="category" id="category" class="custom-select form-control-border">
+                        <select name="category" id="category" class="form-control select2">
                             <option value="">Pilih Kategori</option>
                             <option value="mapel">Per-Mata Pelajaran</option>
                             <option value="waktu">Per-Waktu</option>
@@ -39,13 +39,13 @@
                     </div>
                     <div class="form-group">
                         <label for="">Pilih</label>
-                        <select name="data" id="optionData" class="custom-select form-control-border">
+                        <select name="data" id="optionData" class="form-control select2">
                             <option value="">Pilih</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="">Kategori Mapel</label>
-                        <select name="courseCategory" id="courseCategory" class="custom-select form-control-border">
+                        <select name="courseCategory" id="courseCategory" class="form-control select2">
                             <option value="">Pilih</option>
                         </select>
                     </div>
@@ -388,8 +388,10 @@
 @extends('components.footer_table')
 @push('new-script')
     <!-- Select2 -->
+    <script src="{{ asset('template/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
         $(function() {
+            $('.select2').select2();
             //get course category
             $('#courseCategory').find('option').not(':first').remove();
             $.ajax({
