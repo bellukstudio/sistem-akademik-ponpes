@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MasterNews;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class BeritaController extends Controller
 {
@@ -16,9 +17,13 @@ class BeritaController extends Controller
      */
     public function index()
     {
+        $timLine = MasterNews::orderBy('created_at', 'desc')->get()->groupBy(function ($date) {
+            return Carbon::parse($date->created_at)->format('Y-m-d');
+        });
         $data = MasterNews::latest()->get();
         return view('dashboard.berita.index', [
-            "berita" => $data
+            "berita" => $data,
+            'timeLine' => $timLine
         ]);
     }
 

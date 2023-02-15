@@ -4,9 +4,6 @@ namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
 use App\Models\MasterAcademicProgram;
-use App\Models\MasterRoom;
-use App\Models\MasterStudent;
-use App\Models\MasterTeacher;
 use App\Models\MasterUsers;
 use App\Models\TrxCaretakers;
 use Illuminate\Http\Request;

@@ -58,4 +58,6 @@ class MasterUsers extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo(Roles::class, 'roles_id');
     }
+
+   
 }

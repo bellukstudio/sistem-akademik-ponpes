@@ -339,6 +339,14 @@
                      </li>
                  @endcan
                  @can('pengurus')
+                     <li class="nav-header">KABAR BERITA</li>
+                     <li class="nav-item">
+                         <a href="{{ route('beritaAcara.index') }}"
+                             class="nav-link {{ Request::is('beritaAcara*') ? 'active' : '' }}">
+                             <i class="nav-icon fas fa-newspaper"></i>
+                             <p>Berita Acara</p>
+                         </a>
+                     </li>
                      <li class="nav-header">PERIZINAN</li>
                      <li class="nav-item">
                          <a href="{{ route('perizinan.index') }}"
@@ -376,6 +384,14 @@
                      </li>
                  @endcan
                  @can('pengajar')
+                     <li class="nav-header">KABAR BERITA</li>
+                     <li class="nav-item">
+                         <a href="{{ route('beritaAcara.index') }}"
+                             class="nav-link {{ Request::is('beritaAcara*') ? 'active' : '' }}">
+                             <i class="nav-icon fas fa-newspaper"></i>
+                             <p>Berita Acara</p>
+                         </a>
+                     </li>
                      <li class="nav-header">ABSENSI</li>
                      <li class="nav-item">
                          <a href="{{ route('presensi.index') }}"

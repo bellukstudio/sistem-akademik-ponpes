@@ -22,7 +22,7 @@ class MasterRoom extends Model
     protected $hidden = [
         'deleted_at', 'created_at', 'updated_at',  'photo', 'type'
     ];
-
+   
     public function getCreatedAttribute($value)
     {
         return Carbon::parse($value)->timestamp;

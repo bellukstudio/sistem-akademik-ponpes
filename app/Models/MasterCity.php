@@ -37,4 +37,5 @@ class MasterCity extends Model
     {
         return $this->belongsTo(MasterProvince::class, 'id_province');
     }
+
 }

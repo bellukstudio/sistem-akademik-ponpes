@@ -111,190 +111,198 @@
                                 <td>@currency($item->total ?? '')</td>
                                 <td>@currency($item->total_payment ?? '')</td>
                                 <td>
-                                    @foreach ($sum->where('id_student', $item->id_student) as $data)
-                                        @currency($data->sum_total)
-                                    @endforeach
-                                </td>
-                                <td>
-                                    @foreach ($diff->where('id_student', $item->id_student) as $data)
-                                        @currency($data->difference)
-                                    @endforeach
-                                </td>
-                                <td>{{ $item->date ?? '' }}</td>
-                                <td>
-                                    @if (is_null($item->status))
-                                        <span class="badge badge-info">Sedang di tinjau</span>
-                                    @elseif ($item->status == 1)
-                                        <span class="badge badge-success">Di Terima</span>
-                                    @elseif ($item->status == 0)
-                                        <span class="badge badge-warning">Di Tolak</span>
+                                    @foreach ($sum as $data)
+                                        @if ($data->id_student == $item->id_student && $data->id_payment == $item->id_payment)
+                                            @currency($data->sum_total ?? '0')
+                                        @break
                                     @endif
-                                </td>
-                                <td>
-                                    @if ($item->photo === 'http://127.0.0.1:8000/storage/')
-                                        <i class="badge badge-info">Null</i>
-                                    @else
-                                        <img src="{{ $item->photo }}" alt="" class="photo">
-                                    @endif
-                                </td>
-                                <td>
-                                    <div class="d-flex justify-content-around mt-3">
-                                        {{-- {Edit} --}}
-                                        <button type="button" class="btn btn-default" data-toggle="modal"
-                                            data-target="#modal-Edit{{ $item->id }}">
-                                            <i class="fa fa-edit"></i>
-                                        </button> &nbsp;
-                                        {{-- {Hapus} --}}
-                                        <button type="button" class="btn btn-danger" data-toggle="modal"
-                                            data-target="#modal-Delete{{ $item->id }}">
-                                            <i class="fa fa-trash"></i>
-                                        </button>&nbsp;
-                                        <a href="{{ route('pembayaran.edit', $item->id) }}" class="btn btn-warning"><i
-                                                class="fa fa-user-edit"></i></a>
-                                    </div>
-
-                                </td>
-                            </tr>
-
-                            {{-- Modal Delete --}}
-                            <div class="modal fade" id="modal-Delete{{ $item->id }}">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Konfirmasi hapus data</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="card">
-                                                <div class="card-header bg-danger">
-                                                    {!! $item->name ?? '<span class="badge badge-danger">Error</span>' !!}
-                                                    <h4>{{ $item->payment_name }}</h4> <br>
-                                                    <p>Yakin ingin menghapus data tersebut? </p>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer justify-content-between">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">
-                                                Close</button>
-                                            <form action="{{ route('pembayaran.destroy', $item->id) }}" method="post">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="submit" class="btn btn-sm btn-danger">
-                                                    <i class="fa fa-trash mr-2"></i>
-                                                    Hapus</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                </div>
-                                <!-- /.modal-dialog -->
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach ($diff as $data)
+                                    @if ($data->id_student == $item->id_student && $data->id_payment == $item->id_payment)
+                                        @currency($data->difference ?? '0')
+                                    @break
+                                @endif
+                            @endforeach
+                        </td>
+                        <td>{{ $item->date ?? '' }}</td>
+                        <td>
+                            @if (is_null($item->status))
+                                <span class="badge badge-info">Sedang di tinjau</span>
+                            @elseif ($item->status == 1)
+                                <span class="badge badge-success">Di Terima</span>
+                            @elseif ($item->status == 0)
+                                <span class="badge badge-warning">Di Tolak</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if ($item->photo === 'http://127.0.0.1:8000/storage/')
+                                <i class="badge badge-info">Null</i>
+                            @else
+                                <img src="{{ $item->photo }}" alt="" class="photo">
+                            @endif
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-around mt-3">
+                                {{-- {Edit} --}}
+                                <button type="button" class="btn btn-default" data-toggle="modal"
+                                    data-target="#modal-Edit{{ $item->id }}">
+                                    <i class="fa fa-edit"></i>
+                                </button> &nbsp;
+                                @can('admin')
+                                    {{-- {Hapus} --}}
+                                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                                        data-target="#modal-Delete{{ $item->id }}">
+                                        <i class="fa fa-trash"></i>
+                                    </button>&nbsp;
+                                    <a href="{{ route('pembayaran.edit', $item->id) }}" class="btn btn-warning"><i
+                                            class="fa fa-user-edit"></i></a>
+                                @endcan
                             </div>
 
-                            {{-- Modal update data --}}
-                            <div class="modal fade" id="modal-Edit{{ $item->id }}">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Edit Data {!! $item->name ?? '<span class="badge badge-danger">Error</span>' !!} </h4>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <form action="{{ route('pembayaran.update', $item->id) }}" method="post">
-                                            @csrf
-                                            @method('put')
-                                            <div class="modal-body">
-                                                <p>{{ $item->payment_name }}</p>
-                                                <br>
-                                                <label for="">Status</label>
-                                                <select name="status" id=""
-                                                    class="custom-select form-control-border">
-                                                    <option value="">Pilih Status</option>
-                                                    <option value="1">Di Terima</option>
-                                                    <option value="0">Di Tolak</option>
-                                                </select>
+                        </td>
+                    </tr>
 
-                                            </div>
-                                            <div class="modal-footer justify-content-between">
-                                                <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-sm btn-warning">
-                                                    <svg style="color: white" xmlns="http://www.w3.org/2000/svg"
-                                                        width="16" height="16" fill="currentColor"
-                                                        class="bi bi-send mr-2" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329
+                    {{-- Modal Delete --}}
+                    <div class="modal fade" id="modal-Delete{{ $item->id }}">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Konfirmasi hapus data</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card">
+                                        <div class="card-header bg-danger">
+                                            {!! $item->name ?? '<span class="badge badge-danger">Error</span>' !!}
+                                            <h4>{{ $item->payment_name }}</h4> <br>
+                                            <p>Yakin ingin menghapus data tersebut? </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                        Close</button>
+                                    <form action="{{ route('pembayaran.destroy', $item->id) }}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fa fa-trash mr-2"></i>
+                                            Hapus</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+
+                    {{-- Modal update data --}}
+                    <div class="modal fade" id="modal-Edit{{ $item->id }}">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Edit Data {!! $item->name ?? '<span class="badge badge-danger">Error</span>' !!} </h4>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form action="{{ route('pembayaran.update', $item->id) }}" method="post">
+                                    @csrf
+                                    @method('put')
+                                    <div class="modal-body">
+                                        <p>{{ $item->payment_name }}</p>
+                                        <br>
+                                        <label for="">Status</label>
+                                        <select name="status" id=""
+                                            class="custom-select form-control-border">
+                                            <option value="">Pilih Status</option>
+                                            <option value="1">Di Terima</option>
+                                            <option value="0">Di Tolak</option>
+                                        </select>
+
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-sm btn-warning">
+                                            <svg style="color: white" xmlns="http://www.w3.org/2000/svg"
+                                                width="16" height="16" fill="currentColor"
+                                                class="bi bi-send mr-2" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329
                                                 .124l-3.178-4.995L.643 7.184a.75.75 0 0 1
                                                  .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761
                                                  4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591
                                                  6.602l4.339 2.76 7.494-7.493Z"
-                                                            fill="white"></path>
-                                                    </svg>
-                                                    Update</button>
-                                            </div>
-                                        </form>
-                                        <!-- /.modal-content -->
+                                                    fill="white"></path>
+                                            </svg>
+                                            Update</button>
                                     </div>
-                                    <!-- /.modal-dialog -->
-                                </div>
+                                </form>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
 
-                            @empty
-                                <tr>
-                                    <td colspan="13" align="center"> Data Tidak Tersedia</td>
-                                </tr>
-                        @endforelse
-                    </tbody>
-                    <tfoot>
+                    @empty
                         <tr>
-                            <th>No</th>
-                            <th>Nama Pengguna</th>
-                            <th>Nama Pembayaran</th>
-                            <th>Metode Pembayaran</th>
-                            <th>Media Pembayaran</th>
-                            <th>Total Pembayaran</th>
-                            <th>Total Yang Di Bayar</th>
-                            <th>Total Yang Sudah Dibayar</th>
-                            <th>Selisih</th>
-                            <th>Tanggal Bayar</th>
-                            <th>Status</th>
-                            <th>Bukti</th>
-                            <th>Aksi</th>
+                            <td colspan="13" align="center"> Data Tidak Tersedia</td>
                         </tr>
-                    </tfoot>
-                </table>
-            </div>
-            <!-- /.card-body -->
-        </div>
-
+                @endforelse
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Pengguna</th>
+                    <th>Nama Pembayaran</th>
+                    <th>Metode Pembayaran</th>
+                    <th>Media Pembayaran</th>
+                    <th>Total Pembayaran</th>
+                    <th>Total Yang Di Bayar</th>
+                    <th>Total Yang Sudah Dibayar</th>
+                    <th>Selisih</th>
+                    <th>Tanggal Bayar</th>
+                    <th>Status</th>
+                    <th>Bukti</th>
+                    <th>Aksi</th>
+                </tr>
+            </tfoot>
+        </table>
     </div>
+    <!-- /.card-body -->
+</div>
+
+</div>
 @endsection
 @extends('components.footer_table')
 @push('new-script')
-    <script src="{{ asset('template/plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('template/plugins/select2/js/select2.full.min.js') }}"></script>
 
-    <script>
-        $(function() {
-            $('#class-group').addClass('d-none');
-            $('#student-group').addClass('d-none');
+<script>
+    $(function() {
+        $('#class-group').addClass('d-none');
+        $('#student-group').addClass('d-none');
 
-            $('#filter').change(function() {
-                var value = $(this).val();
+        $('#filter').change(function() {
+            var value = $(this).val();
 
-                if (value === 'Kelas') {
-                    $('#class-group').removeClass('d-none');
-                    $('#student-group').addClass('d-none');
-                }
-                if (value === 'Individu') {
-                    $('#class-group').addClass('d-none');
-                    $('#student-group').removeClass('d-none');
-                }
-            })
-            $('.select2').select2();
+            if (value === 'Kelas') {
+                $('#class-group').removeClass('d-none');
+                $('#student-group').addClass('d-none');
+            }
+            if (value === 'Individu') {
+                $('#class-group').addClass('d-none');
+                $('#student-group').removeClass('d-none');
+            }
+        })
+        $('.select2').select2();
 
-        });
-    </script>
+    });
+</script>
 @endpush

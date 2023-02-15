@@ -22,4 +22,6 @@ class MasterCategorieSchedule extends Model
         'created_at',
         'deleted_at'
     ];
+
+ 
 }

@@ -15,14 +15,16 @@ class CreateTrxStudentPermitsTable extends Migration
     {
         Schema::create('trx_student_permits', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->references('id')->on('master_students')->onDelete('no action')->onUpdate('cascade');
+            $table->foreignId('student_id')->references('id')
+                ->on('master_students')->onDelete('no action')->onUpdate('cascade');
             $table->text('description');
             $table->date('permit_date');
             $table->string('permit_type');
-            $table->foreignId('id_program')->references('id')->on('master_academic_programs')->onDelete('no action')->onUpdate('cascade');
+            $table->foreignId('id_program')->references('id')
+                ->on('master_academic_programs')->onDelete('no action')->onUpdate('cascade');
             $table->boolean('status')->nullable();
             $table->timestamps();
-            $table->softDeletes();
+            // $table->softDeletes();
         });
     }
 

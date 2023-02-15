@@ -21,4 +21,6 @@ class TrxReadNews extends Model
     {
         return $this->belongsTo(MasterNews::class, 'news_id');
     }
+
+   
 }

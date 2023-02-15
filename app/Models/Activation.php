@@ -26,4 +26,5 @@ class Activation extends Model
     {
         return Carbon::parse($value)->timestamp;
     }
+
 }

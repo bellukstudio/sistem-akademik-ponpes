@@ -37,4 +37,6 @@ class MasterCourse extends Model
     {
         return $this->belongsTo(MasterCategorieSchedule::class, 'category_id');
     }
+
+    
 }

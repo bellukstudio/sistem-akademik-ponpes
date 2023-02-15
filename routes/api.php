@@ -47,6 +47,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/app/permit/history', [PerizinanController::class, 'getHistoryPermit']);
         Route::get('/app/permit/history/count', [PerizinanController::class, 'countHistoryPermit']);
         Route::post('/app/permit/save', [PerizinanController::class, 'saveNewPermit']);
+        Route::post('/app/permit/{id}/update', [PerizinanController::class, 'updatePermit']);
+        Route::delete('/app/permit/{id}/delete', [PerizinanController::class, 'deletePermit']);
         /**
          * [ROUTE PAYMENT]
          */
@@ -54,6 +56,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/app/payment/uploadPhoto/{id}', [PembayaranController::class, 'uploadPhoto']);
         Route::post('/app/payment/save', [PembayaranController::class, 'saveNewPayment']);
         Route::get('/app/payment/category', [PembayaranController::class, 'getAllCategoriePayment']);
+        Route::get('/app/payment/method', [PembayaranController::class, 'getMethodPayment']);
+        Route::get('/app/payment/categoryPayment', [PembayaranController::class, 'getCategoryPayment']);
         /**
          * [ROUTE PRESENCE]
          */

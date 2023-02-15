@@ -410,7 +410,7 @@
                                                     @if ($item->created_at >= Carbon::now()->subDays(1))
                                                         <span class="badge badge-primary float-right">new</span>
                                                     @else
-                                                        <span class="badge badge-warning float-right">latest</span>
+                                                        <span class="badge badge-warning float-right">old</span>
                                                     @endif
                                                 </a>
                                                 <span class="product-description">

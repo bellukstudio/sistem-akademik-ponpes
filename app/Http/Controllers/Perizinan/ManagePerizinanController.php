@@ -47,6 +47,7 @@ class ManagePerizinanController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('admin');
         $request->validate([
             'student' => 'required',
             'datePermit' => 'required|date',
@@ -97,6 +98,7 @@ class ManagePerizinanController extends Controller
 
     public function updatePermit(Request $request, $id)
     {
+        $this->authorize('admin');
         $request->validate([
             'student' => 'required',
             'datePermit' => 'required|date',
@@ -156,6 +158,7 @@ class ManagePerizinanController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('admin');
         if (Auth::user()->roles_id === 2 || Auth::user()->roles_id === 4) {
 
             abort(403);
@@ -169,68 +172,69 @@ class ManagePerizinanController extends Controller
             return back()->withErrors($e);
         }
     }
-    /**
-     * softdeletes
-     */
-    public function trash()
-    {
-        $this->authorize('admin');
 
-        $data = TrxStudentPermits::with(['student', 'program'])->onlyTrashed()->get();
-        return view('dashboard.perizinan.trash', [
-            'trash' => $data
-        ]);
-    }
+    // /**
+    //  * softdeletes
+    //  */
+    // public function trash()
+    // {
+    //     $this->authorize('admin');
 
-    public function restore($id)
-    {
-        $this->authorize('admin');
+    //     $data = TrxStudentPermits::with(['student', 'program'])->onlyTrashed()->get();
+    //     return view('dashboard.perizinan.trash', [
+    //         'trash' => $data
+    //     ]);
+    // }
 
-        try {
-            $data = TrxStudentPermits::onlyTrashed()->where('id', $id)->firstOrFail();
-            $data->restore();
-            return redirect()->route('perizinan.index')
-                ->with('success', 'Data berhasil dipulihkan ');
-        } catch (\Exception $e) {
-            return back()->withErrors($e);
-        }
-    }
-    public function restoreAll()
-    {
-        $this->authorize('admin');
+    // public function restore($id)
+    // {
+    //     $this->authorize('admin');
 
-        try {
-            $data = TrxStudentPermits::onlyTrashed();
-            $data->restore();
-            return redirect()->route('perizinan.index')->with('success', 'Data berhasil dipulihkan');
-        } catch (\Exception $e) {
-            return back()->withErrors($e);
-        }
-    }
+    //     try {
+    //         $data = TrxStudentPermits::onlyTrashed()->where('id', $id)->firstOrFail();
+    //         $data->restore();
+    //         return redirect()->route('perizinan.index')
+    //             ->with('success', 'Data berhasil dipulihkan ');
+    //     } catch (\Exception $e) {
+    //         return back()->withErrors($e);
+    //     }
+    // }
+    // public function restoreAll()
+    // {
+    //     $this->authorize('admin');
 
-    public function deletePermanent($id)
-    {
-        $this->authorize('admin');
+    //     try {
+    //         $data = TrxStudentPermits::onlyTrashed();
+    //         $data->restore();
+    //         return redirect()->route('perizinan.index')->with('success', 'Data berhasil dipulihkan');
+    //     } catch (\Exception $e) {
+    //         return back()->withErrors($e);
+    //     }
+    // }
 
-        try {
-            $data = TrxStudentPermits::onlyTrashed()->where('id', $id)->firstOrFail();
-            $data->forceDelete();
-            return redirect()->route('trashPermit')
-                ->with('success', 'Data berhasil dihapus permanent');
-        } catch (\Exception $e) {
-            return back()->withErrors($e);
-        }
-    }
-    public function deletePermanentAll()
-    {
-        $this->authorize('admin');
+    // public function deletePermanent($id)
+    // {
+    //     $this->authorize('admin');
 
-        try {
-            $data = TrxStudentPermits::onlyTrashed();
-            $data->forceDelete();
-            return redirect()->route('trashPermit')->with('success', 'Semua data berhasil dihapus permanent');
-        } catch (\Exception $e) {
-            return back()->withErrors($e);
-        }
-    }
+    //     try {
+    //         $data = TrxStudentPermits::onlyTrashed()->where('id', $id)->firstOrFail();
+    //         $data->forceDelete();
+    //         return redirect()->route('trashPermit')
+    //             ->with('success', 'Data berhasil dihapus permanent');
+    //     } catch (\Exception $e) {
+    //         return back()->withErrors($e);
+    //     }
+    // }
+    // public function deletePermanentAll()
+    // {
+    //     $this->authorize('admin');
+
+    //     try {
+    //         $data = TrxStudentPermits::onlyTrashed();
+    //         $data->forceDelete();
+    //         return redirect()->route('trashPermit')->with('success', 'Semua data berhasil dihapus permanent');
+    //     } catch (\Exception $e) {
+    //         return back()->withErrors($e);
+    //     }
+    // }
 }

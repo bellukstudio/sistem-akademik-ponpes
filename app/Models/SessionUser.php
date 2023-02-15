@@ -16,4 +16,6 @@ class SessionUser extends Model
     protected $hidden = [
         'created_at', 'updated_at', 'ip_address', 'user_id'
     ];
+
+    
 }

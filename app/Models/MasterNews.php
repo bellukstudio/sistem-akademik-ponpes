@@ -30,4 +30,6 @@ class MasterNews extends Model
     {
         return Carbon::parse($value)->timestamp;
     }
+
+   
 }

@@ -5,19 +5,17 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Helpers\ApiResponse;
 
 class TrxStudentPermits extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $fillable = [
         'student_id', 'description', 'permit_date', 'permit_type', 'id_program', 'status'
     ];
-    protected $dates = ['deleted_at'];
     protected $hidden = [
-        'deleted_at', 'created_at', 'updated_at'
+        'created_at', 'updated_at'
     ];
+    // protected $dates = ['deleted_at'];
 
     public function getCreatedAttribute($value)
     {

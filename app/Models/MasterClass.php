@@ -35,4 +35,5 @@ class MasterClass extends Model
     {
         return $this->belongsTo(MasterAcademicProgram::class, 'program_id');
     }
+
 }

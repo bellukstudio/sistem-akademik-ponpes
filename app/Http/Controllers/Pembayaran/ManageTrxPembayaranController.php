@@ -33,19 +33,22 @@ class ManageTrxPembayaranController extends Controller
         // student
         $student = MasterStudent::all();
         // sum total and diff payment
-        $sum =
-            DB::table('trx_payments')
-            ->select(DB::raw('id_student, sum(total) as sum_total'))
+        $sum = DB::table('trx_payments')
+            ->select('id_student', 'id_payment', 'status', DB::raw('SUM(total) as sum_total'))->where('status', '1')
+            ->groupBy(['id_student', 'id_payment'])
             ->get();
-        $diff =
-            DB::table('master_payments')
+
+        $diff = DB::table('master_payments')
             ->join('trx_payments', 'master_payments.id', '=', 'trx_payments.id_payment')
             ->select(
                 'trx_payments.id_student as id_student',
+                'trx_payments.id_payment as id_payment',
+                'trx_payments.status as status',
                 DB::raw(
                     'master_payments.total - SUM(trx_payments.total) as difference'
                 )
-            )
+            )->where('trx_payments.status', '1')
+            ->groupBy(['trx_payments.id_student', 'trx_payments.id_payment'])
             ->get();
         //payment
         if (auth()->user()->roles_id === 3) {
@@ -59,6 +62,7 @@ class ManageTrxPembayaranController extends Controller
             $data = $payment->select(
                 'trx_payments.id as id',
                 'master_users.name as name',
+                'trx_payments.id_student as id_student',
                 'master_payments.payment_name as payment_name',
                 'master_payments.media_payment',
                 'master_payments.method as method',
@@ -66,13 +70,16 @@ class ManageTrxPembayaranController extends Controller
                 'trx_payments.date_payment as date',
                 'master_payments.total as total',
                 'trx_payments.total as total_payment',
-                'trx_payments.status as status'
+                'trx_payments.status as status',
+                'trx_payments.id_payment as id_payment',
+
             )->where('trx_caretakers.program_id', '=', $caretakers->program_id)
                 ->groupBy(
                     'trx_payments.id_student',
                     'trx_payments.id_payment',
-                    'trx_payments.status',
-                    'trx_payments.date_payment'
+                    'trx_payments.id',
+                    'trx_payments.date_payment',
+                    'trx_payments.status'
                 )
                 ->latest('trx_payments.created_at')->get();
             return view('dashboard.pembayaran.index', compact('data', 'category', 'class', 'sum', 'diff'));
@@ -82,12 +89,13 @@ class ManageTrxPembayaranController extends Controller
             ->join('master_students', 'master_students.id', '=', 'trx_payments.id_student')
             ->join('trx_class_groups', 'trx_class_groups.student_id', '=', 'master_students.id');
 
-        if (request('filter')) {
-            if (request('category') && request('class') || request('student')) {
-                $payment->where('trx_payments.id_payment', request('category'))
-                    ->where('trx_class_groups.class_id', request('class'))
-                    ->orWhere('trx_payments.id_student', request('student'));
-            }
+
+        if (request('filter') === 'Kelas') {
+            $payment->where('trx_payments.id_payment', request('category'))
+                ->where('trx_class_groups.class_id', request('class'));
+        } elseif (request('filter') === 'Individu') {
+            $payment->where('trx_payments.id_payment', request('category'))
+                ->where('trx_payments.id_student', request('student'));
         }
 
         $data = $payment->select(
@@ -101,13 +109,15 @@ class ManageTrxPembayaranController extends Controller
             'trx_payments.date_payment as date',
             'master_payments.total as total',
             'trx_payments.total as total_payment',
-            'trx_payments.status as status'
+            'trx_payments.status as status',
+            'trx_payments.id_payment as id_payment',
         )
             ->groupBy(
                 'trx_payments.id_student',
                 'trx_payments.id_payment',
-                'trx_payments.status',
-                'trx_payments.date_payment'
+                'trx_payments.id',
+                'trx_payments.date_payment',
+                'trx_payments.status'
             )
             ->latest('trx_payments.created_at')->get();
         return view('dashboard.pembayaran.index', compact('data', 'category', 'class', 'sum', 'diff', 'student'));
@@ -120,6 +130,8 @@ class ManageTrxPembayaranController extends Controller
      */
     public function create()
     {
+        $this->authorize('admin');
+
         $student = MasterUsers::where('roles_id', 4)->get();
         $metode = MasterPayment::all();
         return view('dashboard.pembayaran.create', compact('student', 'metode'));
@@ -139,7 +151,7 @@ class ManageTrxPembayaranController extends Controller
             'santriList' => 'required',
             'metode' => 'required',
             'datePayment' => 'required',
-            'total' => 'required'
+            'total' => 'required|max:50'
         ]);
 
         try {
@@ -177,6 +189,7 @@ class ManageTrxPembayaranController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('admin');
         $student = MasterUsers::where('roles_id', 4)->get();
         $metode = MasterPayment::all();
         $data = TrxPayment::find($id);
@@ -191,7 +204,7 @@ class ManageTrxPembayaranController extends Controller
             'santriList' => 'required',
             'metode' => 'required',
             'datePayment' => 'required',
-            'total' => 'required'
+            'total' => 'required|max:50'
         ]);
 
         try {
@@ -246,6 +259,8 @@ class ManageTrxPembayaranController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('admin');
+
         if (auth()->user()->roles_id === 2  || auth()->user()->roles_id === 4) {
 
             abort(403);

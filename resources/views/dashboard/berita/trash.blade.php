@@ -21,13 +21,15 @@
         @include('components.alert')
         <div class="card">
             <div class="card-header">
-                <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#modal-restoreAll">
-                    <i class="fa fa-undo mr-2"></i> Restore All
-                </button>
-                <button type="button" class="btn btn-outline-warning" data-toggle="modal"
-                    data-target="#modal-deletePermanent">
-                    <i class="fa fa-undo mr-2"></i> Delete Permanent All
-                </button>
+                @if (count($trash) > 0)
+                    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#modal-restoreAll">
+                        <i class="fa fa-undo mr-2"></i> Restore All
+                    </button>
+                    <button type="button" class="btn btn-outline-warning" data-toggle="modal"
+                        data-target="#modal-deletePermanent">
+                        <i class="fa fa-undo mr-2"></i> Delete Permanent All
+                    </button>
+                @endif
 
 
                 {{-- Modal Restore All --}}

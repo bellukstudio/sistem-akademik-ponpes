@@ -26,4 +26,6 @@ class TrxRoomGroup extends Model
     {
         return $this->belongsTo(MasterRoom::class, 'room_id');
     }
+
+  
 }

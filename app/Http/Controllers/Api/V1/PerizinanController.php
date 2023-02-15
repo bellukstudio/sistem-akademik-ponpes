@@ -32,7 +32,7 @@ class PerizinanController extends Controller
             ], 'Get history permit successfully');
         } catch (\Exception $e) {
             return ApiResponse::error([
-                'message' => 'Something went wrong',
+                'message' => 'Something went wrong.',
                 'error' => $e
             ], 'Opps', 500);
         }
@@ -83,7 +83,7 @@ class PerizinanController extends Controller
             ], 'Data Saved');
         } catch (\Exception $e) {
             return ApiResponse::error([
-                'message' => 'Something went wrong',
+                'message' => 'Something went wrong..',
                 'error' => $e
             ], 'Opps', 500);
         }
@@ -100,6 +100,78 @@ class PerizinanController extends Controller
             return ApiResponse::success([
                 'total' => $data,
             ], 'Get count history permit successfully');
+        } catch (\Exception $e) {
+            return ApiResponse::error([
+                'message' => 'Something went wrong...',
+                'error' => $e
+            ], 'Opps', 500);
+        }
+    }
+    /**
+     * edit permit if status null
+     */
+    public function updatePermit(Request $request, $id)
+    {
+        try {
+
+            //
+            $student = MasterStudent::where('email', $request->user()->email)->first();
+            $data = TrxStudentPermits::find($id);
+            if ($data->student_id === $student->id) {
+                if ($data->status == null) {
+                    $data->permit_date = $request->date_permit;
+                    $data->permit_type = $request->title;
+                    $data->description = $request->description;
+                    $data->update();
+                    return ApiResponse::success([
+                        'permit' => $data,
+                        'message' => 'Successfully update permit'
+                    ], 'Data Saved');
+                } else {
+                    return ApiResponse::error([
+                        'message' => 'Failed update permit'
+                    ], 'Failed Update Data', 401);
+                }
+            } else {
+                return ApiResponse::error([
+                    'message' => 'Failed update permit'
+                ], 'Failed Update Data', 404);
+            }
+        } catch (\Exception $e) {
+            return ApiResponse::error([
+                'message' => 'Something went wrong',
+                'error' => $e
+            ], 'Opps', 500);
+        }
+    }
+
+    /**
+     * delete permit if status null
+     */
+    public function deletePermit(Request $request, $id)
+    {
+        try {
+
+            //
+            $student = MasterStudent::where('email', $request->user()->email)->first();
+            $data = TrxStudentPermits::find($id);
+            if ($data->student_id === $student->id) {
+                if ($data->status == null) {
+                    $data->delete();
+                    return ApiResponse::success([
+                        'permit' => $data,
+                        'message' => 'Successfully delete permit'
+                    ], 'Data deleted');
+                } else {
+                    return ApiResponse::error([
+                        'message' => 'Failed update permit'
+                    ], 'Failed Update Data', 401);
+                }
+            } else {
+                return ApiResponse::error([
+                    'message' => 'Failed update permit'
+                ], 'Failed Update Data', 404);
+            }
         } catch (\Exception $e) {
             return ApiResponse::error([
                 'message' => 'Something went wrong',

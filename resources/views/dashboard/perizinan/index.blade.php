@@ -25,9 +25,9 @@
                     <a href="{{ route('perizinan.create') }}" class="btn btn-primary">
                         <i class="fa fa-plus mr-2"></i>Buat Perizinan
                         Baru</a>
-                    <a href="{{ route('trashPermit') }}" class="btn btn-secondary">
+                    {{-- <a href="{{ route('trashPermit') }}" class="btn btn-secondary">
                         <i class="fa fa-trash mr-2"></i>Trash
-                        Bin</a>
+                        Bin</a> --}}
                 @endcan
             </div>
             <!-- /.card-header -->
@@ -69,12 +69,14 @@
                                         data-target="#modal-Edit{{ $item->id }}">
                                         <i class="fa fa-edit"></i>
                                     </button>
-                                    {{-- {Hapus} --}}
-                                    <button type="button" class="btn btn-danger" data-toggle="modal"
-                                        data-target="#modal-Delete{{ $item->id }}">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                    <a href="{{ route('perizinan.edit', $item->id) }}" class="btn btn-warning">Edit</a>
+                                    @can('admin')
+                                        {{-- {Hapus} --}}
+                                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                            data-target="#modal-Delete{{ $item->id }}">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                        <a href="{{ route('perizinan.edit', $item->id) }}" class="btn btn-warning">Edit</a>
+                                    @endcan
 
                                 </td>
                             </tr>

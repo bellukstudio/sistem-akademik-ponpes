@@ -26,4 +26,6 @@ class TrxClassGroup extends Model
     {
         return $this->belongsTo(MasterClass::class, 'class_id');
     }
+
+   
 }

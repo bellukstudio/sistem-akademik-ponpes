@@ -43,4 +43,6 @@ class MasterTeacher extends Model
     {
         return $this->belongsTo(MasterCity::class, 'city_id');
     }
+
+ 
 }

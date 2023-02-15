@@ -38,4 +38,6 @@ class TrxPayment extends Model
     {
         return $this->belongsTo(MasterStudent::class, 'id_student');
     }
+
+   
 }

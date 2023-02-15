@@ -19,7 +19,7 @@ class PembayaranController extends Controller
     public function getHistoryPayment(Request $request)
     {
         try {
-            $category = $request->input('id_payment');
+            $category = $request->input('id_category');
             $date = $request->input('date');
 
             $payment = TrxPayment::join('master_users', 'master_users.id', '=', 'trx_payments.id_user')
@@ -69,8 +69,11 @@ class PembayaranController extends Controller
     public function getAllCategoriePayment()
     {
         try {
+
             $payment = TrxPayment::join('master_users', 'master_users.id', '=', 'trx_payments.id_user')
-                ->join('master_payments', 'master_payments.id', '=', 'trx_payments.id_payment')
+                ->leftJoin('master_payments', function ($join) {
+                    $join->on('master_payments.id', '=', 'trx_payments.id_payment');
+                })
                 ->join('master_students', 'master_students.id', '=', 'trx_payments.id_student')
                 ->join('trx_class_groups', 'trx_class_groups.student_id', '=', 'master_students.id')
                 ->orWhere(function ($query) {
@@ -80,19 +83,25 @@ class PembayaranController extends Controller
                         ->where('trx_payments.id_student', $student->id);
                 });
 
+
             $data = $payment->select(
-                'trx_payments.id as id_payment',
+                'master_payments.id as id_category',
                 'master_payments.payment_name as payment_name',
                 'master_payments.media_payment',
                 'master_payments.method as method',
                 'master_payments.total as total',
                 'trx_payments.status as status'
             )
-                ->selectRaw('SUM(trx_payments.total) as sum_total')
-                ->selectRaw('master_payments.total - SUM(trx_payments.total) as diff')
-                ->groupBy('trx_payments.id_student', 'trx_payments.id_payment', 'trx_payments.status')
+                ->selectRaw('SUM(CASE WHEN trx_payments.status = 1 THEN trx_payments.total ELSE 0 END) as sum_total')
+                ->selectRaw('master_payments.total - SUM(
+                    CASE WHEN trx_payments.status = 1 THEN trx_payments.total ELSE 0 END) as diff')
+                ->groupBy('trx_payments.id_student', 'master_payments.id')
                 ->latest('trx_payments.created_at')->get();
 
+            foreach ($data as $payment) {
+                $diff = intval($payment->total) - $payment->sum_total;
+                $payment->status = $diff == 0 ? 1 : 0;
+            }
             return ApiResponse::success($data, 'Success get categories payment');
         } catch (\Exception $e) {
             return ApiResponse::error([
@@ -133,10 +142,11 @@ class PembayaranController extends Controller
                 'date_payment' => $request->date_payment,
                 'total' => $request->total,
             ];
-            TrxPayment::create($data);
+            $payment = TrxPayment::create($data);
 
+            // $payment = TrxPayment::
             return ApiResponse::success([
-                'payment' => $data,
+                'payment' => $payment,
                 'message' => 'Successfully create new payment'
             ], 'Data Saved');
         } catch (\Exception $e) {
@@ -170,7 +180,7 @@ class PembayaranController extends Controller
                     ->storeAs(
                         'payment/' . $student->noId,
                         strtolower($name) . '_'
-                            . date('Y-m-d') . '_' . strtolower($paymentCategorie->payment_name) . '.png',
+                            . date('Y-m-d') . '_' . strtolower($paymentCategorie->payment_name) . '_' . $id . '.png',
                         'public'
                     );
 
@@ -181,6 +191,63 @@ class PembayaranController extends Controller
 
                 return ApiResponse::success([$file], 'File successfully uploaded');
             }
+        } catch (\Exception $e) {
+            return ApiResponse::error([
+                'message' => 'Something went wrong',
+                'error' => $e
+            ], 'Opps', 500);
+        }
+    }
+
+
+    public function getMethodPayment(Request $request)
+    {
+        try {
+            $id = $request->input('id');
+
+            $data = MasterPayment::find($id);
+            return ApiResponse::success([
+                'method' => $data
+            ], 'Success get datra');
+        } catch (\Exception $e) {
+            return ApiResponse::error([
+                'message' => 'Something went wrong',
+                'error' => $e
+            ], 'Opps', 500);
+        }
+    }
+
+    public function getCategoryPayment()
+    {
+        try {
+
+            $data = MasterPayment::leftJoin('trx_payments', function ($join) {
+                $join->on('trx_payments.id_payment', '=', 'master_payments.id')
+                    ->orWhere(function ($query) {
+                        // get student data by email
+                        $student = MasterStudent::where('email', Auth::user()->email)->first();
+                        $query->where('trx_payments.id_user', Auth::user()->id)
+                            ->where('trx_payments.id_student', $student->id);
+                    });
+            })
+                ->where(function ($query) {
+                    $query->whereRaw('master_payments.total - COALESCE((
+                        SELECT SUM(total) FROM trx_payments WHERE id_payment = master_payments.id
+                    ), 0) != 0');
+                })
+                ->groupBy('master_payments.id')
+                ->select(
+                    'master_payments.id',
+                    'master_payments.payment_name',
+                    'master_payments.total',
+                    'master_payments.method',
+                    'master_payments.media_payment',
+                    'master_payments.payment_number'
+                )
+                ->get();
+            return ApiResponse::success([
+                'category' => $data
+            ], 'Success get data');
         } catch (\Exception $e) {
             return ApiResponse::error([
                 'message' => 'Something went wrong',
