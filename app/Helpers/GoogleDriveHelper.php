@@ -193,26 +193,6 @@ class GoogleDriveHelper
             } catch (\Google_Service_Exception  $e) {
                 return back()->with('error', $e);
             }
-            //get all email in table users
-            $users = MasterUsers::latest()->get();
-
-            foreach ($users as $value) {
-                //permission
-                $permission = new Google_Service_Drive_Permission();
-                $permission->setType('user');
-                $permission->setRole('reader');
-                $permission->setEmailAddress($value->email);
-
-                // Grant the permission
-                try {
-                    $service->permissions->create($result->id, $permission, array('sendNotificationEmail' => false));
-                    // Permission granted successfully
-                } catch (\Google_Service_Exception $e) {
-                    // Handle error
-                    return back()->with('error', $e);
-                }
-            }
-
             // GET URL OF UPLOADED FILE
 
             // $urlOpen = 'https://drive.google.com/open?id=' . $result->id;
@@ -220,6 +200,138 @@ class GoogleDriveHelper
 
             return
                 $result->id;
+        }
+    }
+
+    public static function grantAccessFile($id, $data)
+    {
+        // setup
+        $gClient = new Google_Client();
+
+        $gClient->setApplicationName('laravel');
+        $gClient->setClientId(env('GOOGLE_DRIVE_CLIENT_ID'));
+        $gClient->setClientSecret(env('GOOGLE_DRIVE_CLIENT_SECRET'));
+        $gClient->setRedirectUri(route('google.login'));
+        $gClient->setDeveloperKey(env('GOOGLE_DEVELOPER_KEY'));
+        $gClient->setScopes(array(
+            'https://www.googleapis.com/auth/drive.file',
+            'https://www.googleapis.com/auth/drive'
+        ));
+
+        // service drive
+        $service = new Google_Service_Drive($gClient);
+        $user = MasterUsers::find(Auth::user()->id);
+
+        if (is_null($user->access_token)) {
+            return redirect()->route('google.login');
+        } else {
+            $gClient->setAccessToken(json_decode($user->access_token, true));
+            print_r('error 1');
+
+            if ($gClient->isAccessTokenExpired()) {
+                print_r('error 2');
+
+                // SAVE REFRESH TOKEN TO SOME VARIABLE
+                $refreshTokenSaved = $gClient->getRefreshToken();
+
+                // UPDATE ACCESS TOKEN
+                $gClient->fetchAccessTokenWithRefreshToken($refreshTokenSaved);
+
+                // PASS ACCESS TOKEN TO SOME VARIABLE
+                $updatedAccessToken = $gClient->getAccessToken();
+
+                // APPEND REFRESH TOKEN
+                $updatedAccessToken['refresh_token'] = $refreshTokenSaved;
+
+                // SET THE NEW ACCES TOKEN
+                $gClient->setAccessToken($updatedAccessToken);
+
+                $user->access_token = $updatedAccessToken;
+
+                $user->save();
+            }
+
+            // Set the name of the parent folder
+            //permission
+            $permission = new Google_Service_Drive_Permission();
+            $permission->setType('user');
+            $permission->setRole('reader');
+            $permission->setEmailAddress($data);
+
+            // Grant the permission
+            try {
+                $service->permissions->create($id, $permission, array('sendNotificationEmail' => false));
+                // Permission granted successfully
+            } catch (\Google_Service_Exception $e) {
+                // Handle error
+                return back()->with('error', $e);
+            }
+        }
+    }
+
+    public static function allowEveryonePermission($id)
+    {
+        // setup
+        $gClient = new Google_Client();
+
+        $gClient->setApplicationName('laravel');
+        $gClient->setClientId(env('GOOGLE_DRIVE_CLIENT_ID'));
+        $gClient->setClientSecret(env('GOOGLE_DRIVE_CLIENT_SECRET'));
+        $gClient->setRedirectUri(route('google.login'));
+        $gClient->setDeveloperKey(env('GOOGLE_DEVELOPER_KEY'));
+        $gClient->setScopes(array(
+            'https://www.googleapis.com/auth/drive.file',
+            'https://www.googleapis.com/auth/drive'
+        ));
+
+        // service drive
+        $service = new Google_Service_Drive($gClient);
+        $user = MasterUsers::find(Auth::user()->id);
+
+        if (is_null($user->access_token)) {
+            return redirect()->route('google.login');
+        } else {
+            $gClient->setAccessToken(json_decode($user->access_token, true));
+            print_r('error 1');
+
+            if ($gClient->isAccessTokenExpired()) {
+                print_r('error 2');
+
+                // SAVE REFRESH TOKEN TO SOME VARIABLE
+                $refreshTokenSaved = $gClient->getRefreshToken();
+
+                // UPDATE ACCESS TOKEN
+                $gClient->fetchAccessTokenWithRefreshToken($refreshTokenSaved);
+
+                // PASS ACCESS TOKEN TO SOME VARIABLE
+                $updatedAccessToken = $gClient->getAccessToken();
+
+                // APPEND REFRESH TOKEN
+                $updatedAccessToken['refresh_token'] = $refreshTokenSaved;
+
+                // SET THE NEW ACCES TOKEN
+                $gClient->setAccessToken($updatedAccessToken);
+
+                $user->access_token = $updatedAccessToken;
+
+                $user->save();
+            }
+
+            //permission
+            $permission = new Google_Service_Drive_Permission();
+            $permission->setRole('reader');
+            $permission->setType('anyone');
+            $permission->setAllowFileDiscovery(false);
+
+            // Grant the permission
+            try {
+                $service->permissions->create($id, $permission);
+
+                // Permission granted successfully
+            } catch (\Google_Service_Exception $e) {
+                // Handle error
+                return back()->with('error', $e);
+            }
         }
     }
 

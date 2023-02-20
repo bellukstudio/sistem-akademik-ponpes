@@ -14,7 +14,7 @@ class AddIsActivateToMasterTeachers extends Migration
     public function up()
     {
         Schema::table('master_teachers', function (Blueprint $table) {
-            $table->boolean('is_activate')->default(false);
+            $table->boolean('is_activate')->nullable()->default(false);
         });
     }
 

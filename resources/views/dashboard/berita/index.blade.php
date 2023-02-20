@@ -128,7 +128,7 @@
 
                                     {{-- Modal --}}
                                     <div class="modal fade" id="modal-default{{ $item->id }}">
-                                        <div class="modal-dialog">
+                                        <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h4 class="modal-title">Konfirmasi hapus data</h4>
@@ -140,10 +140,10 @@
                                                 <div class="modal-body">
                                                     <div class="card">
                                                         <div class="card-header bg-danger">
-                                                            <h6>{{ $item->judul }}</h6> <br>
+                                                            <h6>{{ $item->title }}</h6> <br>
                                                         </div>
                                                         <div class="card-body">
-                                                            <p>{!! $item->keterangan !!}</p>
+                                                            <p>{!! $item->description !!}</p>
 
                                                         </div>
                                                     </div>

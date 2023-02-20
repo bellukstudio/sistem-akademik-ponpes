@@ -43,6 +43,8 @@ class ManageFileShareController extends Controller
                 GoogleDriveHelper::$pdf
             );
             // link
+            sleep(1);
+            GoogleDriveHelper::allowEveryonePermission($upload);
             $link = 'https://drive.google.com/file/d/' . $upload . '/view';
             MasterFileShare::create([
                 'file_name' => $request->file_name,
@@ -78,6 +80,8 @@ class ManageFileShareController extends Controller
                     'EBOOK',
                     GoogleDriveHelper::$pdf
                 );
+                sleep(1);
+                GoogleDriveHelper::allowEveryonePermission($upload);
                 //link
                 $link = 'https://drive.google.com/file/d/' . $upload . '/view';
                 //save link
@@ -100,8 +104,10 @@ class ManageFileShareController extends Controller
         try {
 
             $data = MasterFileShare::findOrFail($id);
-            //remove file
-            GoogleDriveHelper::deleteFile($data->file_name . '.pdf', GoogleDriveHelper::$pdf);
+            if ($data->type === 'BOOK') {
+                //remove file
+                GoogleDriveHelper::deleteFile($data->file_name . '.pdf', GoogleDriveHelper::$pdf);
+            }
             $data->delete();
 
             return back()->with('success', 'File ' . $data->file_name . ' berhasil dihapus');

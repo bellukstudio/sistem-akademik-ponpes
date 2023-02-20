@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Perizinan;
 
+use App\Helpers\FcmHelper;
 use App\Http\Controllers\Controller;
 use App\Models\MasterStudent;
+use App\Models\MasterTokenFcm;
+use App\Models\MasterUsers;
 use App\Models\TrxStudentPermits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -52,7 +55,7 @@ class ManagePerizinanController extends Controller
             'student' => 'required',
             'datePermit' => 'required|date',
             'titlePermit' => 'required|max:100',
-            'desc' => 'required|max:100'
+            'desc' => 'required'
         ]);
 
         try {
@@ -144,6 +147,29 @@ class ManagePerizinanController extends Controller
             $data->status = $request->status;
             $data->update();
 
+
+            // send notification
+
+            sleep(1);
+            $data['page'] = 'permitPage';
+            $checkAvaiableToken = MasterTokenFcm::all();
+            // query to get id_user student
+            $student = MasterStudent::find($data->student_id);
+            $user = MasterUsers::where('email', $student->email)->firstOrFail();
+            //
+            $deviceRegistration = MasterTokenFcm::where('id_user', $user->id)->firstOrFail();
+            if (count($checkAvaiableToken) > 0) {
+                $status = $request->status == 1 ? 'Di setujui' : 'Tidak di setujui';
+                $dataFcm = [
+                    'data' => $data
+                ];
+                FcmHelper::sendNotificationWithGuzzle(
+                    'Perizinan ' . $data->permit_type . ' ' . $status,
+                    $dataFcm,
+                    false,
+                    $deviceRegistration->token
+                );
+            }
             return back()->with('success', 'Data berhasil diubah');
         } catch (\Exception $e) {
             return back()->withErrors($e);

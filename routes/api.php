@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\BeritaController;
+use App\Http\Controllers\Api\V1\FcmController;
 use App\Http\Controllers\Api\V1\JadwalController;
 use App\Http\Controllers\Api\V1\PembayaranController;
 use App\Http\Controllers\Api\V1\PenilaianController;
@@ -73,5 +74,9 @@ Route::group(['prefix' => 'v1'], function () {
          */
         Route::get('/app/schedules', [JadwalController::class, 'getScheduleByClass']);
         Route::get('/app/schedules/category', [JadwalController::class, 'getCategorySchedule']);
+        /**
+         * [ROUTE TOKEN]
+         */
+        Route::post('/app/token', [FcmController::class, 'saveToken']);
     });
 });

@@ -7,6 +7,8 @@ use App\Models\MasterNews;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Helpers\FcmHelper;
+use App\Models\MasterTokenFcm;
 
 class BeritaController extends Controller
 {
@@ -51,13 +53,25 @@ class BeritaController extends Controller
         ]);
 
         try {
-            MasterNews::create(
+            $data  = MasterNews::create(
                 [
                     'id_user' => Auth::user()->id,
                     'title' => $request->judul,
                     'description' => $request->keterangan
                 ]
             );
+
+            // send notification
+
+            sleep(1);
+            $data['page'] = 'detailNotifPage';
+            $checkAvaiableToken = MasterTokenFcm::all();
+            if (count($checkAvaiableToken) > 0) {
+                $dataFcm = [
+                    'data' => $data
+                ];
+                FcmHelper::sendNotificationWithGuzzle($request->judul, $dataFcm);
+            }
             return redirect()->route('beritaAcara.index')
                 ->with('success', 'Pengumuman (' . $request->judul . ') berhasil di post');
         } catch (\Exception $e) {

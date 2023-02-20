@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\ClassesImport;
+use App\Imports\CourseImport;
+use App\Imports\RoomImport;
+use App\Imports\StudentsImport;
+use App\Imports\TeachersImport;
 use App\Models\MasterNews;
 use App\Models\MasterStudent;
 use App\Models\MasterTeacher;
@@ -10,7 +15,9 @@ use App\Models\SessionUser;
 use App\Models\TrxCaretakers;
 use App\Models\TrxStudentPermits;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Validator;
 
 class DashboardController extends Controller
 {
@@ -56,5 +63,60 @@ class DashboardController extends Controller
             'isAdmin',
             'session'
         ));
+    }
+
+    public function importFile(Request $request)
+    {
+
+        $validator =  Validator::make(
+            $request->all(),
+            [
+                'tabel' => 'required',
+                'excel_file' => 'required|mimes:xls,xlsx|max:2048'
+            ],
+            [
+                'tabel.required' => 'Pilih tabel yang ingin di import',
+                'excel_file.required' => 'Pilih file yang ingin di import'
+            ]
+        );
+        try {
+            if ($validator->fails()) {
+                return back()->withErrors($validator);
+            }
+
+            $file = $request->file('excel_file');
+
+            try {
+                if ($request->tabel === 'santri') {
+                    Excel::import(new StudentsImport, $file);
+                } elseif ($request->tabel === 'pengajar') {
+                    Excel::import(new TeachersImport, $file);
+                } elseif ($request->tabel === 'kelas') {
+                    Excel::import(new ClassesImport, $file);
+                } elseif ($request->tabel === 'ruangan') {
+                    Excel::import(new RoomImport, $file);
+                } elseif ($request->tabel === 'mapel') {
+                    Excel::import(new CourseImport, $file);
+                }
+                return redirect()->route('dashboard')->with('success', 'Berhasil import data ' . $request->tabel);
+            } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+                $failures = $e->failures();
+
+                foreach ($failures as $failure) {
+                    $failure->row(); // row that went wrong
+                    $failure->attribute(); // either heading key (if using heading row concern) or column index
+                    $failure->errors(); // Actual error messages from Laravel validator
+                    $failure->values(); // The values of the row that has failed.
+                }
+                return back()->withErrors($failures);
+            }
+        } catch (\Exception $e) {
+            return back()->with('failed', $e);
+        }
+    }
+
+    public function importRedirect()
+    {
+        return redirect()->route('dashboard');
     }
 }

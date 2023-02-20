@@ -106,7 +106,7 @@
                             <img src='https://via.placeholder.com/150x200' alt="" width="150" height="200"
                                 id="photo" class="photo">
                         @else
-                            <img src="@gdrive($pengajar->photo)" alt="" class="photo">
+                            <img src="@gdrive($pengajar->photo)" alt="" class="photo" id="photo">
                         @endif
 
                     </div>

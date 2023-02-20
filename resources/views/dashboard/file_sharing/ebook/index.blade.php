@@ -84,7 +84,11 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->file_name }}</td>
-                                <td><a href="{{ $item->link }}" target="blank">Lihat</a></td>
+                                <td>
+                                    <a href="{{ $item->link }}" target="blank" class="mr-4" id="link-data-copy"
+                                        data-link='{{ $item->link }}'>Lihat</a>
+                                    <button class="btn btn-outline-info" id="btn-copy-text">Salin Link</button>
+                                </td>
                                 <td>
                                     {{-- {Edit} --}}
                                     <button type="button" class="btn btn-sm" data-toggle="modal"
@@ -201,4 +205,19 @@
         </div>
     </div>
 @endsection
-@include('components.footer_table')
+@extends('components.footer_table')
+@push('new-script')
+    <script>
+        $(function() {
+            $("#btn-copy-text").click(function() {
+                var teks = $("#link-data-copy").attr("data-link");
+                var temp = $("<input>");
+                $("body").append(temp);
+                temp.val(teks).select();
+                document.execCommand("copy");
+                temp.remove();
+                alert("Teks berhasil disalin!");
+            });
+        });
+    </script>
+@endpush

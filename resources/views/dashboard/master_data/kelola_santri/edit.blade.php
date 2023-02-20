@@ -21,7 +21,7 @@
         @include('components.alert')
         <div class="card">
             <div class="card-header bg-gradient-warning">
-                Eidt Data Santri
+                Edit Data Santri
             </div>
             <form action="{{ route('kelolaSantri.update', $santri->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
@@ -141,7 +141,7 @@
                             <img src='https://via.placeholder.com/150x200' alt="" width="150" height="200"
                                 id="photo" class="photo">
                         @else
-                            <img src="@gdrive($santri->photo)" alt="" class="photo">
+                            <img src="@gdrive($santri->photo)" alt="" id="photo" class="photo">
                         @endif
                     </div>
                 </div>

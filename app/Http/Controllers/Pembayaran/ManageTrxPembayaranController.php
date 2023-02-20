@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Pembayaran;
 
+use App\Helpers\FcmHelper;
 use App\Http\Controllers\Controller;
 use App\Models\MasterClass;
 use App\Models\MasterPayment;
 use App\Models\MasterStudent;
+use App\Models\MasterTokenFcm;
 use Illuminate\Support\Facades\DB;
 use App\Models\MasterUsers;
 use App\Models\TrxCaretakers;
@@ -244,6 +246,25 @@ class ManageTrxPembayaranController extends Controller
             $data = TrxPayment::find($id);
             $data->status = $request->status;
             $data->update();
+
+            // send notification
+            sleep(1);
+            $data['page'] = 'paymentPage';
+            $checkAvaiableToken = MasterTokenFcm::all();
+            $deviceRegistration = MasterTokenFcm::where('id_user', $data->id_user)->firstOrFail();
+            $masterPayment = MasterPayment::find($data->id_payment);
+            if (count($checkAvaiableToken) > 0) {
+                $status = $request->status == 1 ? 'Di Setujui' : 'Di Tolak!';
+                $dataFcm = [
+                    'data' => $data
+                ];
+                FcmHelper::sendNotificationWithGuzzle(
+                    'Pembayaran ' . $masterPayment->payment_name . ' ' . $status,
+                    $dataFcm,
+                    false,
+                    $deviceRegistration->token
+                );
+            }
 
             return back()->with('success', 'Berhasil mengubah status ' . $data->user->name);
         } catch (\Throwable $e) {

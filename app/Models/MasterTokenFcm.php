@@ -9,10 +9,11 @@ use Illuminate\Support\Carbon;
 
 class MasterTokenFcm extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $table = 'master_token_fcm';
-
-    protected $dates = ['deleted_at'];
+    protected $fillable = [
+        'token', 'id_user'
+    ];
 
     public function getCreatedAttribute($value)
     {
@@ -20,12 +21,11 @@ class MasterTokenFcm extends Model
     }
 
     protected $hidden = [
-        'deleted_at', 'created_at', 'updated_at'
+        'created_at', 'updated_at'
     ];
 
     public function getUpdatedAttribute($value)
     {
         return Carbon::parse($value)->timestamp;
     }
-
 }

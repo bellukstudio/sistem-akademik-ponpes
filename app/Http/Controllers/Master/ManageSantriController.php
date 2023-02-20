@@ -73,7 +73,10 @@ class ManageSantriController extends Controller
                     'STUDENT',
                     GoogleDriveHelper::$img
                 );
+                // set access file
+                GoogleDriveHelper::allowEveryonePermission($upload);
             }
+
 
             MasterStudent::create([
                 'noId' => $request->id_number,
@@ -196,27 +199,36 @@ class ManageSantriController extends Controller
             $data = MasterStudent::find($id);
             if ($request->file('photo')) {
                 $file = $request->file('photo');
-                if (isEmpty($data->photo)) {
-                    $upload = GoogleDriveHelper::googleDriveFileUpload(
+                if ($data->photo == null) {
+                    $uploadNewPhoto = GoogleDriveHelper::googleDriveFileUpload(
                         $request->noId . '.png',
                         $file,
                         'STUDENT',
                         GoogleDriveHelper::$img
                     );
 
-                    $data->photo = $upload;
-                } else {
+                    $data->photo = $uploadNewPhoto;
+                    sleep(1);
+                    // set access file
+                    GoogleDriveHelper::allowEveryonePermission($uploadNewPhoto);
+                }
+                if ($data->photo != null) {
                     //delete file
-                    GoogleDriveHelper::deleteFile($data->noId, GoogleDriveHelper::$img);
+                    $fileName = $data->noId . '.png';
+                    GoogleDriveHelper::deleteFile($fileName, GoogleDriveHelper::$img);
+                    sleep(3);
                     //upload new file
-                    $upload = GoogleDriveHelper::googleDriveFileUpload(
+                    $uploadOrReplaceOldPhoto = GoogleDriveHelper::googleDriveFileUpload(
                         $request->noId . '.png',
                         $file,
-                        'TEACHER',
+                        'STUDENT',
                         GoogleDriveHelper::$img
                     );
 
-                    $data->photo = $upload;
+                    $data->photo = $uploadOrReplaceOldPhoto;
+                    // set access file
+                    sleep(1);
+                    GoogleDriveHelper::allowEveryonePermission($uploadOrReplaceOldPhoto);
                 }
             }
             if ($data->photo != null) {
@@ -224,6 +236,7 @@ class ManageSantriController extends Controller
                 $fileName = $request->id_number . '.png';
                 GoogleDriveHelper::renameFile($data->photo, $fileName);
             }
+
             $data->noId = $request->id_number;
             $data->email = $request->email;
             $data->name = $request->fullName;

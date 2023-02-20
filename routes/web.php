@@ -593,6 +593,11 @@ Route::middleware(['auth'])->group(function () {
             'pembayaran/{id}/updateUserPayment',
             [ManageTrxPembayaranController::class, 'updateUserPayment']
         )->name('updateUserPayment');
+        /**
+         * import file
+         */
+        Route::get('/import', [DashboardController::class, 'importRedirect']);
+        Route::post('/import', [DashboardController::class, 'importFile'])->name('import');
     });
     /**
      * [ROUTE DASHBOARD]

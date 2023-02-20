@@ -14,7 +14,7 @@ class AddIsActivateToMasterStudents extends Migration
     public function up()
     {
         Schema::table('master_students', function (Blueprint $table) {
-            $table->boolean('is_activate')->default(false);
+            $table->boolean('is_activate')->nullable()->default(false);
         });
     }
 

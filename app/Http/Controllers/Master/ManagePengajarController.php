@@ -68,6 +68,8 @@ class ManagePengajarController extends Controller
                     'TEACHER',
                     GoogleDriveHelper::$img
                 );
+                // set access file
+                GoogleDriveHelper::allowEveryonePermission($upload);
             }
             MasterTeacher::create([
                 'noId' => $request->id_number,
@@ -163,27 +165,36 @@ class ManagePengajarController extends Controller
             $data = MasterTeacher::findOrFail($id);
             if ($request->file('photo')) {
                 $file = $request->file('photo');
-                if (isEmpty($data->photo)) {
-                    $upload = GoogleDriveHelper::googleDriveFileUpload(
-                        $request->noId . '.png',
+                if ($data->photo == null) {
+                    $uploadNewPhoto = GoogleDriveHelper::googleDriveFileUpload(
+                        $request->id_number . '.png',
                         $file,
                         'TEACHER',
                         GoogleDriveHelper::$img
                     );
 
-                    $data->photo = $upload;
-                } else {
+                    $data->photo = $uploadNewPhoto;
+                    sleep(1);
+                    // set access file
+                    GoogleDriveHelper::allowEveryonePermission($uploadNewPhoto);
+                }
+                if ($data->photo != null) {
                     //delete file
-                    GoogleDriveHelper::deleteFile($data->noId, GoogleDriveHelper::$img);
+                    $fileName = $data->noId . '.png';
+                    GoogleDriveHelper::deleteFile($fileName, GoogleDriveHelper::$img);
+                    sleep(3);
                     //upload new file
-                    $upload = GoogleDriveHelper::googleDriveFileUpload(
+                    $uploadOrReplaceOldPhoto = GoogleDriveHelper::googleDriveFileUpload(
                         $request->noId . '.png',
                         $file,
                         'TEACHER',
                         GoogleDriveHelper::$img
                     );
 
-                    $data->photo = $upload;
+                    $data->photo = $uploadOrReplaceOldPhoto;
+                    // set access file
+                    sleep(1);
+                    GoogleDriveHelper::allowEveryonePermission($uploadOrReplaceOldPhoto);
                 }
             }
 

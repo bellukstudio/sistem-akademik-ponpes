@@ -140,7 +140,8 @@
                             @if ($item->photo === 'http://127.0.0.1:8000/storage/')
                                 <i class="badge badge-info">Null</i>
                             @else
-                                <img src="{{ $item->photo }}" alt="" class="photo">
+                                <img src="{{ $item->photo }}" alt="" class="photo" data-toggle="modal"
+                                    data-target="#modal-showImage{{ $item->id }}">
                             @endif
                         </td>
                         <td>
@@ -163,14 +164,36 @@
 
                         </td>
                     </tr>
-
+                    {{-- Modal image --}}
+                    <div class="modal fade" id="modal-showImage{{ $item->id }}">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Bukti Pembayaran</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="{{ $item->photo }}" class="img-fluid" alt="bukti pembayaran">
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                        Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
                     {{-- Modal Delete --}}
                     <div class="modal fade" id="modal-Delete{{ $item->id }}">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title">Konfirmasi hapus data</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
@@ -249,6 +272,7 @@
                             </div>
                             <!-- /.modal-dialog -->
                         </div>
+
 
                     @empty
                         <tr>

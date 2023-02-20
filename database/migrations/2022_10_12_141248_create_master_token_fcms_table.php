@@ -17,7 +17,6 @@ class CreateMasterTokenFcmsTable extends Migration
             $table->id();
             $table->text('token');
             $table->timestamps();
-            $table->softDeletes();
             $table->foreignId('id_user')->nullable()->references('id')->on('master_users')->onDelete('set null')->onUpdate('cascade');
         });
     }

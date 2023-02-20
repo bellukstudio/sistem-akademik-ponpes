@@ -440,6 +440,37 @@
                         </div>
                     </div>
                 </div>
+                <div class="card">
+                    <div class="card-header">
+                        <strong>
+                            <h3 class="card-title">Import Data Excel</h3>
+                        </strong><br>
+                        <a href="https://drive.google.com/drive/folders/1XYRSVtaMJ0MtoQ_7r5cY-2t9qcBH4USn?usp=sharing">
+                            Template import file</a>
+                    </div>
+                    @include('components.alert')
+                    <div class="card-body">
+                        <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <label for="">Pilih tabel yang akan di import data</label>
+                                <select name="tabel" id="" class="custom-select form-control-bordered">
+                                    <option value="">Pilih</option>
+                                    <option value="santri">Santri</option>
+                                    <option value="pengajar">Pengajar</option>
+                                    <option value="kelas">Kelas</option>
+                                    <option value="ruangan">Ruangan</option>
+                                    <option value="mapel">Mata Pelajaran</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="file">Choose Excel file to import:</label>
+                                <input type="file" name="excel_file" id="file" class="form-control-file">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Import</button>
+                        </form>
+                    </div>
+                </div>
                 <!-- TABLE: AKTIVITAS USER -->
                 <div class="card p-2" style="overflow: auto;">
                     <div class="card-header border-transparent">
