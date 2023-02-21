@@ -18,6 +18,10 @@ Breadcrumbs::for('beritaAcara.edit', function (BreadcrumbTrail $trail, $berita) 
     $trail->parent('beritaAcara');
     $trail->push('Edit Data', route('beritaAcara.edit', $berita->id));
 });
+Breadcrumbs::for('beritaAcara.show', function (BreadcrumbTrail $trail, $berita) {
+    $trail->parent('beritaAcara');
+    $trail->push('Lihat Data', route('beritaAcara.show', $berita->id));
+});
 Breadcrumbs::for('beritaAcara.trash', function (BreadcrumbTrail $trail) {
     $trail->parent('beritaAcara');
     $trail->push('Trash Bin', route('trashBeritaAcara'));

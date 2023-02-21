@@ -135,8 +135,8 @@
                                         <div class="modal-body">
                                             <div class="card">
                                                 <div class="card-header bg-danger">
-                                                    <h4>Lokasi {!! $item->room->room_name ?? '<span class="badge badge-danger">Error</span>' !!}</h4>
-                                                    <p>Nama{!! $item->student->name ?? '<span class="badge badge-danger">Error</span>' !!}</p> <br>
+                                                    <h4>Lokasi {!! $item->room ?? '<span class="badge badge-danger">Error</span>' !!}</h4>
+                                                    <p>Nama {!! $item->student_name ?? '<span class="badge badge-danger">Error</span>' !!}</p> <br>
                                                     <p>Yakin ingin menghapus data tersebut? </p>
                                                 </div>
 

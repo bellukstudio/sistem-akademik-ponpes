@@ -39,9 +39,14 @@ class ManageProvinsiController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'province_name' => 'required|max:50|unique:master_provinces,province_name'
-        ]);
+        $request->validate(
+            ['province_name' => 'required|max:50|unique:master_provinces,province_name',],
+            [
+                'province_name.required' => 'Kolom nama provinsi harus diisi.',
+                'province_name.max' => 'Kolom nama provinsi tidak boleh lebih dari :max karakter.',
+                'province_name.unique' => 'Nama provinsi telah digunakan.',
+            ]
+        );
 
         try {
             MasterProvince::create([
@@ -50,7 +55,7 @@ class ManageProvinsiController extends Controller
             return redirect()->route('kelolaProvinsi.index')
                 ->with('success', 'Provinsi ' . $request->province_name . ' berhasil di simpan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 
@@ -85,9 +90,16 @@ class ManageProvinsiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'province_name' => 'required|max:50'
-        ]);
+        $request->validate(
+            [
+                'province_name' => 'required|max:50|unique:master_provinces,province_name,' . $id,
+            ],
+            [
+                'province_name.required' => 'Kolom nama provinsi harus diisi.',
+                'province_name.max' => 'Kolom nama provinsi tidak boleh lebih dari :max karakter.',
+                'province_name.unique' => 'Nama provinsi telah digunakan.',
+            ]
+        );
 
         try {
             $data = MasterProvince::findOrFail($id);
@@ -96,7 +108,7 @@ class ManageProvinsiController extends Controller
             return redirect()->route('kelolaProvinsi.index')
                 ->with('success', 'Provinsi ' . $request->province_name . ' berhasil di ubah');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -114,7 +126,7 @@ class ManageProvinsiController extends Controller
             return redirect()->route('kelolaProvinsi.index')
                 ->with('success', 'Provinsi ' . $data->province_name . ' berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 
@@ -136,7 +148,7 @@ class ManageProvinsiController extends Controller
             return redirect()->route('kelolaProvinsi.index')
                 ->with('success', 'Provinsi ' . $data->province_name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
     public function restoreAll()
@@ -146,7 +158,7 @@ class ManageProvinsiController extends Controller
             $data->restore();
             return redirect()->route('kelolaProvinsi.index')->with('success', 'Data berhasil dipulihkan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
 
@@ -158,7 +170,7 @@ class ManageProvinsiController extends Controller
             return redirect()->route('trashProgram')
                 ->with('success', 'Provinsi ' . $data->province_name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
     public function deletePermanentAll()
@@ -168,7 +180,7 @@ class ManageProvinsiController extends Controller
             $data->forceDelete();
             return redirect()->route('trashProgram')->with('success', 'Semua data berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

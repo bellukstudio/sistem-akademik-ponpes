@@ -50,11 +50,19 @@ class ManageMapelController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'course_name' => 'required|max:100',
-            'program' => 'required',
-            'category' => 'required'
-        ]);
+        $request->validate(
+            [
+                'course_name' => 'required|max:100',
+                'program' => 'required', 'category' => 'required'
+            ],
+            [
+                'course_name.required' => 'Kolom Nama Mapel harus diisi.',
+                'course_name.max' => 'Kolom Nama Mapel maksimal terdiri dari 100 karakter.',
+                'program.required' => 'Kolom Program harus diisi.',
+                'category.required' => 'Kolom Kategori harus diisi.'
+            ]
+        );
+
 
         try {
             MasterCourse::create([
@@ -64,7 +72,8 @@ class ManageMapelController extends Controller
             ]);
             return back()->with('success', 'Mata Pelajaran ' . $request->course_name . ' berhasil disimpan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
     /**
@@ -115,12 +124,18 @@ class ManageMapelController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'course_name' => 'required|max:100',
-            'program' => 'required',
-            'category' => 'required'
-        ]);
-
+        $request->validate(
+            [
+                'course_name' => 'required|max:100',
+                'program' => 'required', 'category' => 'required'
+            ],
+            [
+                'course_name.required' => 'Kolom Nama Mapel harus diisi.',
+                'course_name.max' => 'Kolom Nama Mapel maksimal terdiri dari 100 karakter.',
+                'program.required' => 'Kolom Program harus diisi.',
+                'category.required' => 'Kolom Kategori harus diisi.'
+            ]
+        );
         try {
             $data = MasterCourse::find($id);
             $data->course_name = $request->course_name;
@@ -129,7 +144,7 @@ class ManageMapelController extends Controller
             $data->update();
             return back()->with('success', 'Mata Pelajaran ' . $request->course_name . ' berhasil diubah');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -146,7 +161,7 @@ class ManageMapelController extends Controller
             $data->delete();
             return back()->with('success', 'Mata Pelajaran ' . $data->course_name . ' berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 
@@ -168,7 +183,7 @@ class ManageMapelController extends Controller
             return redirect()->route('kelolaMapel.index')
                 ->with('success', 'Mata Pelajaran ' . $data->course_name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
     public function restoreAll()
@@ -178,7 +193,7 @@ class ManageMapelController extends Controller
             $data->restore();
             return redirect()->route('kelolaMapel.index')->with('success', 'Data berhasil dipulihkan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
 
@@ -190,7 +205,7 @@ class ManageMapelController extends Controller
             return redirect()->route('trashCourse')
                 ->with('success', 'Mata Pelajaran ' . $data->course_name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
     public function deletePermanentAll()
@@ -200,7 +215,7 @@ class ManageMapelController extends Controller
             $data->forceDelete();
             return redirect()->route('trashCourse')->with('success', 'Semua data berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

@@ -37,9 +37,15 @@ class ManageKategoriMapelController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|max:50'
-        ]);
+        $request->validate(
+            [
+                'name' => 'required|max:50',
+            ],
+            [
+                'name.required' => 'Kolom Nama harus diisi.',
+                'name.max' => 'Kolom Nama maksimal 50. Karakter',
+            ]
+        );
 
         try {
             MasterCategorieSchedule::create([
@@ -47,7 +53,7 @@ class ManageKategoriMapelController extends Controller
             ]);
             return back()->with('success', 'Kategori ' . $request->name . ' berhasil disimpan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
     /**
@@ -90,17 +96,23 @@ class ManageKategoriMapelController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|max:50'
-        ]);
-
+        $request->validate(
+            [
+                'name' => 'required|max:50',
+            ],
+            [
+                'name.required' => 'Kolom Nama harus diisi.',
+                'name.max' => 'Kolom Nama maksimal 50. Karakter',
+            ]
+        );
         try {
             $data = MasterCategorieSchedule::find($id);
             $data->categorie_name = $request->name;
             $data->update();
             return back()->with('success', 'Kategori ' . $request->name . ' berhasil diubah');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -117,7 +129,7 @@ class ManageKategoriMapelController extends Controller
             $data->delete();
             return back()->with('success', 'Kategori ' . $data->categorie_name . ' berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 
@@ -138,7 +150,7 @@ class ManageKategoriMapelController extends Controller
             return redirect()->route('kategoriMapel.index')
                 ->with('success', 'Program ' . $data->categorie_name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
     public function restoreAll()
@@ -148,7 +160,7 @@ class ManageKategoriMapelController extends Controller
             $data->restore();
             return redirect()->route('kategoriMapel.index')->with('success', 'Data berhasil dipulihkan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
 
@@ -160,7 +172,8 @@ class ManageKategoriMapelController extends Controller
             return redirect()->route('trashCategorieSchedule')
                 ->with('success', 'Program ' . $data->categorie_name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
     public function deletePermanentAll()
@@ -171,7 +184,8 @@ class ManageKategoriMapelController extends Controller
             return redirect()->route('trashCategorieSchedule')
                 ->with('success', 'Semua data berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

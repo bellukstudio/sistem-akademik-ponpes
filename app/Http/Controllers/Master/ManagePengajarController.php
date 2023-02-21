@@ -46,9 +46,9 @@ class ManagePengajarController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_number' => 'required|integer',
+            'id_number' => 'required|integer|unique:master_teachers,noId',
             'address' => 'required',
-            'email' => 'required|email:dns|unique:master_teachers',
+            'email' => 'required|email|unique:master_teachers,email',
             'fullName' => 'required|max:100',
             'dateBirth' => 'required|date',
             'gender' => 'required',
@@ -56,6 +56,25 @@ class ManagePengajarController extends Controller
             'province' => 'required',
             'city' => 'required',
             'photo' => 'sometimes|image|max:2048|mimes:png,jpg,jpeg',
+        ], [
+            'id_number.required' => 'Nomor ID harus diisi.',
+            'id_number.unique' => 'Nomor ID sudah terdaftar.',
+            'id_number.integer' => 'Nomor ID harus berupa angka.',
+            'address.required' => 'Alamat harus diisi.',
+            'email.required' => 'Email harus diisi.',
+            'email.email' => 'Email tidak valid.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'fullName.required' => 'Nama lengkap harus diisi.',
+            'fullName.max' => 'Nama lengkap tidak boleh lebih dari :max karakter.',
+            'dateBirth.required' => 'Tanggal lahir harus diisi.',
+            'dateBirth.date' => 'Format tanggal lahir tidak valid.',
+            'gender.required' => 'Jenis kelamin harus diisi.',
+            'phone_number.integer' => 'Nomor telepon harus berupa angka.',
+            'province.required' => 'Provinsi harus diisi.',
+            'city.required' => 'Kota/kabupaten harus diisi.',
+            'photo.image' => 'Foto profil harus berupa gambar.',
+            'photo.max' => 'Ukuran foto profil tidak boleh lebih dari :max kilobita.',
+            'photo.mimes' => 'Format foto profil harus berupa :values.',
         ]);
 
         try {
@@ -87,7 +106,7 @@ class ManagePengajarController extends Controller
             return redirect()->route('kelolaPengajar.index')
                 ->with('success', 'Pengajar ' . $request->fullName . ' berhasil disimpan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
     /**
@@ -149,9 +168,9 @@ class ManagePengajarController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'id_number' => 'required|integer',
+            'id_number' => 'required|integer|unique:master_teachers,noId,' . $id,
             'address' => 'required',
-            'email' => 'required|email:dns',
+            'email' => 'required|email|unique:master_teachers,email,' . $id,
             'fullName' => 'required|max:100',
             'dateBirth' => 'required|date',
             'gender' => 'required',
@@ -159,8 +178,26 @@ class ManagePengajarController extends Controller
             'province' => 'required',
             'city' => 'required',
             'photo' => 'sometimes|image|max:2048|mimes:png,jpg,jpeg',
+        ], [
+            'id_number.required' => 'Nomor ID harus diisi.',
+            'id_number.unique' => 'Nomor ID sudah terdaftar.',
+            'id_number.integer' => 'Nomor ID harus berupa angka.',
+            'address.required' => 'Alamat harus diisi.',
+            'email.required' => 'Email harus diisi.',
+            'email.email' => 'Email tidak valid.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'fullName.required' => 'Nama lengkap harus diisi.',
+            'fullName.max' => 'Nama lengkap tidak boleh lebih dari :max karakter.',
+            'dateBirth.required' => 'Tanggal lahir harus diisi.',
+            'dateBirth.date' => 'Format tanggal lahir tidak valid.',
+            'gender.required' => 'Jenis kelamin harus diisi.',
+            'phone_number.integer' => 'Nomor telepon harus berupa angka.',
+            'province.required' => 'Provinsi harus diisi.',
+            'city.required' => 'Kota/kabupaten harus diisi.',
+            'photo.image' => 'Foto profil harus berupa gambar.',
+            'photo.max' => 'Ukuran foto profil tidak boleh lebih dari :max kilobita.',
+            'photo.mimes' => 'Format foto profil harus berupa :values.',
         ]);
-
         try {
             $data = MasterTeacher::findOrFail($id);
             if ($request->file('photo')) {
@@ -185,7 +222,7 @@ class ManagePengajarController extends Controller
                     sleep(3);
                     //upload new file
                     $uploadOrReplaceOldPhoto = GoogleDriveHelper::googleDriveFileUpload(
-                        $request->noId . '.png',
+                        $request->id_number . '.png',
                         $file,
                         'TEACHER',
                         GoogleDriveHelper::$img
@@ -218,7 +255,7 @@ class ManagePengajarController extends Controller
             return redirect()->route('kelolaPengajar.index')
                 ->with('success', 'Pengajar ' . $request->fullName . ' berhasil diubah');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -265,7 +302,7 @@ class ManagePengajarController extends Controller
             return redirect()->route('kelolaPengajar.index')
                 ->with('success', 'Pengajar ' . $data->name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
     public function restoreAll()
@@ -275,7 +312,7 @@ class ManagePengajarController extends Controller
             $data->restore();
             return redirect()->route('kelolaPengajar.index')->with('success', 'Semua Data berhasil dipulihkan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
 
@@ -287,7 +324,7 @@ class ManagePengajarController extends Controller
             return redirect()->route('trashTeachers')
                 ->with('success', 'Pengajar ' . $data->name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
     public function deletePermanentAll()
@@ -297,7 +334,7 @@ class ManagePengajarController extends Controller
             $data->forceDelete();
             return redirect()->route('trashTeachers')->with('success', 'Semua data berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

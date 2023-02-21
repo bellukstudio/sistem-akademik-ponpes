@@ -55,7 +55,8 @@
                                     <br><br>
                                     <label for="">Nama Media Pembayaran</label>
                                     <input type="text" name="media_payment" id="" class="form-control"
-                                        value="{{ old('media_payment') }}" placeholder="Media Pembayaran"
+                                        value="{{ old('media_payment') }}"
+                                        placeholder="Media Pembayaran : BCA / A.N (Jhon Doe)"
                                         oninput="this.value = this.value.toUpperCase()">
                                     <br>
                                     <label for="">Total</label>
@@ -202,7 +203,7 @@
                                                 <input type="text" name="media_payment" id=""
                                                     class="form-control"
                                                     value="{{ old('media_payment') ?? $item->media_payment }}"
-                                                    placeholder="Media Pembayaran"
+                                                    placeholder="Media Pembayaran BCA / A.N (Jhon Doe)"
                                                     oninput="this.value = this.value.toUpperCase()">
                                                 <br>
                                                 <label for="">Total</label>

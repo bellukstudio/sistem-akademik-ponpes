@@ -41,11 +41,22 @@ class ManageTahunAkademikController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'kode' => 'required|max:20',
-            'tgl_mulai' => 'required|date',
-            'tgl_selesai' => 'required|date'
-        ]);
+        $request->validate(
+            [
+                'kode' => 'required|max:20',
+                'tgl_mulai' => 'required|date',
+                'tgl_selesai' => 'required|date'
+            ],
+            [
+                'kode.required' => 'Kolom Kode harus diisi.',
+                'kode.max' => 'Kolom Kode maksimal terdiri dari 20 karakter.',
+                'tgl_mulai.required' => 'Kolom Tanggal Mulai harus diisi.',
+                'tgl_mulai.date' => 'Kolom Tanggal Mulai harus berupa tanggal yang valid.',
+                'tgl_selesai.required' => 'Kolom Tanggal Selesai harus diisi.',
+                'tgl_selesai.date' => 'Kolom Tanggal Selesai harus berupa tanggal yang valid.'
+            ]
+        );
+
 
         try {
             MasterPeriod::create([
@@ -57,7 +68,7 @@ class ManageTahunAkademikController extends Controller
             return redirect()->route('kelolaTahunAkademik.index')
                 ->with('success', 'Tahun Akademik ' . $request->kode . ' berhasil disimpan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 
@@ -108,12 +119,21 @@ class ManageTahunAkademikController extends Controller
     public function update(Request $request, $id)
     {
 
-        $request->validate([
-            'kode' => 'required|max:20',
-            'tgl_mulai' => 'required|date',
-            'tgl_selesai' => 'required|date'
-        ]);
-
+        $request->validate(
+            [
+                'kode' => 'required|max:20',
+                'tgl_mulai' => 'required|date',
+                'tgl_selesai' => 'required|date'
+            ],
+            [
+                'kode.required' => 'Kolom Kode harus diisi.',
+                'kode.max' => 'Kolom Kode maksimal terdiri dari 20 karakter.',
+                'tgl_mulai.required' => 'Kolom Tanggal Mulai harus diisi.',
+                'tgl_mulai.date' => 'Kolom Tanggal Mulai harus berupa tanggal yang valid.',
+                'tgl_selesai.required' => 'Kolom Tanggal Selesai harus diisi.',
+                'tgl_selesai.date' => 'Kolom Tanggal Selesai harus berupa tanggal yang valid.'
+            ]
+        );
         try {
             $data = MasterPeriod::findOrFail($id);
             $data->code = $request->kode;
@@ -124,7 +144,7 @@ class ManageTahunAkademikController extends Controller
             return redirect()->route('kelolaTahunAkademik.index')
                 ->with('success', 'Tahun Akademik ' . $request->kode . ' berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -142,7 +162,7 @@ class ManageTahunAkademikController extends Controller
             return redirect()->route('kelolaTahunAkademik.index')
                 ->with('success', 'Tahun Akademik ' . $data->code . ' berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 
@@ -163,7 +183,7 @@ class ManageTahunAkademikController extends Controller
             return redirect()->route('kelolaTahunAkademik.index')
                 ->with('success', 'Tahun Akademik ' . $data->code . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
     public function restoreAll()
@@ -174,7 +194,7 @@ class ManageTahunAkademikController extends Controller
             return redirect()->route('kelolaTahunAkademik.index')
                 ->with('success', 'Semua data berhasil dipulihkan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
 
@@ -186,7 +206,7 @@ class ManageTahunAkademikController extends Controller
             return redirect()->route('trashTahunAkademik')
                 ->with('success', 'Tahun Akademik ' . $data->code . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
     public function deletePermanentAll()
@@ -196,7 +216,7 @@ class ManageTahunAkademikController extends Controller
             $data->forceDelete();
             return redirect()->route('trashTahunAkademik')->with('success', 'Semua data berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

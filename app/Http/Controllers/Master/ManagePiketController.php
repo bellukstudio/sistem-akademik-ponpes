@@ -39,6 +39,9 @@ class ManagePiketController extends Controller
     {
         $request->validate([
             'picket' => 'required|max:100'
+        ], [
+            'picket.required' => 'Kolom nama piket harus diisi',
+            'picket.max' => 'Kolom nama piket maksimal 100 karakter'
         ]);
 
         try {
@@ -50,7 +53,7 @@ class ManagePiketController extends Controller
 
             return back()->with('success', 'Berhasil menambah data ' . $request->picket);
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 
@@ -86,6 +89,9 @@ class ManagePiketController extends Controller
     {
         $request->validate([
             'picket' => 'required|max:100'
+        ], [
+            'picket.required' => 'Kolom nama piket harus diisi',
+            'picket.max' => 'Kolom nama piket maksimal 100 karakter'
         ]);
 
         try {
@@ -95,7 +101,7 @@ class ManagePiketController extends Controller
 
             return back()->with('success', 'Berhasil mengubah data ' . $request->picket);
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -113,7 +119,7 @@ class ManagePiketController extends Controller
 
             return back()->with('success', 'Berhasil menghapus data ' . $data->name);
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 
@@ -134,7 +140,7 @@ class ManagePiketController extends Controller
             return redirect()->route('kategoriPiket.index')
                 ->with('success', 'Kelas ' . $data->name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
     public function restoreAll()
@@ -144,7 +150,7 @@ class ManagePiketController extends Controller
             $data->restore();
             return redirect()->route('kategoriPiket.index')->with('success', 'Data berhasil dipulihkan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
     public function deletePermanent($id)
@@ -155,7 +161,7 @@ class ManagePiketController extends Controller
             return redirect()->route('trashPicketCategories')
                 ->with('success', 'Kelas ' . $data->name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
     public function deletePermanentAll()
@@ -165,7 +171,7 @@ class ManagePiketController extends Controller
             $data->forceDelete();
             return redirect()->route('trashPicketCategories')->with('success', 'Semua data berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

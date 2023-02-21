@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Helpers\FcmHelper;
 use App\Models\MasterTokenFcm;
+use App\Models\MasterUsers;
+use App\Models\TrxReadNews;
+use Illuminate\Support\Facades\Validator;
 
 class BeritaController extends Controller
 {
@@ -19,13 +22,17 @@ class BeritaController extends Controller
      */
     public function index()
     {
-        $timLine = MasterNews::orderBy('created_at', 'desc')->get()->groupBy(function ($date) {
+        $timeLine = MasterNews::orderBy('created_at', 'desc')->get()->groupBy(function ($date) {
             return Carbon::parse($date->created_at)->format('Y-m-d');
         });
         $data = MasterNews::latest()->get();
+
+        //
+        $checkReadNews = TrxReadNews::all();
         return view('dashboard.berita.index', [
             "berita" => $data,
-            'timeLine' => $timLine
+            'timeLine' => $timeLine,
+            'checkReadNews' => $checkReadNews
         ]);
     }
 
@@ -47,12 +54,27 @@ class BeritaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'judul' => 'max:50|required',
-            'keterangan' => 'required'
-        ]);
+        $this->authorize('admin');
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'judul' => ['required', 'string', 'max:50'],
+                'keterangan' => ['required', 'string'],
+            ],
+            [
+                'judul.required' => 'Judul tidak boleh kosong',
+                'judul.max' => 'Judul tidak boleh lebih dari 50 karakter',
+                'keterangan.required' => 'Keterangan tidak boleh kosong'
+            ]
+        );
 
         try {
+            if ($validator->fails()) {
+                return back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
             $data  = MasterNews::create(
                 [
                     'id_user' => Auth::user()->id,
@@ -75,7 +97,7 @@ class BeritaController extends Controller
             return redirect()->route('beritaAcara.index')
                 ->with('success', 'Pengumuman (' . $request->judul . ') berhasil di post');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', $e->getMessage());
         }
     }
 
@@ -87,6 +109,14 @@ class BeritaController extends Controller
      */
     public function show($id)
     {
+        $this->authorize('admin');
+        $timeLine = TrxReadNews::with(['announcement', 'user'])->where('news_id', $id)
+            ->orderBy('created_at', 'desc')->get()->groupBy(function ($date) {
+                return Carbon::parse($date->created_at)->format('Y-m-d');
+            });
+        $readNews = TrxReadNews::where('news_id', $id)->count();
+
+        return view('dashboard.berita.show', compact('timeLine', 'readNews'));
     }
 
     /**
@@ -97,6 +127,7 @@ class BeritaController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('admin');
         $data = MasterNews::findOrFail($id);
         return view('dashboard.berita.edit', [
             'berita' => $data
@@ -112,11 +143,25 @@ class BeritaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'judul' => 'max:50|required',
-            'keterangan' => 'required'
-        ]);
+        $this->authorize('admin');
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'judul' => ['required', 'string', 'max:50'],
+                'keterangan' => ['required', 'string'],
+            ],
+            [
+                'judul.required' => 'Judul tidak boleh kosong',
+                'judul.max' => 'Judul tidak boleh lebih dari 50 karakter',
+                'keterangan.required' => 'Keterangan tidak boleh kosong'
+            ]
+        );
         try {
+            if ($validator->fails()) {
+                return back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
             $berita = MasterNews::findOrFail($id);
 
             // update data
@@ -127,7 +172,7 @@ class BeritaController extends Controller
             return redirect()->route('beritaAcara.index')
                 ->with('success', 'Pengumuman (' . $request->judul . ') berhasil di update');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -139,15 +184,35 @@ class BeritaController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('admin');
         try {
             $data = MasterNews::find($id);
             $data->delete();
             return redirect()->route('beritaAcara.index')->with('success', 'Data yang dipilih berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 
+    public function readNews(Request $request)
+    {
+        try {
+            $user = MasterUsers::find($request->user()->id);
+            $newsData = TrxReadNews::where('user_id', $user->id)->where('news_id', $request->news)->get();
+            if (count($newsData) > 0) {
+                return response()->json(['message' => 'Sudah menandai terbaca.']);
+            } else {
+                $data = [
+                    'user_id' => $user->id,
+                    'news_id' => $request->news
+                ];
+                TrxReadNews::create($data);
+            }
+            return response()->json(['message' => 'Berhasil menandai terbaca.']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Gagal menandai terbaca']);
+        }
+    }
 
     /**
      * show data in trash
@@ -168,7 +233,7 @@ class BeritaController extends Controller
             $data->restore();
             return redirect()->route('beritaAcara.index')->with('success', 'Data berhasil dipulihkan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
     public function restoreAll()
@@ -178,7 +243,7 @@ class BeritaController extends Controller
             $data->restore();
             return redirect()->route('beritaAcara.index')->with('success', 'Data berhasil dipulihkan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
 
@@ -189,7 +254,7 @@ class BeritaController extends Controller
             $data->forceDelete();
             return redirect()->route('trashBeritaAcara')->with('success', 'Data berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
     public function deletePermanentAll()
@@ -199,7 +264,7 @@ class BeritaController extends Controller
             $data->forceDelete();
             return redirect()->route('trashBeritaAcara')->with('success', 'Data berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

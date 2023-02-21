@@ -62,10 +62,11 @@
                                             <div>
                                                 @if ($news->created_at >= Carbon::now()->subDays(1))
                                                     <i class="fas fa-broadcast-tower bg-blue"></i>
-                                                    <div class="timeline-item bg-primary bg-opacity-20">
+                                                    <div class="timeline-item">
                                                         <span class="time text-white"><i class="fas fa-clock"></i>
                                                             {{ Carbon::parse($news->created_at)->format('H:i:s') }}</span>
-                                                        <h3 class="timeline-header text-white">{{ $news->title }}</h3>
+                                                        <h3 class="timeline-header text-white bg-primary bg-opacity-20">
+                                                            {{ $news->title }}</h3>
                                                         <div class="timeline-body">
                                                             {{ $news->description }}
                                                         </div>
@@ -122,7 +123,10 @@
                                                 data-target="#modal-default{{ $item->id }}">
                                                 <i class="fa fa-trash"></i>
                                             </button>
-
+                                            {{-- SHow --}}
+                                            <a href="{{ route('beritaAcara.show', $item->id) }}" class="btn btn-sm">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
                                         </td>
                                     </tr>
 
@@ -201,14 +205,45 @@
                                 <div>
                                     @if ($news->created_at >= Carbon::now()->subDays(1))
                                         <i class="fas fa-broadcast-tower bg-blue"></i>
-                                        <div class="timeline-item bg-primary bg-opacity-20">
+                                        <div class="timeline-item ">
                                             <span class="time text-white"><i class="fas fa-clock"></i>
                                                 {{ Carbon::parse($news->created_at)->format('H:i:s') }}</span>
-                                            <h3 class="timeline-header text-white">{{ $news->title }}</h3>
+                                            <h3 class="timeline-header text-white bg-primary bg-opacity-20">
+                                                {{ $news->title }}
+                                            </h3>
                                             <div class="timeline-body">
                                                 {{ $news->description }}
                                             </div>
                                             <div class="timeline-footer">
+                                                @if ($checkReadNews->where('user_id', Auth::user()->id)->where('news_id', $news->id)->isEmpty())
+                                                    <div class="button-checklist{{ $news->id }}">
+                                                        <button type="button" id="btn-checklist"
+                                                            data-id="{{ $news->id }}" class="btn btn-info">
+                                                            Tandai sudah dibaca</button>
+                                                    </div>
+                                                @else
+                                                    <div class="icon-checklist{{ $news->id }}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                                            fill="currentColor" class="bi bi-check-circle-fill"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477
+                                            9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0
+                                            0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                                        </svg>
+                                                    </div>
+                                                @endif
+                                                {{-- init --}}
+                                                <div class="icon-checklist-init{{ $news->id }} d-none">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                                        fill="currentColor" class="bi bi-check-circle-fill"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477
+                                            9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0
+                                            0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                                    </svg>
+                                                </div>
                                             </div>
                                         </div>
                                     @else
@@ -221,6 +256,36 @@
                                                 {{ $news->description }}
                                             </div>
                                             <div class="timeline-footer">
+                                                @if ($checkReadNews->where('user_id', Auth::user()->id)->where('news_id', $news->id)->isEmpty())
+                                                    <div class="button-checklist{{ $news->id }}">
+                                                        <button type="button" id="btn-checklist"
+                                                            data-id="{{ $news->id }}" class="btn btn-info">
+                                                            Tandai sudah dibaca</button>
+                                                    </div>
+                                                @else
+                                                    <div class="icon-checklist{{ $news->id }}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                                            fill="currentColor" class="bi bi-check-circle-fill"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477
+                                            9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0
+                                            0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                                        </svg>
+                                                    </div>
+                                                @endif
+
+                                                {{-- init --}}
+                                                <div class="icon-checklist-init{{ $news->id }} d-none">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                                        fill="currentColor" class="bi bi-check-circle-fill"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477
+                                            9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0
+                                            0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                                    </svg>
+                                                </div>
                                             </div>
                                         </div>
                                     @endif
@@ -252,14 +317,44 @@
                                 <div>
                                     @if ($news->created_at >= Carbon::now()->subDays(1))
                                         <i class="fas fa-broadcast-tower bg-blue"></i>
-                                        <div class="timeline-item bg-primary bg-opacity-20">
+                                        <div class="timeline-item">
                                             <span class="time text-white"><i class="fas fa-clock"></i>
                                                 {{ Carbon::parse($news->created_at)->format('H:i:s') }}</span>
-                                            <h3 class="timeline-header text-white">{{ $news->title }}</h3>
+                                            <h3 class="timeline-header text-white bg-primary bg-opacity-20">
+                                                {{ $news->title }}</h3>
                                             <div class="timeline-body">
                                                 {{ $news->description }}
                                             </div>
                                             <div class="timeline-footer">
+                                                @if ($checkReadNews->where('user_id', Auth::user()->id)->where('news_id', $news->id)->isEmpty())
+                                                    <div class="button-checklist{{ $news->id }}">
+                                                        <button type="button" id="btn-checklist"
+                                                            data-id="{{ $news->id }}" class="btn btn-info">
+                                                            Tandai sudah dibaca</button>
+                                                    </div>
+                                                @else
+                                                    <div class="icon-checklist{{ $news->id }}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                                            fill="currentColor" class="bi bi-check-circle-fill"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477
+                                            9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0
+                                            0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                                        </svg>
+                                                    </div>
+                                                @endif
+                                                {{-- init --}}
+                                                <div class="icon-checklist-init{{ $news->id }} d-none">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                                        fill="currentColor" class="bi bi-check-circle-fill"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477
+                                            9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0
+                                            0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                                    </svg>
+                                                </div>
                                             </div>
                                         </div>
                                     @else
@@ -272,6 +367,35 @@
                                                 {{ $news->description }}
                                             </div>
                                             <div class="timeline-footer">
+                                                @if ($checkReadNews->where('user_id', Auth::user()->id)->where('news_id', $news->id)->isEmpty())
+                                                    <div class="button-checklist{{ $news->id }}">
+                                                        <button type="button" id="btn-checklist"
+                                                            data-id="{{ $news->id }}" class="btn btn-info">
+                                                            Tandai sudah dibaca</button>
+                                                    </div>
+                                                @else
+                                                    <div class="icon-checklist{{ $news->id }}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                                            fill="currentColor" class="bi bi-check-circle-fill"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477
+                                            9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0
+                                            0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                                        </svg>
+                                                    </div>
+                                                @endif
+                                                {{-- init --}}
+                                                <div class="icon-checklist-init{{ $news->id }} d-none">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                                        fill="currentColor" class="bi bi-check-circle-fill"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477
+                                            9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0
+                                            0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                                    </svg>
+                                                </div>
                                             </div>
                                         </div>
                                     @endif
@@ -313,6 +437,82 @@
                     }
                     // console.log(toggle);
                 });
+            });
+        </script>
+    @endcan
+    @can('pengajar')
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script>
+            $(function() {
+                readNews();
+
+                function readNews() {
+                    $('body').on('click', '#btn-checklist', function() {
+                        var id = $(this).data('id');
+
+                        $.ajax({
+                            url: '{{ route('readNews') }}',
+                            type: 'GET',
+                            dataType: 'json',
+                            data: {
+                                'news': id
+                            },
+                            success: function(response) {
+                                $('.button-checklist' + id).addClass('d-none');
+                                toastr.options.closeButton = true;
+                                toastr.options.closeMethod = 'fadeOut';
+                                toastr.options.closeDuration = 100;
+                                toastr.success(response.message);
+                                $('.icon-checklist-init' + id).removeClass('d-none');
+                            },
+                            error: function(xhr) {
+                                toastr.options.closeButton = true;
+                                toastr.options.closeMethod = 'fadeOut';
+                                toastr.options.closeDuration = 100;
+                                toastr.error(xhr.message);
+                            }
+                        });
+                    });
+                }
+            });
+        </script>
+    @endcan
+    @can('pengurus')
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script>
+            $(function() {
+                readNews();
+
+                function readNews() {
+                    $('body').on('click', '#btn-checklist', function() {
+                        var id = $(this).data('id');
+
+                        $.ajax({
+                            url: '{{ route('readNews') }}',
+                            type: 'GET',
+                            dataType: 'json',
+                            data: {
+                                'news': id
+                            },
+                            success: function(response) {
+                                $('.button-checklist' + id).addClass('d-none');
+                                toastr.options.closeButton = true;
+                                toastr.options.closeMethod = 'fadeOut';
+                                toastr.options.closeDuration = 100;
+                                toastr.success(response.message);
+                                $('.icon-checklist-init' + id).removeClass('d-none');
+                            },
+                            error: function(xhr) {
+                                toastr.options.closeButton = true;
+                                toastr.options.closeMethod = 'fadeOut';
+                                toastr.options.closeDuration = 100;
+                                toastr.error(response.message);
+                            }
+                        });
+                    });
+                }
             });
         </script>
     @endcan

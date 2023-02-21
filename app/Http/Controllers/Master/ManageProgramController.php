@@ -43,10 +43,21 @@ class ManageProgramController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'kode' => 'required|max:50',
-            'nama_program' => 'required|max:100'
-        ]);
+        $request->validate(
+            [
+                'kode' => 'required|max:50|unique:master_academic_programs,code',
+                'nama_program' => 'required|max:100|unique:master_academic_programs,program_name'
+            ],
+            [
+                'kode.required' => 'Kolom Kode Program harus diisi.',
+                'kode.max' => 'Kolom Kode Program maksimal terdiri dari 50 karakter.',
+                'kode.unique' => 'Kode Program sudah terdaftar dalam database',
+                'nama_program.required' => 'Kolom Nama Program harus diisi.',
+                'nama_program.max' => 'Kolom Nama Program maksimal terdiri dari 100 karakter.',
+                'nama_program.unique' => 'Nama Program sudah terdaftar dalam database',
+            ]
+        );
+
         try {
             MasterAcademicProgram::create(
                 [
@@ -57,7 +68,7 @@ class ManageProgramController extends Controller
             return redirect()->route('kelolaProgramAkademik.index')
                 ->with('success', 'Program ' . $request->nama_program . ' berhasil di tambahkan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
     /**
@@ -103,10 +114,20 @@ class ManageProgramController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'kode' => 'required|max:50',
-            'nama_program' => 'required|max:100'
-        ]);
+        $request->validate(
+            [
+                'kode' => 'required|max:50|unique:master_academic_programs,code,' . $id,
+                'nama_program' => 'required|max:100|unique:master_academic_programs,program_name,' . $id
+            ],
+            [
+                'kode.required' => 'Kolom Kode Program harus diisi.',
+                'kode.max' => 'Kolom Kode Program maksimal terdiri dari 50 karakter.',
+                'kode.unique' => 'Kode Program sudah terdaftar dalam database',
+                'nama_program.required' => 'Kolom Nama Program harus diisi.',
+                'nama_program.max' => 'Kolom Nama Program maksimal terdiri dari 100 karakter.',
+                'nama_program.unique' => 'Nama Program sudah terdaftar dalam database',
+            ]
+        );
         try {
             $data = MasterAcademicProgram::findOrfail($id);
             $data->code = $request->kode;
@@ -115,7 +136,7 @@ class ManageProgramController extends Controller
             return redirect()->route('kelolaProgramAkademik.index')
                 ->with('success', 'Program ' . $request->nama_program . ' berhasil di update');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -133,7 +154,7 @@ class ManageProgramController extends Controller
             return redirect()->route('kelolaProgramAkademik.index')
                 ->with('success', 'Program ' . $data->program_name . 'berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 
@@ -154,7 +175,7 @@ class ManageProgramController extends Controller
             return redirect()->route('kelolaProgramAkademik.index')
                 ->with('success', 'Program ' . $data->program_name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
     public function restoreAll()
@@ -164,7 +185,7 @@ class ManageProgramController extends Controller
             $data->restore();
             return redirect()->route('kelolaProgramAkademik.index')->with('success', 'Data berhasil dipulihkan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
 
@@ -176,7 +197,7 @@ class ManageProgramController extends Controller
             return redirect()->route('trashProgram')
                 ->with('success', 'Program ' . $data->program_name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
     public function deletePermanentAll()
@@ -186,7 +207,7 @@ class ManageProgramController extends Controller
             $data->forceDelete();
             return redirect()->route('trashProgram')->with('success', 'Semua data berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

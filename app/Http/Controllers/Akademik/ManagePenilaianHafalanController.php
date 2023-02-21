@@ -45,13 +45,23 @@ class ManagePenilaianHafalanController extends Controller
 
     public function create(Request $request)
     {
-        $request->validate([
-            'program' => 'required',
-            'class' => 'required',
-            'surah_name' => 'required|max:100',
-            'verseText' => 'sometimes|max:100',
-            'verseOption' => 'sometimes'
-        ]);
+        $request->validate(
+            [
+                'program' => 'required',
+                'class' => 'required',
+                'surah_name' => 'required|max:100',
+                'verseText' => 'sometimes|max:100',
+                'verseOption' => 'sometimes'
+            ],
+            [
+                'program.required' => 'Kolom Program wajib diisi',
+                'class.required' => 'Kolom Kelas wajib diisi',
+                'surah_name.required' => 'Kolom Nama Surah wajib diisi',
+                'surah_name.max' => 'Kolom Nama Surah maksimal :max karakter',
+                'verseText.max' => 'Kolom Teks Ayat maksimal :max karakter',
+            ]
+        );
+
 
         try {
             $student = MasterStudent::join(
@@ -101,7 +111,7 @@ class ManagePenilaianHafalanController extends Controller
                 'student' => $student,
             ]);
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 
@@ -109,6 +119,8 @@ class ManagePenilaianHafalanController extends Controller
     {
         $request->validate([
             'score' => 'required'
+        ], [
+            'score.required' => 'Nilai harus diisi'
         ]);
 
         try {
@@ -123,7 +135,7 @@ class ManagePenilaianHafalanController extends Controller
             ]);
             return back()->with('success', 'Nilai berhasil di input');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 

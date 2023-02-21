@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\MasterProvince;
 use Illuminate\Support\Facades\File;
 use App\Helpers\GoogleDriveHelper;
+use Illuminate\Support\Facades\Validator;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -47,7 +48,7 @@ class ManageSantriController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'id_number' => 'required|integer|unique:master_students,noId',
             'address' => 'required',
             'email' => 'required|email:dns|unique:master_students',
@@ -61,9 +62,37 @@ class ManageSantriController extends Controller
             'province' => 'required',
             'city' => 'required',
             'photo' => 'sometimes|image|max:2048|mimes:png,jpg,jpeg',
+        ], [
+            'id_number.required' => 'Nomor Induk wajib diisi',
+            'id_number.integer' => 'Nomor Induk harus berupa angka',
+            'id_number.unique' => 'Nomor Induk sudah digunakan',
+            'address.required' => 'Alamat wajib diisi',
+            'email.required' => 'Email wajib diisi',
+            'email.email' => 'Format email tidak valid',
+            'email.unique' => 'Email sudah digunakan',
+            'fullName.required' => 'Nama Lengkap wajib diisi',
+            'fullName.max' => 'Nama Lengkap tidak boleh lebih dari 100 karakter',
+            'dateBirth.required' => 'Tanggal Lahir wajib diisi',
+            'dateBirth.date' => 'Format tanggal lahir tidak valid',
+            'gender.required' => 'Jenis Kelamin wajib diisi',
+            'phone_number.integer' => 'Nomor Telepon harus berupa angka',
+            'student_parent.required' => 'Orang Tua wajib diisi',
+            'student_parent.max' => 'Orang Tua tidak boleh lebih dari 100 karakter',
+            'program.required' => 'Program wajib diisi',
+            'period.required' => 'Periode wajib diisi',
+            'province.required' => 'Provinsi wajib diisi',
+            'city.required' => 'Kota/Kabupaten wajib diisi',
+            'photo.image' => 'File harus berupa gambar',
+            'photo.max' => 'Ukuran file maksimal 2MB',
+            'photo.mimes' => 'Format file tidak valid. Hanya diperbolehkan format PNG, JPG, dan JPEG',
         ]);
 
         try {
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
             $upload = null;
             if ($request->file('photo')) {
                 $file = $request->file('photo');
@@ -96,7 +125,7 @@ class ManageSantriController extends Controller
             return redirect()->route('kelolaSantri.index')
                 ->with('success', 'Santri ' . $request->fullName . ' berhasil disimpan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
     /**
@@ -179,10 +208,10 @@ class ManageSantriController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'id_number' => 'required|integer',
+        $validator = Validator::make($request->all(), [
+            'id_number' => 'required|integer|unique:master_students,noId,' . $id,
             'address' => 'required',
-            'email' => 'required|email:dns',
+            'email' => 'required|email:dns|unique:master_students,email,' . $id,
             'fullName' => 'required|max:100',
             'dateBirth' => 'required|date',
             'gender' => 'required',
@@ -193,15 +222,43 @@ class ManageSantriController extends Controller
             'province' => 'required',
             'city' => 'required',
             'photo' => 'sometimes|image|max:2048|mimes:png,jpg,jpeg',
+        ], [
+            'id_number.required' => 'Nomor Induk wajib diisi',
+            'id_number.integer' => 'Nomor Induk harus berupa angka',
+            'id_number.unique' => 'Nomor Induk sudah digunakan',
+            'address.required' => 'Alamat wajib diisi',
+            'email.required' => 'Email wajib diisi',
+            'email.email' => 'Format email tidak valid',
+            'email.unique' => 'Email sudah digunakan',
+            'fullName.required' => 'Nama Lengkap wajib diisi',
+            'fullName.max' => 'Nama Lengkap tidak boleh lebih dari 100 karakter',
+            'dateBirth.required' => 'Tanggal Lahir wajib diisi',
+            'dateBirth.date' => 'Format tanggal lahir tidak valid',
+            'gender.required' => 'Jenis Kelamin wajib diisi',
+            'phone_number.integer' => 'Nomor Telepon harus berupa angka',
+            'student_parent.required' => 'Orang Tua wajib diisi',
+            'student_parent.max' => 'Orang Tua tidak boleh lebih dari 100 karakter',
+            'program.required' => 'Program wajib diisi',
+            'period.required' => 'Periode wajib diisi',
+            'province.required' => 'Provinsi wajib diisi',
+            'city.required' => 'Kota/Kabupaten wajib diisi',
+            'photo.image' => 'File harus berupa gambar',
+            'photo.max' => 'Ukuran file maksimal 2MB',
+            'photo.mimes' => 'Format file tidak valid. Hanya diperbolehkan format PNG, JPG, dan JPEG',
         ]);
 
         try {
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
             $data = MasterStudent::find($id);
             if ($request->file('photo')) {
                 $file = $request->file('photo');
                 if ($data->photo == null) {
                     $uploadNewPhoto = GoogleDriveHelper::googleDriveFileUpload(
-                        $request->noId . '.png',
+                        $request->id_number . '.png',
                         $file,
                         'STUDENT',
                         GoogleDriveHelper::$img
@@ -219,7 +276,7 @@ class ManageSantriController extends Controller
                     sleep(3);
                     //upload new file
                     $uploadOrReplaceOldPhoto = GoogleDriveHelper::googleDriveFileUpload(
-                        $request->noId . '.png',
+                        $request->id_number . '.png',
                         $file,
                         'STUDENT',
                         GoogleDriveHelper::$img
@@ -253,7 +310,7 @@ class ManageSantriController extends Controller
             return redirect()->route('kelolaSantri.index')
                 ->with('success', 'Data Santri ' . $request->fullName . ' berhasil diubah');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -279,7 +336,7 @@ class ManageSantriController extends Controller
             return redirect()->route('kelolaSantri.index')
                 ->with('success', 'Santri ' . $data->name . ' berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 
@@ -301,7 +358,7 @@ class ManageSantriController extends Controller
             return redirect()->route('kelolaSantri.index')
                 ->with('success', 'Santri ' . $data->name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
     public function restoreAll()
@@ -311,7 +368,7 @@ class ManageSantriController extends Controller
             $data->restore();
             return redirect()->route('kelolaSantri.index')->with('success', 'Semua Data berhasil dipulihkan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
 
@@ -323,7 +380,7 @@ class ManageSantriController extends Controller
             return redirect()->route('trashStudents')
                 ->with('success', 'Santri ' . $data->name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
     public function deletePermanentAll()
@@ -333,7 +390,7 @@ class ManageSantriController extends Controller
             $data->forceDelete();
             return redirect()->route('trashStudents')->with('success', 'Semua data berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

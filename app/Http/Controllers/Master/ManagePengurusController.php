@@ -50,8 +50,16 @@ class ManagePengurusController extends Controller
             'dataList' => 'required',
             'id_number' => 'required',
             'fullName' => 'required',
-            'email' => 'required',
+            'email' => 'required|email',
             'program' => 'required'
+        ], [
+            'categories.required' => 'Kategori harus diisi.',
+            'dataList.required' => 'Data list harus diisi.',
+            'id_number.required' => 'Nomor ID harus diisi.',
+            'fullName.required' => 'Nama lengkap harus diisi.',
+            'email.required' => 'Email harus diisi.',
+            'email.email' => 'Email tidak valid.',
+            'program.required' => 'Program harus diisi.'
         ]);
 
         try {
@@ -71,7 +79,7 @@ class ManagePengurusController extends Controller
             return redirect()->route('kelolaPengurus.index')
                 ->with('success', 'Pengurus ' . $request->fullName . ' berhasil disimpan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 
@@ -111,10 +119,19 @@ class ManagePengurusController extends Controller
     {
         $request->validate([
             'categories' => 'required',
+            'dataList' => 'required',
             'id_number' => 'required',
             'fullName' => 'required',
-            'email' => 'required',
+            'email' => 'required|email',
             'program' => 'required'
+        ], [
+            'categories.required' => 'Kategori harus diisi.',
+            'dataList.required' => 'Data list harus diisi.',
+            'id_number.required' => 'Nomor ID harus diisi.',
+            'fullName.required' => 'Nama lengkap harus diisi.',
+            'email.required' => 'Email harus diisi.',
+            'email.email' => 'Email tidak valid.',
+            'program.required' => 'Program harus diisi.'
         ]);
 
         try {
@@ -152,7 +169,7 @@ class ManagePengurusController extends Controller
             return redirect()->route('kelolaPengurus.index')
                 ->with('success', 'Pengurus ' . $request->fullName . ' berhasil diubah');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -180,7 +197,7 @@ class ManagePengurusController extends Controller
             return redirect()->route('kelolaPengurus.index')
                 ->with('success', 'Pengurus ' . $data->name . ' berhasil disimpan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 
@@ -206,7 +223,7 @@ class ManagePengurusController extends Controller
             return redirect()->route('kelolaPengurus.index')
                 ->with('success', 'Pengurus ' . $data->name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
     public function restoreAll()
@@ -216,7 +233,7 @@ class ManagePengurusController extends Controller
             $data->restore();
             return redirect()->route('kelolaPengurus.index')->with('success', 'Data berhasil dipulihkan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
 
@@ -228,7 +245,7 @@ class ManagePengurusController extends Controller
             return redirect()->route('trashCaretakers')
                 ->with('success', 'Pengurus ' . $data->name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
     public function deletePermanentAll()
@@ -238,7 +255,7 @@ class ManagePengurusController extends Controller
             $data->forceDelete();
             return redirect()->route('trashCaretakers')->with('success', 'Semua data berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

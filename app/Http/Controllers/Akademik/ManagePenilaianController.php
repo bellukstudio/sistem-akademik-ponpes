@@ -39,12 +39,21 @@ class ManagePenilaianController extends Controller
         if (Auth::user()->roles_id === 3 || Auth::user()->roles_id === 4) {
             abort(403);
         }
-        $request->validate([
-            'program' => 'required',
-            'category' => 'required',
-            'class' => 'required',
-            'course' => 'required'
-        ]);
+        $request->validate(
+            [
+                'program' => 'required',
+                'category' => 'required',
+                'class' => 'required',
+                'course' => 'required'
+            ],
+            [
+                'program.required' => 'Kolom Program wajib diisi',
+                'category.required' => 'Kolom Kategori wajib diisi',
+                'class.required' => 'Kolom Kelas wajib diisi',
+                'course.required' => 'Kolom Mapel wajib diisi'
+            ]
+        );
+
 
         try {
             $student = MasterStudent::join(
@@ -98,7 +107,7 @@ class ManagePenilaianController extends Controller
                 ]
             );
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 
@@ -112,6 +121,11 @@ class ManagePenilaianController extends Controller
             'category' => 'required',
             'class' => 'required',
             'course' => 'required'
+        ], [
+            'score.required' => 'Nilai harus diisi',
+            'category.required' => 'Kategori Kosong',
+            'class.required' => 'Kelas Kosong',
+            'course.required' => 'Mapel kosong'
         ]);
         try {
             TrxScore::create(
@@ -127,7 +141,7 @@ class ManagePenilaianController extends Controller
             );
             return back()->with('success', 'Nilai Berhasil Di Input');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 }

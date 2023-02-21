@@ -445,7 +445,8 @@
                         <strong>
                             <h3 class="card-title">Import Data Excel</h3>
                         </strong><br>
-                        <a href="https://drive.google.com/drive/folders/1XYRSVtaMJ0MtoQ_7r5cY-2t9qcBH4USn?usp=sharing">
+                        <a href="https://drive.google.com/drive/folders/1XYRSVtaMJ0MtoQ_7r5cY-2t9qcBH4USn?usp=sharing"
+                            target="blank">
                             Template import file</a>
                     </div>
                     @include('components.alert')

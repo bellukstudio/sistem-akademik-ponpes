@@ -63,6 +63,9 @@ class ManageJadwalPiketController extends Controller
                 'category' => 'required',
                 'class' => 'sometimes',
                 'data_category' => 'required'
+            ], [
+                'category.required' => 'Kategori harus diisi',
+                'data_category.required' => 'Kategori data harus diisi'
             ]);
 
             if ($request->has('showButton')) {
@@ -178,6 +181,11 @@ class ManageJadwalPiketController extends Controller
             'room_select' => 'required',
             'time' => 'required|max:20',
             'category' => 'required'
+        ], [
+            'student_select.required' => 'Santri tidak boleh kosong',
+            'room_select.required' => 'Ruang tidak boleh kosong',
+            'time.required' => 'Waktu harus diisi',
+            'category.required' => 'Kategori harus diisi'
         ]);
 
         try {
@@ -189,7 +197,8 @@ class ManageJadwalPiketController extends Controller
             ]);
             return redirect()->route('jadwalPiket.index')->with('success', 'Jadwal Piket berhasil dibuat');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 
@@ -233,6 +242,11 @@ class ManageJadwalPiketController extends Controller
             'room_select' => 'required',
             'time' => 'required|max:20',
             'category' => 'required'
+        ], [
+            'student_select.required' => 'Santri tidak boleh kosong',
+            'room_select.required' => 'Ruang tidak boleh kosong',
+            'time.required' => 'Waktu harus diisi',
+            'category.required' => 'Kategori harus diisi'
         ]);
 
         try {
@@ -244,7 +258,8 @@ class ManageJadwalPiketController extends Controller
             $data->update();
             return redirect()->route('jadwalPiket.index')->with('success', 'Jadwal Piket berhasil diubah');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -261,7 +276,7 @@ class ManageJadwalPiketController extends Controller
             $data->delete();
             return redirect()->route('jadwalPiket.index')->with('success', 'Jadwal Piket berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

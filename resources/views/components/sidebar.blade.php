@@ -246,7 +246,7 @@
                                  <a href="{{ route('pembayaran.index') }}"
                                      class="nav-link {{ Request::is('pembayaran*') ? 'active' : '' }}">
                                      <i class="far fa-circle nav-icon"></i>
-                                     <p>Bulanan</p>
+                                     <p>Data Pembayaran</p>
                                  </a>
                              </li>
                          </ul>
@@ -254,7 +254,9 @@
 
                      <li class="nav-header">AKADEMIK</li>
                      <li
-                         class="nav-item {{ Request::is(['jadwalPelajaran*', 'jadwalPiket*', 'kelompokKelas*', 'kelompokKamar*', 'hafalanSurah*']) ? 'menu-open' : '' }}">
+                         class="nav-item {{ Request::is(['jadwalPelajaran*', 'jadwalPiket*', 'kelompokKelas*', 'kelompokKamar*', 'hafalanSurah*'])
+                             ? 'menu-open'
+                             : '' }}">
                          <a href="#"
                              class="nav-link {{ Request::is(['jadwalPelajaran*', 'jadwalPiket*', 'kelompokKelas*', 'kelompokKamar*', 'hafalanSurah*']) ? 'active' : '' }}">
                              <i class="nav-icon fas fa-archive"></i>
@@ -308,7 +310,7 @@
                              </li>
 
                              <li class="nav-item">
-                                 <a href="pages/layout/top-nav.html" class="nav-link">
+                                 <a href="" class="nav-link">
                                      <i class="far fa-circle nav-icon"></i>
                                      <p>Raport</p>
                                  </a>
@@ -377,7 +379,7 @@
                                  <a href="{{ route('pembayaran.index') }}"
                                      class="nav-link {{ Request::is('pembayaran*') ? 'active' : '' }}">
                                      <i class="far fa-circle nav-icon"></i>
-                                     <p>Bulanan</p>
+                                     <p>Data Pembayaran</p>
                                  </a>
                              </li>
                          </ul>

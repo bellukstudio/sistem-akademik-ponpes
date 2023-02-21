@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SessionUser extends Model
 {
     use HasFactory;
-    protected $fillable = ['id', 'user_id', 'ip_address', 'user_agent', 'last_activity', 'status'];
+    protected $fillable = ['user_id', 'ip_address', 'user_agent', 'last_activity', 'status'];
     public function user()
     {
         return $this->belongsTo(MasterUsers::class, 'user_id');
@@ -16,6 +16,4 @@ class SessionUser extends Model
     protected $hidden = [
         'created_at', 'updated_at', 'ip_address', 'user_id'
     ];
-
-    
 }

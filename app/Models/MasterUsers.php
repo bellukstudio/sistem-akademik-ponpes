@@ -6,7 +6,6 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -42,8 +41,8 @@ class MasterUsers extends Authenticatable implements MustVerifyEmail
      * @var array
      */
 
-    protected $dates = ['deleted_at'];
-
+    // protected $dates = ['deleted_at'];
+    ///
     public function getCreatedAttribute($value)
     {
         return Carbon::parse($value)->timestamp;
@@ -58,6 +57,4 @@ class MasterUsers extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo(Roles::class, 'roles_id');
     }
-
-   
 }

@@ -39,10 +39,20 @@ class ManageKamarController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'room_name' => 'required|max:50|unique:master_rooms,room_name',
-            'capasity' => 'required|integer'
-        ]);
+        $request->validate(
+            [
+                'room_name' => 'required|max:100|unique:master_rooms,room_name',
+                'capasity' => 'required|integer',
+            ],
+            [
+                'room_name.required' => 'Nama ruangan harus diisi',
+                'room_name.max' => 'Nama ruangan maksimal :max karakter',
+                'room_name.unique' => 'Nama ruangan sudah digunakan',
+                'capasity.required' => 'Kapasitas ruangan harus diisi',
+                'capasity.integer' => 'Kapasitas ruangan harus berupa angka',
+            ]
+        );
+
 
         try {
             MasterRoom::create([
@@ -54,7 +64,7 @@ class ManageKamarController extends Controller
             return redirect()->route('kelolaKamar.index')
                 ->with('success', 'Kamar ' . $request->room_name . ' berhasil disimpan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 
@@ -89,11 +99,19 @@ class ManageKamarController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'room_name' => 'required|max:50',
-            'capasity' => 'required|integer'
-        ]);
-
+        $request->validate(
+            [
+                'room_name' => 'required|max:100|unique:master_rooms,room_name,' . $id,
+                'capasity' => 'required|integer',
+            ],
+            [
+                'room_name.required' => 'Nama ruangan harus diisi',
+                'room_name.max' => 'Nama ruangan maksimal :max karakter',
+                'room_name.unique' => 'Nama ruangan sudah digunakan',
+                'capasity.required' => 'Kapasitas ruangan harus diisi',
+                'capasity.integer' => 'Kapasitas ruangan harus berupa angka',
+            ]
+        );
         try {
             $data = MasterRoom::findOrFail($id);
             $data->room_name = $request->room_name;
@@ -102,7 +120,7 @@ class ManageKamarController extends Controller
             return redirect()->route('kelolaKamar.index')
                 ->with('success', 'Kamar ' . $request->room_name . ' berhasil diubah');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -120,7 +138,7 @@ class ManageKamarController extends Controller
             return back()
                 ->with('success', 'Kamar ' . $data->room_name . ' berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 
@@ -141,7 +159,7 @@ class ManageKamarController extends Controller
             return redirect()->route('kelolaKamar.index')
                 ->with('success', 'Kamar ' . $data->room_name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
     public function restoreAll()
@@ -151,7 +169,7 @@ class ManageKamarController extends Controller
             $data->restore();
             return redirect()->route('kelolaKamar.index')->with('success', 'Data berhasil dipulihkan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
 
@@ -163,7 +181,7 @@ class ManageKamarController extends Controller
             return redirect()->route('trashBedroom')
                 ->with('success', 'Kamar ' . $data->room_name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
     public function deletePermanentAll()
@@ -173,7 +191,7 @@ class ManageKamarController extends Controller
             $data->forceDelete();
             return redirect()->route('trashBedroom')->with('success', 'Semua data berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

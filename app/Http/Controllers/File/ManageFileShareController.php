@@ -32,6 +32,13 @@ class ManageFileShareController extends Controller
         $request->validate([
             'file_name' => 'required|max:100|unique:master_file_shares,file_name',
             'file' => 'required|mimes:pdf|max:2048',
+        ], [
+            'file_name.required' => 'Nama File harus diisi',
+            'file_name.max' => 'Nama File maksimal 100 karakter',
+            'file_name.unique' => 'Nama File sudah disimpan di database',
+            'file.required' => 'File harus diisi',
+            'file.mimes' => 'File yang dipilih tidak valid, harus berupa :PDF',
+            'file.max' => 'Ukuran file maksimal 2048 / 2GB'
         ]);
         try {
             $file = $request->file('file');
@@ -55,15 +62,23 @@ class ManageFileShareController extends Controller
             ]);
             return back()->with('success', 'File ' . $request->file_name . ' berhasil disimpan');
         } catch (\Throwable $e) {
-            return back()->withErrors($e);
+
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'file_name' => 'required|max:100',
-            'file' => 'sometimes|mimes:pdf|max:2048',
+            'file_name' => 'required|max:100|unique:master_file_shares,file_name,' . $id,
+            'file' => 'required|mimes:pdf|max:2048',
+        ], [
+            'file_name.required' => 'Nama File harus diisi',
+            'file_name.max' => 'Nama File maksimal 100 karakter',
+            'file_name.unique' => 'Nama File sudah disimpan di database',
+            'file.required' => 'File harus diisi',
+            'file.mimes' => 'File yang dipilih tidak valid, harus berupa :PDF',
+            'file.max' => 'Ukuran file maksimal 2048 / 2GB'
         ]);
 
         try {
@@ -95,7 +110,7 @@ class ManageFileShareController extends Controller
             $data->update();
             return back()->with('success', 'File ' . $request->file_name . ' berhasil diubah');
         } catch (\Throwable $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -112,7 +127,7 @@ class ManageFileShareController extends Controller
 
             return back()->with('success', 'File ' . $data->file_name . ' berhasil dihapus');
         } catch (\Throwable $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 
@@ -130,7 +145,12 @@ class ManageFileShareController extends Controller
     {
         $request->validate([
             'file_name' => 'required|max:100|unique:master_file_shares,file_name',
-            'link' => 'required',
+            'file' => 'required|mimes:pdf|max:2048',
+        ], [
+            'file_name.required' => 'Nama File harus diisi',
+            'file_name.max' => 'Nama File maksimal 100 karakter',
+            'file_name.unique' => 'Nama File sudah disimpan di database',
+            'file.required' => 'File harus diisi',
         ]);
 
         try {
@@ -143,7 +163,7 @@ class ManageFileShareController extends Controller
 
             return back()->with('success', 'Url Video ' . $request->file_name . ' berhasil disimpan');
         } catch (\Throwable $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 
@@ -151,7 +171,12 @@ class ManageFileShareController extends Controller
     {
         $request->validate([
             'file_name' => 'required|max:100|unique:master_file_shares,file_name',
-            'link' => 'required',
+            'file' => 'required|mimes:pdf|max:2048',
+        ], [
+            'file_name.required' => 'Nama File harus diisi',
+            'file_name.max' => 'Nama File maksimal 100 karakter',
+            'file_name.unique' => 'Nama File sudah disimpan di database',
+            'file.required' => 'File harus diisi',
         ]);
 
         try {
@@ -175,7 +200,7 @@ class ManageFileShareController extends Controller
 
             return back()->with('success', 'File ' . $data->file_name . ' berhasil dihapus');
         } catch (\Throwable $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

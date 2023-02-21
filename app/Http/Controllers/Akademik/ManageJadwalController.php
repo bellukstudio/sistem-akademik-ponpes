@@ -48,6 +48,7 @@ class ManageJadwalController extends Controller
     }
     public function filterScheduleByCategories(Request $request)
     {
+
         $filter = true;
         $data =
             TrxSchedule::join('master_classes', 'trx_schedules.class_id', '=', 'master_classes.id')
@@ -334,6 +335,10 @@ class ManageJadwalController extends Controller
                 'category' => 'required',
                 'data' => 'required',
                 'courseCategory' => 'required'
+            ], [
+                'category.required' => 'Kategori tidak boleh kosong',
+                'data.required' => 'Data tidak boleh kosong',
+                'courseCategory.required' => 'Kategori mapel tidak boleh kosong'
             ]);
             if ($request->has('showButton')) {
                 if (request('category') === 'mapel') {
@@ -547,8 +552,14 @@ class ManageJadwalController extends Controller
             'teacher_select' => 'required',
             'class_select' => 'required',
             'course_select' => 'required',
-            'day' => 'required|max:20',
-            'time' => 'required|max:20'
+            'day' => 'required',
+            'time' => 'required'
+        ], [
+            'teacher_select.required' => 'Pengajar tidak boleh kosong',
+            'class_select.required' => 'Kelas tidak boleh kosong',
+            'course_select.required' => 'Mata pelajaran tidak boleh kosong',
+            'day.required' => 'Hari harus diisi',
+            'time.required' => 'Waktu harus diisi',
         ]);
 
         try {
@@ -564,7 +575,7 @@ class ManageJadwalController extends Controller
             }
             return redirect()->route('jadwalPelajaran.index')->with('success', 'Jadwal pelajaran baru berhasil dibuat');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 
@@ -607,9 +618,16 @@ class ManageJadwalController extends Controller
             'teacher_select' => 'required',
             'class_select' => 'required',
             'course_select' => 'required',
-            'day' => 'required|max:20',
-            'time' => 'required|max:20'
+            'day' => 'required',
+            'time' => 'required'
+        ], [
+            'teacher_select.required' => 'Pengajar tidak boleh kosong',
+            'class_select.required' => 'Kelas tidak boleh kosong',
+            'course_select.required' => 'Mata pelajaran tidak boleh kosong',
+            'day.required' => 'Hari harus diisi',
+            'time.required' => 'Waktu harus diisi',
         ]);
+
 
         try {
             $data = TrxSchedule::find($id);
@@ -621,7 +639,7 @@ class ManageJadwalController extends Controller
             $data->update();
             return redirect()->route('jadwalPelajaran.index')->with('success', 'Jadwal pelajaran berhasil diubah');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -638,7 +656,8 @@ class ManageJadwalController extends Controller
             $data->delete();
             return redirect()->route('jadwalPelajaran.index')->with('success', 'Jadwal pelajaran berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

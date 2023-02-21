@@ -149,7 +149,8 @@ class ManagePresensiController extends Controller
                     'master_classes.class_name as class_name',
                     'master_academic_programs.program_name as program_name',
                     'master_academic_programs.id as id_program',
-                    'trx_attendances.status as status'
+                    'trx_attendances.status as status',
+                    'trx_attendances.id as id_attendance'
                 )->groupBy('master_students.id')->get();
 
 
@@ -281,6 +282,13 @@ class ManagePresensiController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $data = TrxAttendance::find($id);
+            $data->delete();
+
+            return back()->with('success', 'Absen berhasil dihapus');
+        } catch (\Exception $e) {
+            return back()->with('failed', 'Gagal menghapus data');
+        }
     }
 }

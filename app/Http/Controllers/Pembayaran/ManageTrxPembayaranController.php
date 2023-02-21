@@ -148,13 +148,24 @@ class ManageTrxPembayaranController extends Controller
     public function store(Request $request)
     {
         $this->authorize('admin');
-        $request->validate([
-            'student_id' => 'required',
-            'santriList' => 'required',
-            'metode' => 'required',
-            'datePayment' => 'required',
-            'total' => 'required|max:50'
-        ]);
+        $request->validate(
+            [
+                'student_id' => 'required',
+                'santriList' => 'required',
+                'metode' => 'required',
+                'datePayment' => 'required',
+                'total' => 'required|max:50'
+            ],
+            [
+                'student_id.required' => 'Kolom ID Siswa harus diisi.',
+                'santriList.required' => 'Kolom Nama Siswa harus diisi.',
+                'metode.required' => 'Kolom Metode Pembayaran harus diisi.',
+                'datePayment.required' => 'Kolom Tanggal Pembayaran harus diisi.',
+                'total.required' => 'Kolom Jumlah Pembayaran harus diisi.',
+                'total.max' => 'Kolom Jumlah Pembayaran maksimal terdiri dari 50 karakter.'
+            ]
+        );
+
 
         try {
             $student = explode(':', $request->santriList);
@@ -168,7 +179,7 @@ class ManageTrxPembayaranController extends Controller
             return redirect()->route('pembayaran.index')
                 ->with('success', 'Pembayaran ' . $student[1] . ' berhasil disimpan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 
@@ -201,13 +212,23 @@ class ManageTrxPembayaranController extends Controller
     public function updateUserPayment(Request $request, $id)
     {
         $this->authorize('admin');
-        $request->validate([
-            'student_id' => 'required',
-            'santriList' => 'required',
-            'metode' => 'required',
-            'datePayment' => 'required',
-            'total' => 'required|max:50'
-        ]);
+        $request->validate(
+            [
+                'student_id' => 'required',
+                'santriList' => 'required',
+                'metode' => 'required',
+                'datePayment' => 'required',
+                'total' => 'required|max:50'
+            ],
+            [
+                'student_id.required' => 'Kolom ID Siswa harus diisi.',
+                'santriList.required' => 'Kolom Nama Siswa harus diisi.',
+                'metode.required' => 'Kolom Metode Pembayaran harus diisi.',
+                'datePayment.required' => 'Kolom Tanggal Pembayaran harus diisi.',
+                'total.required' => 'Kolom Jumlah Pembayaran harus diisi.',
+                'total.max' => 'Kolom Jumlah Pembayaran maksimal terdiri dari 50 karakter.'
+            ]
+        );
 
         try {
             $student = explode(':', $request->santriList);
@@ -222,7 +243,7 @@ class ManageTrxPembayaranController extends Controller
             return redirect()->route('pembayaran.index')
                 ->with('success', 'Pembayaran ' . $student[1] . ' berhasil diubah');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -240,6 +261,8 @@ class ManageTrxPembayaranController extends Controller
         }
         $request->validate([
             'status' => 'required'
+        ], [
+            'status.required' => 'Status harus diisi'
         ]);
 
         try {
@@ -268,7 +291,7 @@ class ManageTrxPembayaranController extends Controller
 
             return back()->with('success', 'Berhasil mengubah status ' . $data->user->name);
         } catch (\Throwable $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -292,7 +315,7 @@ class ManageTrxPembayaranController extends Controller
 
             return back()->with('success', 'Berhasil menghapus data  ' . $data->user->name);
         } catch (\Throwable $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

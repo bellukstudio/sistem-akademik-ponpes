@@ -15,7 +15,6 @@ class TrxStudentPermits extends Model
     protected $hidden = [
         'created_at', 'updated_at'
     ];
-    // protected $dates = ['deleted_at'];
 
     public function getCreatedAttribute($value)
     {

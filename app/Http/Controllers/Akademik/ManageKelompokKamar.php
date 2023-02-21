@@ -44,8 +44,15 @@ class ManageKelompokKamar extends Controller
     {
         $request->validate([
             'student_select' => 'required',
-            'room_select' => 'required'
+            'room_select' => 'required', 'program_select' => 'required',
+
+        ], [
+            'student_select.required' => 'Santri harus diisi',
+            'room_select.required' => 'Kamar harus diisi',
+            'program_select.required' => 'Program harus diisi',
+
         ]);
+
 
         try {
             TrxRoomGroup::create([
@@ -54,7 +61,7 @@ class ManageKelompokKamar extends Controller
             ]);
             return redirect()->route('kelompokKamar.index')->with('success', 'Data berhasil disimpan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 
@@ -93,7 +100,13 @@ class ManageKelompokKamar extends Controller
     {
         $request->validate([
             'student_select' => 'required',
-            'room_select' => 'required'
+            'room_select' => 'required', 'program_select' => 'required',
+
+        ], [
+            'student_select.required' => 'Santri harus diisi',
+            'room_select.required' => 'Kamar harus diisi',
+            'program_select.required' => 'Program harus diisi',
+
         ]);
 
         try {
@@ -104,7 +117,7 @@ class ManageKelompokKamar extends Controller
 
             return redirect()->route('kelompokKamar.index')->with('success', 'Data berhasil diubah');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -121,7 +134,7 @@ class ManageKelompokKamar extends Controller
             $data->delete();
             return redirect()->route('kelompokKamar.index')->with('success', 'Data berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

@@ -43,10 +43,17 @@ class ManageKelasController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'class_name' => 'required|unique:master_classes,class_name',
-            'program' => 'required'
-        ]);
+        $request->validate(
+            [
+                'class_name' => 'required|unique:master_classes,class_name',
+                'program' => 'required',
+            ],
+            [
+                'class_name.required' => 'Kolom nama kelas wajib diisi.',
+                'class_name.unique' => 'Nama kelas sudah terdaftar.',
+                'program.required' => 'Kolom program wajib diisi.',
+            ]
+        );
 
         try {
             MasterClass::create([
@@ -57,7 +64,7 @@ class ManageKelasController extends Controller
             return redirect()->route('kelolaKelas.index')
                 ->with('success', 'Kelas ' . $request->class_name . ' berhasil disimpan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
     public function getAllClassByProgram($programId)
@@ -109,11 +116,17 @@ class ManageKelasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'class_name' => 'required',
-            'program' => 'required'
-
-        ]);
+        $request->validate(
+            [
+                'class_name' => 'required|unique:master_classes,class_name,' . $id,
+                'program' => 'required',
+            ],
+            [
+                'class_name.required' => 'Kolom nama kelas wajib diisi.',
+                'class_name.unique' => 'Nama kelas sudah terdaftar.',
+                'program.required' => 'Kolom program wajib diisi.',
+            ]
+        );
 
         try {
             $data = MasterClass::findOrFail($id);
@@ -123,7 +136,7 @@ class ManageKelasController extends Controller
             return redirect()->route('kelolaKelas.index')
                 ->with('success', 'Kelas ' . $request->class_name . ' berhasil diupdate');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -141,7 +154,7 @@ class ManageKelasController extends Controller
             return redirect()->route('kelolaKelas.index')
                 ->with('success', 'Kelas ' . $data->class_name . ' berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 
@@ -164,7 +177,7 @@ class ManageKelasController extends Controller
             return redirect()->route('kelolaKelas.index')
                 ->with('success', 'Kelas ' . $data->class_name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
     public function restoreAll()
@@ -174,7 +187,7 @@ class ManageKelasController extends Controller
             $data->restore();
             return redirect()->route('kelolaKelas.index')->with('success', 'Data berhasil dipulihkan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
     public function deletePermanent($id)
@@ -185,7 +198,8 @@ class ManageKelasController extends Controller
             return redirect()->route('trashClass')
                 ->with('success', 'Kelas ' . $data->class_name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
     public function deletePermanentAll()
@@ -195,7 +209,8 @@ class ManageKelasController extends Controller
             $data->forceDelete();
             return redirect()->route('trashClass')->with('success', 'Semua data berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

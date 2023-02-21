@@ -51,8 +51,16 @@ class ManageKotaController extends Controller
         $request->validate([
             'province_id' => 'required|integer',
             'province_name' => 'required',
-            'city_name' => 'required|unique:master_cities,city_name|max:50'
+            'city_name' => 'required|unique:master_cities,city_name|max:50',
+        ], [
+            'province_id.required' => 'Kolom ID Provinsi harus diisi.',
+            'province_id.integer' => 'Kolom ID Provinsi harus berupa angka.',
+            'province_name.required' => 'Kolom Nama Provinsi harus diisi.',
+            'city_name.required' => 'Kolom Nama Kota harus diisi.',
+            'city_name.unique' => 'Nama Kota sudah terdaftar di database.',
+            'city_name.max' => 'Panjang Nama Kota maksimal 50 karakter.',
         ]);
+
 
         try {
             MasterCity::create([
@@ -63,7 +71,7 @@ class ManageKotaController extends Controller
             return redirect()->route('kelolaKota.index')
                 ->with('success', 'Kota ' . $request->city_name . ' berhasil disimpan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 
@@ -121,18 +129,24 @@ class ManageKotaController extends Controller
         $request->validate([
             'province_id' => 'required|integer',
             'province_name' => 'required',
-            'city_name' => 'required|unique:master_cities,city_name|max:50'
+            'city_name' => 'required|max:50|unique:master_cities,city_name,' . $id,
+        ], [
+            'province_id.required' => 'Kolom ID Provinsi harus diisi.',
+            'province_id.integer' => 'Kolom ID Provinsi harus berupa angka.',
+            'province_name.required' => 'Kolom Nama Provinsi harus diisi.',
+            'city_name.required' => 'Kolom Nama Kota harus diisi.',
+            'city_name.unique' => 'Nama Kota sudah terdaftar di database.',
+            'city_name.max' => 'Panjang Nama Kota maksimal 50 karakter.',
         ]);
-
         try {
             $data = MasterCity::findOrFail($id);
             $data->id_province = $request->province_id;
             $data->city_name = $request->city_name;
             $data->update();
             return redirect()->route('kelolaKota.index')
-                ->with('success', 'Kota' . $request->city_name . ' berhasil diubah');
+                ->with('success', 'Kota ' . $request->city_name . ' berhasil diubah');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -150,7 +164,7 @@ class ManageKotaController extends Controller
             return back()
                 ->with('success', 'Kota ' . $data->city_name . ' berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
     public function trash()
@@ -170,7 +184,7 @@ class ManageKotaController extends Controller
             return redirect()->route('kelolaKota.index')
                 ->with('success', 'Kota ' . $data->city_name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
     public function restoreAll()
@@ -180,7 +194,7 @@ class ManageKotaController extends Controller
             $data->restore();
             return redirect()->route('kelolaKota.index')->with('success', 'Data berhasil dipulihkan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
 
@@ -192,7 +206,7 @@ class ManageKotaController extends Controller
             return redirect()->route('trashCity')
                 ->with('success', 'Kota ' . $data->city_name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
     public function deletePermanentAll()
@@ -202,7 +216,7 @@ class ManageKotaController extends Controller
             $data->forceDelete();
             return redirect()->route('trashCity')->with('success', 'Semua data berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

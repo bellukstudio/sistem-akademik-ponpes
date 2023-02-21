@@ -48,6 +48,10 @@ class ManageKelompokKelas extends Controller
             'student_select' => 'required',
             'program_select' => 'required',
             'class_select' => 'required'
+        ], [
+            'student_select.required' => 'Santri harus diisi',
+            'program_select.required' => 'Program harus diisi',
+            'class_select.required' => 'Kelas harus diisi'
         ]);
 
         try {
@@ -57,7 +61,7 @@ class ManageKelompokKelas extends Controller
             ]);
             return redirect()->route('kelompokKelas.index')->with('success', 'Data berhasil disimpan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 
@@ -96,7 +100,12 @@ class ManageKelompokKelas extends Controller
     {
         $request->validate([
             'student_select' => 'required',
+            'program_select' => 'required',
             'class_select' => 'required'
+        ], [
+            'student_select.required' => 'Santri harus diisi',
+            'program_select.required' => 'Program harus diisi',
+            'class_select.required' => 'Kelas harus diisi'
         ]);
 
         try {
@@ -106,7 +115,7 @@ class ManageKelompokKelas extends Controller
             $data->update();
             return redirect()->route('kelompokKelas.index')->with('success', 'Data berhasil diubah');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -123,7 +132,7 @@ class ManageKelompokKelas extends Controller
             $data->delete();
             return redirect()->route('kelompokKelas.index')->with('success', 'Data berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

@@ -111,7 +111,7 @@ class DashboardController extends Controller
                 return back()->withErrors($failures);
             }
         } catch (\Exception $e) {
-            return back()->with('failed', $e);
+            return back()->with('failed', 'Gagal import file');
         }
     }
 

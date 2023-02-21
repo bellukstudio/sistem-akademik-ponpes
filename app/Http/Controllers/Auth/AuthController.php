@@ -18,6 +18,9 @@ class AuthController extends Controller
         if (Auth::user() == null) {
             return view('authentication.login');
         } elseif (auth()->check()) {
+            if (auth()->user()->roles_id === 4) {
+                abort(403);
+            }
             return redirect()->route('dashboard');
         }
     }
@@ -31,7 +34,6 @@ class AuthController extends Controller
 
         // check credentials user
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
             $user = MasterUsers::where('email', $request->email)->first();
             $checkSession = SessionUser::where('user_id', $user->id)->doesntExist();
             if ($checkSession) {
@@ -54,8 +56,13 @@ class AuthController extends Controller
                     ]);
             }
             if (Auth::user()->roles_id === 1) {
+                $request->session()->regenerate();
                 return redirect()->route('google.check');
+            } elseif (Auth::user()->roles_id === 4) {
+                Auth::logout();
+                return redirect()->route('login')->with('failed', 'You are not authorized to access the application.');
             } else {
+                $request->session()->regenerate();
                 return redirect()->intended('dashboard');
             }
         }

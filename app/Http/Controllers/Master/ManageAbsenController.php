@@ -40,10 +40,16 @@ class ManageAbsenController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'categories' => 'required'
-        ]);
+        $request->validate(
+            [
+                'name' => 'required',
+                'categories' => 'required'
+            ],
+            [
+                'name.required' => 'Kolom Nama harus diisi.',
+                'categories.required' => 'Kolom Kategori harus diisi.'
+            ]
+        );
 
         try {
             MasterAttendance::create([
@@ -52,7 +58,7 @@ class ManageAbsenController extends Controller
             ]);
             return back()->with('success', 'Absen ' . $request->name . ' berhasil disimpan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 
@@ -87,10 +93,16 @@ class ManageAbsenController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'column_name' => 'required'
-        ]);
+        $request->validate(
+            [
+                'name' => 'required',
+                'categories' => 'required'
+            ],
+            [
+                'name.required' => 'Kolom Nama harus diisi.',
+                'categories.required' => 'Kolom Kategori harus diisi.'
+            ]
+        );
 
         try {
             $data = MasterAttendance::find($id);
@@ -99,7 +111,7 @@ class ManageAbsenController extends Controller
             $data->update();
             return back()->with('success', 'Absen ' . $request->name . ' berhasil diupdate');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -116,7 +128,7 @@ class ManageAbsenController extends Controller
             $data->delete();
             return back()->with('success', 'Absen ' . $data->name . ' berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
     public function trash()
@@ -137,7 +149,7 @@ class ManageAbsenController extends Controller
             return redirect()->route('kelolaAbsen.index')
                 ->with('success', 'Absen ' . $data->name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
     public function restoreAll()
@@ -147,7 +159,7 @@ class ManageAbsenController extends Controller
             $data->restore();
             return redirect()->route('kelolaAbsen.index')->with('success', 'Data berhasil dipulihkan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
 
@@ -159,7 +171,7 @@ class ManageAbsenController extends Controller
             return redirect()->route('trashAttendance')
                 ->with('success', 'Absen ' . $data->name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
     public function deletePermanentAll()
@@ -169,7 +181,7 @@ class ManageAbsenController extends Controller
             $data->forceDelete();
             return redirect()->route('trashAttendance')->with('success', 'Semua data berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

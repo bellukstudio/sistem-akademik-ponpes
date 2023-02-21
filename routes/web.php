@@ -90,7 +90,8 @@ Route::middleware(['auth'])->group(function () {
     /**
      * [ROUTE MANAGE NEWS / BERITA ACARA]
      */
-    Route::resource('beritaAcara', BeritaController::class)->except('show');
+    Route::get('beritaAcara/read', [BeritaController::class, 'readNews'])->name('readNews');
+    Route::resource('beritaAcara', BeritaController::class);
     /**
      * [MIDDLEWARE ADMIN]
      * Master data
@@ -116,7 +117,7 @@ Route::middleware(['auth'])->group(function () {
          * [ROUTE MANAGE USER]
          */
         Route::resource('kelolaUser', ManageUserController::class)
-            ->except(['show', 'create', 'store', 'destroy', 'edit', 'update']);
+            ->except(['show', 'create', 'store', 'edit']);
 
 
         /**
@@ -583,7 +584,7 @@ Route::middleware(['auth'])->group(function () {
         //     'perizinan/trash/{id}/restore',
         //     [ManagePerizinanController::class, 'restore']
         // )->name('restorePermit');
-        //
+        ///
         Route::put('perizinan/{id}/change', [ManagePerizinanController::class, 'updatePermit'])
             ->name('updatePermit');
         /**
@@ -608,7 +609,6 @@ Route::middleware(['auth'])->group(function () {
      */
 
     Route::resource('perizinan', ManagePerizinanController::class)->except(['show']);
-
     /**
      * [ROUTE ATTENNDANCES STUDENT]
      */
@@ -617,8 +617,7 @@ Route::middleware(['auth'])->group(function () {
         [ManagePresensiController::class, 'saveAttendance']
     )->name('saveAttendance');
     Route::resource('presensi', ManagePresensiController::class)
-        ->except(['show', 'edit', 'delete', 'create', 'store']);
-
+        ->except(['show', 'edit', 'create', 'store']);
     /**
      * [ROUTE PAYMENTS]
      */

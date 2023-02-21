@@ -39,13 +39,24 @@ class ManagePembayaranController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'payment_name' => 'required',
-            'method_name' => 'required',
-            'media_payment' => 'required|max:50',
-            'total_payment' => 'required|numeric',
-            'payment_number' => 'required|numeric'
-        ]);
+        $request->validate(
+            [
+                'payment_name' => 'required', 'method_name' => 'required',
+                'media_payment' => 'required|max:50', 'total_payment' => 'required|numeric',
+                'payment_number' => 'required|numeric'
+            ],
+            [
+                'payment_name.required' => 'Kolom Nama Pembayaran harus diisi.',
+                'method_name.required' => 'Kolom Metode Pembayaran harus diisi.',
+                'media_payment.required' => 'Kolom Media Pembayaran harus diisi.',
+                'media_payment.max' => 'Kolom Media Pembayaran maksimal terdiri dari 50 karakter.',
+                'total_payment.required' => 'Kolom Jumlah Pembayaran harus diisi.',
+                'total_payment.numeric' => 'Kolom Jumlah Pembayaran harus berupa angka.',
+                'payment_number.required' => 'Kolom Nomor Pembayaran harus diisi.',
+                'payment_number.numeric' => 'Kolom Nomor Pembayaran harus berupa angka.'
+            ]
+        );
+
 
         try {
             MasterPayment::create([
@@ -57,7 +68,7 @@ class ManagePembayaranController extends Controller
             ]);
             return back()->with('success', 'Pembayaran ' . $request->payment_name . ' berhasil disimpan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 
@@ -92,13 +103,24 @@ class ManagePembayaranController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'payment_name' => 'required',
-            'method_name' => 'required',
-            'media_payment' => 'required|max:50',
-            'total_payment' => 'required|numeric',
-            'payment_number' => 'required|numeric'
-        ]);
+        $request->validate(
+            [
+                'payment_name' => 'required', 'method_name' => 'required',
+                'media_payment' => 'required|max:50', 'total_payment' => 'required|numeric',
+                'payment_number' => 'required|numeric'
+            ],
+            [
+                'payment_name.required' => 'Kolom Nama Pembayaran harus diisi.',
+                'method_name.required' => 'Kolom Metode Pembayaran harus diisi.',
+                'media_payment.required' => 'Kolom Media Pembayaran harus diisi.',
+                'media_payment.max' => 'Kolom Media Pembayaran maksimal terdiri dari 50 karakter.',
+                'total_payment.required' => 'Kolom Jumlah Pembayaran harus diisi.',
+                'total_payment.numeric' => 'Kolom Jumlah Pembayaran harus berupa angka.',
+                'payment_number.required' => 'Kolom Nomor Pembayaran harus diisi.',
+                'payment_number.numeric' => 'Kolom Nomor Pembayaran harus berupa angka.'
+            ]
+        );
+
 
         try {
             $data = MasterPayment::find($id);
@@ -110,7 +132,7 @@ class ManagePembayaranController extends Controller
             $data->update();
             return back()->with('success', 'Pembayaran ' . $request->payment_name . ' berhasil diubah');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -127,7 +149,7 @@ class ManagePembayaranController extends Controller
             $data->delete();
             return back()->with('success', 'Pembayaran ' . $data->payment_name . ' berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
     public function trash()
@@ -148,7 +170,7 @@ class ManagePembayaranController extends Controller
             return redirect()->route('kelolaPembayaran.index')
                 ->with('success', 'Pembayaran ' . $data->payment_name . ' berhasil dipulihkan ');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
     public function restoreAll()
@@ -158,7 +180,7 @@ class ManagePembayaranController extends Controller
             $data->restore();
             return redirect()->route('kelolaPembayaran.index')->with('success', 'Data berhasil dipulihkan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal memulihkan data');
         }
     }
 
@@ -170,7 +192,7 @@ class ManagePembayaranController extends Controller
             return redirect()->route('trashPayment')
                 ->with('success', 'Pembayaran ' . $data->payment_name . ' berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
     public function deletePermanentAll()
@@ -180,7 +202,7 @@ class ManagePembayaranController extends Controller
             $data->forceDelete();
             return redirect()->route('trashPayment')->with('success', 'Semua data berhasil dihapus permanent');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

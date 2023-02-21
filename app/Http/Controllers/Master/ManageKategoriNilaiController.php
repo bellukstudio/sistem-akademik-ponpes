@@ -40,8 +40,13 @@ class ManageKategoriNilaiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category' => 'required|max:100',
+            'category' => 'required|max:100|unique:master_assessments,name',
             'program' => 'required'
+        ], [
+            'category.required' => 'Kolom kategori harus diisi',
+            'category.unique' => 'Kategori sudah pernah tersimpan di database',
+            'category.max' => 'Kolom kategori maksimal 100 karakter',
+            'program.required' => 'Kolom program harus diisi'
         ]);
 
         try {
@@ -54,7 +59,7 @@ class ManageKategoriNilaiController extends Controller
 
             return back()->with('success', 'Data ' . $request->category . ' berhasil disimpan');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menyimpan data');
         }
     }
 
@@ -90,8 +95,13 @@ class ManageKategoriNilaiController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'category' => 'required|max:100',
+            'category' => 'required|max:100|unique:master_assessments,name,' . $id,
             'program' => 'required'
+        ], [
+            'category.required' => 'Kolom kategori harus diisi',
+            'category.unique' => 'Kategori sudah pernah tersimpan di database',
+            'category.max' => 'Kolom kategori maksimal 100 karakter',
+            'program.required' => 'Kolom program harus diisi'
         ]);
 
         try {
@@ -102,7 +112,7 @@ class ManageKategoriNilaiController extends Controller
 
             return back()->with('success', 'Data ' . $request->category . ' berhasil diubah');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal mengubah data');
         }
     }
 
@@ -119,7 +129,7 @@ class ManageKategoriNilaiController extends Controller
             $data->delete();
             return back()->with('success', 'Data ' . $data->name . ' berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 

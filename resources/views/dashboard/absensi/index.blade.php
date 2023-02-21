@@ -78,6 +78,7 @@
                                 <th>Kelas</th>
                                 <th>Program</th>
                                 <th>Status</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -91,7 +92,7 @@
                                             class="custom-select form-control-border" data-student="{{ $item->student_id }}"
                                             data-type="{{ $dataType }}" data-category="{{ $dataCategory }}"
                                             data-program="{{ $item->id_program }}" data-other="{{ $otherCategory }}"
-                                            data-date="{{ $dateSelect }}">
+                                            data-date="{{ $dateSelect }}" data-id="{{ $item->id_attendance }}">
                                             <option value="" {{ $item->status === null ? 'selected' : '' }}>
                                                 Pilih
                                                 Status
@@ -110,9 +111,59 @@
                                             </option>
                                         </select>
                                     </td>
+                                    <td>
+                                        @if ($item->id_attendance != null)
+                                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#modal-Delete{{ $item->id_attendance }}">
+                                                <i class="fa fa-trash"></i>
+                                            </button>&nbsp;
+                                        @endif
+
+                                    </td>
 
                                 </tr>
 
+                                @if ($item->id_attendance != null)
+                                    {{-- Modal Delete --}}
+                                    <div class="modal fade" id="modal-Delete{{ $item->id_attendance }}">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Konfirmasi hapus data</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="card">
+                                                        <div class="card-header bg-danger">
+                                                            <h5>{!! $item->student_name ?? '<span class="badge badge-danger">Error</span>' !!}</h5>
+                                                            <h5>{!! $item->class_name ?? '<span class="badge badge-danger">Error</span>' !!}</h5>
+                                                            <h5>{!! $item->program_name ?? '<span class="badge badge-danger">Error</span>' !!}</h5>
+                                                            <p>Yakin ingin menghapus data tersebut? </p>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer justify-content-between">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                        Close</button>
+                                                    <form action="{{ route('presensi.destroy', $item->id_attendance) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-sm btn-danger">
+                                                            <i class="fa fa-trash mr-2"></i>
+                                                            Hapus</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </div>
+                                @endif
                             @empty
                                 <tr>
                                     <td colspan="8" align="center"> Data Tidak Tersedia</td>
@@ -153,6 +204,7 @@
                         let otherCategory = $(this).data('other');
                         var data = $(this).val();
                         let dateSelect = $(this).data('date');
+
                         $.ajax({
                             type: 'GET',
                             dataType: 'json',
@@ -173,6 +225,12 @@
                                 toastr.success(res.message);
 
                             },
+                            error: function(xhr) {
+                                toastr.options.closeButton = true;
+                                toastr.options.closeMethod = 'fadeOut';
+                                toastr.options.closeDuration = 100;
+                                toastr.error(xhr.message);
+                            }
                         });
 
                     });
