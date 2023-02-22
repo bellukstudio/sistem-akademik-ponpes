@@ -26,13 +26,19 @@ class CreateMasterStudentsTable extends Migration
             $table->foreignId('city_id')->nullable()->references('id')->on('master_cities')
                 ->onDelete('set null')->onUpdate('cascade');
             $table->date('date_birth')->nullable();
-            $table->string('student_parent', 150)->nullable();
-            $table->char('no_tlp', 30)->nullable();
+            $table->string('father_name', 150)->nullable();
+            $table->string('mother_name', 150)->nullable();
+            $table->date('date_birth_father')->nullable();
+            $table->date('date_birth_mother')->nullable();
+            $table->char('phone', 30)->nullable();
+            $table->char('parent_phone', 30)->nullable();
             $table->foreignId('program_id')->nullable()
                 ->references('id')->on('master_academic_programs')
                 ->onDelete('set null')->onUpdate('cascade');
-            $table->foreignId('period_id')->nullable()->references('id')
-                ->on('master_periods')->onDelete('set null')->onUpdate('cascade');
+            $table->char('entry_year', 10)->nullable();
+            // $table->foreignId('period_id')->nullable()->references('id')
+            //     ->on('master_periods')->onDelete('set null')->onUpdate('cascade');
+            ///
             $table->timestamps();
             $table->softDeletes();
         });

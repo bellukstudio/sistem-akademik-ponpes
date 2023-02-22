@@ -21,8 +21,7 @@
         <div class="card">
             <div class="card-header">
                 @if (count($trash) > 0)
-                    <button type="button" class="btn btn-outline-info"
-                    data-toggle="modal" data-target="#modal-restoreAll">
+                    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#modal-restoreAll">
                         <i class="fa fa-undo mr-2"></i> Restore All
                     </button>
                     <button type="button" class="btn btn-outline-danger" data-toggle="modal"
@@ -104,8 +103,7 @@
                         <tr>
                             <th>No</th>
                             <th>Kode</th>
-                            <th>Tanggal Mulai</th>
-                            <th>Tanggal Selesai</th>
+                            <th>Keterangan</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -115,8 +113,7 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->code }}</td>
-                                <td>{{ $item->start_date }}</td>
-                                <td>{{ $item->end_date }}</td>
+                                <td>{{ $item->information }}</td>
                                 <td>
                                     <input type="checkbox" data-id="{{ $item->id }}" name="status" class="js-switch"
                                         readonly {{ $item->status == 1 ? 'checked' : '' }}>
@@ -212,8 +209,7 @@
                         <tr>
                             <th>No</th>
                             <th>Kode</th>
-                            <th>Tanggal Mulai</th>
-                            <th>Tanggal Selesai</th>
+                            <th>Keterangan</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>

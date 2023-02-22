@@ -43,30 +43,28 @@ class ManageTahunAkademikController extends Controller
     {
         $request->validate(
             [
-                'kode' => 'required|max:20',
-                'tgl_mulai' => 'required|date',
-                'tgl_selesai' => 'required|date'
+                'code' => 'required|max:20',
+                'information' => 'required|string|max:100',
             ],
             [
-                'kode.required' => 'Kolom Kode harus diisi.',
-                'kode.max' => 'Kolom Kode maksimal terdiri dari 20 karakter.',
-                'tgl_mulai.required' => 'Kolom Tanggal Mulai harus diisi.',
-                'tgl_mulai.date' => 'Kolom Tanggal Mulai harus berupa tanggal yang valid.',
-                'tgl_selesai.required' => 'Kolom Tanggal Selesai harus diisi.',
-                'tgl_selesai.date' => 'Kolom Tanggal Selesai harus berupa tanggal yang valid.'
+                'code.required' => 'Kolom Kode harus diisi.',
+                'code.max' => 'Kolom Kode maksimal terdiri dari 20 karakter.',
+                'information.required' => 'Kolom Ketrangan harus diisi.',
+                'information.string' => 'Kolom Ketrangan harus berupa karakter.',
+                'information.max' => 'Kolom Ketrangan maksimal 100 karakter.',
+
             ]
         );
 
 
         try {
             MasterPeriod::create([
-                'code' => $request->kode,
-                'start_date' => $request->tgl_mulai,
-                'end_date' => $request->tgl_selesai
+                'code' => $request->code,
+                'information' => $request->information,
             ]);
 
             return redirect()->route('kelolaTahunAkademik.index')
-                ->with('success', 'Tahun Akademik ' . $request->kode . ' berhasil disimpan');
+                ->with('success', 'Tahun Akademik ' . $request->code . ' berhasil disimpan');
         } catch (\Exception $e) {
             return back()->with('failed', 'Gagal menyimpan data');
         }
@@ -76,14 +74,19 @@ class ManageTahunAkademikController extends Controller
     public function updateStatus(Request $request)
     {
 
-        try {
-            $data = MasterPeriod::findOrFail($request->id);
-            $data->status = $request->status;
-            $data->save();
+        $otherDataWithStatusOne = MasterPeriod::where('status', 1)->where('id', '<>', $request->id)->exists();
+        if ($otherDataWithStatusOne) {
+            return response()->json(['error' => 'Data cannot be saved.'], 400);
+        } else {
+            try {
+                $data = MasterPeriod::findOrFail($request->id);
+                $data->status = $request->status;
+                $data->save();
 
-            return response()->json(['message' => 'Berhasil mengupdate status.']);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Error']);
+                return response()->json(['message' => 'Berhasil mengupdate status.']);
+            } catch (\Exception $e) {
+                return response()->json(['message' => 'Tidak bisa mengubah status']);
+            }
         }
     }
 
@@ -118,31 +121,28 @@ class ManageTahunAkademikController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $request->validate(
             [
-                'kode' => 'required|max:20',
-                'tgl_mulai' => 'required|date',
-                'tgl_selesai' => 'required|date'
+                'code' => 'required|max:20',
+                'information' => 'required|string|max:100',
             ],
             [
-                'kode.required' => 'Kolom Kode harus diisi.',
-                'kode.max' => 'Kolom Kode maksimal terdiri dari 20 karakter.',
-                'tgl_mulai.required' => 'Kolom Tanggal Mulai harus diisi.',
-                'tgl_mulai.date' => 'Kolom Tanggal Mulai harus berupa tanggal yang valid.',
-                'tgl_selesai.required' => 'Kolom Tanggal Selesai harus diisi.',
-                'tgl_selesai.date' => 'Kolom Tanggal Selesai harus berupa tanggal yang valid.'
+                'code.required' => 'Kolom Kode harus diisi.',
+                'code.max' => 'Kolom Kode maksimal terdiri dari 20 karakter.',
+                'information.required' => 'Kolom Ketrangan harus diisi.',
+                'information.string' => 'Kolom Ketrangan harus berupa karakter.',
+                'information.max' => 'Kolom Ketrangan maksimal 100 karakter.',
+
             ]
         );
         try {
             $data = MasterPeriod::findOrFail($id);
-            $data->code = $request->kode;
-            $data->start_date = $request->tgl_mulai;
-            $data->end_date = $request->tgl_selesai;
+            $data->code = $request->code;
+            $data->information = $request->information;
             $data->update();
 
             return redirect()->route('kelolaTahunAkademik.index')
-                ->with('success', 'Tahun Akademik ' . $request->kode . ' berhasil dihapus');
+                ->with('success', 'Tahun Akademik ' . $request->code . ' berhasil dihapus');
         } catch (\Exception $e) {
             return back()->with('failed', 'Gagal mengubah data');
         }

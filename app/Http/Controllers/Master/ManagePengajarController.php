@@ -99,7 +99,7 @@ class ManagePengajarController extends Controller
                 'province_id' => $request->province,
                 'city_id' => $request->city,
                 'date_birth' => $request->dateBirth,
-                'no_tlp' => $request->phone_number,
+                'phone' => $request->phone_number,
                 'address' => $request->address
             ]);
 
@@ -247,7 +247,7 @@ class ManagePengajarController extends Controller
             $data->province_id = $request->province;
             $data->city_id = $request->city;
             $data->date_birth = $request->dateBirth;
-            $data->no_tlp = $request->phone_number;
+            $data->phone = $request->phone_number;
             $data->address = $request->address;
             $data->update();
 

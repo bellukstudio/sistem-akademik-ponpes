@@ -15,7 +15,8 @@ class MasterStudent extends Model
 
     protected $fillable = [
         'noId', 'email', 'name', 'photo', 'gender', 'address', 'province_id',
-        'city_id', 'date_birth', 'student_parent', 'no_tlp', 'program_id', 'period_id', 'is_activate'
+        'city_id', 'date_birth', 'father_name', 'mother_name', 'phone', 'program_id',
+        'is_activate', 'date_birth_mother', 'date_birth_father', 'parent_phone', 'entry_year'
     ];
 
     protected $dates = ['deleted_at'];
@@ -32,7 +33,7 @@ class MasterStudent extends Model
 
     protected $hidden = [
         'province_id', 'city_id', 'address', 'no_id',
-        'no_tlp', 'program_id', 'period_id', 'deleted_at', 'created_at', 'updated_at', 'deleted_at'
+        'phone', 'program_id', 'deleted_at', 'created_at', 'updated_at', 'deleted_at'
     ];
 
 
@@ -46,14 +47,13 @@ class MasterStudent extends Model
     {
         return $this->belongsTo(MasterCity::class, 'city_id');
     }
-    public function period()
-    {
-        return $this->belongsTo(MasterPeriod::class, 'period_id');
-    }
+    // public function period()
+    // {
+    //     return $this->belongsTo(MasterPeriod::class, 'period_id');
+    // }
+    ///
     public function program()
     {
         return $this->belongsTo(MasterAcademicProgram::class, 'program_id');
     }
-
-   
 }

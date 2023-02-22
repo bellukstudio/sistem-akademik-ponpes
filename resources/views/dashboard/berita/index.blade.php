@@ -508,7 +508,7 @@
                                 toastr.options.closeButton = true;
                                 toastr.options.closeMethod = 'fadeOut';
                                 toastr.options.closeDuration = 100;
-                                toastr.error(response.message);
+                                toastr.error('Gagal menandai terbaca');
                             }
                         });
                     });

@@ -76,30 +76,49 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="province">Tahun Akademik</label>
-                        <select class="form-control select2" style="width: 100%;" name="period" id="period">
-                            <option value="">Pilih tahun Akademik</option>
-
-                            @forelse ($periode as $item)
-                                <option value="{{ $item->id }}"
-                                    {{ $santri->period_id == $item->id ? 'selected' : '' }}>
-                                    {{ $item->code }}
-                                </option>
-                            @empty
-                                <option value=""></option>
-                            @endforelse
-                        </select>
+                        <label for="entry_year">Tahun Masuk</label>
+                        <input type="text" name="entry_year" id="" class="form-control"
+                            value="{{ old('entry_year') ?? $santri->entry_year }}" placeholder="2019 / 2019/2020">
                     </div>
-                    <div class="form-group">
-                        <label for="phone_number">Nomor Telepon <code>*Optional</code></label>
-                        <input type="number" name="phone_number" id="phone_number" class="form-control"
-                            value="{{ old('phone_number') ?? $santri->no_tlp }}" placeholder="Nomor Telepon">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="phone_number">Nomor Telepon <code>*Optional</code></label>
+                            <input type="tel" name="phone" id="phone" class="form-control"
+                                value="{{ old('phone') ?? $santri->phone }}" placeholder="Nomor Telepon">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="phone_number">Nomor Telepon Orang Tua <code>*Optional</code></label>
+                            <input type="tel" name="parent_phone" id="parent_phone" class="form-control"
+                                value="{{ old('parent_phone') ?? $santri->parent_phone }}" placeholder="Nomor Telepon">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="studen_parent">Nama Orang Tua</label>
-                        <input type="text" name="student_parent" id="studen_parent" class="form-control"
-                            autocomplete="off" value="{{ old('student_parent') ?? $santri->student_parent }}"
-                            placeholder="Nama Orang Tua">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="student_parent">Nama Ayah</label>
+                            <input type="text" name="father_name" id="father_name" class="form-control"
+                                autocomplete="off" value="{{ old('father_name') ?? $santri->father_name }}"
+                                placeholder="Nama Ayah">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="student_parent">Nama Ibu</label>
+                            <input type="text" name="mother_name" id="mother_name" class="form-control"
+                                autocomplete="off" value="{{ old('mother_name') ?? $santri->mother_name }}"
+                                placeholder="Nama Ibu">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="date_birth_father">Tanggal Lahir Ayah</label>
+                            <input type="date" name="date_birth_father" id="date_birth_father" class="form-control"
+                                autocomplete="off" value="{{ old('date_birth_father') ?? $santri->date_birth_father }}"
+                                placeholder="Tanggal Lahir">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="date_birth_mother">Tanggal Lahir Ibu</label>
+                            <input type="date" name="date_birth_mother" id="date_birth_mother" class="form-control"
+                                autocomplete="off" value="{{ old('date_birth_mother') ?? $santri->date_birth_mother }}"
+                                placeholder="Tanggal Lahir">
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="province">Provinsi</label>

@@ -62,7 +62,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $item->gender }}</td>
-                                <td>{{ $item->no_tlp }}</td>
+                                <td>{{ $item->phone }}</td>
                                 <td>{!! $item->province->province_name ?? '<span class="badge badge-danger">Error</span>' !!}
                                 </td>
                                 <td>{!! $item->city->city_name ?? '<span class="badge badge-danger">Error</span>' !!}</td>

@@ -35,7 +35,8 @@
                         <tr>
                             <th>No</th>
                             <th>Nama Lengkap</th>
-                            <th>Nama Orang Tua</th>
+                            <th>Nama Ayah</th>
+                            <th>Nama Ibu</th>
                             <th>Email</th>
                             <th>Foto</th>
                             <th>Program</th>
@@ -43,7 +44,7 @@
                             <th>No Telepon</th>
                             <th>Provinsi</th>
                             <th>Kota</th>
-                            <th>Tahun Akademik</th>
+                            <th>Tahun Masuk</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -52,7 +53,8 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->name }}</td>
-                                <td>{{ $item->student_parent }}</td>
+                                <td>{{ $item->father_name }}</td>
+                                <td>{{ $item->mother_name }}</td>
                                 <td>{{ $item->email }}</td>
                                 <td>
                                     @if (is_null($item->photo))
@@ -64,11 +66,11 @@
                                 <td>{!! $item->program->program_name ?? '<span class="badge badge-danger">error</span>' !!}
                                 </td>
                                 <td>{{ $item->gender }}</td>
-                                <td>{{ $item->no_tlp }}</td>
+                                <td>{{ $item->phone }}</td>
                                 <td>{!! $item->province->province_name ?? '<span class="badge badge-danger">error</span>' !!}
                                 </td>
                                 <td>{!! $item->city->city_name ?? '<span class="badge badge-danger">error</span>' !!}</td>
-                                <td>{!! $item->period->code ?? '<span class="badge badge-danger">error</span>' !!}</td>
+                                <td>{{ $item->entry_year }}</td>
                                 <td>
                                     {{-- {Edit} --}}
                                     <a href="{{ route('kelolaSantri.edit', $item->id) }}" class="btn btn-sm">
@@ -131,7 +133,8 @@
                         <tr>
                             <th>No</th>
                             <th>Nama Lengkap</th>
-                            <th>Nama Orang Tua</th>
+                            <th>Nama Ayah</th>
+                            <th>Nama Ibu</th>
                             <th>Email</th>
                             <th>Foto</th>
                             <th>Program</th>
@@ -139,7 +142,7 @@
                             <th>No Telepon</th>
                             <th>Provinsi</th>
                             <th>Kota</th>
-                            <th>Tahun Akademik</th>
+                            <th>Tahun Masuk</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>

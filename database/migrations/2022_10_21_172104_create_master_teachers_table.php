@@ -26,7 +26,7 @@ class CreateMasterTeachersTable extends Migration
             $table->foreignId('city_id')->nullable()->references('id')
                 ->on('master_cities')->onDelete('set null')->onUpdate('cascade');
             $table->date('date_birth')->nullable();
-            $table->char('no_tlp', 30)->nullable();
+            $table->char('phone', 30)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

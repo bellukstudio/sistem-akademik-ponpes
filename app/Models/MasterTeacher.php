@@ -15,7 +15,7 @@ class MasterTeacher extends Model
 
     protected $fillable = [
         'noId', 'email', 'name', 'photo', 'gender', 'address',
-        'province_id', 'city_id', 'date_birth', 'no_tlp', 'is_activate'
+        'province_id', 'city_id', 'date_birth', 'phone', 'is_activate'
     ];
     protected $dates = ['deleted_at'];
 
@@ -30,7 +30,7 @@ class MasterTeacher extends Model
     }
 
     protected $hidden = [
-        'email', 'address', 'no_tlp', 'province_id', 'city_id',
+        'email', 'address', 'phone', 'province_id', 'city_id',
         'created_at', 'updated_at', 'deleted_at'
     ];
 
@@ -43,6 +43,4 @@ class MasterTeacher extends Model
     {
         return $this->belongsTo(MasterCity::class, 'city_id');
     }
-
- 
 }

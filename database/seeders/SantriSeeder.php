@@ -26,10 +26,8 @@ class SantriSeeder extends Seeder
                 'province_id' => 1,
                 'city_id' => 1,
                 'date_birth' => Date::now(),
-                'student_parent' => 'Jhon Doe',
-                'no_tlp' => '293829320',
+                'phone' => '293829320',
                 'program_id' => '2',
-                'period_id' => '2',
                 'is_activate' => 1
             ],
             [
@@ -42,10 +40,8 @@ class SantriSeeder extends Seeder
                 'province_id' => 1,
                 'city_id' => 1,
                 'date_birth' => Date::now(),
-                'student_parent' => 'Jhon Doe',
-                'no_tlp' => '293829320',
+                'phone' => '293829320',
                 'program_id' => '2',
-                'period_id' => '2'
             ],
             [
                 'noId' => '823712824',
@@ -57,10 +53,8 @@ class SantriSeeder extends Seeder
                 'province_id' => 1,
                 'city_id' => 1,
                 'date_birth' => Date::now(),
-                'student_parent' => 'Jhon Doe',
-                'no_tlp' => '293829320',
+                'phone' => '293829320',
                 'program_id' => '2',
-                'period_id' => '2'
             ],
             [
                 'noId' => '8223712824',
@@ -72,10 +66,8 @@ class SantriSeeder extends Seeder
                 'province_id' => 1,
                 'city_id' => 1,
                 'date_birth' => Date::now(),
-                'student_parent' => 'Jhon Doe',
-                'no_tlp' => '293829320',
+                'phone' => '293829320',
                 'program_id' => '1',
-                'period_id' => '2'
             ],
         ];
 

@@ -17,137 +17,73 @@
     </div>
 @endsection
 @section('content-section')
-    <div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-3">
-                        @if (is_null($data->photo))
-                            <img src='https://via.placeholder.com/150x200?text=Nothing' alt="" width="150"
-                                height="200" id="photo" class="photo-show">
-                        @else
-                            <img src="@gdrive($data->photo)" alt="" class="photo-show">
-                        @endif
-
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    @if (is_null($data->photo))
+                        <img src="https://via.placeholder.com/150x200?text=Nothing" alt="" class="card-img-top">
+                    @else
+                        <img src="@gdrive($data->photo)" alt="" class="card-img-top">
+                    @endif
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $data->name }}</h5>
                     </div>
-                    <div class="col-lg-6 mt-2">
-                        <table width="100%">
-                            <tr>
-                                <td>
-                                    <label for="">Nomor ID</label>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-gradient-blue">
+                        <h5 class="card-title">Biodata Pengajar</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Nomor ID</th>
+                                    <td>{{ $data->noId }}</td>
+                                </tr>
 
-                                </td>
-                                <td>
-                                    <label for="" class="mr-2">:</label>
-                                </td>
-                                <td>
-                                    <label style="font-weight: 100;">{{ $data->noId }}</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="">Nama</label>
+                                <tr>
+                                    <th scope="row">Email</th>
+                                    <td>{{ $data->email }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Jenis Kelamin</th>
+                                    <td>{{ $data->gender }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Tanggal Lahir</th>
+                                    <td>{{ $data->date_birth }}</td>
+                                </tr>
 
-                                </td>
-                                <td>
-                                    <label for="" class="mr-2">:</label>
-                                </td>
-                                <td>
-                                    <label style="font-weight: 100;">{{ $data->name }}</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="">Email</label>
+                                <tr>
+                                    <th scope="row">Nomor Telepon</th>
+                                    <td>{{ $data->phone }}</td>
+                                </tr>
 
-                                </td>
-                                <td>
-                                    <label for="" class="mr-2">:</label>
-                                </td>
-                                <td>
-                                    <label style="font-weight: 100;">{{ $data->email }}</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="">Jenis Kelamin</label>
-
-                                </td>
-                                <td>
-                                    <label for="" class="mr-2">:</label>
-                                </td>
-                                <td>
-                                    <label style="font-weight: 100;">{{ $data->gender }}</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="">Tanggal lahir</label>
-
-                                </td>
-                                <td>
-                                    <label for="" class="mr-2">:</label>
-                                </td>
-                                <td>
-                                    <label style="font-weight: 100;">{{ $data->date_birth }}</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="">Nomor Telepon</label>
-
-                                </td>
-                                <td>
-                                    <label for="" class="mr-2">:</label>
-                                </td>
-                                <td>
-                                    <label style="font-weight: 100;">{{ $data->no_tlp }}</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="">Alamat</label>
-
-                                </td>
-                                <td>
-                                    <label for="" class="mr-2">:</label>
-                                </td>
-                                <td>
-                                    <label style="font-weight: 100;">{{ $data->address }}</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="">Kota</label>
-
-                                </td>
-                                <td>
-                                    <label for="" class="mr-2">:</label>
-                                </td>
-                                <td>
-                                    <label style="font-weight: 100;">{!! $data->city->city_name ?? '<span class="badge badge-danger">Error</span>' !!}</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="">Provinsi</label>
-
-                                </td>
-                                <td>
-                                    <label for="" class="mr-2">:</label>
-                                </td>
-                                <td>
-                                    <label style="font-weight: 100;">{!! $data->province->province_name ?? '<span class="badge badge-danger">Error</span>' !!}</label>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <th scope="row">Alamat</th>
+                                    <td>{{ $data->address }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Kota</th>
+                                    <td>
+                                        {!! $data->city->city_name ?? '<span class="badge badge-danger">Error</span>' !!}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Provinsi</th>
+                                    <td>
+                                        {!! $data->province->province_name ?? '<span class="badge badge-danger">Error</span>' !!}
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
-
                     </div>
-
                 </div>
             </div>
         </div>
-    </div>
     </div>
 @endsection
 @include('components.footer')

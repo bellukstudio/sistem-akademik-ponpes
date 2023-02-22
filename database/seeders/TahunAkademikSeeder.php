@@ -18,23 +18,23 @@ class TahunAkademikSeeder extends Seeder
         $period = [
             [
                 'code' => '2019/2020',
-                'start_date' => Date::now(),
-                'end_date' => Date::now(),
-                'status' => true,
+                'status' => false,
+                'information' => 'GENAP'
             ],
             [
                 'code' => '2018/2019',
-                'start_date' => Date::now(),
-                'end_date' => Date::now(),
-                'status' => true,
-
+                'status' => false,
+                'information' => 'GANJIL'
             ],
             [
                 'code' => '2021/2022',
-                'start_date' => Date::now(),
-                'end_date' => Date::now(),
-                'status' => true,
-
+                'status' => false,
+                'information' => 'GENAP'
+            ],
+            [
+                'code' => '2022/2023',
+                'status' => false,
+                'information' => 'GANJIL'
             ],
         ];
 

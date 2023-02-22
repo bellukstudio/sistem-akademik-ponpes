@@ -41,15 +41,18 @@
                             <form action="{{ route('kelolaTahunAkademik.store') }}" method="post">
                                 @csrf
                                 <div class="modal-body">
-                                    <label for="">Kode</label>
-                                    <input type="text" name="kode" id="" class="form-control"
-                                        value="{{ old('kode') }}" placeholder="2019/2020">
-                                    <label for="">Tanggal Mulai </label>
-                                    <input type="date" name="tgl_mulai" id="" class="form-control"
-                                        value="{{ old('tgl_mulai') }}" placeholder="dd/MM/yyyy">
-                                    <label for="">Tanggal Selesai</label>
-                                    <input type="date" name="tgl_selesai" id="" class="form-control"
-                                        value{{ old('tgl_selesai') }} placeholder="dd/MM/yyyy">
+                                    <div class="form-group">
+                                        <label for="">Kode</label>
+                                        <input type="text" name="code" id="" class="form-control"
+                                            value="{{ old('code') }}" placeholder="2019/2020">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="">Keterangan </label>
+                                        <input type="text" name="information" id="" class="form-control"
+                                            value="{{ old('information') }}" placeholder="Semester Genap">
+                                    </div>
+
                                 </div>
                                 <div class="modal-footer justify-content-between">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -80,8 +83,7 @@
                         <tr>
                             <th>No</th>
                             <th>Kode</th>
-                            <th>Tanggal Mulai</th>
-                            <th>Tanggal Selesai</th>
+                            <th>Keterangan</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -91,8 +93,7 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->code }}</td>
-                                <td>{{ $item->start_date }}</td>
-                                <td>{{ $item->end_date }}</td>
+                                <td>{{ $item->information }}</td>
                                 <td>
                                     <input type="checkbox" data-id="{{ $item->id }}" name="status" class="js-switch"
                                         {{ $item->status == 1 ? 'checked' : '' }}>
@@ -165,19 +166,21 @@
                                             @csrf
                                             @method('put')
                                             <div class="modal-body">
-                                                <label for="">Kode</label>
-                                                <input type="text" name="kode" id="" class="form-control"
-                                                    value="{{ old('kode') ?? $item->code }}" placeholder="2019/2020">
-                                                <label for="">Tanggal Mulai </label>
-                                                <input type="date" name="tgl_mulai" id=""
-                                                    class="form-control"
-                                                    value="{{ old('tgl_mulai') ?? $item->start_date }}"
-                                                    placeholder="dd/MM/yyyy">
-                                                <label for="">Tanggal Selesai</label>
-                                                <input type="date" name="tgl_selesai" id=""
-                                                    class="form-control"
-                                                    value="{{ old('tgl_selesai') ?? $item->end_date }}"
-                                                    placeholder="dd/MM/yyyy">
+                                                <div class="form-group">
+                                                    <label for="">Kode</label>
+                                                    <input type="text" name="code" id=""
+                                                        class="form-control" value="{{ old('code') ?? $item->code }}"
+                                                        placeholder="2019/2020">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="">Keterangan </label>
+                                                    <input type="text" name="information" id=""
+                                                        class="form-control"
+                                                        value="{{ old('information') ?? $item->information }}"
+                                                        placeholder="Semester Genap / etc">
+                                                </div>
+
                                             </div>
                                             <div class="modal-footer justify-content-between">
                                                 <button type="button" class="btn btn-default"
@@ -211,8 +214,7 @@
                         <tr>
                             <th>No</th>
                             <th>Kode</th>
-                            <th>Tahun Mulai</th>
-                            <th>Tahun Selesai</th>
+                            <th>Keterangan</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -233,16 +235,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         $(document).ready(function() {
+            let switcheryArray = [];
             let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
             elems.forEach(function(html) {
                 let switchery = new Switchery(html, {
                     size: 'small',
                 });
+                switcheryArray.push(switchery);
             });
             $('.js-switch').change(function() {
-                let status = $(this).prop('checked') === true ? 1 : 0;
-                let id = $(this).data('id');
-                console.log(id)
+                let switchElm = $(this);
+                let status = switchElm.prop('checked') === true ? 1 : 0;
+                let id = switchElm.data('id');
                 $.ajax({
                     type: "GET",
                     dataType: "json",
@@ -256,6 +260,16 @@
                         toastr.options.closeMethod = 'fadeOut';
                         toastr.options.closeDuration = 100;
                         toastr.success(data.message);
+                    },
+                    error: function(data) {
+                        toastr.options.closeButton = true;
+                        toastr.options.closeMethod = 'fadeOut';
+                        toastr.options.closeDuration = 100;
+                        toastr.error('Tidak dapat mengubah status');
+                        let index = elems.indexOf(switchElm[0]);
+                        setTimeout(function() {
+                            switcheryArray[index].setPosition(true);
+                        }, 1000);
                     }
                 });
             });

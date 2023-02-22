@@ -16,8 +16,7 @@ class CreateMasterPeriodsTable extends Migration
         Schema::create('master_periods', function (Blueprint $table) {
             $table->id();
             $table->char('code', 20)->unique();
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->string('information', 100);
             $table->boolean('status')->default(false);
             $table->timestamps();
             $table->softDeletes();

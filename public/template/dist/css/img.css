@@ -14,3 +14,22 @@
     height: 400px;
     object-fit: cover;
 }
+
+@media (max-width: 575.98px) {
+    .photo-show {
+        margin-bottom: 10px;
+    }
+}
+
+/* style untuk layar berukuran antara 576px dan 767.98px */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .photo-show {
+        margin-right: 10px;
+    }
+}
+/* style untuk layar berukuran lebih dari 768px */
+@media (min-width: 768px) {
+    .photo-show {
+        margin-right: 10px;
+    }
+}

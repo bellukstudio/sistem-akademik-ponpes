@@ -26,7 +26,7 @@ class PengajarSeeder extends Seeder
                 'is_activate' => 1,
                 'city_id' => 59,
                 'date_birth' => Date::now(),
-                'no_tlp' => '12198291',
+                'phone' => '12198291',
                 'address' => 'Lorem Ipsum'
             ],
             [
@@ -39,7 +39,7 @@ class PengajarSeeder extends Seeder
                 'is_activate' => 1,
                 'city_id' => 59,
                 'date_birth' => Date::now(),
-                'no_tlp' => '12198291',
+                'phone' => '12198291',
                 'address' => 'Lorem Ipsum'
             ],
             [
@@ -51,7 +51,7 @@ class PengajarSeeder extends Seeder
                 'province_id' => 3,
                 'city_id' => 59,
                 'date_birth' => Date::now(),
-                'no_tlp' => '12198291',
+                'phone' => '12198291',
                 'address' => 'Lorem Ipsum'
             ],
             [
@@ -63,7 +63,7 @@ class PengajarSeeder extends Seeder
                 'province_id' => 3,
                 'city_id' => 59,
                 'date_birth' => Date::now(),
-                'no_tlp' => '12198291',
+                'phone' => '12198291',
                 'address' => 'Lorem Ipsum'
             ],
         ];

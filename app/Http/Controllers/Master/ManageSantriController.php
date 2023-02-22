@@ -36,8 +36,7 @@ class ManageSantriController extends Controller
     {
         $province = MasterProvince::all();
         $program = MasterAcademicProgram::all();
-        $periode = MasterPeriod::where('status', 1)->get();
-        return view('dashboard.master_data.kelola_santri.create', compact('province', 'program', 'periode'));
+        return view('dashboard.master_data.kelola_santri.create', compact('province', 'program'));
     }
 
     /**
@@ -51,17 +50,21 @@ class ManageSantriController extends Controller
         $validator = Validator::make($request->all(), [
             'id_number' => 'required|integer|unique:master_students,noId',
             'address' => 'required',
-            'email' => 'required|email:dns|unique:master_students',
+            'email' => 'required|email:dns|unique:master_students,email',
             'fullName' => 'required|max:100',
             'dateBirth' => 'required|date',
             'gender' => 'required',
-            'phone_number' => 'sometimes|integer',
-            'student_parent' => 'required|max:100',
+            'phone' => 'required|integer',
+            'parent_phone' => 'required|integer',
+            'father_name' => 'required|max:100',
+            'mother_name' => 'required|max:100',
             'program' => 'required',
-            'period' => 'required',
             'province' => 'required',
             'city' => 'required',
             'photo' => 'sometimes|image|max:2048|mimes:png,jpg,jpeg',
+            'date_birth_father' => 'required|date',
+            'date_birth_mother' => 'required|date',
+            'entry_year' => 'required|max:10'
         ], [
             'id_number.required' => 'Nomor Induk wajib diisi',
             'id_number.integer' => 'Nomor Induk harus berupa angka',
@@ -75,16 +78,26 @@ class ManageSantriController extends Controller
             'dateBirth.required' => 'Tanggal Lahir wajib diisi',
             'dateBirth.date' => 'Format tanggal lahir tidak valid',
             'gender.required' => 'Jenis Kelamin wajib diisi',
-            'phone_number.integer' => 'Nomor Telepon harus berupa angka',
-            'student_parent.required' => 'Orang Tua wajib diisi',
-            'student_parent.max' => 'Orang Tua tidak boleh lebih dari 100 karakter',
+            'phone.integer' => 'Nomor Telepon harus berupa angka',
+            'phone.required' => 'Nomor Telepon harus diisi',
+            'parent_phone.required' => 'Nomor Telepon Orang Tua harus diisi',
+            'parent_phone.integer' => 'Nomor Telepon Orang Tua harus berupa angka',
+            'father_name.required' => 'Nama Ayah wajib diisi',
+            'father_name.max' => 'Nama Ayah tidak boleh lebih dari 100 karakter',
+            'mother_name.required' => 'Nama Ibu wajib diisi',
+            'mother_name.max' => 'Nama Ibu tidak boleh lebih dari 100 karakter',
             'program.required' => 'Program wajib diisi',
-            'period.required' => 'Periode wajib diisi',
             'province.required' => 'Provinsi wajib diisi',
             'city.required' => 'Kota/Kabupaten wajib diisi',
             'photo.image' => 'File harus berupa gambar',
             'photo.max' => 'Ukuran file maksimal 2MB',
             'photo.mimes' => 'Format file tidak valid. Hanya diperbolehkan format PNG, JPG, dan JPEG',
+            'date_birth_mother.required' => 'Tanggal Lahir Ibu wajib diisi',
+            'date_birth_mother.date' => 'Format tanggal lahir Ibu tidak valid',
+            'date_birth_father.required' => 'Tanggal Lahir Ayah wajib diisi',
+            'date_birth_father.date' => 'Format tanggal lahir Ayah tidak valid',
+            'entry_year.required' => 'Tahun masuk harus diisi',
+            'entry_year.max' => 'Tahun masuk maksimal 10 karakter'
         ]);
 
         try {
@@ -117,10 +130,14 @@ class ManageSantriController extends Controller
                 'province_id' => $request->province,
                 'city_id' => $request->city,
                 'date_birth' => $request->dateBirth,
-                'student_parent' => $request->student_parent,
-                'no_tlp' => $request->phone_number,
+                'father_name' => $request->father_name,
+                'mother_name' => $request->mother_name,
+                'parent_phone' => $request->parent_phone,
+                'phone' => $request->phone,
                 'program_id' => $request->program,
-                'period_id' => $request->period
+                'date_birth_mother' => $request->date_birth_mother,
+                'date_birth_father' => $request->date_birth_father,
+                'entry_year' => $request->entry_year
             ]);
             return redirect()->route('kelolaSantri.index')
                 ->with('success', 'Santri ' . $request->fullName . ' berhasil disimpan');
@@ -174,7 +191,7 @@ class ManageSantriController extends Controller
      */
     public function show($id)
     {
-        $data = MasterStudent::with(['province', 'city', 'program', 'period'])->findOrFail($id);
+        $data = MasterStudent::with(['province', 'city', 'program'])->findOrFail($id);
         return view('dashboard.master_data.kelola_santri.show', compact('data'));
     }
 
@@ -188,13 +205,11 @@ class ManageSantriController extends Controller
     {
         $data = MasterStudent::find($id);
         $program = MasterAcademicProgram::all();
-        $periode = MasterPeriod::where('status', 1)->get();
         $province = MasterProvince::all();
 
         return view('dashboard.master_data.kelola_santri.edit', [
             'santri' => $data,
             'program' => $program,
-            'periode' => $periode,
             'province' => $province
         ]);
     }
@@ -215,13 +230,18 @@ class ManageSantriController extends Controller
             'fullName' => 'required|max:100',
             'dateBirth' => 'required|date',
             'gender' => 'required',
-            'phone_number' => 'sometimes|integer',
-            'student_parent' => 'required|max:100',
+            'phone' => 'required|integer',
+            'parent_phone' => 'required|integer',
+            'father_name' => 'required|max:100',
+            'mother_name' => 'required|max:100',
             'program' => 'required',
-            'period' => 'required',
             'province' => 'required',
             'city' => 'required',
             'photo' => 'sometimes|image|max:2048|mimes:png,jpg,jpeg',
+            'date_birth_father' => 'required|date',
+            'date_birth_mother' => 'required|date',
+            'entry_year' => 'required|max:10'
+
         ], [
             'id_number.required' => 'Nomor Induk wajib diisi',
             'id_number.integer' => 'Nomor Induk harus berupa angka',
@@ -235,17 +255,28 @@ class ManageSantriController extends Controller
             'dateBirth.required' => 'Tanggal Lahir wajib diisi',
             'dateBirth.date' => 'Format tanggal lahir tidak valid',
             'gender.required' => 'Jenis Kelamin wajib diisi',
-            'phone_number.integer' => 'Nomor Telepon harus berupa angka',
-            'student_parent.required' => 'Orang Tua wajib diisi',
-            'student_parent.max' => 'Orang Tua tidak boleh lebih dari 100 karakter',
+            'phone.integer' => 'Nomor Telepon harus berupa angka',
+            'phone.required' => 'Nomor Telepon harus diisi',
+            'parent_phone.required' => 'Nomor Telepon Orang Tua harus diisi',
+            'parent_phone.integer' => 'Nomor Telepon Orang Tua harus berupa angka',
+            'father_name.required' => 'Nama Ayah wajib diisi',
+            'father_name.max' => 'Nama Ayah tidak boleh lebih dari 100 karakter',
+            'mother_name.required' => 'Nama Ibu wajib diisi',
+            'mother_name.max' => 'Nama Ibu tidak boleh lebih dari 100 karakter',
             'program.required' => 'Program wajib diisi',
-            'period.required' => 'Periode wajib diisi',
             'province.required' => 'Provinsi wajib diisi',
             'city.required' => 'Kota/Kabupaten wajib diisi',
             'photo.image' => 'File harus berupa gambar',
             'photo.max' => 'Ukuran file maksimal 2MB',
             'photo.mimes' => 'Format file tidak valid. Hanya diperbolehkan format PNG, JPG, dan JPEG',
+            'date_birth_mother.required' => 'Tanggal Lahir Ibu wajib diisi',
+            'date_birth_mother.date' => 'Format tanggal lahir Ibu tidak valid',
+            'date_birth_father.required' => 'Tanggal Lahir Ayah wajib diisi',
+            'date_birth_father.date' => 'Format tanggal lahir Ayah tidak valid',
+            'entry_year.required' => 'Tahun masuk harus diisi',
+            'entry_year.max' => 'Tahun masuk maksimal 10 karakter'
         ]);
+
 
         try {
             if ($validator->fails()) {
@@ -301,11 +332,15 @@ class ManageSantriController extends Controller
             $data->province_id = $request->province;
             $data->city_id = $request->city;
             $data->date_birth = $request->dateBirth;
-            $data->no_tlp = $request->phone_number;
+            $data->phone = $request->phone;
+            $data->parent_phone = $request->parent_phone;
             $data->address = $request->address;
-            $data->student_parent = $request->student_parent;
+            $data->father_name = $request->father_name;
+            $data->mother_name = $request->mother_name;
+            $data->date_birth_father = $request->date_birth_father;
+            $data->date_birth_mother = $request->date_birth_mother;
             $data->program_id = $request->program;
-            $data->period_id = $request->period;
+            $data->entry_year = $request->entry_year;
             $data->update();
             return redirect()->route('kelolaSantri.index')
                 ->with('success', 'Data Santri ' . $request->fullName . ' berhasil diubah');
@@ -344,7 +379,7 @@ class ManageSantriController extends Controller
     {
         $this->authorize('admin');
 
-        $data = MasterStudent::with(['province', 'city', 'program', 'period'])->onlyTrashed()->get();
+        $data = MasterStudent::with(['province', 'city', 'program'])->onlyTrashed()->get();
         return view('dashboard.master_data.kelola_santri.trash', [
             'trash' => $data
         ]);
