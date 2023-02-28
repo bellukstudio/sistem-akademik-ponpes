@@ -97,7 +97,7 @@
                         <div class="col-md-8">
                             <div class="card">
                                 <div class="card-header bg-gradient-blue">
-                                    <h5 class="card-title">Biodata Pengajar</h5>
+                                    <h5 class="card-title">Biodata Pengurus</h5>
                                 </div>
                                 <div class="card-body">
                                     <table class="table">

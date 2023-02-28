@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\ApiResponse;
+use App\Helpers\FcmHelper;
 use App\Models\MasterPayment;
 use App\Models\MasterPeriod;
 use App\Models\MasterStudent;
+use App\Models\MasterTokenFcm;
 use App\Models\TrxPayment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -136,6 +138,7 @@ class PembayaranController extends Controller
                 ], 'Request is invalid', 422);
             }
             $period = MasterPeriod::where('status', 1)->first();
+            $masterPayment = MasterPayment::find($request->type)->first();
             $student = MasterStudent::where('email', $request->user()->email)->first();
             $data = [
                 'id_user' => $request->user()->id,
@@ -145,6 +148,19 @@ class PembayaranController extends Controller
                 'total' => $request->total,
                 'id_period' => $period->id ?? null
             ];
+
+            sleep(1);
+            $checkAvaiableToken = MasterTokenFcm::all();
+            if (count($checkAvaiableToken) > 0) {
+                $dataFcm = [
+                    'data' => $data
+                ];
+                FcmHelper::sendNotificationWithGuzzleForWeb(
+                    'Pembayaran ' . $masterPayment->payment_name . ' baru',
+                    $request->total,
+                    $dataFcm
+                );
+            }
             $payment = TrxPayment::create($data);
 
             // $payment = TrxPayment::

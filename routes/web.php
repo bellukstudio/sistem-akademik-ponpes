@@ -697,4 +697,11 @@ Route::middleware(['auth'])->group(function () {
         'penilaianAkhir/create/{id}',
         [ManagePenilaianController::class, 'store']
     )->name('penilaianAkhir.store');
+    /**
+     * [FIREBASE CONFIG]
+     */
+    Route::get('/firebase-messaging-sw.js', function () {
+        return response(file_get_contents(public_path('firebase-messaging-sw.js')))
+            ->header('Content-Type', 'text/javascript');
+    });
 });

@@ -23,8 +23,7 @@
 <!-- AdminLTE for demo purposes -->
 {{-- <script src="{{ asset('template/dist/js/demo.js') }}"></script> --}}
 <!-- Page specific script -->
-
-
+@include('firebase.config')
 <script>
     $(function() {
         $("#example1").DataTable({
