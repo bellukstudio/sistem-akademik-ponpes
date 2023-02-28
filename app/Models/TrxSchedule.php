@@ -11,7 +11,7 @@ class TrxSchedule extends Model
     use HasFactory;
 
     protected $fillable = [
-        'teacher_id', 'course_id', 'class_id', 'day', 'time'
+        'teacher_id', 'course_id', 'class_id', 'day', 'time', 'id_period'
     ];
     protected $hidden = [
         'created_at', 'updated_at'
@@ -30,6 +30,10 @@ class TrxSchedule extends Model
     {
         return $this->belongsTo(MasterClass::class, 'class_id');
     }
+    public function period()
+    {
+        return $this->belongsTo(MasterPeriod::class, 'id_period');
+    }
 
     //
     public function getCreatedAttribute($value)
@@ -41,6 +45,4 @@ class TrxSchedule extends Model
     {
         return Carbon::parse($value)->timestamp;
     }
-
- 
 }

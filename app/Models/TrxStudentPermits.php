@@ -10,7 +10,7 @@ class TrxStudentPermits extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'student_id', 'description', 'permit_date', 'permit_type', 'id_program', 'status'
+        'student_id', 'description', 'permit_date', 'permit_type', 'id_program', 'status', 'id_period'
     ];
     protected $hidden = [
         'created_at', 'updated_at'
@@ -33,5 +33,9 @@ class TrxStudentPermits extends Model
     public function student()
     {
         return $this->belongsTo(MasterStudent::class, 'student_id');
+    }
+    public function period()
+    {
+        return $this->belongsTo(MasterPeriod::class, 'id_period');
     }
 }

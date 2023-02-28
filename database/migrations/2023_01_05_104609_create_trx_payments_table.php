@@ -25,6 +25,8 @@ class CreateTrxPaymentsTable extends Migration
             $table->string('total', 50);
             $table->text('photo')->nullable();
             $table->boolean('status')->nullable();
+            $table->foreignId('id_period')->nullable()->references('id')
+                ->on('master_periods')->onDelete('no action')->onUpdate('cascade');
             $table->timestamps();
         });
     }

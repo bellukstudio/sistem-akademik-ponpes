@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Helpers\UtilHelper;
 use Illuminate\Support\ServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Blade;
@@ -36,6 +37,11 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('gdrive', function ($id) {
             $data = "<?php echo $id ?>";
             return "https://drive.google.com/uc?export=view&id=$data";
+        });
+
+        Blade::directive('scoreRange', function ($expression) {
+            $data = UtilHelper::scoreRange($expression);
+            return "<?php echo $data; ?>";
         });
     }
 }

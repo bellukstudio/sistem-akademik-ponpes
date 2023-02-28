@@ -7,6 +7,7 @@ use App\Models\TrxStudentPermits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Helpers\ApiResponse;
+use App\Models\MasterPeriod;
 use App\Models\MasterStudent;
 
 class PerizinanController extends Controller
@@ -68,13 +69,15 @@ class PerizinanController extends Controller
             }
 
             // get student by email
+            $period = MasterPeriod::where('status', 1)->first();
             $student = MasterStudent::where('email', $request->user()->email)->first();
             $data = [
                 'student_id' => $student->id,
                 'description' => $request->description,
                 'permit_date' => $request->date_permit,
                 'permit_type' => $request->title,
-                'id_program' => $student->program_id
+                'id_program' => $student->program_id,
+                'id_period' => $period->id ?? null
             ];
             TrxStudentPermits::create($data);
             return ApiResponse::success([
@@ -115,6 +118,7 @@ class PerizinanController extends Controller
         try {
 
             //
+            $period = MasterPeriod::where('status', 1)->first();
             $student = MasterStudent::where('email', $request->user()->email)->first();
             $data = TrxStudentPermits::find($id);
             if ($data->student_id === $student->id) {
@@ -122,6 +126,7 @@ class PerizinanController extends Controller
                     $data->permit_date = $request->date_permit;
                     $data->permit_type = $request->title;
                     $data->description = $request->description;
+                    $data->id_period = $period->id ?? null;
                     $data->update();
                     return ApiResponse::success([
                         'permit' => $data,

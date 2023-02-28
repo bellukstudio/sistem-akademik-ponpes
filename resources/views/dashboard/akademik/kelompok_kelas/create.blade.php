@@ -75,7 +75,7 @@
                 $('#class_select').find('option').not(':first').remove();
 
                 //url student by program
-                var studentByProgramUrl = '{{ route('studentByProgram', ':id') }}';
+                var studentByProgramUrl = '{{ route('studentByProgramInClassGroup', ':id') }}';
                 studentByProgramUrl = studentByProgramUrl.replace(':id', idProgram);
                 $.ajax({
                     url: studentByProgramUrl,

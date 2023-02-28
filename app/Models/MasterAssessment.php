@@ -10,7 +10,7 @@ class MasterAssessment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'program_id'
+        'name', 'program_id', 'weight'
     ];
     protected $hidden = [
         'created_at', 'updated_at'
@@ -20,5 +20,4 @@ class MasterAssessment extends Model
     {
         return $this->belongsTo(MasterAcademicProgram::class, 'program_id');
     }
-
 }

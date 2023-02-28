@@ -10,7 +10,7 @@ class TrxScore extends Model
     use HasFactory;
 
     protected $fillable = [
-        'student_id', 'class_id', 'course_id', 'user_id', 'score', 'date_assesment', 'assessment_id'
+        'student_id', 'class_id', 'course_id', 'user_id', 'score', 'date_assesment', 'assessment_id', 'id_period'
     ];
     protected $hidden = [
         'created_at', 'updated_at'
@@ -19,6 +19,4 @@ class TrxScore extends Model
     protected $dates = [
         'created_at', 'updated_at'
     ];
-
-   
 }

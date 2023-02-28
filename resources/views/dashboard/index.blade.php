@@ -6,271 +6,151 @@
         use Carbon\Carbon;
     @endphp
     <section class="content">
+        @if ($isAdmin == false)
+            @can('pengajar')
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                @if (is_null($user->photo))
+                                    <img src="https://via.placeholder.com/150x200?text=Nothing" alt=""
+                                        class="card-img-top">
+                                @else
+                                    <img src="@gdrive($user->photo)" alt="" class="card-img-top">
+                                @endif
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $user->name }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header bg-gradient-blue">
+                                    <h5 class="card-title">Biodata Pengajar</h5>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">Nomor ID</th>
+                                                <td>{{ $user->noId }}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <th scope="row">Email</th>
+                                                <td>{{ $user->email }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Jenis Kelamin</th>
+                                                <td>{{ $user->gender }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Tanggal Lahir</th>
+                                                <td>{{ $user->date_birth }}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <th scope="row">Nomor Telepon</th>
+                                                <td>{{ $user->phone }}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <th scope="row">Alamat</th>
+                                                <td>{{ $user->address }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Kota</th>
+                                                <td>
+                                                    {!! $user->city->city_name ?? '<span class="badge badge-danger">Error</span>' !!}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Provinsi</th>
+                                                <td>
+                                                    {!! $user->province->province_name ?? '<span class="badge badge-danger">Error</span>' !!}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endcan
+            @can('pengurus')
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                @if (is_null($user->photo))
+                                    <img src="https://via.placeholder.com/150x200?text=Nothing" alt=""
+                                        class="card-img-top">
+                                @else
+                                    <img src="@gdrive($user->photo)" alt="" class="card-img-top">
+                                @endif
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $user->name }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header bg-gradient-blue">
+                                    <h5 class="card-title">Biodata Pengajar</h5>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">Nomor ID</th>
+                                                <td>{{ $user->noId }}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <th scope="row">Email</th>
+                                                <td>{{ $user->email }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Jenis Kelamin</th>
+                                                <td>{{ $user->gender }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Tanggal Lahir</th>
+                                                <td>{{ $user->date_birth }}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <th scope="row">Nomor Telepon</th>
+                                                <td>{{ $user->phone }}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <th scope="row">Alamat</th>
+                                                <td>{{ $user->address }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Kota</th>
+                                                <td>
+                                                    {!! $user->city->city_name ?? '<span class="badge badge-danger">Error</span>' !!}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Provinsi</th>
+                                                <td>
+                                                    {!! $user->province->province_name ?? '<span class="badge badge-danger">Error</span>' !!}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endcan
+        @endif
         <div class="container-fluid">
-            @if ($isAdmin == false)
-                @can('pengajar')
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    @if (is_null($user->photo))
-                                        <img src='https://via.placeholder.com/150x200?text=Nothing' alt="" width="150"
-                                            height="200" id="photo" class="photo-show">
-                                    @else
-                                        <img src="@gdrive($user->photo)" alt="" class="photo-show">
-                                    @endif
-
-                                </div>
-                                <div class="col-lg-6 mt-2">
-                                    <table width="100%">
-                                        <tr>
-                                            <td>
-                                                <label for="">Nomor ID</label>
-
-                                            </td>
-                                            <td>
-                                                <label for="" class="mr-2">:</label>
-                                            </td>
-                                            <td>
-                                                <label style="font-weight: 100;">{{ $user->noId }}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="">Nama</label>
-
-                                            </td>
-                                            <td>
-                                                <label for="" class="mr-2">:</label>
-                                            </td>
-                                            <td>
-                                                <label style="font-weight: 100;">{{ $user->name }}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="">Email</label>
-
-                                            </td>
-                                            <td>
-                                                <label for="" class="mr-2">:</label>
-                                            </td>
-                                            <td>
-                                                <label style="font-weight: 100;">{{ $user->email }}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="">Jenis Kelamin</label>
-
-                                            </td>
-                                            <td>
-                                                <label for="" class="mr-2">:</label>
-                                            </td>
-                                            <td>
-                                                <label style="font-weight: 100;">{{ $user->gender }}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="">Tanggal lahir</label>
-
-                                            </td>
-                                            <td>
-                                                <label for="" class="mr-2">:</label>
-                                            </td>
-                                            <td>
-                                                <label style="font-weight: 100;">{{ $user->date_birth }}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="">Nomor Telepon</label>
-
-                                            </td>
-                                            <td>
-                                                <label for="" class="mr-2">:</label>
-                                            </td>
-                                            <td>
-                                                <label style="font-weight: 100;">{{ $user->no_tlp }}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="">Alamat</label>
-
-                                            </td>
-                                            <td>
-                                                <label for="" class="mr-2">:</label>
-                                            </td>
-                                            <td>
-                                                <label style="font-weight: 100;">{{ $user->address }}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="">Kota</label>
-
-                                            </td>
-                                            <td>
-                                                <label for="" class="mr-2">:</label>
-                                            </td>
-                                            <td>
-                                                <label style="font-weight: 100;">{!! $user->city->city_name ?? '<span class="badge badge-danger">Error</span>' !!}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="">Provinsi</label>
-
-                                            </td>
-                                            <td>
-                                                <label for="" class="mr-2">:</label>
-                                            </td>
-                                            <td>
-                                                <label style="font-weight: 100;">{!! $user->province->province_name ?? '<span class="badge badge-danger">Error</span>' !!}</label>
-                                            </td>
-                                        </tr>
-                                    </table>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                @endcan
-                @can('pengurus')
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    @if (is_null($user->photo))
-                                        <img src='https://via.placeholder.com/150x200?text=Nothing' alt=""
-                                            width="150" height="200" id="photo" class="photo-show">
-                                    @else
-                                        <img src="@gdrive($user->photo)" alt="" class="photo-show">
-                                    @endif
-
-                                </div>
-                                <div class="col-lg-6 mt-2">
-                                    <table width="100%">
-                                        <tr>
-                                            <td>
-                                                <label for="">Nomor ID</label>
-
-                                            </td>
-                                            <td>
-                                                <label for="" class="mr-2">:</label>
-                                            </td>
-                                            <td>
-                                                <label style="font-weight: 100;">{{ $user->noId }}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="">Nama</label>
-
-                                            </td>
-                                            <td>
-                                                <label for="" class="mr-2">:</label>
-                                            </td>
-                                            <td>
-                                                <label style="font-weight: 100;">{{ $user->name }}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="">Email</label>
-
-                                            </td>
-                                            <td>
-                                                <label for="" class="mr-2">:</label>
-                                            </td>
-                                            <td>
-                                                <label style="font-weight: 100;">{{ $user->email }}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="">Jenis Kelamin</label>
-
-                                            </td>
-                                            <td>
-                                                <label for="" class="mr-2">:</label>
-                                            </td>
-                                            <td>
-                                                <label style="font-weight: 100;">{{ $user->gender }}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="">Tanggal lahir</label>
-
-                                            </td>
-                                            <td>
-                                                <label for="" class="mr-2">:</label>
-                                            </td>
-                                            <td>
-                                                <label style="font-weight: 100;">{{ $user->date_birth }}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="">Nomor Telepon</label>
-
-                                            </td>
-                                            <td>
-                                                <label for="" class="mr-2">:</label>
-                                            </td>
-                                            <td>
-                                                <label style="font-weight: 100;">{{ $user->no_tlp }}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="">Alamat</label>
-
-                                            </td>
-                                            <td>
-                                                <label for="" class="mr-2">:</label>
-                                            </td>
-                                            <td>
-                                                <label style="font-weight: 100;">{{ $user->address }}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="">Kota</label>
-
-                                            </td>
-                                            <td>
-                                                <label for="" class="mr-2">:</label>
-                                            </td>
-                                            <td>
-                                                <label style="font-weight: 100;">{!! $user->city->city_name ?? '<span class="badge badge-danger">Error</span>' !!}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="">Provinsi</label>
-
-                                            </td>
-                                            <td>
-                                                <label for="" class="mr-2">:</label>
-                                            </td>
-                                            <td>
-                                                <label style="font-weight: 100;">{!! $user->province->province_name ?? '<span class="badge badge-danger">Error</span>' !!}</label>
-                                            </td>
-                                        </tr>
-                                    </table>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                @endcan
-            @endif
             @can('admin')
                 <!-- Small boxes (Stat box) -->
                 <div class="row">
@@ -526,9 +406,8 @@
                     <!-- /.card-footer -->
                 </div>
             @endcan
-
-            <!-- /.row (main row) -->
         </div>
+        <!-- /.row (main row) -->
         <!-- /.container-fluid -->
     </section>
 @endsection

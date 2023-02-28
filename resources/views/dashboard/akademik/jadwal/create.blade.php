@@ -27,6 +27,17 @@
                 @csrf
                 <div class="card-body">
                     <div class="form-group">
+                        <label for="">Pilih Program</label>
+                        <select class="form-control select2" style="width: 100%;" name="program_select" id="program_select">
+                            <option value="">Pilih Program</option>
+                            @forelse ($program as $item)
+                                <option value="{{ $item->id }}">{{ $item->program_name }}</option>
+                            @empty
+                                <option value=""></option>
+                            @endforelse
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="">Pilih Pengajar</label>
                         <select name="teacher_select" id="" class="form-control select2" style="width: 100%;">
                             <option value="">Pilih Pengajar</option>
@@ -39,25 +50,17 @@
                     </div>
                     <div class="form-group">
                         <label for="">Pilih Kelas</label>
-                        <select name="class_select[]" id="" class="form-control select2" style="width: 100%;"
+                        <select name="class_select[]" id="class_select" class="form-control select2" style="width: 100%;"
                             multiple="multiple" data-placeholder="Pilih Kelas">
-                            @forelse ($class as $c)
-                                <option value="{{ $c->id }}">{{ $c->class_name }}</option>
-                            @empty
-                                <option value=""></option>
-                            @endforelse
+                            <option value="">Pilih Kelas</option>
                         </select>
 
                     </div>
                     <div class="form-group">
                         <label for="">Pilih Mata Pelajaran</label>
-                        <select name="course_select" id="" class="form-control select2" style="width: 100%;">
+                        <select name="course_select" id="course_select" class="form-control select2" style="width: 100%;">
                             <option value="">Pilih Mata Pelajaran</option>
-                            @forelse ($course as $p)
-                                <option value="{{ $p->id }}">{{ $p->course_name }}</option>
-                            @empty
-                                <option value=""></option>
-                            @endforelse
+
                         </select>
                     </div>
                     <div class="form-group">
@@ -97,6 +100,77 @@
     <script src="{{ asset('template/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
         $(function() {
+            getClassByProgram();
+            getCourseByProgram();
+
+            function getClassByProgram() {
+                $('#program_select').change(function() {
+                    var idProgram = $(this).val();
+
+                    $('#class_select').find('option').not(':first').remove();
+                    // url class by program
+                    var classByProgramUrl = '{{ route('classByProgram', ':id') }}';
+                    classByProgramUrl = classByProgramUrl.replace(':id', idProgram);
+                    $.ajax({
+                        url: classByProgramUrl,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(response) {
+                            var len = 0;
+                            if (response['data'] != null) {
+                                len = response['data'].length;
+                            }
+                            if (len > 0) {
+                                // Read data and create <option >
+                                for (var i = 0; i < len; i++) {
+
+                                    var id = response['data'][i].id;
+                                    var name = response['data'][i].class_name;
+
+                                    var option = "<option value='" + id + "'>" + name +
+                                        "</option>";
+
+                                    $("#class_select").append(option);
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+
+            function getCourseByProgram() {
+                $('#program_select').change(function() {
+                    var value = $(this).val();
+                    $('#course_select').find('option').not(':first').remove();
+                    $.ajax({
+                        url: '{{ route('getAllCourseByProgram') }}',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {
+                            'program': value
+                        },
+                        success: function(response) {
+                            if (response['data'] != null) {
+                                len = response['data'].length;
+                            }
+                            if (len > 0) {
+                                // Read data and create <option >
+                                for (var i = 0; i < len; i++) {
+
+                                    var id = response['data'][i].id;
+                                    var name = response['data'][i].course_name;
+                                    // variable option
+                                    var option = "";
+                                    option = "<option value='" + id + "'>" + name +
+                                        "</option>";
+
+                                    $("#course_select").append(option);
+                                }
+                            }
+                        }
+                    });
+                });
+            }
             $('.select2').select2();
         });
     </script>

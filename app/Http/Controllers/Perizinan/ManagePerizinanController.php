@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Perizinan;
 
 use App\Helpers\FcmHelper;
 use App\Http\Controllers\Controller;
+use App\Models\MasterPeriod;
 use App\Models\MasterStudent;
 use App\Models\MasterTokenFcm;
 use App\Models\MasterUsers;
@@ -69,13 +70,15 @@ class ManagePerizinanController extends Controller
         );
 
         try {
+            $period = MasterPeriod::where('status', 1)->first();
             $student = MasterStudent::find($request->student);
             TrxStudentPermits::create([
                 'student_id' => $student->id,
                 'description' => $request->desc,
                 'permit_date' => $request->datePermit,
                 'permit_type' => $request->titlePermit,
-                'id_program' => $student->program_id
+                'id_program' => $student->program_id,
+                'id_period' => $period->id ?? null
             ]);
             return redirect()->route('perizinan.index')
                 ->with('success', 'Berhasil membuat perizinan ' . $request->titlePermit);
@@ -129,6 +132,7 @@ class ManagePerizinanController extends Controller
             ]
         );
         try {
+            $period = MasterPeriod::where('status', 1)->first();
             $student = MasterStudent::find($request->student);
             $data = TrxStudentPermits::find($id);
             $data->student_id = $request->student;
@@ -136,6 +140,7 @@ class ManagePerizinanController extends Controller
             $data->permit_date = $request->datePermit;
             $data->permit_type = $request->titlePermit;
             $data->id_program = $student->program_id;
+            $data->id_period = $period->id ?? null;
             $data->update();
 
             return redirect()->route('perizinan.index')
@@ -236,7 +241,7 @@ class ManagePerizinanController extends Controller
     //         'trash' => $data
     //     ]);
     // }
-
+    ///
     // public function restore($id)
     // {
     //     $this->authorize('admin');
@@ -253,7 +258,7 @@ class ManagePerizinanController extends Controller
     // public function restoreAll()
     // {
     //     $this->authorize('admin');
-
+    ///
     //     try {
     //         $data = TrxStudentPermits::onlyTrashed();
     //         $data->restore();
@@ -262,7 +267,7 @@ class ManagePerizinanController extends Controller
     //         return back()->withErrors($e);
     //     }
     // }
-
+    ///
     // public function deletePermanent($id)
     // {
     //     $this->authorize('admin');
@@ -279,7 +284,7 @@ class ManagePerizinanController extends Controller
     // public function deletePermanentAll()
     // {
     //     $this->authorize('admin');
-
+    ///
     //     try {
     //         $data = TrxStudentPermits::onlyTrashed();
     //         $data->forceDelete();
@@ -288,4 +293,5 @@ class ManagePerizinanController extends Controller
     //         return back()->withErrors($e);
     //     }
     // }
+    ///
 }

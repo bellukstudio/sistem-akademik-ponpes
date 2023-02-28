@@ -254,11 +254,27 @@
 
                      <li class="nav-header">AKADEMIK</li>
                      <li
-                         class="nav-item {{ Request::is(['jadwalPelajaran*', 'jadwalPiket*', 'kelompokKelas*', 'kelompokKamar*', 'hafalanSurah*'])
+                         class="nav-item {{ Request::is([
+                             'jadwalPelajaran*',
+                             'jadwalPiket*',
+                             'kelompokKelas*',
+                             'kelompokKamar*',
+                             'hafalanSurah*',
+                             'penilaianAkhir*',
+                         ])
                              ? 'menu-open'
                              : '' }}">
                          <a href="#"
-                             class="nav-link {{ Request::is(['jadwalPelajaran*', 'jadwalPiket*', 'kelompokKelas*', 'kelompokKamar*', 'hafalanSurah*']) ? 'active' : '' }}">
+                             class="nav-link {{ Request::is([
+                                 'jadwalPelajaran*',
+                                 'jadwalPiket*',
+                                 'kelompokKelas*',
+                                 'kelompokKamar*',
+                                 'hafalanSurah*',
+                                 'penilaianAkhir*',
+                             ])
+                                 ? 'active'
+                                 : '' }}">
                              <i class="nav-icon fas fa-archive"></i>
                              <p>
                                  Akademik
@@ -308,13 +324,6 @@
                                      <p>Input Nilai Akhir</p>
                                  </a>
                              </li>
-
-                             <li class="nav-item">
-                                 <a href="" class="nav-link">
-                                     <i class="far fa-circle nav-icon"></i>
-                                     <p>Raport</p>
-                                 </a>
-                             </li>
                          </ul>
                      </li>
                      <li class="nav-header">File Sharing</li>
@@ -333,11 +342,72 @@
                          </a>
                      </li>
                      <li class="nav-header">Laporan</li>
-                     <li class="nav-item">
-                         <a href="#" class="nav-link">
-                             <i class="nav-icon fas fa-file-export"></i>
-                             <p>Laporan</p>
+                     <li
+                         class="nav-item {{ Request::is([
+                             'laporan-presensi*',
+                             'laporan-perizinan*',
+                             'laporan-pembayaran*',
+                             'laporan-pembayaran*',
+                             'laporan-nilai-hafalan*',
+                             'laporan-penilaian-akhir*',
+                         ])
+                             ? 'menu-open'
+                             : '' }}">
+                         <a href="#"
+                             class="nav-link
+                         {{ Request::is([
+                             'laporan-presensi*',
+                             'laporan-perizinan*',
+                             'laporan-pembayaran*',
+                             'laporan-pembayaran*',
+                             'laporan-nilai-hafalan*',
+                             'laporan-penilaian-akhir*',
+                         ])
+                             ? 'active'
+                             : '' }}">
+                             <i class="nav-icon fas fa-archive"></i>
+                             <p>
+                                 Laporan
+                                 <i class="fas fa-angle-left right"></i>
+                             </p>
                          </a>
+                         <ul class="nav nav-treeview">
+                             <li class="nav-item">
+                                 <a href="{{ route('presensi-report.index') }}"
+                                     class="nav-link {{ Request::is('laporan-presensi*') ? 'active' : '' }}">
+                                     <i class="far fa-circle nav-icon"></i>
+                                     <p>Laporan Presensi</p>
+                                 </a>
+                             </li>
+                             <li class="nav-item">
+                                 <a href="{{ route('perizinan-report.index') }}"
+                                     class="nav-link {{ Request::is('laporan-perizinan*') ? 'active' : '' }}">
+                                     <i class="far fa-circle nav-icon"></i>
+                                     <p>Laporan Perizinan</p>
+                                 </a>
+                             </li>
+                             <li class="nav-item">
+                                 <a href="{{ route('pembayaran-report.index') }}"
+                                     class="nav-link {{ Request::is('laporan-pembayaran*') ? 'active' : '' }}">
+                                     <i class="far fa-circle nav-icon"></i>
+                                     <p>Laporan Pembayaran</p>
+                                 </a>
+                             </li>
+                             <li class="nav-item">
+                                 <a href="{{ route('nilai-hafalan-report.index') }}"
+                                     class="nav-link {{ Request::is('laporan-nilai-hafalan*') ? 'active' : '' }}">
+                                     <i class="far fa-circle nav-icon"></i>
+                                     <p>Laporan Nilai Hafalan</p>
+                                 </a>
+                             </li>
+                             <li class="nav-item">
+                                 <a href="{{ route('penilaian-akhir-report.index') }}"
+                                     class="nav-link {{ Request::is('laporan-penilaian-akhir*') ? 'active' : '' }}">
+                                     <i class="far fa-circle nav-icon"></i>
+                                     <p>Laporan Nilai Akhir</p>
+                                 </a>
+                             </li>
+                         </ul>
                      </li>
                  @endcan
                  @can('pengurus')
@@ -419,6 +489,7 @@
                      </li>
                  @endcan
              </ul>
+             <div style="height: 100px;"></div>
          </nav>
          <!-- /.sidebar-menu -->
      </div>

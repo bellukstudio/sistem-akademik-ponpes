@@ -20,6 +20,8 @@ class CreateTrxSchedulesTable extends Migration
             $table->foreignId('class_id')->references('id')->on('master_classes')->onDelete('no action')->onUpdate('cascade');
             $table->string('day', 20);
             $table->string('time', 20);
+            $table->foreignId('id_period')->nullable()->references('id')
+                ->on('master_periods')->onDelete('no action')->onUpdate('cascade');
             $table->timestamps();
         });
     }

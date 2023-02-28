@@ -20,28 +20,32 @@ class JadwalSeeder extends Seeder
                 'course_id' => 1,
                 'class_id' => 1,
                 'day' => 'Ahad',
-                'time' => 'Pagi'
+                'time' => 'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 1,
                 'class_id' => 2,
                 'day' => 'Ahad',
-                'time' => 'Pagi'
+                'time' => 'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 1,
                 'class_id' => 3,
                 'day' => 'Ahad',
-                'time' => 'Pagi'
+                'time' => 'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 1,
                 'class_id' => 4,
                 'day' => 'Ahad',
-                'time' => 'Pagi'
+                'time' => 'Pagi',
+                'id_period' => 4
             ],
             // malam
             [
@@ -49,28 +53,32 @@ class JadwalSeeder extends Seeder
                 'course_id' => 2,
                 'class_id' => 1,
                 'day' => 'Ahad',
-                'time' => 'Malam'
+                'time' => 'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 3,
                 'course_id' => 3,
                 'class_id' => 2,
                 'day' => 'Ahad',
-                'time' => 'Malam'
+                'time' => 'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 3,
                 'class_id' => 3,
                 'day' => 'Ahad',
-                'time' => 'Malam'
+                'time' => 'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 4,
                 'course_id' => 3,
                 'class_id' => 4,
                 'day' => 'Ahad',
-                'time' => 'Malam'
+                'time' => 'Malam',
+                'id_period' => 4
             ],
         ];
         foreach ($ahad as $data) {
@@ -83,28 +91,32 @@ class JadwalSeeder extends Seeder
                 'course_id' => 4,
                 'class_id' => 1,
                 'day' => 'Senin',
-                'time' => 'Pagi'
+                'time' => 'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 4,
                 'class_id' => 2,
                 'day' => 'Senin',
-                'time' => 'Pagi'
+                'time' => 'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 4,
                 'class_id' => 3,
                 'day' => 'Senin',
-                'time' => 'Pagi'
+                'time' => 'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 4,
                 'class_id' => 4,
                 'day' => 'Senin',
-                'time' => 'Pagi'
+                'time' => 'Pagi',
+                'id_period' => 4
             ],
             // malam
             [
@@ -112,28 +124,32 @@ class JadwalSeeder extends Seeder
                 'course_id' => 5,
                 'class_id' => 1,
                 'day' => 'Senin',
-                'time' => 'Malam'
+                'time' => 'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 3,
                 'course_id' => 2,
                 'class_id' => 2,
                 'day' => 'Senin',
-                'time' => 'Malam'
+                'time' => 'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 6,
                 'class_id' => 3,
                 'day' => 'Senin',
-                'time' => 'Malam'
+                'time' => 'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 4,
                 'course_id' => 7,
                 'class_id' => 4,
                 'day' => 'Senin',
-                'time' => 'Malam'
+                'time' => 'Malam',
+                'id_period' => 4
             ],
         ];
         foreach ($senin as $data) {
@@ -146,28 +162,32 @@ class JadwalSeeder extends Seeder
                 'course_id' => 4,
                 'class_id' => 1,
                 'day' => 'Selasa',
-                'time' => 'Pagi'
+                'time' => 'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 4,
                 'class_id' => 2,
                 'day' => 'Selasa',
-                'time' => 'Pagi'
+                'time' => 'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 4,
                 'class_id' => 3,
                 'day' => 'Selasa',
-                'time' => 'Pagi'
+                'time' => 'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 4,
                 'class_id' => 4,
                 'day' => 'Selasa',
-                'time' => 'Pagi'
+                'time' => 'Pagi',
+                'id_period' => 4
             ],
             // malam
             [
@@ -175,28 +195,32 @@ class JadwalSeeder extends Seeder
                 'course_id' => 8,
                 'class_id' => 1,
                 'day' => 'Selasa',
-                'time' => 'Malam'
+                'time' => 'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 3,
                 'course_id' => 9,
                 'class_id' => 2,
                 'day' => 'Selasa',
-                'time' => 'Malam'
+                'time' => 'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 10,
                 'class_id' => 3,
                 'day' => 'Selasa',
-                'time' => 'Malam'
+                'time' => 'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 4,
                 'course_id' => 6,
                 'class_id' => 4,
                 'day' => 'Selasa',
-                'time' => 'Malam'
+                'time' => 'Malam',
+                'id_period' => 4
             ],
         ];
         foreach ($selasa as $data) {
@@ -209,28 +233,36 @@ class JadwalSeeder extends Seeder
                 'course_id' => 25,
                 'class_id' => 1,
                 'day' => 'Rabu',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 25,
                 'class_id' => 2,
                 'day' => 'Rabu',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 25,
                 'class_id' => 3,
                 'day' => 'Rabu',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 25,
                 'class_id' => 4,
                 'day' => 'Rabu',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             // malam
             [
@@ -238,28 +270,35 @@ class JadwalSeeder extends Seeder
                 'course_id' => 11,
                 'class_id' => 1,
                 'day' => 'Rabu',
-                'time' => 'Malam'
+                'time' => 'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 3,
                 'course_id' => 10,
                 'class_id' => 2,
                 'day' => 'Rabu',
-                'time' => 'Malam'
+                'time' =>
+                'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 6,
                 'class_id' => 3,
                 'day' => 'Rabu',
-                'time' => 'Malam'
+                'time' =>
+                'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 4,
                 'course_id' => 12,
                 'class_id' => 4,
                 'day' => 'Rabu',
-                'time' => 'Malam'
+                'time' =>
+                'Malam',
+                'id_period' => 4
             ],
         ];
         foreach ($rabu as $data) {
@@ -271,28 +310,32 @@ class JadwalSeeder extends Seeder
                 'course_id' => 2,
                 'class_id' => 1,
                 'day' => 'Kamis',
-                'time' => 'Pagi'
+                'time' => 'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 13,
                 'class_id' => 2,
                 'day' => 'Kamis',
-                'time' => 'Pagi'
+                'time' => 'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 3,
                 'course_id' => 14,
                 'class_id' => 3,
                 'day' => 'Kamis',
-                'time' => 'Pagi'
+                'time' => 'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 4,
                 'course_id' => 6,
                 'class_id' => 4,
                 'day' => 'Kamis',
-                'time' => 'Pagi'
+                'time' => 'Pagi',
+                'id_period' => 4
             ],
             // malam
             [
@@ -300,28 +343,32 @@ class JadwalSeeder extends Seeder
                 'course_id' => 15,
                 'class_id' => 1,
                 'day' => 'Kamis',
-                'time' => 'Malam'
+                'time' => 'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 15,
                 'class_id' => 2,
                 'day' => 'Kamis',
-                'time' => 'Malam'
+                'time' => 'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 15,
                 'class_id' => 3,
                 'day' => 'Kamis',
-                'time' => 'Malam'
+                'time' => 'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 15,
                 'class_id' => 4,
                 'day' => 'Kamis',
-                'time' => 'Malam'
+                'time' => 'Malam',
+                'id_period' => 4
             ],
         ];
         foreach ($kamis as $data) {
@@ -334,28 +381,35 @@ class JadwalSeeder extends Seeder
                 'course_id' => 16,
                 'class_id' => 1,
                 'day' => 'Jumat',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 16,
                 'class_id' => 2,
                 'day' => 'Jumat',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 16,
                 'class_id' => 3,
                 'day' => 'Jumat',
-                'time' => 'Pagi'
+                'time' => 'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 16,
                 'class_id' => 4,
                 'day' => 'Jumat',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             // malam
             [
@@ -363,28 +417,36 @@ class JadwalSeeder extends Seeder
                 'course_id' => 17,
                 'class_id' => 1,
                 'day' => 'Jumat',
-                'time' => 'Malam'
+                'time' =>
+                'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 17,
                 'class_id' => 2,
                 'day' => 'Jumat',
-                'time' => 'Malam'
+                'time' =>
+                'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 17,
                 'class_id' => 3,
                 'day' => 'Jumat',
-                'time' => 'Malam'
+                'time' =>
+                'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 17,
                 'class_id' => 4,
                 'day' => 'Jumat',
-                'time' => 'Malam'
+                'time' =>
+                'Malam',
+                'id_period' => 4
             ],
         ];
         foreach ($jumat as $data) {
@@ -396,28 +458,36 @@ class JadwalSeeder extends Seeder
                 'course_id' => 8,
                 'class_id' => 1,
                 'day' => 'Sabtu',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 18,
                 'class_id' => 2,
                 'day' => 'Sabtu',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 3,
                 'course_id' => 19,
                 'class_id' => 3,
                 'day' => 'Sabtu',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 3,
                 'course_id' => 19,
                 'class_id' => 4,
                 'day' => 'Sabtu',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             // malam
             [
@@ -425,28 +495,36 @@ class JadwalSeeder extends Seeder
                 'course_id' => 20,
                 'class_id' => 1,
                 'day' => 'Sabtu',
-                'time' => 'Malam'
+                'time' =>
+                'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 20,
                 'class_id' => 2,
                 'day' => 'Sabtu',
-                'time' => 'Malam'
+                'time' =>
+                'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 20,
                 'class_id' => 3,
                 'day' => 'Sabtu',
-                'time' => 'Malam'
+                'time' =>
+                'Malam',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 20,
                 'class_id' => 4,
                 'day' => 'Sabtu',
-                'time' => 'Malam'
+                'time' =>
+                'Malam',
+                'id_period' => 4
             ],
         ];
         foreach ($sabtu as $data) {
@@ -460,28 +538,36 @@ class JadwalSeeder extends Seeder
                 'course_id' => 21,
                 'class_id' => 1,
                 'day' => 'Senin',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 21,
                 'class_id' => 2,
                 'day' => 'Senin',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 21,
                 'class_id' => 3,
                 'day' => 'Senin',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 21,
                 'class_id' => 4,
                 'day' => 'Senin',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             // malam
             [
@@ -489,28 +575,36 @@ class JadwalSeeder extends Seeder
                 'course_id' => 22,
                 'class_id' => 1,
                 'day' => 'Senin',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 2,
                 'day' => 'Senin',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 3,
                 'day' => 'Senin',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 4,
                 'day' => 'Senin',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
         ];
         foreach ($setorSenin as $data) {
@@ -522,28 +616,36 @@ class JadwalSeeder extends Seeder
                 'course_id' => 21,
                 'class_id' => 1,
                 'day' => 'Selasa',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 21,
                 'class_id' => 2,
                 'day' => 'Selasa',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 21,
                 'class_id' => 3,
                 'day' => 'Selasa',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 21,
                 'class_id' => 4,
                 'day' => 'Selasa',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             // malam
             [
@@ -551,28 +653,36 @@ class JadwalSeeder extends Seeder
                 'course_id' => 22,
                 'class_id' => 1,
                 'day' => 'Selasa',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 2,
                 'day' => 'Selasa',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 3,
                 'day' => 'Selasa',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 4,
                 'day' => 'Selasa',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
         ];
         foreach ($setorSelasa as $data) {
@@ -584,28 +694,36 @@ class JadwalSeeder extends Seeder
                 'course_id' => 22,
                 'class_id' => 1,
                 'day' => 'Rabu',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 2,
                 'day' => 'Rabu',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 3,
                 'day' => 'Rabu',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 4,
                 'day' => 'Rabu',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             // malam
             [
@@ -613,28 +731,36 @@ class JadwalSeeder extends Seeder
                 'course_id' => 22,
                 'class_id' => 1,
                 'day' => 'Rabu',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 2,
                 'day' => 'Rabu',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 3,
                 'day' => 'Rabu',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 4,
                 'day' => 'Rabu',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
         ];
         foreach ($setorRabu as $data) {
@@ -646,28 +772,36 @@ class JadwalSeeder extends Seeder
                 'course_id' => 22,
                 'class_id' => 1,
                 'day' => 'Kamis',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 2,
                 'day' => 'Kamis',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 3,
                 'day' => 'Kamis',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 4,
                 'day' => 'Kamis',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             // malam
             [
@@ -675,28 +809,36 @@ class JadwalSeeder extends Seeder
                 'course_id' => 22,
                 'class_id' => 1,
                 'day' => 'Kamis',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 2,
                 'day' => 'Kamis',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 3,
                 'day' => 'Kamis',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 4,
                 'day' => 'Kamis',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
         ];
         foreach ($setorKamis as $data) {
@@ -708,28 +850,36 @@ class JadwalSeeder extends Seeder
                 'course_id' => 22,
                 'class_id' => 1,
                 'day' => 'Jumat',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 22,
                 'class_id' => 2,
                 'day' => 'Jumat',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 22,
                 'class_id' => 3,
                 'day' => 'Jumat',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 22,
                 'class_id' => 4,
                 'day' => 'Jumat',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             // malam
             [
@@ -737,28 +887,36 @@ class JadwalSeeder extends Seeder
                 'course_id' => 24,
                 'class_id' => 1,
                 'day' => 'Jumat',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 24,
                 'class_id' => 2,
                 'day' => 'Jumat',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 24,
                 'class_id' => 3,
                 'day' => 'Jumat',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 24,
                 'class_id' => 4,
                 'day' => 'Jumat',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
         ];
         foreach ($setorJumat as $data) {
@@ -770,28 +928,36 @@ class JadwalSeeder extends Seeder
                 'course_id' => 22,
                 'class_id' => 1,
                 'day' => 'Sabtu',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 2,
                 'day' => 'Sabtu',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 3,
                 'day' => 'Sabtu',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 4,
                 'day' => 'Sabtu',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             // malam
             [
@@ -799,28 +965,36 @@ class JadwalSeeder extends Seeder
                 'course_id' => 22,
                 'class_id' => 1,
                 'day' => 'Sabtu',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 2,
                 'day' => 'Sabtu',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 3,
                 'day' => 'Sabtu',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 4,
                 'day' => 'Sabtu',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
         ];
         foreach ($setorSabtu as $data) {
@@ -832,28 +1006,36 @@ class JadwalSeeder extends Seeder
                 'course_id' => 23,
                 'class_id' => 1,
                 'day' => 'Ahad',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 23,
                 'class_id' => 2,
                 'day' => 'Ahad',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 23,
                 'class_id' => 3,
                 'day' => 'Ahad',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 1,
                 'course_id' => 23,
                 'class_id' => 4,
                 'day' => 'Ahad',
-                'time' => 'Pagi'
+                'time' =>
+                'Pagi',
+                'id_period' => 4
             ],
             // malam
             [
@@ -861,28 +1043,36 @@ class JadwalSeeder extends Seeder
                 'course_id' => 22,
                 'class_id' => 1,
                 'day' => 'Ahad',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 2,
                 'day' => 'Ahad',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 3,
                 'day' => 'Ahad',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
             [
                 'teacher_id' => 2,
                 'course_id' => 22,
                 'class_id' => 4,
                 'day' => 'Ahad',
-                'time' => 'Sore'
+                'time' =>
+                'Sore',
+                'id_period' => 4
             ],
         ];
         foreach ($setorAhad as $data) {

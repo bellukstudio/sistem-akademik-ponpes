@@ -33,6 +33,11 @@ use App\Http\Controllers\Master\ManageSantriController;
 use App\Http\Controllers\Master\ManageUserController;
 use App\Http\Controllers\Pembayaran\ManageTrxPembayaranController;
 use App\Http\Controllers\Perizinan\ManagePerizinanController;
+use App\Http\Controllers\Report\LaporanNilaiAkhirController;
+use App\Http\Controllers\Report\LaporanNilaiHafalanController;
+use App\Http\Controllers\Report\LaporanPembayaranController;
+use App\Http\Controllers\Report\LaporanPerizinanController;
+use App\Http\Controllers\Report\LaporanPresensiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,6 +89,12 @@ Route::middleware(['auth'])->group(function () {
         [ManageMapelController::class, 'getAllCourseByProgram']
     )->name('getAllCourseByProgram');
     Route::get('kelolaUser/userByRoles', [ManageUserController::class, 'getUserByRoles'])->name('getUserByRoles');
+    Route::get(
+        'kelolaSantri/{class_id}/getStudentByClass',
+        [ManageSantriController::class, 'getStudentByClass']
+    )->name('getStudentByClass');
+    // Route::get('kelolaSantri/all', [ManageSantriController::class, 'getAllStudents'])->name('allStudents');
+    ///
     /**
      * END ROUTE
      */
@@ -327,14 +338,17 @@ Route::middleware(['auth'])->group(function () {
             'getStudentByEmail'
         ])->name('getStudentByEmail');
         Route::get(
-            'kelolaSantri/byProgram/{id}',
+            'kelolaSantri/byProgramInClassGroup/{id}',
             [ManageSantriController::class, 'getAllStudentsByProgramClass']
+        )->name('studentByProgramInClassGroup');
+        Route::get(
+            'kelolaSantri/byProgram/{id}',
+            [ManageSantriController::class, 'getAllStudentsByProgram']
         )->name('studentByProgram');
         Route::get(
             'kelolaSantri/byProgram/{id}/room',
             [ManageSantriController::class, 'getAllStudentsByProgramRoom']
         )->name('studentByProgramRoom');
-        Route::get('kelolaSantri/all', [ManageSantriController::class, 'getAllStudents'])->name('allStudents');
         Route::get('kelolaSantri/trash', [ManageSantriController::class, 'trash'])->name('trashStudents');
         Route::get(
             'kelolaSantri/trash/{id}/delete',
@@ -599,6 +613,34 @@ Route::middleware(['auth'])->group(function () {
          */
         Route::get('/import', [DashboardController::class, 'importRedirect']);
         Route::post('/import', [DashboardController::class, 'importFile'])->name('import');
+        /**
+         * [ROUTE REPORT / LAPORAN]
+         */
+        /// [ROUTE REPORT PRESENSI]
+        Route::controller(LaporanPresensiController::class)->group(function () {
+            Route::get('/laporan-presensi', 'index')->name('presensi-report.index');
+            Route::post('/laporan-presensi/pdf', 'filter')->name('presensi-report.filter');
+        });
+        /// [ROUTE REPORT PERIZINAN / PERMIT]
+        Route::controller(LaporanPerizinanController::class)->group(function () {
+            Route::get('/laporan-perizinan', 'index')->name('perizinan-report.index');
+            Route::post('/laporan-perizinan/pdf', 'filter')->name('perizinan-report.filter');
+        });
+        ///[ROUTE REPORT PEMBAYARAN / PAYMENT]
+        Route::controller(LaporanPembayaranController::class)->group(function () {
+            Route::get('/laporan-pembayaran', 'index')->name('pembayaran-report.index');
+            Route::post('/laporan-pembayaran', 'filter')->name('pembayaran-report.filter');
+        });
+        ///[ROUTE REPORT NILAI HAFALAN / MEMORIZE SURAH]
+        Route::controller(LaporanNilaiHafalanController::class)->group(function () {
+            Route::get('laporan-nilai-hafalan', 'index')->name('nilai-hafalan-report.index');
+            Route::post('laporan-nilai-hafalan/pdf', 'filter')->name('nilai-hafalan-report.filter');
+        });
+        ///[ROUTE REPORT FINAL ASSESSMENT / PENILAIAN AKHIR]
+        Route::controller(LaporanNilaiAkhirController::class)->group(function () {
+            Route::get('laporan-penilaian-akhir', 'index')->name('penilaian-akhir-report.index');
+            Route::post('laporan-penilaian-akhir/pdf', 'filter')->name('penilaian-akhir-report.filter');
+        });
     });
     /**
      * [ROUTE DASHBOARD]
@@ -629,6 +671,10 @@ Route::middleware(['auth'])->group(function () {
      */
     Route::get('hafalanSurah', [ManagePenilaianHafalanController::class, 'index'])->name('hafalanSurah.index');
     Route::get('hafalanSurah/create', [ManagePenilaianHafalanController::class, 'create'])->name('hafalanSurah.create');
+    Route::delete(
+        'hafalanSurah/{id}/destroy',
+        [ManagePenilaianHafalanController::class, 'destroy']
+    )->name('hafalanSurah.destroy');
     Route::post(
         'hafalanSurah/create/{student}/{class}',
         [ManagePenilaianHafalanController::class, 'store']
@@ -643,6 +689,10 @@ Route::middleware(['auth'])->group(function () {
      */
     Route::get('penilaianAkhir', [ManagePenilaianController::class, 'index'])->name('penilaianAkhir.index');
     Route::get('penilaianAkhir/create', [ManagePenilaianController::class, 'create'])->name('penilaianAkhir.create');
+    Route::delete(
+        'penilaianAkhir/{id}/destroy',
+        [ManagePenilaianController::class, 'destroy']
+    )->name('penilaianAkhir.destroy');
     Route::post(
         'penilaianAkhir/create/{id}',
         [ManagePenilaianController::class, 'store']

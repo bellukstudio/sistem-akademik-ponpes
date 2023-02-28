@@ -43,19 +43,24 @@
                             <form action="{{ route('kelolaKelas.store') }}" method="post">
                                 @csrf
                                 <div class="modal-body">
-                                    <label for="">Nama Kelas</label>
-                                    <input type="text" name="class_name" id="" class="form-control"
-                                        value="{{ old('class_name') }}" placeholder="Nama Kelas"
-                                        oninput="this.value = this.value.toUpperCase()">
-                                    <label for="">Program</label>
-                                    <select name="program" id="" class="custom-select form-control-border">
-                                        <option value="">Pilih Program</option>
-                                        @forelse ($program as $item)
-                                            <option value="{{ $item->id }}">{{ $item->program_name }}</option>
-                                        @empty
-                                            <option value=""></option>
-                                        @endforelse
-                                    </select>
+                                    <div class="form-group">
+                                        <label for="">Nama Kelas</label>
+                                        <input type="text" name="class_name" id="" class="form-control"
+                                            value="{{ old('class_name') }}" placeholder="Nama Kelas"
+                                            oninput="this.value = this.value.toUpperCase()">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="">Program</label>
+                                        <select name="program" id="" class="custom-select form-control-border">
+                                            <option value="">Pilih Program</option>
+                                            @forelse ($program as $item)
+                                                <option value="{{ $item->id }}">{{ $item->program_name }}</option>
+                                            @empty
+                                                <option value=""></option>
+                                            @endforelse
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="modal-footer justify-content-between">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -162,25 +167,31 @@
                                             @csrf
                                             @method('put')
                                             <div class="modal-body">
-                                                <label for="">Nama Kelas</label>
-                                                <input type="text" name="class_name" id=""
-                                                    class="form-control"
-                                                    value="{{ old('class_name') ?? $item->class_name }}"
-                                                    placeholder="Nama Kelas"
-                                                    oninput="this.value = this.value.toUpperCase()">
-                                                <label for="">Program</label>
-                                                <select name="program" id=""
-                                                    class="custom-select form-control-border">
-                                                    <option value="">Pilih Program</option>
-                                                    @forelse ($program as $p)
-                                                        <option value="{{ $p->id }}"
-                                                            {{ $item->program_id == $p->id ? 'selected' : '' }}>
-                                                            {{ $p->program_name }}
-                                                        </option>
-                                                    @empty
-                                                        <option value=""></option>
-                                                    @endforelse
-                                                </select>
+                                                <div class="form-group">
+                                                    <label for="">Nama Kelas</label>
+                                                    <input type="text" name="class_name" id=""
+                                                        class="form-control"
+                                                        value="{{ old('class_name') ?? $item->class_name }}"
+                                                        placeholder="Nama Kelas"
+                                                        oninput="this.value = this.value.toUpperCase()">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="">Program</label>
+                                                    <select name="program" id=""
+                                                        class="custom-select form-control-border">
+                                                        <option value="">Pilih Program</option>
+                                                        @forelse ($program as $p)
+                                                            <option value="{{ $p->id }}"
+                                                                {{ $item->program_id == $p->id ? 'selected' : '' }}>
+                                                                {{ $p->program_name }}
+                                                            </option>
+                                                        @empty
+                                                            <option value=""></option>
+                                                        @endforelse
+                                                    </select>
+                                                </div>
+
+
                                             </div>
                                             <div class="modal-footer justify-content-between">
                                                 <button type="button" class="btn btn-default"

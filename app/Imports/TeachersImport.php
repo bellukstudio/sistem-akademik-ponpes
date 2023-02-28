@@ -51,7 +51,7 @@ class TeachersImport implements ToModel, WithValidation, WithHeadingRow
             'gender' => $row['Jenis Kelamin'],
             'address' => $row['Alamat'],
             'date_birth' => $row['Tanggal Lahir'],
-            'no_tlp' => $row['Nomor Telepon'],
+            'phone' => $row['Nomor Telepon'],
             'province_id' => $province_id,
             'city_id' => $city_id
         ]);

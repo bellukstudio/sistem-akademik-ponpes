@@ -12,6 +12,7 @@ use App\Models\TrxAttendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\UtilHelper;
+use App\Models\MasterPeriod;
 
 class ManagePresensiController extends Controller
 {
@@ -183,6 +184,8 @@ class ManagePresensiController extends Controller
             abort(404);
         }
         try {
+            $period = MasterPeriod::where('status', 1)->first();
+
             // check student for attendances
             $student = TrxAttendance::where('student_id', $request->student)
                 ->where('category_attendance', $request->category)
@@ -198,7 +201,8 @@ class ManagePresensiController extends Controller
                     'status' => $request->status,
                     'date_presence' => $request->dateSelect,
                     'id_operator' => Auth::user()->id,
-                    'other_category' => $request->other_category
+                    'other_category' => $request->other_category,
+                    'id_period' => $period->id ?? null
                 ]);
             } else {
                 $studentA = TrxAttendance::where('student_id', $request->student)
@@ -210,6 +214,7 @@ class ManagePresensiController extends Controller
 
                 $data = TrxAttendance::findOrFail($studentA->id);
                 $data->status = $request->status;
+                $data->id_period = $period->id ?? null;
                 $data->update();
             }
 

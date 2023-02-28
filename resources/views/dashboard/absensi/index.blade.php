@@ -141,7 +141,7 @@
                                                             <h5>{!! $item->student_name ?? '<span class="badge badge-danger">Error</span>' !!}</h5>
                                                             <h5>{!! $item->class_name ?? '<span class="badge badge-danger">Error</span>' !!}</h5>
                                                             <h5>{!! $item->program_name ?? '<span class="badge badge-danger">Error</span>' !!}</h5>
-                                                            <p>Yakin ingin menghapus data tersebut? </p>
+                                                            <p>Yakin ingin menghapus absen santri tersebut? </p>
                                                         </div>
 
                                                     </div>

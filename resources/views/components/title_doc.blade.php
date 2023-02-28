@@ -101,3 +101,18 @@
 @if (Request::is('kategoriPiket*'))
     Kategori Piket
 @endif
+@if (Request::is('laporan-presensi*'))
+    Laporan Presensi
+@endif
+@if (Request::is('laporan-perizinan*'))
+    Laporan Perizinan
+@endif
+@if (Request::is('laporan-pembayaran*'))
+    Laporan Pembayaran
+@endif
+@if (Request::is('laporan-nilai-hafalan*'))
+    Laporan Nilai Hafalan
+@endif
+@if (Request::is('laporan-penilaian-akhir*'))
+    Laporan Penilaian Akhir
+@endif

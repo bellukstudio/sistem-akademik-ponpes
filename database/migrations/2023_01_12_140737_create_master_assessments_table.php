@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->foreignId('program_id')->references('id')
                 ->on('master_academic_programs')->onDelete('no action')->onUpdate('cascade');
+            $table->decimal('weight', 5, 2)->nullable();
             $table->timestamps();
         });
     }

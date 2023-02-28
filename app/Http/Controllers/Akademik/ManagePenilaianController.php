@@ -7,6 +7,7 @@ use App\Models\MasterAcademicProgram;
 use App\Models\MasterAssessment;
 use App\Models\MasterClass;
 use App\Models\MasterCourse;
+use App\Models\MasterPeriod;
 use App\Models\MasterStudent;
 use App\Models\TrxScore;
 use Illuminate\Http\Request;
@@ -56,6 +57,9 @@ class ManagePenilaianController extends Controller
 
 
         try {
+            $categoryAssessmentAll = MasterAssessment::all();
+            $programAll = MasterAcademicProgram::all();
+
             $student = MasterStudent::join(
                 'trx_class_groups',
                 'trx_class_groups.student_id',
@@ -88,7 +92,8 @@ class ManagePenilaianController extends Controller
                     'master_classes.id as class_id',
                     'master_courses.course_name as course_name',
                     'master_courses.id as course_id',
-                    'trx_scores.score as score'
+                    'trx_scores.score as score',
+                    'trx_scores.id as id_score'
                 )->groupBy('master_students.id')->get();
             /** */
             $program  = MasterAcademicProgram::where('id', $request->program)->firstOrFail();
@@ -103,7 +108,9 @@ class ManagePenilaianController extends Controller
                     'class' => $class->class_name,
                     'category' => $categoryAssessment->name,
                     'course' => $course->course_name,
-                    'idCategory' => $categoryAssessment->id
+                    'idCategory' => $categoryAssessment->id,
+                    'categoryAssessmentAll' => $categoryAssessmentAll,
+                    'programAll' => $programAll
                 ]
             );
         } catch (\Exception $e) {
@@ -128,6 +135,8 @@ class ManagePenilaianController extends Controller
             'course.required' => 'Mapel kosong'
         ]);
         try {
+            $period = MasterPeriod::where('status', 1)->first();
+
             TrxScore::create(
                 [
                     'student_id' => $id,
@@ -135,13 +144,24 @@ class ManagePenilaianController extends Controller
                     'course_id' => $request->course,
                     'assessment_id' => $request->category,
                     'score' => $request->score,
-                    'date_assessment' => date('Y-m-d'),
-                    'user_id' => Auth::user()->id
+                    'date_assesment' => date('Y-m-d'),
+                    'user_id' => Auth::user()->id,
+                    'id_period' => $period->id ?? null
                 ]
             );
             return back()->with('success', 'Nilai Berhasil Di Input');
         } catch (\Exception $e) {
             return back()->with('failed', 'Gagal menyimpan data');
+        }
+    }
+    public function destroy($id)
+    {
+        try {
+            $data = TrxScore::findOrFail($id);
+            $data->delete();
+            return back()->with('success', 'Nilai berhasil di hapus');
+        } catch (\Exception $e) {
+            return back()->with('failed', 'Gagal menghapus data');
         }
     }
 }

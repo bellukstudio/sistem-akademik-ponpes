@@ -11,15 +11,13 @@ class TrxAttendance extends Model
 
     protected $fillable = [
         'student_id', 'presence_type', 'category_attendance', 'status',
-        'date_presence', 'program_id', 'id_operator', 'other_category'
+        'date_presence', 'program_id', 'id_operator', 'other_category', 'id_period'
     ];
     protected $dates = [
         'created_at',
         'updated_at'
     ];
     protected $hidden = [
-         'created_at', 'updated_at'
+        'created_at', 'updated_at'
     ];
-
-   
 }

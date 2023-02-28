@@ -51,6 +51,12 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="weight">Bobot Nilai:</label>
+                                        <input type="range" name="weight" id="weight" class="form-control-range"
+                                            min="0" max="100" step="0.0" required>
+                                        <output for="weight" id="weight-output">0%</output>
+                                    </div>
                                 </div>
                                 <div class="modal-footer justify-content-between">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -129,7 +135,8 @@
                                         <div class="modal-footer justify-content-between">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">
                                                 Close</button>
-                                            <form action="{{ route('kategoriNilai.destroy', $item->id) }}" method="post">
+                                            <form action="{{ route('kategoriNilai.destroy', $item->id) }}"
+                                                method="post">
                                                 @csrf
                                                 @method('delete')
                                                 <button type="submit" class="btn btn-sm btn-danger"><i
@@ -177,7 +184,16 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-
+                                                <div class="form-group">
+                                                    <label for="weightOnUpdate">Bobot Nilai:</label>
+                                                    <input type="range" name="weightOnUpdate" id="weightOnUpdate"
+                                                        class="form-control-range" min="0" max="100"
+                                                        step="0.0" value="{{ number_format($item->weight * 100) }}"
+                                                        required data-id="{{ $item->id }}">
+                                                    <output for="weightOnUpdate"
+                                                        id="weightOnUpdate-output_{{ $item->id }}">
+                                                        {{ number_format($item->weight * 100) }}%</output>
+                                                </div>
                                             </div>
                                             <div class="modal-footer justify-content-between">
                                                 <button type="button" class="btn btn-default"
@@ -201,10 +217,12 @@
                                     </div>
                                     <!-- /.modal-dialog -->
                                 </div>
-                            @empty
-                                <tr>
-                                    <td colspan="4" align="center"> Data Tidak Tersedia</td>
-                                </tr>
+
+                            </div>
+                        @empty
+                            <tr>
+                                <td colspan="4" align="center"> Data Tidak Tersedia</td>
+                            </tr>
                         @endforelse
                     </tbody>
                     <tfoot>
@@ -223,4 +241,35 @@
         {{-- </div> --}}
     </div>
 @endsection
-@include('components.footer_table')
+@extends('components.footer_table')
+@push('new-script')
+    <script>
+        $(document).ready(function() {
+            weightOnSave();
+            weightOnUpdate();
+
+            function weightOnSave() {
+                const weightInput = $('#weight');
+                const weightOutput = $('#weight-output');
+
+                weightInput.on('input', function(event) {
+                    weightOutput.val(event.target.value + '%');
+                });
+            }
+
+            function weightOnUpdate() {
+                $('input[type=range][name=weightOnUpdate][id=weightOnUpdate]').each(function() {
+                    var id = $(this).data('id');
+                    // Get the associated output element
+                    var output = $('#' + $(this).attr('id') + '-output_' + id);
+                    // Set the initial value of the output element to the value of the input range
+                    // When the input range is changed, update the value of the output element
+                    $(this).on('input', function() {
+                        output.val($(this).val() + '%');
+
+                    });
+                });
+            }
+        });
+    </script>
+@endpush

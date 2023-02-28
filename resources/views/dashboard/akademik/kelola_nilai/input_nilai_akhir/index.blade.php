@@ -60,7 +60,6 @@
                 </form>
             </div>
         </div>
-
     </div>
 @endsection
 @extends('components.footer_table')

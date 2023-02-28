@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Akademik;
 
 use App\Http\Controllers\Controller;
+use App\Models\MasterAcademicProgram;
 use App\Models\MasterClass;
 use App\Models\MasterPicket;
 use App\Models\MasterRoom;
@@ -100,9 +101,9 @@ class ManageJadwalPiketController extends Controller
                     ])->setPaper('a4', 'landscape');
                     return $pdf->download('JADWAL PIKET KELAS ' . $class->class_name . '.pdf');
                 } elseif ($request->data_category === 'room') {
-                    $room = MasterRoom::where('id', $request->room)->firstOrFail();
-                    $data->where('trx_picket_schedules.id_category', '=', request('category'))
-                        ->where('trx_picket_schedules.room_id', '=', request('room_select'))
+                    $room = MasterRoom::where('id', $request->room_select)->firstOrFail();
+                    $data->where('trx_picket_schedules.id_category', '=', $request->category)
+                        ->where('trx_picket_schedules.room_id', '=', $request->room_select)
                         ->latest('trx_picket_schedules.created_at');
                     $schedule = $data->select(
                         'master_students.name as student_name',
@@ -162,10 +163,11 @@ class ManageJadwalPiketController extends Controller
      */
     public function create()
     {
-        $student = MasterStudent::all();
         $room = MasterRoom::all();
         $category = MasterPicket::all();
-        return view('dashboard.akademik.jadwal_piket.create', compact('student', 'room', 'category'));
+        $program = MasterAcademicProgram::all();
+
+        return view('dashboard.akademik.jadwal_piket.create', compact('room', 'category', 'program'));
     }
 
     /**
@@ -189,12 +191,16 @@ class ManageJadwalPiketController extends Controller
         ]);
 
         try {
-            TrxPicketSchedule::create([
-                'student_id' => $request->student_select,
-                'room_id' => $request->room_select,
-                'time' => $request->time,
-                'id_category' => $request->category
-            ]);
+            $student = $request->student_select;
+            foreach ($student as $data) {
+                TrxPicketSchedule::create([
+                    'student_id' => $data,
+                    'room_id' => $request->room_select,
+                    'time' => $request->time,
+                    'id_category' => $request->category
+                ]);
+            }
+
             return redirect()->route('jadwalPiket.index')->with('success', 'Jadwal Piket berhasil dibuat');
         } catch (\Exception $e) {
 

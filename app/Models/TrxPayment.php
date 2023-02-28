@@ -10,7 +10,7 @@ class TrxPayment extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id_user', 'id_payment', 'date_payment', 'status', 'total', 'id_student', 'photo'
+        'id_user', 'id_payment', 'date_payment', 'status', 'total', 'id_student', 'photo', 'id_period'
     ];
 
     protected $dates = [
@@ -38,6 +38,4 @@ class TrxPayment extends Model
     {
         return $this->belongsTo(MasterStudent::class, 'id_student');
     }
-
-   
 }

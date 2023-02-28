@@ -148,11 +148,32 @@ class ManageSantriController extends Controller
     /**
      * get all student with json
      */
-    public function getAllStudents()
+    // public function getAllStudents()
+    // {
+    //     $empData['data'] = MasterStudent::whereNotIn('noId', function ($query) {
+    //         $query->select('no_induk')->from('trx_caretakers');
+    //     })->get();
+
+    //     return response()->json($empData);
+    // }
+    ///
+    /**
+     * get all student by class
+     *
+     * @param [type] $programId
+     * @return void
+     */
+    public function getStudentByClass($classId)
     {
-        $empData['data'] = MasterStudent::whereNotIn('noId', function ($query) {
-            $query->select('no_induk')->from('trx_caretakers');
-        })->get();
+        $empData['data'] = MasterStudent::join(
+            'trx_class_groups',
+            'trx_class_groups.student_id',
+            '=',
+            'master_students.id'
+        )->where('trx_class_groups.class_id', $classId)->select(
+            'master_students.id as id_student',
+            'master_students.name as student_name'
+        )->get();
 
         return response()->json($empData);
     }
@@ -165,6 +186,11 @@ class ManageSantriController extends Controller
             $query->select('student_id')->from('trx_class_groups');
         })->get();
 
+        return response()->json($empData);
+    }
+    public function getAllStudentsByProgram($programId)
+    {
+        $empData['data'] = MasterStudent::where('program_id', $programId)->get();
         return response()->json($empData);
     }
     /**

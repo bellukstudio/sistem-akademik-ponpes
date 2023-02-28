@@ -23,6 +23,8 @@ class CreateTrxStudentPermitsTable extends Migration
             $table->foreignId('id_program')->references('id')
                 ->on('master_academic_programs')->onDelete('no action')->onUpdate('cascade');
             $table->boolean('status')->nullable();
+            $table->foreignId('id_period')->nullable()->references('id')
+                ->on('master_periods')->onDelete('no action')->onUpdate('cascade');
             $table->timestamps();
             // $table->softDeletes();
         });

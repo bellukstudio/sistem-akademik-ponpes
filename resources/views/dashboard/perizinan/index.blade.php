@@ -41,6 +41,7 @@
                             <th>Tanggal Izin</th>
                             <th>Judul Izin</th>
                             <th>Program</th>
+                            <th>Tahun Akademik</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -53,7 +54,8 @@
                                 <td>{{ $item->description }}</td>
                                 <td>{{ $item->permit_date }}</td>
                                 <td>{{ $item->permit_type }}</td>
-                                <td>{{ $item->program->program_name }}</td>
+                                <td>{{ $item->program->program_name ?? 'Null' }}</td>
+                                <td>{{ $item->period->code ?? 'Null' }}</td>
                                 <td>
                                     @if (is_null($item->status))
                                         <span class="badge badge-info">Menunggu persetujuan</span>
@@ -179,6 +181,7 @@
                             <th>Tanggal Izin</th>
                             <th>Judul Izin</th>
                             <th>Program</th>
+                            <th>Tahun Akademik</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>

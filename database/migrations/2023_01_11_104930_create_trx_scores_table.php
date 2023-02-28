@@ -25,6 +25,8 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->references('id')
                 ->on('master_users')->onDelete('set null')->onUpdate('cascade');
             $table->date('date_assesment');
+            $table->foreignId('id_period')->nullable()->references('id')
+                ->on('master_periods')->onDelete('no action')->onUpdate('cascade');
             $table->timestamps();
         });
     }

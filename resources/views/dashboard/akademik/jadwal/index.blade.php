@@ -35,9 +35,10 @@
                             <option value="kelas">Per-Kelas</option>
                             <option value="hari">Per-Hari</option>
                             <option value="program">Per-Program</option>
+                            <option value="kategori">Per-Kategori</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="optionDataFilter">
                         <label for="">Pilih</label>
                         <select name="data" id="optionData" class="form-control select2">
                             <option value="">Pilih</option>
@@ -83,6 +84,7 @@
                             <th>Hari</th>
                             <th>Waktu</th>
                             <th>Kategori Mapel</th>
+                            <th>Tahun Ajaran</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -96,6 +98,7 @@
                                 <td>{{ $item->day }}</td>
                                 <td>{{ $item->times }}</td>
                                 <td>{{ $item->categorie_name }}</td>
+                                <td>{!! $item->code_period ?? '<span class="badge badge-danger">Error</span>' !!}</td>
                                 <td>
                                     {{-- {Edit} --}}
                                     <a href="{{ route('jadwalPelajaran.edit', $item->id_schedules) }}" class="btn"><i
@@ -160,6 +163,7 @@
                             <th>Hari</th>
                             <th>Waktu</th>
                             <th>Kategori Mapel</th>
+                            <th>Tahun Ajaran</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>
@@ -422,7 +426,6 @@
             $('#category').change(function() {
                 var value = $(this).val();
                 $('#optionData').find('option').not(':first').remove();
-                console.log(value);
                 if (value === 'mapel') {
                     $.ajax({
                         url: '{{ route('allCourse') }}',
@@ -514,6 +517,8 @@
                             }
                         }
                     });
+                } else if (value === 'kategori') {
+                    $('#optionDataFilter').addClass('d-none');
                 }
             });
         });

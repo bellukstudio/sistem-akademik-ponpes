@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\ApiResponse;
 use App\Models\MasterPayment;
+use App\Models\MasterPeriod;
 use App\Models\MasterStudent;
 use App\Models\TrxPayment;
 use Illuminate\Support\Facades\Auth;
@@ -134,6 +135,7 @@ class PembayaranController extends Controller
                     'error' => $errorMsg
                 ], 'Request is invalid', 422);
             }
+            $period = MasterPeriod::where('status', 1)->first();
             $student = MasterStudent::where('email', $request->user()->email)->first();
             $data = [
                 'id_user' => $request->user()->id,
@@ -141,6 +143,7 @@ class PembayaranController extends Controller
                 'id_payment' => $request->type,
                 'date_payment' => $request->date_payment,
                 'total' => $request->total,
+                'id_period' => $period->id ?? null
             ];
             $payment = TrxPayment::create($data);
 

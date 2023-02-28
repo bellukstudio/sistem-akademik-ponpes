@@ -10,7 +10,7 @@ class TrxMemorizeSurah extends Model
     use HasFactory;
 
     protected $fillable = [
-        'student_id', 'class_id', 'surah', 'verse', 'score', 'user_id', 'date_assesment'
+        'student_id', 'class_id', 'surah', 'verse', 'score', 'user_id', 'date_assesment', 'id_period'
     ];
 
     protected $dates = [
@@ -20,6 +20,4 @@ class TrxMemorizeSurah extends Model
     protected $hidden = [
         'created_at', 'updated_at'
     ];
-
-   
 }

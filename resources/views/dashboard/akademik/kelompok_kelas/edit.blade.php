@@ -142,7 +142,6 @@
     <script>
         $(function() {
             // on update
-            let student_id = '{{ $data->student_id ?? '' }}';
             let class_id = '{{ $data->class_id ?? '' }}';
             let program_id = '{{ $data->student->program_id ?? '' }}';
 

@@ -20,7 +20,6 @@ class StudentsImport implements ToModel, WithValidation, WithHeadingRow
     use Importable;
     private $student;
     private $program;
-    private $period;
     private $province;
     private $city;
 
@@ -28,7 +27,6 @@ class StudentsImport implements ToModel, WithValidation, WithHeadingRow
     {
         $this->student = MasterStudent::class;
         $this->program = MasterAcademicProgram::class;
-        $this->period = MasterPeriod::class;
         $this->province = MasterProvince::class;
         $this->city = MasterCity::class;
 
@@ -45,9 +43,6 @@ class StudentsImport implements ToModel, WithValidation, WithHeadingRow
         $program = $this->program::where('program_name', $row['Nama Program'])->first();
         $program_id = $program ? $program->id : null;
 
-        // cari id tahun ajar berdasarkan nama tahun ajar yang diinputkan
-        $period = $this->period::where('code', $row['Tahun Ajar'])->first();
-        $period_id = $period ? $period->id : null;
 
         // cari id provinsi
         $province = $this->province::where('province_name', $row['Provinsi'])->first();
@@ -67,10 +62,14 @@ class StudentsImport implements ToModel, WithValidation, WithHeadingRow
             'province_id' => $province_id,
             'city_id' => $city_id,
             'date_birth' => $row['Tanggal Lahir'],
-            'student_parent' => $row['Nama Orang Tua'],
-            'no_tlp' => $row['Nomor Telepon'],
+            'father_name' => $row['Nama Ayah'],
+            'mother_name' => $row['Nama Ibu'],
+            'date_birth_father' => $row['Tanggal Lahir Ayah'],
+            'date_birth_mother' => $row['Tanggal Lahir Ibu'],
+            'phone' => $row['Nomor Telepon'],
+            'parent_phone' => $row['Nomor Telepon Orang Tua'],
             'program_id' => $program_id,
-            'period_id' => $period_id,
+            'entry_year' => $row['Tahun Masuk'],
         ]);
     }
     /**
@@ -80,7 +79,6 @@ class StudentsImport implements ToModel, WithValidation, WithHeadingRow
     public function rules(): array
     {
         $programIds = MasterAcademicProgram::pluck('id', 'program_name')->toArray();
-        $periodIds = MasterPeriod::pluck('id', 'code')->toArray();
         $provinceIds = MasterProvince::pluck('id', 'province_name')->toArray();
         $cityIds = MasterCity::pluck('id', 'city_name')->toArray();
 
@@ -111,17 +109,20 @@ class StudentsImport implements ToModel, WithValidation, WithHeadingRow
                 Rule::in(array_keys($cityIds))
             ],
             'Tanggal Lahir' => 'required|date',
-            'Nama Orang Tua' => 'required|string|max:100',
+            'Tanggal Lahir Ayah' => 'required|date',
+            'Tanggal Lahir Ibu' => 'required|date',
+            'Nama Ayah' => 'required|string|max:100',
+            'Nama Ibu' => 'required|string|max:100',
             'Nomor Telepon' => 'required|integer',
+            'Nomor Telepon Orang Tua' => 'required|integer',
             'Nama Program' => [
                 'required',
                 'string',
                 Rule::in(array_keys($programIds))
             ],
-            'Tahun Ajar' => [
+            'Tahun Masuk' => [
                 'required',
                 'string',
-                Rule::in(array_keys($periodIds))
             ],
         ];
     }
@@ -162,19 +163,32 @@ class StudentsImport implements ToModel, WithValidation, WithHeadingRow
             'Tanggal Lahir.required' => 'Tanggal lahir harus diisi',
             'Tanggal Lahir.date' => 'Tanggal lahir tidak valid',
 
-            'Nama Orang Tua.required' => 'Orang tua / Wali harus diisi',
-            'Nama Orang Tua.string' => 'Orang tua / Wali harus berupa teks',
-            'Nama Orang Tua.max' => 'Orang tua / Wali maksimal 255 karakter',
+            'Tanggal Lahir Ayah.required' => 'Tanggal lahir Ayah harus diisi',
+            'Tanggal Lahir Ayah.date' => 'Tanggal lahir Ayah tidak valid',
+
+            'Tanggal Lahir.required' => 'Tanggal lahir Ibu harus diisi',
+            'Tanggal Lahir.date' => 'Tanggal lahir Ibu tidak valid',
+
+            'Nama Ayah.required' => 'Nama Ayah harus diisi',
+            'Nama Ayah.string' => 'Nama Ayah harus berupa teks',
+            'Nama Ayah.max' => 'Nama Ayah maksimal 255 karakter',
+
+            'Nama Ibu.required' => 'Nama Ibu harus diisi',
+            'Nama Ibu.string' => 'Nama Ibu harus berupa teks',
+            'Nama Ibu.max' => 'Nama Ibu maksimal 255 karakter',
 
             'Nomor Telepon.required' => 'No. Telepon harus diisi',
             'Nomor Telepon.integer' => 'No. Telepon harus berupa angka',
-            // 'Nomor Telepon.max' => 'No. Telepon maksimal 20 karakter',
+
+            'Nomor Telepon Orang Tua.required' => 'No. Telepon Orang Tua harus diisi',
+            'Nomor Telepon Orang Tua.integer' => 'No. Telepon Orang Tua harus berupa angka',
 
             'Nama Program.required' => 'Nama Program harus diisi',
             'Nama Program.in' => 'Nama Program tidak terdaftar pada sistem',
 
-            'Tahun Ajar.required' => 'Tahun Ajar harus diisi',
-            'Tahun Ajar.in' => 'Tahun Ajar tidak terdaftar pada sistem',
+            'Tahun Masuk.required' => 'Tahun Masuk harus diisi',
+            'Tahun Masuk.string' => 'Tahun Masuk harus berupa teks',
+
         ];
     }
 }

@@ -33,7 +33,7 @@ class TahunAkademikSeeder extends Seeder
             ],
             [
                 'code' => '2022/2023',
-                'status' => false,
+                'status' => true,
                 'information' => 'GANJIL'
             ],
         ];

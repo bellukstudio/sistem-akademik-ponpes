@@ -41,19 +41,25 @@ class ManageKategoriNilaiController extends Controller
     {
         $request->validate([
             'category' => 'required|max:100|unique:master_assessments,name',
-            'program' => 'required'
+            'program' => 'required',
+            'weight' => 'required|numeric|min:0|max:100'
         ], [
             'category.required' => 'Kolom kategori harus diisi',
             'category.unique' => 'Kategori sudah pernah tersimpan di database',
             'category.max' => 'Kolom kategori maksimal 100 karakter',
-            'program.required' => 'Kolom program harus diisi'
+            'program.required' => 'Kolom program harus diisi',
+            'weight.required' => 'Bobot harus di set',
+            'weight.numeric' => 'Kolom bobot harus numeric',
+            'weight.min' => 'Kolom bobot minimal 0',
+            'weight.max' => 'Kolom bobot maksimal 100'
         ]);
 
         try {
             MasterAssessment::create(
                 [
                     'name' => $request->category,
-                    'program_id' => $request->program
+                    'program_id' => $request->program,
+                    'weight' => $request->weight / 100
                 ]
             );
 
@@ -96,18 +102,24 @@ class ManageKategoriNilaiController extends Controller
     {
         $request->validate([
             'category' => 'required|max:100|unique:master_assessments,name,' . $id,
-            'program' => 'required'
+            'program' => 'required',
+            'weightOnUpdate' => 'required|numeric|min:0|max:100'
         ], [
             'category.required' => 'Kolom kategori harus diisi',
             'category.unique' => 'Kategori sudah pernah tersimpan di database',
             'category.max' => 'Kolom kategori maksimal 100 karakter',
-            'program.required' => 'Kolom program harus diisi'
+            'program.required' => 'Kolom program harus diisi',
+            'weightOnUpdate.required' => 'Bobot harus di set',
+            'weightOnUpdate.numeric' => 'Kolom bobot harus numeric',
+            'weightOnUpdate.min' => 'Kolom bobot minimal 0',
+            'weightOnUpdate.max' => 'Kolom bobot maksimal 100'
         ]);
 
         try {
             $data = MasterAssessment::find($id);
             $data->name = $request->category;
             $data->program_id = $request->program;
+            $data->weight = $request->weightOnUpdate / 100;
             $data->update();
 
             return back()->with('success', 'Data ' . $request->category . ' berhasil diubah');

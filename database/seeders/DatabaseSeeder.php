@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
             PengajarSeeder::class,
             RuangSeeder::class,
             SantriSeeder::class,
-            PerizinanSeeder::class,
+            // PerizinanSeeder::class,
             JadwalSeeder::class,
             JadwalPiketSeeder::class,
             KelompokKelasSeeder::class,

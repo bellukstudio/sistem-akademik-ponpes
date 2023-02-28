@@ -6,6 +6,7 @@ use App\Helpers\FcmHelper;
 use App\Http\Controllers\Controller;
 use App\Models\MasterClass;
 use App\Models\MasterPayment;
+use App\Models\MasterPeriod;
 use App\Models\MasterStudent;
 use App\Models\MasterTokenFcm;
 use Illuminate\Support\Facades\DB;
@@ -33,7 +34,7 @@ class ManageTrxPembayaranController extends Controller
         //class
         $class = MasterClass::latest()->get();
         // student
-        $student = MasterStudent::all();
+        $student = MasterStudent::latest()->get();
         // sum total and diff payment
         $sum = DB::table('trx_payments')
             ->select('id_student', 'id_payment', 'status', DB::raw('SUM(total) as sum_total'))->where('status', '1')
@@ -169,12 +170,15 @@ class ManageTrxPembayaranController extends Controller
 
         try {
             $student = explode(':', $request->santriList);
+            $period = MasterPeriod::where('status', 1)->first();
+
             TrxPayment::create([
                 'id_user' => $student[0],
                 'id_student' => $request->student_id,
                 'id_payment' => $request->metode,
                 'date_payment' => $request->datePayment,
-                'total' => $request->total
+                'total' => $request->total,
+                'id_period' => $period->id ?? null
             ]);
             return redirect()->route('pembayaran.index')
                 ->with('success', 'Pembayaran ' . $student[1] . ' berhasil disimpan');
@@ -231,6 +235,7 @@ class ManageTrxPembayaranController extends Controller
         );
 
         try {
+            $period = MasterPeriod::where('status', 1)->first();
             $student = explode(':', $request->santriList);
             $data = TrxPayment::find($id);
             $data->id_user = $student[0];
@@ -238,6 +243,7 @@ class ManageTrxPembayaranController extends Controller
             $data->id_payment = $request->metode;
             $data->date_payment = $request->datePayment;
             $data->total = $request->total;
+            $data->id_period = $period->id ?? null;
             $data->update();
 
             return redirect()->route('pembayaran.index')
@@ -271,25 +277,28 @@ class ManageTrxPembayaranController extends Controller
             $data->update();
 
             // send notification
-            sleep(1);
-            $data['page'] = 'paymentPage';
-            $checkAvaiableToken = MasterTokenFcm::all();
-            $deviceRegistration = MasterTokenFcm::where('id_user', $data->id_user)->firstOrFail();
-            $masterPayment = MasterPayment::find($data->id_payment);
-            if (count($checkAvaiableToken) > 0) {
-                $status = $request->status == 1 ? 'Di Setujui' : 'Di Tolak!';
-                $dataFcm = [
-                    'data' => $data
-                ];
-                FcmHelper::sendNotificationWithGuzzle(
-                    'Pembayaran ' . $masterPayment->payment_name . ' ' . $status,
-                    $dataFcm,
-                    false,
-                    $deviceRegistration->token
-                );
+            try {
+                sleep(1);
+                $data['page'] = 'paymentPage';
+                $checkAvaiableToken = MasterTokenFcm::all();
+                $deviceRegistration = MasterTokenFcm::where('id_user', $data->id_user)->firstOrFail();
+                $masterPayment = MasterPayment::find($data->id_payment);
+                if (count($checkAvaiableToken) > 0) {
+                    $status = $request->status == 1 ? 'Di Setujui' : 'Di Tolak!';
+                    $dataFcm = [
+                        'data' => $data
+                    ];
+                    FcmHelper::sendNotificationWithGuzzle(
+                        'Pembayaran ' . $masterPayment->payment_name . ' ' . $status,
+                        $dataFcm,
+                        false,
+                        $deviceRegistration->token
+                    );
+                }
+                return back()->with('success', 'Berhasil mengubah status ' . $data->user->name);
+            } catch (\Throwable $e) {
+                return back()->with('success', 'Berhasil mengubah status dan Gagal mengirim notif ' . $data->user->name);
             }
-
-            return back()->with('success', 'Berhasil mengubah status ' . $data->user->name);
         } catch (\Throwable $e) {
             return back()->with('failed', 'Gagal mengubah data');
         }

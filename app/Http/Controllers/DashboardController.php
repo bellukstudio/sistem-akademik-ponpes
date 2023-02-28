@@ -40,13 +40,15 @@ class DashboardController extends Controller
         }
         if (Auth::user()->roles_id === 3) {
             $isAdmin = false;
-            $caretakers = TrxCaretakers::where('user_id', Auth::user()->id)->firstOrFail();
+            $caretakers = TrxCaretakers::where('user_id', Auth::user()->id)->first();
+            if (!$caretakers) {
+                Auth::logout();
+                return redirect()->route('login')->with('failed', 'You are not authorized to access the application.');
+            }
             if ($caretakers->categories === 'teachers') {
                 $user = MasterTeacher::where('email', $caretakers->email)->firstOrFail();
             } elseif ($caretakers->categories === 'students') {
                 $user = MasterStudent::where('email', $caretakers->email)->firstOrFail();
-            } else {
-                abort(404);
             }
         }
 

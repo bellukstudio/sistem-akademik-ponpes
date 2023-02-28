@@ -25,6 +25,8 @@ class CreateTrxAttendancesTable extends Migration
             $table->date('date_presence');
             $table->foreignId('program_id')->references('id')
                 ->on('master_academic_programs')->onDelete('no action')->onUpdate('cascade');
+            $table->foreignId('id_period')->nullable()->references('id')
+                ->on('master_periods')->onDelete('no action')->onUpdate('cascade');
             $table->timestamps();
         });
     }
