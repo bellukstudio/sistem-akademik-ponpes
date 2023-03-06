@@ -148,20 +148,29 @@ class PembayaranController extends Controller
                 'total' => $request->total,
                 'id_period' => $period->id ?? null
             ];
-
-            sleep(1);
-            $checkAvaiableToken = MasterTokenFcm::all();
-            if (count($checkAvaiableToken) > 0) {
-                $dataFcm = [
-                    'data' => $data
-                ];
-                FcmHelper::sendNotificationWithGuzzleForWeb(
-                    'Pembayaran ' . $masterPayment->payment_name . ' baru',
-                    $request->total,
-                    $dataFcm
-                );
-            }
             $payment = TrxPayment::create($data);
+
+            try {
+                sleep(1);
+                $checkAvaiableToken = MasterTokenFcm::all();
+                if (count($checkAvaiableToken) > 0) {
+                    $dataFcm = [
+                        'data' => $data
+                    ];
+                    FcmHelper::sendNotificationWithGuzzleForWeb(
+                        title: 'Pembayaran ' . $masterPayment->payment_name . ' baru',
+                        body: $request->total,
+                        data: $dataFcm,
+                        programId: $student->program_id
+                    );
+                }
+            } catch (\Throwable $e) {
+                // $payment = TrxPayment::
+                return ApiResponse::success([
+                    'payment' => $payment,
+                    'message' => 'Successfully create new payment'
+                ], 'Data Saved without send notif');
+            }
 
             // $payment = TrxPayment::
             return ApiResponse::success([

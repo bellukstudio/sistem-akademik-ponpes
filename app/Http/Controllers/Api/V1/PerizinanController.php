@@ -84,19 +84,27 @@ class PerizinanController extends Controller
             TrxStudentPermits::create($data);
 
 
-            // send notification
+            try {
+                // send notification
 
-            sleep(1);
-            $checkAvaiableToken = MasterTokenFcm::all();
-            if (count($checkAvaiableToken) > 0) {
-                $dataFcm = [
-                    'data' => $data
-                ];
-                FcmHelper::sendNotificationWithGuzzleForWeb(
-                    'Ada Perizinan Baru ',
-                    $request->title . PHP_EOL . $request->description,
-                    $dataFcm
-                );
+                sleep(1);
+                $checkAvaiableToken = MasterTokenFcm::all();
+                if (count($checkAvaiableToken) > 0) {
+                    $dataFcm = [
+                        'data' => $data
+                    ];
+                    FcmHelper::sendNotificationWithGuzzleForWeb(
+                        title: 'Ada Perizinan Baru ',
+                        body: $request->title . PHP_EOL . $request->description,
+                        data: $dataFcm,
+                        programId: $student->program_id
+                    );
+                }
+            } catch (\Throwable $e) {
+                return ApiResponse::success([
+                    'permit' => $data,
+                    'message' => 'Successfully create new permit'
+                ], 'Data Saved without send notif');
             }
             return ApiResponse::success([
                 'permit' => $data,

@@ -66,19 +66,23 @@
                                     @endif
                                 </td>
                                 <td>
-                                    {{-- {Edit} --}}
-                                    <button type="button" class="btn btn-default" data-toggle="modal"
-                                        data-target="#modal-Edit{{ $item->id }}">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    @can('admin')
-                                        {{-- {Hapus} --}}
-                                        <button type="button" class="btn btn-danger" data-toggle="modal"
-                                            data-target="#modal-Delete{{ $item->id }}">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                        <a href="{{ route('perizinan.edit', $item->id) }}" class="btn btn-warning">Edit</a>
-                                    @endcan
+                                    <div class="d-flex justify-content-around mt-3">
+                                        {{-- {Edit} --}}
+                                        <button type="button" class="btn btn-default" data-toggle="modal"
+                                            data-target="#modal-Edit{{ $item->id }}">
+                                            <i class="fa fa-edit"></i>
+                                        </button>&nbsp;
+                                        @can('admin')
+                                            {{-- {Hapus} --}}
+                                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#modal-Delete{{ $item->id }}">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                            &nbsp;
+                                            <a href="{{ route('perizinan.edit', $item->id) }}" class="btn btn-warning">Edit</a>
+                                        @endcan
+                                    </div>
+
 
                                 </td>
                             </tr>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\ApiResponse;
 use App\Models\MasterCategorieSchedule;
+use App\Models\MasterPeriod;
 use App\Models\MasterStudent;
 use App\Models\TrxSchedule;
 
@@ -22,6 +23,7 @@ class JadwalController extends Controller
             $day = $request->input('day');
             //student
             $student = MasterStudent::where('email', $request->user()->email)->first();
+            $period = MasterPeriod::where('status', 1)->first();
 
             $schedule =
                 TrxSchedule::join('master_classes', 'trx_schedules.class_id', '=', 'master_classes.id')
@@ -31,6 +33,7 @@ class JadwalController extends Controller
                 ->join('trx_class_groups', 'trx_class_groups.class_id', '=', 'master_classes.id')
                 ->orderBy('trx_schedules.class_id')
                 ->where('trx_class_groups.student_id', $student->id)
+                ->where('trx_schedules.id_period', $period->id)
                 ->select(
                     'master_teachers.name as teacher_name',
                     'master_courses.course_name as course_name',

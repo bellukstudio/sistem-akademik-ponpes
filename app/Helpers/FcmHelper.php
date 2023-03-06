@@ -97,7 +97,8 @@ class FcmHelper
         $body,
         $data,
         $isManyNotif = true,
-        $deviceRegistrationToken = null
+        $deviceRegistrationToken = null,
+        $programId = 1
     ) {
         // Build the notification payload
         $notification = [
@@ -108,11 +109,10 @@ class FcmHelper
 
         // Build the FCM message
         if ($isManyNotif) {
-            $student = MasterStudent::where('email', auth()->user()->email)->firstOrFail();
             $tokens = MasterUsers::join('trx_caretakers', 'master_users.id', '=', 'trx_caretakers.user_id')
                 ->join('master_token_fcm', 'master_users.id', '=', 'master_token_fcm.id_user')
                 ->where('master_users.roles_id', '=', 3)
-                ->where('trx_caretakers.program_id', '=', $student->program_id)
+                ->where('trx_caretakers.program_id', '=', $programId)
                 ->pluck('master_token_fcm.token')
                 ->toArray();
 
