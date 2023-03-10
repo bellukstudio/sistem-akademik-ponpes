@@ -26,6 +26,10 @@ class ActivationController extends Controller
         $request->validate([
             'role' => 'required',
             'email' => 'required|email:dns'
+        ], [
+            'role.required' => 'Pilih kategori pengguna',
+            'email.required' => 'Email harus diisi',
+            'email.email' => 'Email tidak valid'
         ]);
 
         $tableStudent = 'master_students';

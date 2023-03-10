@@ -205,7 +205,6 @@
                                     @else
                                         -
                                     @endif
-
                                 </td>
                             @endforeach
                             <td style="text-align: center">
@@ -241,9 +240,6 @@
                                         {{ number_format($totalWeightedScore, 1) }} | {{ $alphabetScore }}
                                     @endif
                                 @endif
-
-
-
                             </td>
                         </tr>
                     @endforeach
@@ -259,8 +255,6 @@
     <script>
         window.print();
     </script>
-
-
 
 </body>
 

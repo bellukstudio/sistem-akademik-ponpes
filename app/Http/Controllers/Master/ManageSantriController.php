@@ -116,15 +116,18 @@ class ManageSantriController extends Controller
                     GoogleDriveHelper::$img
                 );
                 // set access file
-                GoogleDriveHelper::allowEveryonePermission($upload);
+                if ($upload) {
+                    GoogleDriveHelper::allowEveryonePermission($upload);
+                } else {
+                    return redirect()->back()
+                        ->with('error', 'Gagal mengupload foto santri.');
+                }
             }
 
-
-            MasterStudent::create([
+            $data = [
                 'noId' => $request->id_number,
                 'email' => $request->email,
                 'name' => $request->fullName,
-                'photo' => $upload,
                 'gender' => $request->gender,
                 'address' => $request->address,
                 'province_id' => $request->province,
@@ -138,9 +141,21 @@ class ManageSantriController extends Controller
                 'date_birth_mother' => $request->date_birth_mother,
                 'date_birth_father' => $request->date_birth_father,
                 'entry_year' => $request->entry_year
-            ]);
-            return redirect()->route('kelolaSantri.index')
-                ->with('success', 'Santri ' . $request->fullName . ' berhasil disimpan');
+            ];
+
+            if ($upload) {
+                $data['photo'] = $upload;
+            }
+
+            $student = MasterStudent::create($data);
+
+            if ($student) {
+                return redirect()->route('kelolaSantri.index')
+                    ->with('success', 'Santri ' . $request->fullName . ' berhasil disimpan');
+            } else {
+                return redirect()->back()
+                    ->with('error', 'Gagal menyimpan data santri.');
+            }
         } catch (\Exception $e) {
             return back()->with('failed', 'Gagal menyimpan data');
         }

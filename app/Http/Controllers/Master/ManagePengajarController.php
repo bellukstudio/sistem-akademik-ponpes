@@ -88,23 +88,36 @@ class ManagePengajarController extends Controller
                     GoogleDriveHelper::$img
                 );
                 // set access file
-                GoogleDriveHelper::allowEveryonePermission($upload);
+                if ($upload) {
+                    GoogleDriveHelper::allowEveryonePermission($upload);
+                } else {
+                    return redirect()->back()
+                        ->with('error', 'Gagal mengupload foto pengajar.');
+                }
             }
-            MasterTeacher::create([
+            $data = [
                 'noId' => $request->id_number,
                 'email' => $request->email,
                 'name' => $request->fullName,
-                'photo' => $upload,
                 'gender' => $request->gender,
                 'province_id' => $request->province,
                 'city_id' => $request->city,
                 'date_birth' => $request->dateBirth,
                 'phone' => $request->phone_number,
                 'address' => $request->address
-            ]);
+            ];
+            if ($upload) {
+                $data['photo'] = $upload;
+            }
 
-            return redirect()->route('kelolaPengajar.index')
-                ->with('success', 'Pengajar ' . $request->fullName . ' berhasil disimpan');
+            $teacher =  MasterTeacher::create($data);
+            if ($teacher) {
+                return redirect()->route('kelolaPengajar.index')
+                    ->with('success', 'Pengajar ' . $request->fullName . ' berhasil disimpan');
+            } else {
+                return redirect()->back()
+                    ->with('error', 'Gagal menyimpan data pengajar.');
+            }
         } catch (\Exception $e) {
             return back()->with('failed', 'Gagal menyimpan data');
         }

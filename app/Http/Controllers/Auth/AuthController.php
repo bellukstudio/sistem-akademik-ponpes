@@ -30,6 +30,10 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email' => ['required', 'email:dns'],
             'password' => ['required'],
+        ], [
+            'email.required' => 'Email harus di isi',
+            'email.email' => 'Email tidak valid',
+            'password.required' => 'Password harus di isi'
         ]);
 
         // check credentials user
