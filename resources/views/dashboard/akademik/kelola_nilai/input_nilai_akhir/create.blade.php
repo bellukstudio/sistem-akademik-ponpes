@@ -167,9 +167,9 @@
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <label for="">Nilai</label>
-                                                        <input type="text" name="score" id=""
+                                                        <input type="number" name="score" id=""
                                                             class="form-control" value="{{ old('score') }}"
-                                                            placeholder="80 / A">
+                                                            placeholder="80">
                                                         <input type="hidden" name="class"
                                                             value="{{ $item->class_id }}">
                                                         <input type="hidden" name="category"
@@ -315,7 +315,9 @@
                             for (var i = 0; i < len; i++) {
 
                                 var id = response['data'][i].id;
-                                var name = response['data'][i].course_name;
+                                var name = response['data'][i].course_name + '  ' + '(' + response[
+                                        'data'][i]
+                                    .category.categorie_name + ')';
                                 // variable option
                                 var option = "";
                                 option = "<option value='" + id + "'>" + name +

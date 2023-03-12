@@ -61,8 +61,6 @@ class LaporanNilaiAkhirController extends Controller
 
         $category = MasterAssessment::where('program_id', $student->id_program)->get();
 
-
-
         return view(
             'dashboard.report.nilaiAkhir.pdf.generate_pdf_report_final_assessment',
             [

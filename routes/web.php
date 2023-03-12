@@ -33,6 +33,7 @@ use App\Http\Controllers\Master\ManageSantriController;
 use App\Http\Controllers\Master\ManageUserController;
 use App\Http\Controllers\Pembayaran\ManageTrxPembayaranController;
 use App\Http\Controllers\Perizinan\ManagePerizinanController;
+use App\Http\Controllers\Raport\CekRaportController;
 use App\Http\Controllers\Report\LaporanNilaiAkhirController;
 use App\Http\Controllers\Report\LaporanNilaiHafalanController;
 use App\Http\Controllers\Report\LaporanPembayaranController;
@@ -60,6 +61,14 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/aktivasi', [ActivationController::class, 'activation'])->name('activate');
 Route::post('/send-email', [ActivationController::class, 'sendEmail'])->name('sendEmail');
 Route::get('aktivasi/{hash}', [ActivationController::class, 'redemCode'])->name('redemCode');
+
+/**
+ * [ROUTE CHECK RAPORT FOR PARENT]
+ */
+Route::controller(CekRaportController::class)->group(function () {
+    Route::get('cek-raport', 'index')->name('check-raport');
+    Route::get('cek-raport/filter', 'filter')->name('filter-raport');
+});
 Route::middleware(['auth'])->group(function () {
     /**
      * [ROUTE DATA WITH RESPONSE JSON]

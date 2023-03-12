@@ -64,7 +64,7 @@
                     <div class="form-group">
                         <label for="phone_number">Nomor Telepon <code>*Optional</code></label>
                         <input type="number" name="phone_number" id="phone_number" class="form-control"
-                            value="{{ old('phone_number') ?? $pengajar->no_tlp }}" placeholder="62123456">
+                            value="{{ old('phone_number') ?? $pengajar->phone }}" placeholder="62123456">
                     </div>
                     <div class="form-group">
                         <label for="province">Provinsi</label>

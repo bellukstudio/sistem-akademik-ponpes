@@ -90,7 +90,7 @@ class ManageMapelController extends Controller
         if (Auth::user()->roles_id === 4) {
             abort(403);
         }
-        $empData['data'] = MasterCourse::where('program_id', $request->program)->get();
+        $empData['data'] = MasterCourse::with(['category'])->where('program_id', $request->program)->get();
         return response()->json($empData);
     }
     /**

@@ -162,7 +162,9 @@
                             for (var i = 0; i < len; i++) {
 
                                 var id = response['data'][i].id;
-                                var name = response['data'][i].course_name;
+                                var name = response['data'][i].course_name + '  ' + '(' + response[
+                                        'data'][i]
+                                    .category.categorie_name + ')';
                                 // variable option
                                 var option = "";
                                 option = "<option value='" + id + "'>" + name +
