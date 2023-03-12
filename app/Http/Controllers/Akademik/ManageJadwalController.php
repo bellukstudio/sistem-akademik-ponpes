@@ -43,15 +43,16 @@ class ManageJadwalController extends Controller
                 'master_periods.code as code_period'
             )->latest('trx_schedules.created_at')->get();
 
-
+        $period = MasterPeriod::latest()->get();
         return view('dashboard.akademik.jadwal.index', [
             'jadwal' => $schedule,
-            'filter' => $filter
+            'filter' => $filter,
+            'period' => $period
         ]);
     }
     public function filterScheduleByCategories(Request $request)
     {
-
+        $period = MasterPeriod::latest()->get();
         $filter = true;
         $data =
             TrxSchedule::join('master_classes', 'trx_schedules.class_id', '=', 'master_classes.id')
@@ -70,7 +71,7 @@ class ManageJadwalController extends Controller
                 'trx_schedules.id as id_schedules',
                 'master_categorie_schedules.categorie_name as categorie_name',
                 'master_periods.code as code_period'
-            );
+            )->where('trx_schedules.id_period', $request->periode_academic);
 
         /**
          *  get schedule in sunday alltime
@@ -468,6 +469,7 @@ class ManageJadwalController extends Controller
                         'saturdayAfternoon' => $saturdayAfternoon,
                         'saturdayEvening' => $saturdayEvening,
                         'saturdayNight' => $saturdayNight,
+
                     ])->setPaper('a4', 'landscape');
                     return $pdf
                         ->download('JADWAL ' . $courseCategory->categorie_name . ' ' . $program->program_name . '.pdf');
@@ -515,6 +517,7 @@ class ManageJadwalController extends Controller
                     'saturdayAfternoon' => $saturdayAfternoon,
                     'saturdayEvening' => $saturdayEvening,
                     'saturdayNight' => $saturdayNight,
+                    'period' => $period,
 
                 ]);
             }
@@ -525,6 +528,7 @@ class ManageJadwalController extends Controller
             return view('dashboard.akademik.jadwal.index', [
                 'jadwal' => $schedule,
                 'filter' => $filter,
+                'period' => $period,
                 'category' => request('category'),
             ]);
         }
@@ -532,6 +536,7 @@ class ManageJadwalController extends Controller
         return view('dashboard.akademik.jadwal.index', [
             'jadwal' => $schedule,
             'filter' => $filter,
+            'period' => $period,
             'category' => request('category')
         ]);
     }

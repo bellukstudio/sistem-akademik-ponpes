@@ -51,6 +51,14 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <label for="">Tahun Akademik</label>
+                        <select name="periode_academic" id="periode_academic" class="form-control select2">
+                            @foreach ($period as $item)
+                                <option value="{{ $item->id }}">{{ $item->code }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <button type="submit" class="btn btn-info" id="showData" name="showButton"> <i
                                 class="fa fa-eye mr-2"></i>
                             Lihat</button>
@@ -150,7 +158,7 @@
                             </div>
                         @empty
                             <tr>
-                                <td colspan="8" align="center"> Data Tidak Tersedia</td>
+                                <td colspan="9" align="center"> Data Tidak Tersedia</td>
                             </tr>
                         @endforelse
                     </tbody>

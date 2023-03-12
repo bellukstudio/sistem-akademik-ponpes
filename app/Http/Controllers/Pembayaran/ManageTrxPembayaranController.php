@@ -14,6 +14,7 @@ use App\Models\MasterUsers;
 use App\Models\TrxCaretakers;
 use App\Models\TrxPayment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ManageTrxPembayaranController extends Controller
 {
@@ -155,7 +156,8 @@ class ManageTrxPembayaranController extends Controller
                 'santriList' => 'required',
                 'metode' => 'required',
                 'datePayment' => 'required',
-                'total' => 'required|max:50'
+                'total' => 'required|max:50',
+                'photo' => 'required|image|max:2048|mimes:png,jpg,jpeg',
             ],
             [
                 'student_id.required' => 'Kolom ID Siswa harus diisi.',
@@ -163,7 +165,10 @@ class ManageTrxPembayaranController extends Controller
                 'metode.required' => 'Kolom Metode Pembayaran harus diisi.',
                 'datePayment.required' => 'Kolom Tanggal Pembayaran harus diisi.',
                 'total.required' => 'Kolom Jumlah Pembayaran harus diisi.',
-                'total.max' => 'Kolom Jumlah Pembayaran maksimal terdiri dari 50 karakter.'
+                'total.max' => 'Kolom Jumlah Pembayaran maksimal terdiri dari 50 karakter.',
+                'photo.image' => 'File harus berupa gambar',
+                'photo.max' => 'Ukuran file maksimal 2MB',
+                'photo.mimes' => 'Format file tidak valid. Hanya diperbolehkan format PNG, JPG, dan JPEG',
             ]
         );
 
@@ -171,6 +176,20 @@ class ManageTrxPembayaranController extends Controller
         try {
             $student = explode(':', $request->santriList);
             $period = MasterPeriod::where('status', 1)->first();
+            $dataStudent = MasterStudent::find($request->student_id);
+            $payment = MasterPayment::find($request->metode);
+            if ($request->file('photo')) {
+                $name = str_replace(' ', '_', $dataStudent->name);
+                $file =
+                    $request->file('photo')
+                    ->storeAs(
+                        'payment/' . $dataStudent->noId,
+                        strtolower($name) . '_date_'
+                            . date('Y-m-d') . '_time_' .
+                            date('H-i-s') . '_' . strtolower($payment->payment_name) . '.png',
+                        'public'
+                    );
+            }
 
             TrxPayment::create([
                 'id_user' => $student[0],
@@ -178,6 +197,7 @@ class ManageTrxPembayaranController extends Controller
                 'id_payment' => $request->metode,
                 'date_payment' => $request->datePayment,
                 'total' => $request->total,
+                'photo' => $file,
                 'id_period' => $period->id ?? null
             ]);
             return redirect()->route('pembayaran.index')
@@ -222,7 +242,8 @@ class ManageTrxPembayaranController extends Controller
                 'santriList' => 'required',
                 'metode' => 'required',
                 'datePayment' => 'required',
-                'total' => 'required|max:50'
+                'total' => 'required|max:50',
+                'photo' => 'sometimes|image|max:2048|mimes:png,jpg,jpeg',
             ],
             [
                 'student_id.required' => 'Kolom ID Siswa harus diisi.',
@@ -230,14 +251,42 @@ class ManageTrxPembayaranController extends Controller
                 'metode.required' => 'Kolom Metode Pembayaran harus diisi.',
                 'datePayment.required' => 'Kolom Tanggal Pembayaran harus diisi.',
                 'total.required' => 'Kolom Jumlah Pembayaran harus diisi.',
-                'total.max' => 'Kolom Jumlah Pembayaran maksimal terdiri dari 50 karakter.'
+                'total.max' => 'Kolom Jumlah Pembayaran maksimal terdiri dari 50 karakter.',
+                'photo.image' => 'File harus berupa gambar',
+                'photo.max' => 'Ukuran file maksimal 2MB',
+                'photo.mimes' => 'Format file tidak valid. Hanya diperbolehkan format PNG, JPG, dan JPEG',
             ]
         );
 
         try {
-            $period = MasterPeriod::where('status', 1)->first();
-            $student = explode(':', $request->santriList);
+            $dataStudent = MasterStudent::find($request->student_id);
+            $payment = MasterPayment::find($request->metode);
             $data = TrxPayment::find($id);
+            $photo = $data->photo;
+            $period = MasterPeriod::where('status', 1)->first();
+
+            if ($request->file('photo')) {
+                /// remove old photo
+                if ($photo != env('STORAGE_URL')) {
+                    $img = explode('/', $photo);
+                    $path = $img[3] . '/' . $img[4] . '/' . $img[5] . '/' . $img[6];
+                    if (File::exists($path)) {
+                        unlink($path);
+                    }
+                }
+                $name = str_replace(' ', '_', $dataStudent->name);
+                $file =
+                    $request->file('photo')
+                    ->storeAs(
+                        'payment/' . $dataStudent->noId,
+                        strtolower($name) . '_date_'
+                            . date('Y-m-d') . '_time_' .
+                            date('H-i-s') . '_' . strtolower($payment->payment_name) . '.png',
+                        'public'
+                    );
+                $data->photo = $file;
+            }
+            $student = explode(':', $request->santriList);
             $data->id_user = $student[0];
             $data->id_student = $request->student_id;
             $data->id_payment = $request->metode;
@@ -320,6 +369,14 @@ class ManageTrxPembayaranController extends Controller
         }
         try {
             $data = TrxPayment::find($id);
+            $photo = $data->photo;
+            if ($photo != env('STORAGE_URL')) {
+                $img = explode('/', $photo);
+                $path = $img[3] . '/' . $img[4] . '/' . $img[5] . '/' . $img[6];
+                if (File::exists($path)) {
+                    unlink($path);
+                }
+            }
             $data->delete();
 
             return back()->with('success', 'Berhasil menghapus data  ' . $data->user->name);

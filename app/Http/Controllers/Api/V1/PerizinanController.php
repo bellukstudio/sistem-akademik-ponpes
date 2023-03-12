@@ -7,8 +7,10 @@ use App\Models\TrxStudentPermits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Helpers\ApiResponse;
+use App\Helpers\FcmHelper;
 use App\Models\MasterPeriod;
 use App\Models\MasterStudent;
+use App\Models\MasterTokenFcm;
 
 class PerizinanController extends Controller
 {
@@ -80,6 +82,30 @@ class PerizinanController extends Controller
                 'id_period' => $period->id ?? null
             ];
             TrxStudentPermits::create($data);
+
+
+            try {
+                // send notification
+
+                sleep(1);
+                $checkAvaiableToken = MasterTokenFcm::all();
+                if (count($checkAvaiableToken) > 0) {
+                    $dataFcm = [
+                        'data' => $data
+                    ];
+                    FcmHelper::sendNotificationWithGuzzleForWeb(
+                        title: 'Ada Perizinan Baru ',
+                        body: $request->title . PHP_EOL . $request->description,
+                        data: $dataFcm,
+                        programId: $student->program_id
+                    );
+                }
+            } catch (\Throwable $e) {
+                return ApiResponse::success([
+                    'permit' => $data,
+                    'message' => 'Successfully create new permit'
+                ], 'Data Saved without send notif');
+            }
             return ApiResponse::success([
                 'permit' => $data,
                 'message' => 'Successfully create new permit'

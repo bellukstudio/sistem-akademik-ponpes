@@ -19,10 +19,13 @@ class KategoriNilaiSeeder extends Seeder
             [
                 'name' => 'UTS',
                 'program_id' => 2,
+                'weight' => 0.30
+
             ],
             [
                 'name' => 'UAS',
                 'program_id' => 2,
+                'weight' => 0.70
             ],
         ];
 

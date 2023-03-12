@@ -137,7 +137,7 @@
                             @endif
                         </td>
                         <td>
-                            @if ($item->photo === 'http://127.0.0.1:8000/storage/')
+                            @if ($item->photo === env('STORAGE_URL'))
                                 <i class="badge badge-info">Null</i>
                             @else
                                 <img src="{{ $item->photo }}" alt="" class="photo" data-toggle="modal"
@@ -166,7 +166,7 @@
                     </tr>
                     {{-- Modal image --}}
                     <div class="modal fade" id="modal-showImage{{ $item->id }}">
-                        <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-dialog modal-dialog-centered modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title">Bukti Pembayaran</h4>

@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\ApiResponse;
+use App\Helpers\FcmHelper;
 use App\Models\MasterPayment;
 use App\Models\MasterPeriod;
 use App\Models\MasterStudent;
+use App\Models\MasterTokenFcm;
 use App\Models\TrxPayment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -136,6 +138,7 @@ class PembayaranController extends Controller
                 ], 'Request is invalid', 422);
             }
             $period = MasterPeriod::where('status', 1)->first();
+            $masterPayment = MasterPayment::find($request->type)->first();
             $student = MasterStudent::where('email', $request->user()->email)->first();
             $data = [
                 'id_user' => $request->user()->id,
@@ -146,6 +149,28 @@ class PembayaranController extends Controller
                 'id_period' => $period->id ?? null
             ];
             $payment = TrxPayment::create($data);
+
+            try {
+                sleep(1);
+                $checkAvaiableToken = MasterTokenFcm::all();
+                if (count($checkAvaiableToken) > 0) {
+                    $dataFcm = [
+                        'data' => $data
+                    ];
+                    FcmHelper::sendNotificationWithGuzzleForWeb(
+                        title: 'Pembayaran ' . $masterPayment->payment_name . ' baru',
+                        body: $request->total,
+                        data: $dataFcm,
+                        programId: $student->program_id
+                    );
+                }
+            } catch (\Throwable $e) {
+                // $payment = TrxPayment::
+                return ApiResponse::success([
+                    'payment' => $payment,
+                    'message' => 'Successfully create new payment'
+                ], 'Data Saved without send notif');
+            }
 
             // $payment = TrxPayment::
             return ApiResponse::success([
