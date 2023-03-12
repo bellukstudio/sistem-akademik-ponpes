@@ -25,7 +25,7 @@
                 Form Pembayaran
             </div>
             <div class="card-body">
-                <form action="{{ route('updateUserPayment', $data->id) }}" method="post">
+                <form action="{{ route('updateUserPayment', $data->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="form-group">
@@ -62,6 +62,25 @@
                             value="{{ $data->total }}">
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputFile">Bukti Pembayaran</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="exampleInputFile" name="photo"
+                                    value="{{ old('photo') }}" onchange="readURL(this);">
+                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                            </div>
+                        </div>
+                        <h6 class="mt-5">Preview</h6>
+                        @if ($data->photo === env('STORAGE_URL'))
+                            <img src="https://via.placeholder.com/150x200" alt="" width="150" height="200"
+                                id="photo" class="photo">
+                        @else
+                            <img src="{{ $data->photo }}" alt="" id="photo" class="photo" width="150"
+                                height="200">
+                        @endif
+
+                    </div>
+                    <div class="form-group">
                         <button type="submit" class="btn btn-warning">Update</button>
                     </div>
                 </form>
@@ -74,6 +93,18 @@
     <script src="{{ asset('template/plugins/select2/js/select2.full.min.js') }}"></script>
 
     <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#photo').attr('src', e.target.result);
+                    $('#photo').attr('class', 'photo');
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
         $(function() {
             $('#santriList').change(function() {
                 var value = $(this).val();

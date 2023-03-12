@@ -126,7 +126,6 @@
 
 
     <!-- Custom styles for this template -->
-    <link href="navbar-fixed.css" rel="stylesheet">
 </head>
 @php
     use App\Helpers\UtilHelper;
