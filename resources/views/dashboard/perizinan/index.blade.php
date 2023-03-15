@@ -21,14 +21,14 @@
         @include('components.alert')
         <div class="card" style="overflow: auto;">
             <div class="card-header">
-                @can('admin')
+                @if (Auth::user()->roles_id == 1)
                     <a href="{{ route('perizinan.create') }}" class="btn btn-primary">
                         <i class="fa fa-plus mr-2"></i>Buat Perizinan
                         Baru</a>
                     {{-- <a href="{{ route('trashPermit') }}" class="btn btn-secondary">
                         <i class="fa fa-trash mr-2"></i>Trash
                         Bin</a> --}}
-                @endcan
+                @endif
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -72,15 +72,16 @@
                                             data-target="#modal-Edit{{ $item->id }}">
                                             <i class="fa fa-edit"></i>
                                         </button>&nbsp;
-                                        @can('admin')
+                                        @if (Auth::user()->roles_id == 1)
                                             {{-- {Hapus} --}}
                                             <button type="button" class="btn btn-danger" data-toggle="modal"
                                                 data-target="#modal-Delete{{ $item->id }}">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                             &nbsp;
-                                            <a href="{{ route('perizinan.edit', $item->id) }}" class="btn btn-warning">Edit</a>
-                                        @endcan
+                                            <a href="{{ route('perizinan.edit', $item->id) }}"
+                                                class="btn btn-warning">Edit</a>
+                                        @endif
                                     </div>
 
 
@@ -173,7 +174,7 @@
                                 </div>
                             @empty
                                 <tr>
-                                    <td colspan="8" align="center"> Data Tidak Tersedia</td>
+                                    <td colspan="9" align="center"> Data Tidak Tersedia</td>
                                 </tr>
                         @endforelse
                     </tbody>

@@ -7,7 +7,7 @@
     @endphp
     <section class="content">
         @if ($isAdmin == false)
-            @can('pengajar')
+            @if (Auth::user()->roles_id == 2)
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">
@@ -77,8 +77,8 @@
                         </div>
                     </div>
                 </div>
-            @endcan
-            @can('pengurus')
+            @endif
+            @if (Auth::user()->roles_id == 3)
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">
@@ -148,10 +148,10 @@
                         </div>
                     </div>
                 </div>
-            @endcan
+            @endif
         @endif
         <div class="container-fluid">
-            @can('admin')
+            @if (Auth::user()->roles_id == 1)
                 <!-- Small boxes (Stat box) -->
                 <div class="row">
                     <div class="col-lg-3 col-6">
@@ -405,7 +405,7 @@
                     </div>
                     <!-- /.card-footer -->
                 </div>
-            @endcan
+            @endif
         </div>
         <!-- /.row (main row) -->
         <!-- /.container-fluid -->

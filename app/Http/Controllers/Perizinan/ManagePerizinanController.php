@@ -38,7 +38,9 @@ class ManagePerizinanController extends Controller
      */
     public function create()
     {
-        $this->authorize('admin');
+        if (auth()->user()->roles_id != 1) {
+            abort(403);
+        }
         $student = MasterStudent::latest()->get();
         return view('dashboard.perizinan.create', compact('student'));
     }
@@ -51,7 +53,9 @@ class ManagePerizinanController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('admin');
+        if (auth()->user()->roles_id != 1) {
+            abort(403);
+        }
         $request->validate(
             [
                 'student' => 'required',
@@ -106,7 +110,9 @@ class ManagePerizinanController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('admin');
+        if (auth()->user()->roles_id != 1) {
+            abort(403);
+        }
         $student = MasterStudent::latest()->get();
         $data =  TrxStudentPermits::find($id);
         return view('dashboard.perizinan.edit', compact('student', 'data'));
@@ -114,7 +120,9 @@ class ManagePerizinanController extends Controller
 
     public function updatePermit(Request $request, $id)
     {
-        $this->authorize('admin');
+        if (auth()->user()->roles_id != 1) {
+            abort(403);
+        }
         $request->validate(
             [
                 'student' => 'required',
@@ -214,11 +222,10 @@ class ManagePerizinanController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('admin');
-        if (Auth::user()->roles_id === 2 || Auth::user()->roles_id === 4) {
-
+        if (auth()->user()->roles_id != 1) {
             abort(403);
         }
+       
         try {
             $data = TrxStudentPermits::find($id);
             $data->delete();

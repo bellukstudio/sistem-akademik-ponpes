@@ -134,7 +134,9 @@ class ManageTrxPembayaranController extends Controller
      */
     public function create()
     {
-        $this->authorize('admin');
+        if (auth()->user()->roles_id != 1) {
+            abort(403);
+        }
 
         $student = MasterUsers::where('roles_id', 4)->get();
         $metode = MasterPayment::all();
@@ -149,7 +151,9 @@ class ManageTrxPembayaranController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('admin');
+        if (auth()->user()->roles_id != 1) {
+            abort(403);
+        }
         $request->validate(
             [
                 'student_id' => 'required',
@@ -226,7 +230,9 @@ class ManageTrxPembayaranController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('admin');
+        if (auth()->user()->roles_id != 1) {
+            abort(403);
+        }
         $student = MasterUsers::where('roles_id', 4)->get();
         $metode = MasterPayment::all();
         $data = TrxPayment::find($id);
@@ -235,7 +241,9 @@ class ManageTrxPembayaranController extends Controller
 
     public function updateUserPayment(Request $request, $id)
     {
-        $this->authorize('admin');
+        if (auth()->user()->roles_id != 1) {
+            abort(403);
+        }
         $request->validate(
             [
                 'student_id' => 'required',
@@ -361,12 +369,10 @@ class ManageTrxPembayaranController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('admin');
-
-        if (auth()->user()->roles_id === 2  || auth()->user()->roles_id === 4) {
-
+        if (auth()->user()->roles_id != 1) {
             abort(403);
         }
+
         try {
             $data = TrxPayment::find($id);
             $photo = $data->photo;

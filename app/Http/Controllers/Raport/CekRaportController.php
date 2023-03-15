@@ -20,6 +20,9 @@ class CekRaportController extends Controller
 
     public function filter(Request $request)
     {
+        if (auth()->user()->roles_id != 1) {
+            abort(403);
+        }
         $request->validate([
             'noId' => 'required|exists:master_students,noId',
             'date_birth' => 'required|max:15'

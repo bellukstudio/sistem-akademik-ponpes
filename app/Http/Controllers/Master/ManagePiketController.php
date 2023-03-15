@@ -125,7 +125,9 @@ class ManagePiketController extends Controller
 
     public function trash()
     {
-        $this->authorize('admin');
+        if (auth()->user()->roles_id != 1) {
+            abort(403);
+        }
         $data = MasterPicket::onlyTrashed()->get();
         return view('dashboard.master_data.kategori_piket.trash', [
             'trash' => $data

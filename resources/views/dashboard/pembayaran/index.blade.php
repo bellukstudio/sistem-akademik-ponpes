@@ -19,7 +19,7 @@
 @section('content-section')
     <div class="container-fluid">
         @include('components.alert')
-        @can('admin')
+        @if (Auth::user()->roles_id == 1)
             <div class="card">
                 <div class="card-header">Filter</div>
                 <div class="card-body">
@@ -70,14 +70,14 @@
                     </form>
                 </div>
             </div>
-        @endcan
+        @endif
         <div class="card" style="overflow: auto;">
             <div class="card-header">
-                @can('admin')
+                @if (Auth::user()->roles_id == 1)
                     <a href="{{ route('pembayaran.create') }}" class="btn btn-primary">
                         <i class="fa fa-plus mr-2"></i>Buat Pembayaran
                         Baru</a>
-                @endcan
+                @endif
                 {{-- <strong>Data Pembayaran</strong> --}}
             </div>
             <!-- /.card-header -->
@@ -151,7 +151,7 @@
                                     data-target="#modal-Edit{{ $item->id }}">
                                     <i class="fa fa-edit"></i>
                                 </button> &nbsp;
-                                @can('admin')
+                                @if (Auth::user()->roles_id == 1)
                                     {{-- {Hapus} --}}
                                     <button type="button" class="btn btn-danger" data-toggle="modal"
                                         data-target="#modal-Delete{{ $item->id }}">
@@ -159,7 +159,7 @@
                                     </button>&nbsp;
                                     <a href="{{ route('pembayaran.edit', $item->id) }}" class="btn btn-warning"><i
                                             class="fa fa-user-edit"></i></a>
-                                @endcan
+                                @endif
                             </div>
 
                         </td>

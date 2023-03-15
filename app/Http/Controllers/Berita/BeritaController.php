@@ -54,7 +54,9 @@ class BeritaController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('admin');
+        if (auth()->user()->roles_id != 1) {
+            abort(403);
+        }
 
         $validator = Validator::make(
             $request->all(),
@@ -109,7 +111,9 @@ class BeritaController extends Controller
      */
     public function show($id)
     {
-        $this->authorize('admin');
+        if (auth()->user()->roles_id != 1) {
+            abort(403);
+        }
         $timeLine = TrxReadNews::with(['announcement', 'user'])->where('news_id', $id)
             ->orderBy('created_at', 'desc')->get()->groupBy(function ($date) {
                 return Carbon::parse($date->created_at)->format('Y-m-d');
@@ -127,7 +131,9 @@ class BeritaController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('admin');
+        if (auth()->user()->roles_id != 1) {
+            abort(403);
+        }
         $data = MasterNews::findOrFail($id);
         return view('dashboard.berita.edit', [
             'berita' => $data
@@ -143,7 +149,9 @@ class BeritaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->authorize('admin');
+        if (auth()->user()->roles_id != 1) {
+            abort(403);
+        }
         $validator = Validator::make(
             $request->all(),
             [
@@ -184,7 +192,9 @@ class BeritaController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('admin');
+        if (auth()->user()->roles_id != 1) {
+            abort(403);
+        }
         try {
             $data = MasterNews::find($id);
             $data->delete();
@@ -220,6 +230,9 @@ class BeritaController extends Controller
 
     public function trash()
     {
+        if (auth()->user()->roles_id != 1) {
+            abort(403);
+        }
         $data = MasterNews::onlyTrashed()->get();
         return view('dashboard.berita.trash', [
             'trash' => $data
@@ -229,6 +242,9 @@ class BeritaController extends Controller
     public function restore($id)
     {
         try {
+            if (auth()->user()->roles_id != 1) {
+                abort(403);
+            }
             $data = MasterNews::onlyTrashed()->where('id', $id);
             $data->restore();
             return redirect()->route('beritaAcara.index')->with('success', 'Data berhasil dipulihkan');
@@ -239,6 +255,9 @@ class BeritaController extends Controller
     public function restoreAll()
     {
         try {
+            if (auth()->user()->roles_id != 1) {
+                abort(403);
+            }
             $data = MasterNews::onlyTrashed();
             $data->restore();
             return redirect()->route('beritaAcara.index')->with('success', 'Data berhasil dipulihkan');
@@ -250,6 +269,9 @@ class BeritaController extends Controller
     public function deletePermanent($id)
     {
         try {
+            if (auth()->user()->roles_id != 1) {
+                abort(403);
+            }
             $data = MasterNews::onlyTrashed()->where('id', $id);
             $data->forceDelete();
             return redirect()->route('trashBeritaAcara')->with('success', 'Data berhasil dihapus permanent');
@@ -260,6 +282,9 @@ class BeritaController extends Controller
     public function deletePermanentAll()
     {
         try {
+            if (auth()->user()->roles_id != 1) {
+                abort(403);
+            }
             $data = MasterNews::onlyTrashed();
             $data->forceDelete();
             return redirect()->route('trashBeritaAcara')->with('success', 'Data berhasil dihapus permanent');

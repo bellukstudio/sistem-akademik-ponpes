@@ -27,7 +27,7 @@
                          <p>Dashboard</p>
                      </a>
                  </li>
-                 @can('admin')
+                 @if (Auth::user()->roles_id == 1)
                      <li class="nav-header">KABAR BERITA</li>
                      <li class="nav-item">
                          <a href="{{ route('beritaAcara.index') }}"
@@ -409,8 +409,8 @@
                              </li>
                          </ul>
                      </li>
-                 @endcan
-                 @can('pengurus')
+                 @endif
+                 @if (Auth::user()->roles_id == 3)
                      <li class="nav-header">KABAR BERITA</li>
                      <li class="nav-item">
                          <a href="{{ route('beritaAcara.index') }}"
@@ -454,8 +454,8 @@
                              </li>
                          </ul>
                      </li>
-                 @endcan
-                 @can('pengajar')
+                 @endif
+                 @if (Auth::user()->roles_id == 2)
                      <li class="nav-header">KABAR BERITA</li>
                      <li class="nav-item">
                          <a href="{{ route('beritaAcara.index') }}"
@@ -487,7 +487,7 @@
                              <p>Input Nilai Akhir</p>
                          </a>
                      </li>
-                 @endcan
+                 @endif
              </ul>
              <div style="height: 100px;"></div>
          </nav>

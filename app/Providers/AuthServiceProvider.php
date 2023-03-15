@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Models\MasterUsers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,16 +24,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        //
-        Gate::define('admin', function (MasterUsers $user) {
-            return $user->roles_id === 1;
-        });
-        Gate::define('pengajar', function (MasterUsers $user) {
-            return $user->roles_id === 2;
-        });
-        Gate::define('pengurus', function (MasterUsers $user) {
-            return $user->roles_id === 3;
-        });
     }
 }

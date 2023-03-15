@@ -135,7 +135,9 @@ class ManageKategoriMapelController extends Controller
 
     public function trash()
     {
-        $this->authorize('admin');
+        if (auth()->user()->roles_id != 1) {
+            abort(403);
+        }
         $data = MasterCategorieSchedule::onlyTrashed()->get();
         return view('dashboard.master_data.kelola_kategori_mapel.trash', [
             'trash' => $data

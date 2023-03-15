@@ -160,7 +160,9 @@ class ManageProgramController extends Controller
 
     public function trash()
     {
-        $this->authorize('admin');
+        if (auth()->user()->roles_id != 1) {
+            abort(403);
+        }
         $data = MasterAcademicProgram::onlyTrashed()->get();
         return view('dashboard.master_data.kelola_program.trash', [
             'trash' => $data

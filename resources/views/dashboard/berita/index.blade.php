@@ -20,7 +20,7 @@
     @php
         use Carbon\Carbon;
     @endphp
-    @can('admin')
+    @if (Auth::user()->roles_id == 1)
         <div class="container-fluid">
             @include('components.alert')
 
@@ -189,8 +189,8 @@
                 <!-- /.card-body -->
             </div>
         </div>
-    @endcan
-    @can('pengurus')
+    @endif
+    @if (Auth::user()->roles_id == 3)
         <div class="container-fluid p-3">
             <!-- Timelime example  -->
             <div class="row">
@@ -223,9 +223,9 @@
                                                     </div>
                                                 @else
                                                     <div class="icon-checklist{{ $news->id }}">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
-                                                            fill="currentColor" class="bi bi-check-circle-fill"
-                                                            viewBox="0 0 16 16">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25"
+                                                            height="25" fill="currentColor"
+                                                            class="bi bi-check-circle-fill" viewBox="0 0 16 16">
                                                             <path
                                                                 d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477
                                             9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0
@@ -264,9 +264,9 @@
                                                     </div>
                                                 @else
                                                     <div class="icon-checklist{{ $news->id }}">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
-                                                            fill="currentColor" class="bi bi-check-circle-fill"
-                                                            viewBox="0 0 16 16">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25"
+                                                            height="25" fill="currentColor"
+                                                            class="bi bi-check-circle-fill" viewBox="0 0 16 16">
                                                             <path
                                                                 d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477
                                             9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0
@@ -301,8 +301,8 @@
                 <!-- /.col -->
             </div>
         </div>
-    @endcan
-    @can('pengajar')
+    @endif
+    @if (Auth::user()->roles_id == 2)
         <div class="container-fluid p-3">
             <!-- Timelime example  -->
             <div class="row">
@@ -334,9 +334,9 @@
                                                     </div>
                                                 @else
                                                     <div class="icon-checklist{{ $news->id }}">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
-                                                            fill="currentColor" class="bi bi-check-circle-fill"
-                                                            viewBox="0 0 16 16">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25"
+                                                            height="25" fill="currentColor"
+                                                            class="bi bi-check-circle-fill" viewBox="0 0 16 16">
                                                             <path
                                                                 d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477
                                             9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0
@@ -375,9 +375,9 @@
                                                     </div>
                                                 @else
                                                     <div class="icon-checklist{{ $news->id }}">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
-                                                            fill="currentColor" class="bi bi-check-circle-fill"
-                                                            viewBox="0 0 16 16">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25"
+                                                            height="25" fill="currentColor"
+                                                            class="bi bi-check-circle-fill" viewBox="0 0 16 16">
                                                             <path
                                                                 d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477
                                             9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0
@@ -410,11 +410,11 @@
                 <!-- /.col -->
             </div>
         </div>
-    @endcan
+    @endif
 @endsection
 @extends('components.footer_table')
 @push('new-script')
-    @can('admin')
+    @if (Auth::user()->roles_id == 1)
         <script>
             $(function() {
                 var showText = 'Tampilkan Timeline';
@@ -439,8 +439,8 @@
                 });
             });
         </script>
-    @endcan
-    @can('pengajar')
+    @endif
+    @if (Auth::user()->roles_id == 2)
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <script>
@@ -477,8 +477,8 @@
                 }
             });
         </script>
-    @endcan
-    @can('pengurus')
+    @endif
+    @if (Auth::user()->roles_id == 3)
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <script>
@@ -515,5 +515,5 @@
                 }
             });
         </script>
-    @endcan
+    @endif
 @endpush
