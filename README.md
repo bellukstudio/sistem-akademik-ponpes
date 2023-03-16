@@ -62,5 +62,5 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 Note:
 Jika roles tidak berfungsi maka ubah ini menjadi string
-Middleware isAdmin
-Gate
+- Middleware isAdmin
+- Gate
