@@ -69,7 +69,7 @@ Route::controller(CekRaportController::class)->group(function () {
     Route::get('cek-raport', 'index')->name('check-raport');
     Route::get('cek-raport/filter', 'filter')->name('filter-raport');
 });
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     /**
      * [ROUTE DATA WITH RESPONSE JSON]
      */
@@ -116,7 +116,7 @@ Route::middleware(['auth'])->group(function () {
      * [MIDDLEWARE ADMIN]
      * Master data
      */
-    Route::middleware('isAdmin')->group(function () {
+    Route::middleware(['isAdmin', 'can:admin'])->group(function () {
         /**
          * [ROUTE MANAGE NEWS / BERITA ACARA]
          */

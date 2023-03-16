@@ -25,7 +25,7 @@ class ManagePresensiController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->roles_id === 4) {
+        if (auth()->user()->roles_id === 4 || auth()->user()->roles_id === "4") {
             abort(404);
         }
         $type = MasterAttendance::all();
@@ -153,8 +153,6 @@ class ManagePresensiController extends Controller
                     'trx_attendances.status as status',
                     'trx_attendances.id as id_attendance'
                 )->groupBy('master_students.id')->get();
-
-
 
             return view(
                 'dashboard.absensi.index',
