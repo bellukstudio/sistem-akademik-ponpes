@@ -78,8 +78,8 @@ class PerizinanController extends Controller
                 'description' => $request->description,
                 'permit_date' => $request->date_permit,
                 'permit_type' => $request->title,
-                'id_program' => $student->program_id,
-                'id_period' => $period->id ?? null
+                'id_program' => intval($student->program_id),
+                'id_period' => intval($period->id) ?? null
             ];
             TrxStudentPermits::create($data);
 
@@ -152,7 +152,7 @@ class PerizinanController extends Controller
                     $data->permit_date = $request->date_permit;
                     $data->permit_type = $request->title;
                     $data->description = $request->description;
-                    $data->id_period = $period->id ?? null;
+                    $data->id_period = intval($period->id) ?? null;
                     $data->update();
                     return ApiResponse::success([
                         'permit' => $data,

@@ -142,8 +142,8 @@ class PembayaranController extends Controller
             $student = MasterStudent::where('email', $request->user()->email)->first();
             $data = [
                 'id_user' => $request->user()->id,
-                'id_student' => $student->id,
-                'id_payment' => $request->type,
+                'id_student' => intval($student->id),
+                'id_payment' => intval($request->type),
                 'date_payment' => $request->date_payment,
                 'total' => $request->total,
                 'id_period' => $period->id ?? null
