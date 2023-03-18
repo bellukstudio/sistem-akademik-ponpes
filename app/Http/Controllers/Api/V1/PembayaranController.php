@@ -54,7 +54,12 @@ class PembayaranController extends Controller
                 'trx_payments.total as total_payment',
                 'trx_payments.status as status'
             )
-                ->latest('trx_payments.created_at')->get();
+                ->latest('trx_payments.created_at')
+                ->get()
+                ->map(function ($item) {
+                    $item->status = (int) $item->status;
+                    return $item;
+                });
             return ApiResponse::success([
                 'payment' => $data
             ], 'Get history payment successfully');
@@ -88,18 +93,27 @@ class PembayaranController extends Controller
 
 
             $data = $payment->select(
-                'master_payments.id as id_category',
-                'master_payments.payment_name as payment_name',
-                'master_payments.media_payment',
-                'master_payments.method as method',
-                'master_payments.total as total',
-                'trx_payments.status as status'
-            )
+                    'master_payments.id as id_category',
+                    'master_payments.payment_name as payment_name',
+                    'master_payments.media_payment',
+                    'master_payments.method as method',
+                    'master_payments.total as total',
+                    'trx_payments.status as status'
+                )
                 ->selectRaw('SUM(CASE WHEN trx_payments.status = 1 THEN trx_payments.total ELSE 0 END) as sum_total')
                 ->selectRaw('master_payments.total - SUM(
-                    CASE WHEN trx_payments.status = 1 THEN trx_payments.total ELSE 0 END) as diff')
+            CASE WHEN trx_payments.status = 1 THEN trx_payments.total ELSE 0 END) as diff')
                 ->groupBy('trx_payments.id_student', 'master_payments.id')
-                ->latest('trx_payments.created_at')->get();
+                ->latest('trx_payments.created_at')
+                ->get()
+                ->map(function ($item) {
+                    $item->id_category = (int) $item->id_category;
+                    $item->status = (int) $item->status;
+                    $item->sum_total = (int) $item->sum_total;
+                    $item->diff = (int) $item->diff;
+                    return $item;
+                });
+
 
             foreach ($data as $payment) {
                 $diff = intval($payment->total) - $payment->sum_total;
@@ -142,8 +156,8 @@ class PembayaranController extends Controller
             $student = MasterStudent::where('email', $request->user()->email)->first();
             $data = [
                 'id_user' => $request->user()->id,
-                'id_student' => $student->id,
-                'id_payment' => $request->type,
+                'id_student' => intval($student->id),
+                'id_payment' => intval($request->type),
                 'date_payment' => $request->date_payment,
                 'total' => $request->total,
                 'id_period' => $period->id ?? null

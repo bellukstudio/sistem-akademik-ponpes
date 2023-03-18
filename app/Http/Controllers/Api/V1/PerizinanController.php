@@ -29,7 +29,14 @@ class PerizinanController extends Controller
                 $permit->where('permit_date', $date);
             }
             $data =
-                $permit->latest()->get();
+                $permit->latest()->get()->map(function ($item) {
+                    $item->student_id = (int) $item->student_id;
+                    $item->id_program = (int) $item->id_program;
+                    $item->id_period = (int) $item->id_period;
+                    $item->status = (int) $item->status;
+                    return $item;
+                });
+
             return ApiResponse::success([
                 'permit' => $data,
             ], 'Get history permit successfully');
@@ -78,8 +85,8 @@ class PerizinanController extends Controller
                 'description' => $request->description,
                 'permit_date' => $request->date_permit,
                 'permit_type' => $request->title,
-                'id_program' => $student->program_id,
-                'id_period' => $period->id ?? null
+                'id_program' => intval($student->program_id),
+                'id_period' => intval($period->id) ?? null
             ];
             TrxStudentPermits::create($data);
 
@@ -147,7 +154,7 @@ class PerizinanController extends Controller
             $period = MasterPeriod::where('status', 1)->first();
             $student = MasterStudent::where('email', $request->user()->email)->first();
             $data = TrxStudentPermits::find($id);
-            if ($data->student_id === $student->id) {
+            if (intval($data->student_id) === $student->id) {
                 if ($data->status == null) {
                     $data->permit_date = $request->date_permit;
                     $data->permit_type = $request->title;
@@ -186,7 +193,7 @@ class PerizinanController extends Controller
             //
             $student = MasterStudent::where('email', $request->user()->email)->first();
             $data = TrxStudentPermits::find($id);
-            if ($data->student_id === $student->id) {
+            if (intval($data->student_id) === $student->id) {
                 if ($data->status == null) {
                     $data->delete();
                     return ApiResponse::success([

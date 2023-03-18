@@ -84,10 +84,21 @@ class AuthController extends Controller
                         ]);
                 }
 
+                $apiResponse = [
+                    "id" => $data->id,
+                    "noId" => $data->noId,
+                    "email" => $data->email,
+                    "name" => $data->name,
+                    "photo" => $data->photo,
+                    "gender" => $data->gender,
+                    "date_birth" => $data->date_birth,
+                    "is_activate" => intval($data->is_activate)
+                ];
+
                 return ApiResponse::success([
                     'access_token' => $tokenResult,
                     'token_type' => 'Bearer',
-                    'user' => $data,
+                    'user' => $apiResponse,
                 ], 'Authenticated', 200);
             } elseif ($user->roles_id === 3) {
                 $caretakers = TrxCaretakers::where('email', $request->email)->first();
@@ -116,10 +127,22 @@ class AuthController extends Controller
                             ]);
                     }
 
+
+                    $apiResponse = [
+                        "id" => $data->id,
+                        "noId" => $data->noId,
+                        "email" => $data->email,
+                        "name" => $data->name,
+                        "photo" => $data->photo,
+                        "gender" => $data->gender,
+                        "date_birth" => $data->date_birth,
+                        "is_activate" => intval($data->is_activate)
+                    ];
+
                     return ApiResponse::success([
                         'access_token' => $tokenResult,
                         'token_type' => 'Bearer',
-                        'user' => $data,
+                        'user' => $apiResponse,
                     ], 'Authenticated', 200);
                 } else {
                     return ApiResponse::error([

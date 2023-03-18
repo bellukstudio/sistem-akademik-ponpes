@@ -52,7 +52,11 @@ class JadwalController extends Controller
             }
 
             $data = $schedule->orderByRaw("field(trx_schedules.day,'Ahad',
-                'Senin','Selasa','Rabu','Kamis','Jumat','Sabtu')")->get();
+                'Senin','Selasa','Rabu','Kamis','Jumat','Sabtu')")->get()->map(function ($item) {
+                $item->class_id = (int) $item->class_id;
+                $item->id_schedules = (int) $item->id_schedules;
+                return $item;
+            });
             return ApiResponse::success($data, 'Get schedules successfully');
         } catch (\Exception $e) {
             return ApiResponse::error([
