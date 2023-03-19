@@ -125,7 +125,7 @@ class ManagePiketController extends Controller
 
     public function trash()
     {
-        $this->authorize('admin');
+       
         $data = MasterPicket::onlyTrashed()->get();
         return view('dashboard.master_data.kategori_piket.trash', [
             'trash' => $data
@@ -134,6 +134,8 @@ class ManagePiketController extends Controller
 
     public function restore($id)
     {
+       
+
         try {
             $data = MasterPicket::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
@@ -145,6 +147,8 @@ class ManagePiketController extends Controller
     }
     public function restoreAll()
     {
+       
+
         try {
             $data = MasterPicket::onlyTrashed();
             $data->restore();
@@ -155,6 +159,8 @@ class ManagePiketController extends Controller
     }
     public function deletePermanent($id)
     {
+       
+
         try {
             $data = MasterPicket::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
@@ -166,6 +172,8 @@ class ManagePiketController extends Controller
     }
     public function deletePermanentAll()
     {
+       
+
         try {
             $data = MasterPicket::onlyTrashed();
             $data->forceDelete();

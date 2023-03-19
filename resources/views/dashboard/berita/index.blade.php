@@ -25,11 +25,10 @@
             @include('components.alert')
 
             <div class="card" style="overflow: auto;">
-
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-6 col-sm-12 mb-3">
-                            <a href="{{ route('beritaAcara.create') }}" class="btn btn-primary btn-block">
+                            <a href="{{ route('kelolaBeritaAcara.create') }}" class="btn btn-primary btn-block">
                                 <i class="fa fa-plus mr-2"></i>Buat Berita Acara / Pengumuman Baru
                             </a>
                         </div>
@@ -116,7 +115,7 @@
                                         <td>{!! $item->description !!}</td>
                                         <td>
                                             {{-- {Edit} --}}
-                                            <a href="{{ route('beritaAcara.edit', $item->id) }}" class="btn btn-sm"><i
+                                            <a href="{{ route('kelolaBeritaAcara.edit', $item->id) }}" class="btn btn-sm"><i
                                                     class="fa fa-edit"></i></a>
                                             {{-- {Hapus} --}}
                                             <button type="button" class="btn btn-sm" data-toggle="modal"
@@ -124,7 +123,7 @@
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                             {{-- SHow --}}
-                                            <a href="{{ route('beritaAcara.show', $item->id) }}" class="btn btn-sm">
+                                            <a href="{{ route('kelolaBeritaAcara.show', $item->id) }}" class="btn btn-sm">
                                                 <i class="fa fa-eye"></i>
                                             </a>
                                         </td>
@@ -155,7 +154,7 @@
                                                 <div class="modal-footer justify-content-between">
                                                     <button type="button" class="btn btn-default"
                                                         data-dismiss="modal">Close</button>
-                                                    <form action="{{ route('beritaAcara.destroy', $item->id) }}"
+                                                    <form action="{{ route('kelolaBeritaAcara.destroy', $item->id) }}"
                                                         method="post">
                                                         @csrf
                                                         @method('delete')

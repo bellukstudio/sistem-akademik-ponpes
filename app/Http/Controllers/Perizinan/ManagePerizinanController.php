@@ -22,9 +22,8 @@ class ManagePerizinanController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->roles_id === 2 || Auth::user()->roles_id === 4) {
-            abort(403);
-        }
+        $this->authorize('adminpengurus');
+
         $data = TrxStudentPermits::with(['student', 'program'])->latest()->get();
         return view('dashboard.perizinan.index', [
             'perizinan' => $data
@@ -158,10 +157,8 @@ class ManagePerizinanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (Auth::user()->roles_id === 2 || Auth::user()->roles_id === 4) {
+        $this->authorize('adminpengurus');
 
-            abort(403);
-        }
         $request->validate([
             'status' => 'required'
         ], [
@@ -215,10 +212,6 @@ class ManagePerizinanController extends Controller
     public function destroy($id)
     {
         $this->authorize('admin');
-        if (Auth::user()->roles_id === 2 || Auth::user()->roles_id === 4) {
-
-            abort(403);
-        }
         try {
             $data = TrxStudentPermits::find($id);
             $data->delete();

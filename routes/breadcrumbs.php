@@ -8,19 +8,19 @@ use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
  */
 
 Breadcrumbs::for('beritaAcara', function (BreadcrumbTrail $trail) {
-    $trail->push('Data Berita Acara', route('beritaAcara.index'));
+    $trail->push('Data Berita Acara', route('kelolaBeritaAcara.index'));
 });
 Breadcrumbs::for('beritaAcara.create', function (BreadcrumbTrail $trail) {
     $trail->parent('beritaAcara');
-    $trail->push('Tambah Data', route('beritaAcara.create'));
+    $trail->push('Tambah Data', route('kelolaBeritaAcara.create'));
 });
 Breadcrumbs::for('beritaAcara.edit', function (BreadcrumbTrail $trail, $berita) {
     $trail->parent('beritaAcara');
-    $trail->push('Edit Data', route('beritaAcara.edit', $berita->id));
+    $trail->push('Edit Data', route('kelolaBeritaAcara.edit', $berita->id));
 });
 Breadcrumbs::for('beritaAcara.show', function (BreadcrumbTrail $trail, $berita) {
     $trail->parent('beritaAcara');
-    $trail->push('Lihat Data', route('beritaAcara.show', $berita->id));
+    $trail->push('Lihat Data', route('kelolaBeritaAcara.show', $berita->id));
 });
 Breadcrumbs::for('beritaAcara.trash', function (BreadcrumbTrail $trail) {
     $trail->parent('beritaAcara');

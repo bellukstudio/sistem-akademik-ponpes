@@ -26,7 +26,7 @@
                 Edit Data
             </div>
             <div class="card-body">
-                <form action="{{ route('beritaAcara.update', $berita->id) }}" method="post">
+                <form action="{{ route('kelolaBeritaAcara.update', $berita->id) }}" method="post">
                     @csrf
                     @method('put')
                     <label for="">Judul Berita Acara / Pengumuman</label>

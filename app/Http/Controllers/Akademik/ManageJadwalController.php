@@ -336,7 +336,7 @@ class ManageJadwalController extends Controller
          */
 
 
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('GET')) {
             $request->validate([
                 'category' => 'required',
                 'data' => 'sometimes',
@@ -480,6 +480,7 @@ class ManageJadwalController extends Controller
                 $schedule = $data->orderByRaw("field(trx_schedules.day,'Ahad',
                 'Senin','Selasa','Rabu','Kamis','Jumat','Sabtu')")
                     ->get();
+
                 $preview = $data->orderByRaw("field(trx_schedules.day,'Ahad',
                 'Senin','Selasa','Rabu','Kamis','Jumat','Sabtu')")
                     ->groupBy('master_classes.id')->get();
@@ -525,6 +526,7 @@ class ManageJadwalController extends Controller
             $schedule = $data->orderByRaw("field(trx_schedules.day,
                 'Ahad','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu')")
                 ->get();
+
             return view('dashboard.akademik.jadwal.index', [
                 'jadwal' => $schedule,
                 'filter' => $filter,

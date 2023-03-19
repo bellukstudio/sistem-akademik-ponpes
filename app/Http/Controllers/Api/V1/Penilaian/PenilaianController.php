@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api\V1\Penilaian;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;

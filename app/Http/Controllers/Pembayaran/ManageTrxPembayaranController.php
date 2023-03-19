@@ -26,10 +26,7 @@ class ManageTrxPembayaranController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->roles_id === 2  || auth()->user()->roles_id === 4) {
-
-            abort(403);
-        }
+       $this->authorize('adminpengurus');
         //category
         $category = MasterPayment::latest()->get();
         //class
@@ -311,9 +308,8 @@ class ManageTrxPembayaranController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (auth()->user()->roles_id === 2  || auth()->user()->roles_id === 4) {
-            abort(403);
-        }
+        $this->authorize('adminpengurus');
+
         $request->validate([
             'status' => 'required'
         ], [

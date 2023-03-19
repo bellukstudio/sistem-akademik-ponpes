@@ -2,7 +2,7 @@
     Dashboard
 @endif
 
-@if (Request::is('beritaAcara*'))
+@if (Request::is('kelolaBeritaAcara*'))
     Berita Acara
 @endif
 

@@ -144,7 +144,7 @@ class ManageKamarController extends Controller
 
     public function trash()
     {
-        $this->authorize('admin');
+       
         $data = MasterRoom::onlyTrashed()->get();
         return view('dashboard.master_data.kelola_kamar.trash', [
             'trash' => $data
@@ -153,6 +153,8 @@ class ManageKamarController extends Controller
 
     public function restore($id)
     {
+       
+
         try {
             $data = MasterRoom::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
@@ -164,6 +166,8 @@ class ManageKamarController extends Controller
     }
     public function restoreAll()
     {
+       
+
         try {
             $data = MasterRoom::onlyTrashed();
             $data->restore();
@@ -175,6 +179,8 @@ class ManageKamarController extends Controller
 
     public function deletePermanent($id)
     {
+       
+
         try {
             $data = MasterRoom::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
@@ -186,6 +192,8 @@ class ManageKamarController extends Controller
     }
     public function deletePermanentAll()
     {
+       
+
         try {
             $data = MasterRoom::onlyTrashed();
             $data->forceDelete();

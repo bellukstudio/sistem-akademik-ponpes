@@ -160,7 +160,7 @@
                             <div class="inner">
                                 <h3>{{ $dataUser }}</h3>
 
-                                <p>User</p>
+                                <p>Data User</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-person"></i>
@@ -176,7 +176,7 @@
                             <div class="inner">
                                 <h3>{{ $dataSantri }}</h3>
 
-                                <p>Santri</p>
+                                <p>Data Santri</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-ios-people"></i>
@@ -192,7 +192,7 @@
                             <div class="inner">
                                 <h3>{{ $dataPengurus }}</h3>
 
-                                <p>Pengurus</p>
+                                <p>Data Pengurus</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-ios-person"></i>
@@ -208,7 +208,7 @@
                             <div class="inner">
                                 <h3>{{ $dataPengajar }}</h3>
 
-                                <p>Pengajar</p>
+                                <p>Data Pengajar</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-person-stalker"></i>
@@ -314,7 +314,7 @@
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer text-center">
-                                <a href="{{ route('beritaAcara.index') }}" class="uppercase">Lihat Semua</a>
+                                <a href="{{ route('kelolaBeritaAcara.index') }}" class="uppercase">Lihat Semua</a>
                             </div>
                             <!-- /.card-footer -->
                         </div>

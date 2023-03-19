@@ -5,9 +5,16 @@
          <img src="{{ asset('template/img/logo.png') }}" alt=" Logo" class="brand-image img-circle elevation-3"
              style="opacity: 0.8" />
          <span class="brand-text font-weight-light">
-             {{-- @if (Auth::user()->roles == 1) --}}
-             Dashboard
-             {{-- @endif --}}
+             @if (Auth::user()->roles_id == 1)
+                 Administrator
+             @endif
+             @if (Auth::user()->roles_id == 2)
+                 Pengajar
+             @endif
+             @if (Auth::user()->roles_id == 3)
+                 Pengurus
+             @endif
+
          </span>
      </a>
 
@@ -30,8 +37,8 @@
                  @can('admin')
                      <li class="nav-header">KABAR BERITA</li>
                      <li class="nav-item">
-                         <a href="{{ route('beritaAcara.index') }}"
-                             class="nav-link {{ Request::is('beritaAcara*') ? 'active' : '' }}">
+                         <a href="{{ route('kelolaBeritaAcara.index') }}"
+                             class="nav-link {{ Request::is('kelolaBeritaAcara*') ? 'active' : '' }}">
                              <i class="nav-icon fas fa-newspaper"></i>
                              <p>Berita Acara</p>
                          </a>

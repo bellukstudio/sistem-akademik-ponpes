@@ -135,9 +135,7 @@ class ManagePengajarController extends Controller
     }
     public function getAllTeachers()
     {
-        if (Auth::user()->roles_id === 4) {
-            abort(403);
-        }
+        $this->authorize('adminpengajarpengurus');
         $empData['data'] = MasterTeacher::all();
 
         return response()->json($empData);
@@ -300,7 +298,7 @@ class ManagePengajarController extends Controller
 
     public function trash()
     {
-        $this->authorize('admin');
+       
         $data = MasterTeacher::with(['province', 'city'])->onlyTrashed()->get();
         return view('dashboard.master_data.kelola_pengajar.trash', [
             'trash' => $data
@@ -309,6 +307,8 @@ class ManagePengajarController extends Controller
 
     public function restore($id)
     {
+       
+
         try {
             $data = MasterTeacher::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
@@ -320,6 +320,8 @@ class ManagePengajarController extends Controller
     }
     public function restoreAll()
     {
+       
+
         try {
             $data = MasterTeacher::onlyTrashed();
             $data->restore();
@@ -331,6 +333,8 @@ class ManagePengajarController extends Controller
 
     public function deletePermanent($id)
     {
+       
+
         try {
             $data = MasterTeacher::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
@@ -342,6 +346,8 @@ class ManagePengajarController extends Controller
     }
     public function deletePermanentAll()
     {
+       
+
         try {
             $data = MasterTeacher::onlyTrashed();
             $data->forceDelete();

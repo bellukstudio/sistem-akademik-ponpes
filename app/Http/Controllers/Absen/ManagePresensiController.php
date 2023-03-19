@@ -25,9 +25,9 @@ class ManagePresensiController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->roles_id === 4) {
-            abort(404);
-        }
+        ///gate
+        $this->authorize('adminpengajarpengurus');
+        ///
         $type = MasterAttendance::all();
         // cek data presence
         $student = MasterStudent::join('trx_class_groups', 'trx_class_groups.student_id', '=', 'master_students.id')
@@ -179,10 +179,9 @@ class ManagePresensiController extends Controller
      */
     public function saveAttendance(Request $request)
     {
-        if (auth()->user()->roles_id === 4) {
-
-            abort(404);
-        }
+        ///gate
+        $this->authorize('adminpengajarpengurus');
+        ///
         try {
             $period = MasterPeriod::where('status', 1)->first();
 
@@ -287,6 +286,7 @@ class ManagePresensiController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('allRoles');
         try {
             $data = TrxAttendance::find($id);
             $data->delete();

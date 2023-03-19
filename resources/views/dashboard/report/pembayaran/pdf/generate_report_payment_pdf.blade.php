@@ -122,7 +122,7 @@
 
 
     @foreach ($masterPayment as $master)
-        @foreach ($payment->where('id_payment', $master->id)->groupBy('id_payment') as $payments)
+        @forelse ($payment->where('id_payment', $master->id)->groupBy('id_payment') as $payments)
             <header>
                 <div class="logo">
 
@@ -225,6 +225,7 @@
                                         @endif
                                     @endforeach
                                 </td>
+                            </tr>
                             <tr>
                                 <td colspan="4" style="text-align: right;">Total Yang Belum Di Bayar</td>
                                 <td colspan="3">
@@ -237,18 +238,78 @@
                             </td>
                         </tr>
                     @endforeach
+                </tbody>
+            </table>
+        </section>
+    </main>
+@empty
+    <header>
+        <div class="logo">
 
+            <img src="https://pmm.or.id/media_library/images/4dd7de52391ccd8aedc21ec83f269842.png"
+                alt="" />
+        </div>
+        <div class="school-name">
+            <h4>PESANTREN MADINAH MUNAWWARAH</h4>
+            <h5>Jl Durian Raya No. 27B, Pedalangan, Banyumanik, Semarang</h5>
+            <h5>Telp. 0896-7554-4441</h5>
+        </div>
+    </header>
+    <section class="student-data">
+        <table>
+            <tr>
+                <td>No ID</td>
+                <td>:</td>
+                <td>{{ $student->noId }}</td>
+                <td></td>
+                <td></td>
+                <td>Keterangan</td>
+                <td>:</td>
+                <td>Laporan Pembayaran {{ $master->payment_name }}</td>
+            </tr>
+            <tr>
+                <td>Nama Santri</td>
+                <td>:</td>
+                <td>{{ $student->name }}</td>
+            </tr>
+            <tr>
+                <td>Kelas</td>
+                <td>:</td>
+                <td>{{ $student->class_name }}</td>
+            </tr>
+            <tr>
+                <td>Program</td>
+                <td>:</td>
+                <td>{{ $student->program_name }}</td>
+            </tr>
+            <tr>
+                <td>Tahun Ajaran</td>
+                <td>:</td>
+                <td>{{ $period->code }} - {{ $period->information }}</td>
+            </tr>
+        </table>
+    </section>
+    <main>
+        <section class="raport-table">
+            <table class="table-nilai" border="1">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Nama Pembayaran</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Tanggal Pembayaran</th>
 
+                    </tr>
+                </thead>
+                <tbody>
 
                 </tbody>
             </table>
         </section>
-
     </main>
-    <div class="page-break">
-
-    </div>
-@endforeach
+@endforelse
 @endforeach
 
 <script>

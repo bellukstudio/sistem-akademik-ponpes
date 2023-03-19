@@ -18,9 +18,7 @@ class AuthController extends Controller
         if (Auth::user() == null) {
             return view('authentication.login');
         } elseif (auth()->check()) {
-            if (auth()->user()->roles_id === 4) {
-                abort(403);
-            }
+            $this->authorize('adminpengajarpengurus');
             return redirect()->route('dashboard');
         }
     }
@@ -59,10 +57,10 @@ class AuthController extends Controller
                         'status' => 'ON'
                     ]);
             }
-            if (Auth::user()->roles_id === 1) {
+            if (Auth::user()->roles_id === 1 || Auth::user()->roles_id === "1") {
                 $request->session()->regenerate();
                 return redirect()->route('google.check');
-            } elseif (Auth::user()->roles_id === 4) {
+            } elseif (Auth::user()->roles_id === 4 || Auth::user()->roles_id === "4") {
                 Auth::logout();
                 return redirect()->route('login')->with('failed', 'You are not authorized to access the application.');
             } else {

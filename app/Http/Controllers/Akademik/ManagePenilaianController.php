@@ -21,9 +21,8 @@ class ManagePenilaianController extends Controller
 
     public function index()
     {
-        if (Auth::user()->roles_id === 3 || Auth::user()->roles_id === 4) {
-            abort(403);
-        }
+        $this->authorize('adminpengajar');
+
         $categoryAssessment = MasterAssessment::all();
         $program = MasterAcademicProgram::all();
         return view(
@@ -37,9 +36,8 @@ class ManagePenilaianController extends Controller
      */
     public function create(Request $request)
     {
-        if (Auth::user()->roles_id === 3 || Auth::user()->roles_id === 4) {
-            abort(403);
-        }
+        $this->authorize('adminpengajar');
+
         $request->validate(
             [
                 'program' => 'required',
@@ -120,9 +118,7 @@ class ManagePenilaianController extends Controller
 
     public function store(Request $request, $id)
     {
-        if (Auth::user()->roles_id === 3 || Auth::user()->roles_id === 4) {
-            abort(403);
-        }
+        $this->authorize('adminpengajar');
         $request->validate([
             'score' => 'required',
             'category' => 'required',
@@ -157,6 +153,7 @@ class ManagePenilaianController extends Controller
     public function destroy($id)
     {
         try {
+            $this->authorize('adminpengajar');
             $data = TrxScore::findOrFail($id);
             $data->delete();
             return back()->with('success', 'Nilai berhasil di hapus');

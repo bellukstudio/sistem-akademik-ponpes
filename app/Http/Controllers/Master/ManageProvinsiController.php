@@ -133,7 +133,7 @@ class ManageProvinsiController extends Controller
 
     public function trash()
     {
-        $this->authorize('admin');
+       
         $data = MasterProvince::onlyTrashed()->get();
         return view('dashboard.master_data.kelola_provinsi.trash', [
             'trash' => $data
@@ -142,6 +142,8 @@ class ManageProvinsiController extends Controller
 
     public function restore($id)
     {
+       
+
         try {
             $data = MasterProvince::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
@@ -153,6 +155,8 @@ class ManageProvinsiController extends Controller
     }
     public function restoreAll()
     {
+       
+
         try {
             $data = MasterProvince::onlyTrashed();
             $data->restore();
@@ -164,6 +168,8 @@ class ManageProvinsiController extends Controller
 
     public function deletePermanent($id)
     {
+       
+
         try {
             $data = MasterProvince::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
@@ -175,6 +181,8 @@ class ManageProvinsiController extends Controller
     }
     public function deletePermanentAll()
     {
+       
+
         try {
             $data = MasterProvince::onlyTrashed();
             $data->forceDelete();

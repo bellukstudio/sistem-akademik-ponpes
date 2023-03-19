@@ -13,7 +13,7 @@ use App\Models\MasterUsers;
 use App\Models\TrxReadNews;
 use Illuminate\Support\Facades\Validator;
 
-class BeritaController extends Controller
+class BeritaAcaraController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,6 +22,7 @@ class BeritaController extends Controller
      */
     public function index()
     {
+        $this->authorize('allRoles');
         $timeLine = MasterNews::orderBy('created_at', 'desc')->get()->groupBy(function ($date) {
             return Carbon::parse($date->created_at)->format('Y-m-d');
         });
@@ -94,7 +95,7 @@ class BeritaController extends Controller
                 ];
                 FcmHelper::sendNotificationWithGuzzle($request->judul, $dataFcm);
             }
-            return redirect()->route('beritaAcara.index')
+            return redirect()->route('kelolaBeritaAcara.index')
                 ->with('success', 'Pengumuman (' . $request->judul . ') berhasil di post');
         } catch (\Exception $e) {
             return back()->with('failed', $e->getMessage());
@@ -169,7 +170,7 @@ class BeritaController extends Controller
             $berita->description = $request->keterangan;
             $berita->update();
 
-            return redirect()->route('beritaAcara.index')
+            return redirect()->route('kelolaBeritaAcara.index')
                 ->with('success', 'Pengumuman (' . $request->judul . ') berhasil di update');
         } catch (\Exception $e) {
             return back()->with('failed', 'Gagal mengubah data');
@@ -188,7 +189,7 @@ class BeritaController extends Controller
         try {
             $data = MasterNews::find($id);
             $data->delete();
-            return redirect()->route('beritaAcara.index')->with('success', 'Data yang dipilih berhasil dihapus');
+            return redirect()->route('kelolaBeritaAcara.index')->with('success', 'Data yang dipilih berhasil dihapus');
         } catch (\Exception $e) {
             return back()->with('failed', 'Gagal menghapus data');
         }
@@ -218,8 +219,9 @@ class BeritaController extends Controller
      * show data in trash
      */
 
-    public function trash()
+    public function trashBin()
     {
+
         $data = MasterNews::onlyTrashed()->get();
         return view('dashboard.berita.trash', [
             'trash' => $data
@@ -228,20 +230,22 @@ class BeritaController extends Controller
 
     public function restore($id)
     {
+
         try {
             $data = MasterNews::onlyTrashed()->where('id', $id);
             $data->restore();
-            return redirect()->route('beritaAcara.index')->with('success', 'Data berhasil dipulihkan');
+            return redirect()->route('kelolaBeritaAcara.index')->with('success', 'Data berhasil dipulihkan');
         } catch (\Exception $e) {
             return back()->with('failed', 'Gagal memulihkan data');
         }
     }
     public function restoreAll()
     {
+
         try {
             $data = MasterNews::onlyTrashed();
             $data->restore();
-            return redirect()->route('beritaAcara.index')->with('success', 'Data berhasil dipulihkan');
+            return redirect()->route('kelolaBeritaAcara.index')->with('success', 'Data berhasil dipulihkan');
         } catch (\Exception $e) {
             return back()->with('failed', 'Gagal memulihkan data');
         }
@@ -249,6 +253,7 @@ class BeritaController extends Controller
 
     public function deletePermanent($id)
     {
+
         try {
             $data = MasterNews::onlyTrashed()->where('id', $id);
             $data->forceDelete();
