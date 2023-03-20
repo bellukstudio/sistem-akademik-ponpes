@@ -213,7 +213,7 @@
 
                         @empty
                             <tr>
-                                <td colspan="8" align="center"> Data Tidak Tersedia</td>
+                                <td colspan="9" align="center"> Data Tidak Tersedia</td>
                             </tr>
                         @endforelse
                     </tbody>

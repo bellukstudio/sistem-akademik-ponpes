@@ -69,18 +69,15 @@ class ManageKelasController extends Controller
     }
     public function getAllClassByProgram($programId)
     {
-        if (Auth::user()->roles_id === 4) {
-            abort(403);
-        }
+        $this->authorize('adminpengajarpengurus');
         $empData['data'] = MasterClass::where('program_id', $programId)->get();
 
         return response()->json($empData);
     }
     public function getAllClass()
     {
-        if (Auth::user()->roles_id === 4) {
-            abort(403);
-        }
+        $this->authorize('adminpengajarpengurus');
+
         $empData['data'] = MasterClass::all();
 
         return response()->json($empData);
@@ -162,7 +159,7 @@ class ManageKelasController extends Controller
 
     public function trash()
     {
-        $this->authorize('admin');
+       
         $data = MasterClass::onlyTrashed()->get();
         return view('dashboard.master_data.kelola_kelas.trash', [
             'trash' => $data
@@ -171,6 +168,8 @@ class ManageKelasController extends Controller
 
     public function restore($id)
     {
+       
+
         try {
             $data = MasterClass::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
@@ -182,6 +181,8 @@ class ManageKelasController extends Controller
     }
     public function restoreAll()
     {
+       
+
         try {
             $data = MasterClass::onlyTrashed();
             $data->restore();
@@ -192,6 +193,8 @@ class ManageKelasController extends Controller
     }
     public function deletePermanent($id)
     {
+       
+
         try {
             $data = MasterClass::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
@@ -204,6 +207,8 @@ class ManageKelasController extends Controller
     }
     public function deletePermanentAll()
     {
+       
+
         try {
             $data = MasterClass::onlyTrashed();
             $data->forceDelete();

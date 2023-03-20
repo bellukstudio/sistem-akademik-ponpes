@@ -133,8 +133,6 @@ class ManageAbsenController extends Controller
     }
     public function trash()
     {
-        $this->authorize('admin');
-
         $data = MasterAttendance::onlyTrashed()->get();
         return view('dashboard.master_data.kelola_absen.trash', [
             'trash' => $data
@@ -143,6 +141,7 @@ class ManageAbsenController extends Controller
 
     public function restore($id)
     {
+
         try {
             $data = MasterAttendance::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
@@ -154,6 +153,7 @@ class ManageAbsenController extends Controller
     }
     public function restoreAll()
     {
+
         try {
             $data = MasterAttendance::onlyTrashed();
             $data->restore();
@@ -165,6 +165,7 @@ class ManageAbsenController extends Controller
 
     public function deletePermanent($id)
     {
+
         try {
             $data = MasterAttendance::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
@@ -176,6 +177,7 @@ class ManageAbsenController extends Controller
     }
     public function deletePermanentAll()
     {
+
         try {
             $data = MasterAttendance::onlyTrashed();
             $data->forceDelete();

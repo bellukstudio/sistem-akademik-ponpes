@@ -1,14 +1,14 @@
 <?php
 
-use App\Http\Controllers\Api\V1\AuthController;
-use App\Http\Controllers\Api\V1\BeritaController;
-use App\Http\Controllers\Api\V1\FcmController;
-use App\Http\Controllers\Api\V1\JadwalController;
-use App\Http\Controllers\Api\V1\PembayaranController;
-use App\Http\Controllers\Api\V1\PenilaianController;
-use App\Http\Controllers\Api\V1\PerizinanController;
-use App\Http\Controllers\Api\V1\PresensiController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\V1\Auth\AuthController;
+use App\Http\Controllers\Api\V1\Berita\BeritaController;
+use App\Http\Controllers\Api\V1\Firebase\FcmController;
+use App\Http\Controllers\APi\V1\Firebase\FirebaseController;
+use App\Http\Controllers\Api\V1\Jadwal\JadwalController;
+use App\Http\Controllers\Api\V1\Pembayaran\PembayaranController;
+use App\Http\Controllers\Api\V1\Penilaian\PenilaianController;
+use App\Http\Controllers\Api\V1\Perizinan\PerizinanController;
+use App\Http\Controllers\Api\V1\Presensi\PresensiController;
 use Illuminate\Support\Facades\Route;
 
 /*

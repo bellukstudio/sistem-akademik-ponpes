@@ -21,9 +21,8 @@ class ManagePenilaianHafalanController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->roles_id === 3 || Auth::user()->roles_id === 4) {
-            abort(403);
-        }
+        $this->authorize('adminpengajar');
+
         $program = MasterAcademicProgram::all();
         /**
          * [RETRIEVE DATA FROM API USING LIBRARY GUZZLE]
@@ -51,6 +50,8 @@ class ManagePenilaianHafalanController extends Controller
 
     public function create(Request $request)
     {
+        $this->authorize('adminpengajar');
+
         $request->validate(
             [
                 'program' => 'required',
@@ -148,6 +149,8 @@ class ManagePenilaianHafalanController extends Controller
 
     public function store(Request $request, $student, $class)
     {
+        $this->authorize('adminpengajar');
+
         $request->validate([
             'score' => 'required'
         ], [
@@ -185,6 +188,8 @@ class ManagePenilaianHafalanController extends Controller
 
     public function destroy($id)
     {
+        $this->authorize('adminpengajar');
+
         try {
             $data = TrxMemorizeSurah::findOrFail($id);
             $data->delete();

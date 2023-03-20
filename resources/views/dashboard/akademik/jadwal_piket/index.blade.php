@@ -24,7 +24,7 @@
                 <h2>Filter</h2>
             </div>
             <div class="card-body">
-                <form action="{{ route('filterDataPicket') }}" method="POST">
+                <form action="{{ route('filterDataPicket') }}" method="GET">
                     @csrf
                     <div class="form-group">
                         <label for="">Pilih Kategori Piket</label>

@@ -154,7 +154,7 @@ class ManagePembayaranController extends Controller
     }
     public function trash()
     {
-        $this->authorize('admin');
+       
 
         $data = MasterPayment::onlyTrashed()->get();
         return view('dashboard.master_data.kelola_pembayaran.trash', [
@@ -164,6 +164,8 @@ class ManagePembayaranController extends Controller
 
     public function restore($id)
     {
+       
+
         try {
             $data = MasterPayment::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
@@ -175,6 +177,8 @@ class ManagePembayaranController extends Controller
     }
     public function restoreAll()
     {
+       
+
         try {
             $data = MasterPayment::onlyTrashed();
             $data->restore();
@@ -186,6 +190,8 @@ class ManagePembayaranController extends Controller
 
     public function deletePermanent($id)
     {
+       
+
         try {
             $data = MasterPayment::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
@@ -197,6 +203,8 @@ class ManagePembayaranController extends Controller
     }
     public function deletePermanentAll()
     {
+       
+
         try {
             $data = MasterPayment::onlyTrashed();
             $data->forceDelete();

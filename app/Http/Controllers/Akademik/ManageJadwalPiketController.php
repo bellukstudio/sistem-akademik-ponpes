@@ -58,7 +58,7 @@ class ManageJadwalPiketController extends Controller
             ->join('master_rooms', 'master_rooms.id', '=', 'trx_picket_schedules.room_id')
             ->join('master_pickets', 'master_pickets.id', '=', 'trx_picket_schedules.id_category');
 
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('GET')) {
             $request->validate([
                 'room_select' => 'sometimes',
                 'category' => 'required',

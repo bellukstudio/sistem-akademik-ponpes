@@ -143,10 +143,10 @@
                                         <div class="modal-body">
                                             <div class="card">
                                                 <div class="card-header bg-info">
-                                                    <h6>{{ $item->judul }}</h6> <br>
+                                                    <h6>{{ $item->title }}</h6> <br>
                                                 </div>
                                                 <div class="card-body">
-                                                    <p>{!! $item->keterangan !!}</p>
+                                                    <p>{!! $item->description !!}</p>
 
                                                 </div>
                                             </div>
@@ -178,10 +178,10 @@
                                         <div class="modal-body">
                                             <div class="card">
                                                 <div class="card-header bg-info">
-                                                    <h6>{{ $item->judul }}</h6> <br>
+                                                    <h6>{{ $item->title }}</h6> <br>
                                                 </div>
                                                 <div class="card-body">
-                                                    <p>{!! $item->keterangan !!}</p>
+                                                    <p>{!! $item->description !!}</p>
 
                                                 </div>
                                             </div>

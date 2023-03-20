@@ -10,7 +10,7 @@ use App\Http\Controllers\Akademik\ManagePenilaianHafalanController;
 use App\Http\Controllers\Auth\ActivationController;
 use App\Http\Controllers\Master\ManageTahunAkademikController;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Berita\BeritaController;
+use App\Http\Controllers\Berita\BeritaAcaraController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\File\GoogleDriveController;
@@ -39,7 +39,52 @@ use App\Http\Controllers\Report\LaporanNilaiHafalanController;
 use App\Http\Controllers\Report\LaporanPembayaranController;
 use App\Http\Controllers\Report\LaporanPerizinanController;
 use App\Http\Controllers\Report\LaporanPresensiController;
+use Illuminate\Support\Facades\Artisan;
 
+
+/*
+|-------------------------------------------
+|-----------------------------------------
+|Artisan CMD
+*/
+Route::get('/storage-link', function () {
+    $targetFolder = storage_path('app/public');
+    $linkFolder = public_path('storage');
+
+    try {
+        symlink($targetFolder, $linkFolder);
+        return 'Storage link created successfully!';
+    } catch (\Exception $e) {
+        return 'Error creating storage link: ' . $e->getMessage();
+    }
+});
+Route::get('/clear-config', function () {
+         Artisan::call('config:clear');
+         return 'Routes cache has clear successfully !';
+});
+// clear route cache
+Route::get('/clear-route-cache', function () {
+    Artisan::call('route:cache');
+    return 'Routes cache has clear successfully !';
+});
+
+//clear config cache
+Route::get('/clear-config-cache', function () {
+    Artisan::call('config:cache');
+    return 'Config cache has clear successfully !';
+});
+
+// clear application cache
+Route::get('/clear-app-cache', function () {
+    Artisan::call('cache:clear');
+    return 'Application cache has clear successfully!';
+});
+
+// clear view cache
+Route::get('/clear-view-cache', function () {
+    Artisan::call('view:clear');
+    return 'View cache has clear successfully!';
+});
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -52,7 +97,7 @@ use App\Http\Controllers\Report\LaporanPresensiController;
 */
 
 // authentication
-Route::get('/', [AuthController::class, 'index'])->name('login');
+Route::get('/', [AuthController::class, 'index'])->name('rootWeb');
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('authenticate');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -110,8 +155,8 @@ Route::middleware(['auth:sanctum', 'web'])->group(function () {
     /**
      * [ROUTE MANAGE NEWS / BERITA ACARA]
      */
-    Route::get('beritaAcara/read', [BeritaController::class, 'readNews'])->name('readNews');
-    Route::resource('beritaAcara', BeritaController::class);
+    Route::get('kelolaBeritaAcara/read', [BeritaAcaraController::class, 'readNews'])->name('readNews');
+    Route::resource('kelolaBeritaAcara', BeritaAcaraController::class);
     /**
      * [MIDDLEWARE ADMIN]
      * Master data
@@ -120,16 +165,25 @@ Route::middleware(['auth:sanctum', 'web'])->group(function () {
         /**
          * [ROUTE MANAGE NEWS / BERITA ACARA]
          */
-        Route::get('beritaAcara/trash', [BeritaController::class, 'trash'])->name('trashBeritaAcara');
-        Route::get('beritaAcara/trash/{id}/restore', [BeritaController::class, 'restore'])->name('restoreBeritaAcara');
-        Route::get('beritaAcara/trash/restore', [BeritaController::class, 'restoreAll'])->name('restoreAllBeritaAcara');
         Route::get(
-            'beritaAcara/trash/{id}/delete',
-            [BeritaController::class, 'deletePermanent']
+            'kelolaBeritaAcara/data/trashBin',
+            [BeritaAcaraController::class, 'trashBin']
+        )->name('trashBeritaAcara');
+        Route::get(
+            'kelolaBeritaAcara/data/trashBin/{id}/restore',
+            [BeritaAcaraController::class, 'restore']
+        )->name('restoreBeritaAcara');
+        Route::get(
+            'kelolaBeritaAcara/data/trashBin/restore',
+            [BeritaAcaraController::class, 'restoreAll']
+        )->name('restoreAllBeritaAcara');
+        Route::get(
+            'kelolaBeritaAcara/data/trashBin/{id}/delete',
+            [BeritaAcaraController::class, 'deletePermanent']
         )->name('deletePermanentBeritaAcara');
         Route::get(
-            'beritaAcara/trash/delete',
-            [BeritaController::class, 'deletePermanentAll']
+            'kelolaBeritaAcara/data/trashBin/delete',
+            [BeritaAcaraController::class, 'deletePermanentAll']
         )->name('deletePermanenAlltBeritaAcara');
 
 
@@ -430,7 +484,7 @@ Route::middleware(['auth:sanctum', 'web'])->group(function () {
         )->name('deletePermanentPayment');
         Route::get(
             'kelolaPembayaran/trash/restore',
-            [ManagePengurusCManagePembayaranControllerontroller::class, 'restoreAll']
+            [ManagePembayaranController::class, 'restoreAll']
         )->name('restoreAllPayments');
         Route::get(
             'kelolaPembayaran/trash/delete',
@@ -523,18 +577,19 @@ Route::middleware(['auth:sanctum', 'web'])->group(function () {
         /**
          * [ROUTE SCHEDULE]
          */
-        Route::post(
-            'jadwalPelajaran/filter',
-            [
-                ManageJadwalController::class, 'filterScheduleByCategories'
-            ]
-        )->name('getAllSchedule');
         Route::get(
             'jadwalPelajaran/filter',
             [
                 ManageJadwalController::class, 'filterScheduleByCategories'
             ]
         )->name('getAllSchedule');
+        // Route::get(
+        //     'jadwalPelajaran/filter',
+        //     [
+        //         ManageJadwalController::class, 'filterScheduleByCategories'
+        //     ]
+        // )->name('getAllSchedule');
+        ///
         Route::resource('jadwalPelajaran', ManageJadwalController::class)->except('show');
         /**
          * [ROUTE PICKET SCHEDULE]
@@ -546,13 +601,14 @@ Route::middleware(['auth:sanctum', 'web'])->group(function () {
                 'filterDataByCategory'
             ]
         )->name('filterDataPicket');
-        Route::post(
-            'jadwalPiket/filter',
-            [
-                ManageJadwalPiketController::class,
-                'filterDataByCategory'
-            ]
-        )->name('filterDataPicket');
+        // Route::post(
+        //     'jadwalPiket/filter',
+        //     [
+        //         ManageJadwalPiketController::class,
+        //         'filterDataByCategory'
+        //     ]
+        // )->name('filterDataPicket');
+        ///
         Route::resource('jadwalPiket', ManageJadwalPiketController::class)->except('show');
         /**
          * [ROUTE CLASS GROUPS]
