@@ -33,7 +33,9 @@ class PerizinanController extends Controller
                     $item->student_id = (int) $item->student_id;
                     $item->id_program = (int) $item->id_program;
                     $item->id_period = (int) $item->id_period;
-                    $item->status = (int) $item->status;
+                    if ($item->status != null) {
+                        $item->status = (int) $item->status;
+                    }
                     return $item;
                 });
 
