@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\APi\V1\Auth;
 
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
@@ -59,7 +59,7 @@ class AuthController extends Controller
              * check email from table student and teacher
              */
             $data = '';
-            if ($user->roles_id === 4) {
+            if ($user->roles_id === 4 || $user->roles_id === "4") {
                 $data = MasterStudent::where('email', $request->email)->first();
                 //create token
                 $tokenResult = $user->createToken('authToken')->plainTextToken;
@@ -84,12 +84,23 @@ class AuthController extends Controller
                         ]);
                 }
 
+                $apiResponse = [
+                    "id" => $data->id,
+                    "noId" => $data->noId,
+                    "email" => $data->email,
+                    "name" => $data->name,
+                    "photo" => $data->photo,
+                    "gender" => $data->gender,
+                    "date_birth" => $data->date_birth,
+                    "is_activate" => intval($data->is_activate)
+                ];
+
                 return ApiResponse::success([
                     'access_token' => $tokenResult,
                     'token_type' => 'Bearer',
-                    'user' => $data,
+                    'user' => $apiResponse,
                 ], 'Authenticated', 200);
-            } elseif ($user->roles_id === 3) {
+            } elseif ($user->roles_id === 3 || $user->roles_id === "3") {
                 $caretakers = TrxCaretakers::where('email', $request->email)->first();
                 if ($caretakers->categories === 'students') {
                     $data = MasterStudent::where('email', $request->email)->first();
@@ -116,10 +127,22 @@ class AuthController extends Controller
                             ]);
                     }
 
+
+                    $apiResponse = [
+                        "id" => $data->id,
+                        "noId" => $data->noId,
+                        "email" => $data->email,
+                        "name" => $data->name,
+                        "photo" => $data->photo,
+                        "gender" => $data->gender,
+                        "date_birth" => $data->date_birth,
+                        "is_activate" => intval($data->is_activate)
+                    ];
+
                     return ApiResponse::success([
                         'access_token' => $tokenResult,
                         'token_type' => 'Bearer',
-                        'user' => $data,
+                        'user' => $apiResponse,
                     ], 'Authenticated', 200);
                 } else {
                     return ApiResponse::error([

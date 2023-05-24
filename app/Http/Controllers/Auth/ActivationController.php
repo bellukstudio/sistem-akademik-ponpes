@@ -97,8 +97,11 @@ class ActivationController extends Controller
 
     public function redemCode()
     {
-        $url = explode('/', url()->current());
-        $token =  ModelActivation::where('activation_code', $url[4])->firstOrFail();
+        // $url = explode('/', url()->current());
+        // $token =  ModelActivation::where('activation_code', $url[4])->firstOrFail();
+        ///
+        $url = explode('/aktivasi/', url()->current());
+        $token = ModelActivation::where('activation_code', $url[1])->firstOrFail();
         $time = $token->created_at->format('d-m-Y H:i:s');
 
         $date = date_create($time);

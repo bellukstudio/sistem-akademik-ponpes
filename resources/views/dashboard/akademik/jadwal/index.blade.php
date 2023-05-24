@@ -24,7 +24,7 @@
                 Filter Data
             </div>
             <div class="card-body">
-                <form action="{{ route('getAllSchedule') }}" method="POST">
+                <form action="{{ route('getAllSchedule') }}" method="GET">
                     @csrf
                     <div class="form-group">
                         <label for="">Kategori</label>

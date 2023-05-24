@@ -208,7 +208,7 @@ class ManageRuanganController extends Controller
 
     public function trash()
     {
-        $this->authorize('admin');
+       
         $data = MasterRoom::where('type', 'RUANGAN')->onlyTrashed()->get();
         return view('dashboard.master_data.kelola_ruangan.trash', [
             'trash' => $data
@@ -217,6 +217,8 @@ class ManageRuanganController extends Controller
 
     public function restore($id)
     {
+       
+
         try {
             $data = MasterRoom::onlyTrashed()->find($id);
             $data->restore();
@@ -228,6 +230,8 @@ class ManageRuanganController extends Controller
     }
     public function restoreAll()
     {
+       
+
         try {
             $data = MasterRoom::onlyTrashed();
             $data->restore();
@@ -239,6 +243,8 @@ class ManageRuanganController extends Controller
 
     public function deletePermanent($id)
     {
+       
+
         try {
             $data = MasterRoom::onlyTrashed()->find($id);
             $data->forceDelete();
@@ -250,6 +256,8 @@ class ManageRuanganController extends Controller
     }
     public function deletePermanentAll()
     {
+       
+
         try {
             $data = MasterRoom::onlyTrashed();
             $data->forceDelete();

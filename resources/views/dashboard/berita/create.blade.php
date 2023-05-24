@@ -26,7 +26,7 @@
                 Tambah Data
             </div>
             <div class="card-body">
-                <form action="{{ route('beritaAcara.store') }}" method="post">
+                <form action="{{ route('kelolaBeritaAcara.store') }}" method="post">
                     @csrf
                     <label for="">Judul Berita Acara / Pengumuman</label>
                     <div class="input-group mb-3">

@@ -26,10 +26,7 @@ class ManageTrxPembayaranController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->roles_id === 2  || auth()->user()->roles_id === 4) {
-
-            abort(403);
-        }
+        $this->authorize('adminpengurus');
         //category
         $category = MasterPayment::latest()->get();
         //class
@@ -55,7 +52,7 @@ class ManageTrxPembayaranController extends Controller
             ->groupBy(['trx_payments.id_student', 'trx_payments.id_payment'])
             ->get();
         //payment
-        if (auth()->user()->roles_id === 3) {
+        if (auth()->user()->roles_id === 3 || auth()->user()->roles_id === "3") {
             $payment = TrxPayment::join('master_users', 'master_users.id', '=', 'trx_payments.id_user')
                 ->join('master_payments', 'master_payments.id', '=', 'trx_payments.id_payment')
                 ->join('master_students', 'master_students.id', '=', 'trx_payments.id_student')
@@ -166,6 +163,7 @@ class ManageTrxPembayaranController extends Controller
                 'datePayment.required' => 'Kolom Tanggal Pembayaran harus diisi.',
                 'total.required' => 'Kolom Jumlah Pembayaran harus diisi.',
                 'total.max' => 'Kolom Jumlah Pembayaran maksimal terdiri dari 50 karakter.',
+                'photo.required' => 'Foto tidak boleh kosong',
                 'photo.image' => 'File harus berupa gambar',
                 'photo.max' => 'Ukuran file maksimal 2MB',
                 'photo.mimes' => 'Format file tidak valid. Hanya diperbolehkan format PNG, JPG, dan JPEG',
@@ -190,7 +188,9 @@ class ManageTrxPembayaranController extends Controller
                         'public'
                     );
             }
-
+            if (intval($request->total) > intval($payment->total)) {
+                return back()->with('failed', 'Total lebih dari jumlah yang harus dibayar');
+            }
             TrxPayment::create([
                 'id_user' => $student[0],
                 'id_student' => $request->student_id,
@@ -286,6 +286,9 @@ class ManageTrxPembayaranController extends Controller
                     );
                 $data->photo = $file;
             }
+            if (intval($request->total) > intval($payment->total)) {
+                return back()->with('failed', 'Total lebih dari jumlah yang harus dibayar');
+            }
             $student = explode(':', $request->santriList);
             $data->id_user = $student[0];
             $data->id_student = $request->student_id;
@@ -311,9 +314,8 @@ class ManageTrxPembayaranController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (auth()->user()->roles_id === 2  || auth()->user()->roles_id === 4) {
-            abort(403);
-        }
+        $this->authorize('adminpengurus');
+
         $request->validate([
             'status' => 'required'
         ], [

@@ -28,13 +28,30 @@ class AuthServiceProvider extends ServiceProvider
 
         //
         Gate::define('admin', function (MasterUsers $user) {
-            return $user->roles_id === 1;
+            return $user->roles_id === 1 || $user->roles_id === "1";
         });
         Gate::define('pengajar', function (MasterUsers $user) {
-            return $user->roles_id === 2;
+            return $user->roles_id === 2 || $user->roles_id === "2";
         });
         Gate::define('pengurus', function (MasterUsers $user) {
-            return $user->roles_id === 3;
+            return $user->roles_id === 3 || $user->roles_id === "3";
+        });
+        Gate::define('adminpengajar', function (MasterUsers $user) {
+            $allowedRoles = [1, 2, "1", "2"];
+            return in_array($user->roles_id, $allowedRoles);
+        });
+        Gate::define('adminpengajarpengurus', function (MasterUsers $user) {
+            $allowedRoles = [1, 2, 3, "1", "2", "3"];
+            return in_array($user->roles_id, $allowedRoles);
+        });
+        Gate::define('adminpengurus', function (MasterUsers $user) {
+            $allowedRoles = [1, 3, "1", "3"];
+            return in_array($user->roles_id, $allowedRoles);
+        });
+
+        Gate::define('allRoles', function (MasterUsers $user) {
+            $allowedRoles = [1, 2, 3, "1", "2", "3"];
+            return in_array($user->roles_id, $allowedRoles);
         });
     }
 }

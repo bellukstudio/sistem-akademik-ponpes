@@ -76,9 +76,8 @@ class ManageProgramController extends Controller
      */
     public function getAllProgram()
     {
-        if (Auth::user()->roles_id === 4) {
-            abort(403);
-        }
+        $this->authorize('adminpengajarpengurus');
+
         $empData['data'] = MasterAcademicProgram::all();
 
         return response()->json($empData);
@@ -160,7 +159,7 @@ class ManageProgramController extends Controller
 
     public function trash()
     {
-        $this->authorize('admin');
+       
         $data = MasterAcademicProgram::onlyTrashed()->get();
         return view('dashboard.master_data.kelola_program.trash', [
             'trash' => $data
@@ -169,6 +168,8 @@ class ManageProgramController extends Controller
 
     public function restore($id)
     {
+       
+
         try {
             $data = MasterAcademicProgram::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
@@ -180,6 +181,8 @@ class ManageProgramController extends Controller
     }
     public function restoreAll()
     {
+       
+
         try {
             $data = MasterAcademicProgram::onlyTrashed();
             $data->restore();
@@ -191,6 +194,8 @@ class ManageProgramController extends Controller
 
     public function deletePermanent($id)
     {
+       
+
         try {
             $data = MasterAcademicProgram::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
@@ -202,6 +207,8 @@ class ManageProgramController extends Controller
     }
     public function deletePermanentAll()
     {
+       
+
         try {
             $data = MasterAcademicProgram::onlyTrashed();
             $data->forceDelete();

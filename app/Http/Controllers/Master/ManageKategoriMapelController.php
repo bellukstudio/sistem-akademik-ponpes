@@ -135,7 +135,7 @@ class ManageKategoriMapelController extends Controller
 
     public function trash()
     {
-        $this->authorize('admin');
+       
         $data = MasterCategorieSchedule::onlyTrashed()->get();
         return view('dashboard.master_data.kelola_kategori_mapel.trash', [
             'trash' => $data
@@ -144,6 +144,8 @@ class ManageKategoriMapelController extends Controller
 
     public function restore($id)
     {
+       
+
         try {
             $data = MasterCategorieSchedule::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
@@ -155,6 +157,8 @@ class ManageKategoriMapelController extends Controller
     }
     public function restoreAll()
     {
+       
+
         try {
             $data = MasterCategorieSchedule::onlyTrashed();
             $data->restore();
@@ -166,6 +170,8 @@ class ManageKategoriMapelController extends Controller
 
     public function deletePermanent($id)
     {
+       
+
         try {
             $data = MasterCategorieSchedule::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
@@ -178,6 +184,8 @@ class ManageKategoriMapelController extends Controller
     }
     public function deletePermanentAll()
     {
+       
+
         try {
             $data = MasterCategorieSchedule::onlyTrashed();
             $data->forceDelete();

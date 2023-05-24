@@ -87,9 +87,7 @@ class ManageMapelController extends Controller
     }
     public function getAllCourseByProgram(Request $request)
     {
-        if (Auth::user()->roles_id === 4) {
-            abort(403);
-        }
+        $this->authorize('adminpengajarpengurus');
         $empData['data'] = MasterCourse::with(['category'])->where('program_id', $request->program)->get();
         return response()->json($empData);
     }
@@ -167,7 +165,7 @@ class ManageMapelController extends Controller
 
     public function trash()
     {
-        $this->authorize('admin');
+       
 
         $data = MasterCourse::with(['program'])->onlyTrashed()->get();
         return view('dashboard.master_data.kelola_mapel.trash', [
@@ -177,6 +175,8 @@ class ManageMapelController extends Controller
 
     public function restore($id)
     {
+       
+
         try {
             $data = MasterCourse::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
@@ -188,6 +188,8 @@ class ManageMapelController extends Controller
     }
     public function restoreAll()
     {
+       
+
         try {
             $data = MasterCourse::onlyTrashed();
             $data->restore();
@@ -199,6 +201,8 @@ class ManageMapelController extends Controller
 
     public function deletePermanent($id)
     {
+       
+
         try {
             $data = MasterCourse::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
@@ -210,6 +214,8 @@ class ManageMapelController extends Controller
     }
     public function deletePermanentAll()
     {
+       
+
         try {
             $data = MasterCourse::onlyTrashed();
             $data->forceDelete();

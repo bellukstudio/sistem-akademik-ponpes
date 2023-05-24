@@ -24,6 +24,7 @@ class DashboardController extends Controller
 
     public function index()
     {
+        $this->authorize('allRoles');
         // count data
         $dataUser = MasterUsers::whereNotIn('roles_id', [1])->count();
         $dataSantri = MasterStudent::count();
@@ -69,7 +70,7 @@ class DashboardController extends Controller
 
     public function importFile(Request $request)
     {
-
+        $this->authorize('admin');
         $validator =  Validator::make(
             $request->all(),
             [

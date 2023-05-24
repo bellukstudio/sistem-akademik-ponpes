@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api\V1\Penilaian;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
@@ -53,7 +53,10 @@ class PenilaianController extends Controller
                 'trx_memorize_surahs.date_assesment as date_assessment',
                 'master_users.name as tester'
             )
-                ->latest('trx_memorize_surahs.created_at')->get();
+                ->latest('trx_memorize_surahs.created_at')->get()->map(function($item){
+                    $item->student_id = (int) $item->student_id;
+                    return $item;
+                });
             return ApiResponse::success($data, 'Get assessment memorize successfully');
         } catch (\Exception $e) {
             return ApiResponse::error([

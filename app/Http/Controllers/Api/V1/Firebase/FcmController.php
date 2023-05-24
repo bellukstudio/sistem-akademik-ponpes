@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api\V1\Firebase;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

@@ -116,9 +116,7 @@
 </head>
 
 <body>
-
-
-    @foreach ($dataSurah as $master)
+    @forelse ($dataSurah as $master)
         @foreach ($score->where('surah', $master->surah)->groupBy('surah') as $scores)
             <header>
                 <div class="logo">
@@ -191,7 +189,6 @@
                                         {{ $item->score }}
                                     </td>
                                 </tr>
-                                </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -202,7 +199,76 @@
 
             </div>
         @endforeach
-    @endforeach
+    @empty
+        <header>
+            <div class="logo">
+
+                <img src="https://pmm.or.id/media_library/images/4dd7de52391ccd8aedc21ec83f269842.png" alt="" />
+            </div>
+            <div class="school-name">
+                <h4>PESANTREN MADINAH MUNAWWARAH</h4>
+                <h5>Jl Durian Raya No. 27B, Pedalangan, Banyumanik, Semarang</h5>
+                <h5>Telp. 0896-7554-4441</h5>
+            </div>
+        </header>
+        <section class="student-data">
+            <table>
+                <tr>
+                    <td>No ID</td>
+                    <td>:</td>
+                    <td>{{ $student->noId }}</td>
+                    <td></td>
+                    <td></td>
+                    <td>Keterangan</td>
+                    <td>:</td>
+                    <td>Laporan Penilaian Hafalan Surah</td>
+                </tr>
+                <tr>
+                    <td>Nama Santri</td>
+                    <td>:</td>
+                    <td>{{ $student->name }}</td>
+                </tr>
+                <tr>
+                    <td>Kelas</td>
+                    <td>:</td>
+                    <td>{{ $student->class_name }}</td>
+                </tr>
+                <tr>
+                    <td>Program</td>
+                    <td>:</td>
+                    <td>{{ $student->program_name }}</td>
+                </tr>
+                <tr>
+                    <td>Tahun Ajaran</td>
+                    <td>:</td>
+                    <td>{{ $period->code }} - {{ $period->information }}</td>
+                </tr>
+            </table>
+        </section>
+        <main>
+            <section class="raport-table">
+                <table class="table-nilai" border="1">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Surah</th>
+                            <th>Ayat</th>
+                            <th>Nilai</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </section>
+
+        </main>
+        <div class="page-break">
+
+        </div>
+    @endforelse
 
     <script>
         window.print();

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api\V1\Pembayaran;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -12,6 +12,7 @@ use App\Models\MasterStudent;
 use App\Models\MasterTokenFcm;
 use App\Models\TrxPayment;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class PembayaranController extends Controller
@@ -54,7 +55,12 @@ class PembayaranController extends Controller
                 'trx_payments.total as total_payment',
                 'trx_payments.status as status'
             )
-                ->latest('trx_payments.created_at')->get();
+                ->latest('trx_payments.created_at')
+                ->get()
+                ->map(function ($item) {
+                    $item->status = (int) $item->status;
+                    return $item;
+                });
             return ApiResponse::success([
                 'payment' => $data
             ], 'Get history payment successfully');
@@ -97,9 +103,18 @@ class PembayaranController extends Controller
             )
                 ->selectRaw('SUM(CASE WHEN trx_payments.status = 1 THEN trx_payments.total ELSE 0 END) as sum_total')
                 ->selectRaw('master_payments.total - SUM(
-                    CASE WHEN trx_payments.status = 1 THEN trx_payments.total ELSE 0 END) as diff')
+            CASE WHEN trx_payments.status = 1 THEN trx_payments.total ELSE 0 END) as diff')
                 ->groupBy('trx_payments.id_student', 'master_payments.id')
-                ->latest('trx_payments.created_at')->get();
+                ->latest('trx_payments.created_at')
+                ->get()
+                ->map(function ($item) {
+                    $item->id_category = (int) $item->id_category;
+                    $item->status = (int) $item->status;
+                    $item->sum_total = (int) $item->sum_total;
+                    $item->diff = (int) $item->diff;
+                    return $item;
+                });
+
 
             foreach ($data as $payment) {
                 $diff = intval($payment->total) - $payment->sum_total;
@@ -142,8 +157,8 @@ class PembayaranController extends Controller
             $student = MasterStudent::where('email', $request->user()->email)->first();
             $data = [
                 'id_user' => $request->user()->id,
-                'id_student' => $student->id,
-                'id_payment' => $request->type,
+                'id_student' => intval($student->id),
+                'id_payment' => intval($request->type),
                 'date_payment' => $request->date_payment,
                 'total' => $request->total,
                 'id_period' => $period->id ?? null
@@ -189,36 +204,73 @@ class PembayaranController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'file' => 'required|image|max:2048'
+                'file' => 'required'
             ]);
+
             if ($validator->fails()) {
                 return ApiResponse::error([
                     'error' => $validator->errors(),
                 ], 'Update Photo failed', 401);
             }
+
             // get student by email
             $student = MasterStudent::where('email', $request->user()->email)->first();
+
             // get payment categorie
             $trxPayment = TrxPayment::findOrFail($id);
             $paymentCategorie = MasterPayment::where('id', $trxPayment->id_payment)->firstOrFail();
+
             // remove space in name student
             $name = str_replace(' ', '_', $student->name);
-            if ($request->file('file')) {
-                $file = $request->file
-                    ->storeAs(
-                        'payment/' . $student->noId,
-                        strtolower($name) . '_'
-                            . date('Y-m-d') . '_' . strtolower($paymentCategorie->payment_name) . '_' . $id . '.png',
-                        'public'
-                    );
 
-                //save photo url to db
-                $payment = TrxPayment::findOrFail($id);
-                $payment->photo = $file;
-                $payment->update();
+            if ($request->hasFile('file')) {
+                $validator = Validator::make($request->all(), [
+                    'file' => 'required|image|max:2048'
+                ]);
 
-                return ApiResponse::success([$file], 'File successfully uploaded');
+                if ($validator->fails()) {
+                    return ApiResponse::error([
+                        'error' => $validator->errors(),
+                    ], 'Update Photo failed', 401);
+                }
+
+                $file = $request->file('file');
+                $file_extension = $file->getClientOriginalExtension();
+
+                $file_name = strtolower($name) . '_'
+                    . date('Y-m-d') . '_' . strtolower($paymentCategorie->payment_name) . '_' . $id . '.png';
+
+                $file_path = $file->storeAs(
+                    'payment/' . $student->noId,
+                    $file_name,
+                    'public'
+                );
+            } else if ($request->input('file')) {
+                $file_data = $request->input('file');
+                $file_data = str_replace('data:image/png;base64,', '', $file_data);
+                $file_data = str_replace(' ', '+', $file_data);
+                $file_data = base64_decode($file_data);
+
+                $file_name = strtolower($name) . '_'
+                    . date('Y-m-d') . '_' . strtolower($paymentCategorie->payment_name) . '_' . $id . '.png';
+
+                $file_path = Storage::put(
+                    'payment/' . $student->noId . '/' . $file_name,
+                    $file_data,
+                    'public'
+                );
+            } else {
+                return ApiResponse::error([
+                    'error' => 'File is required'
+                ], 'Update Photo failed', 401);
             }
+
+            //save photo url to db
+            $payment = TrxPayment::findOrFail($id);
+            $payment->photo = $file_path;
+            $payment->update();
+
+            return ApiResponse::success([$file_path], 'File successfully uploaded');
         } catch (\Exception $e) {
             return ApiResponse::error([
                 'message' => 'Something went wrong',
@@ -226,6 +278,7 @@ class PembayaranController extends Controller
             ], 'Opps', 500);
         }
     }
+
 
 
     public function getMethodPayment(Request $request)

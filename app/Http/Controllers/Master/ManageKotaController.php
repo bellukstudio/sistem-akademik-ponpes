@@ -169,7 +169,7 @@ class ManageKotaController extends Controller
     }
     public function trash()
     {
-        $this->authorize('admin');
+       
         $data = MasterCity::with(['province'])->onlyTrashed()->get();
         return view('dashboard.master_data.kelola_kota.trash', [
             'trash' => $data
@@ -178,6 +178,8 @@ class ManageKotaController extends Controller
 
     public function restore($id)
     {
+       
+
         try {
             $data = MasterCity::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
@@ -189,6 +191,8 @@ class ManageKotaController extends Controller
     }
     public function restoreAll()
     {
+       
+
         try {
             $data = MasterCity::onlyTrashed();
             $data->restore();
@@ -200,6 +204,8 @@ class ManageKotaController extends Controller
 
     public function deletePermanent($id)
     {
+       
+
         try {
             $data = MasterCity::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
@@ -211,6 +217,7 @@ class ManageKotaController extends Controller
     }
     public function deletePermanentAll()
     {
+       
         try {
             $data = MasterCity::onlyTrashed();
             $data->forceDelete();

@@ -168,7 +168,7 @@ class ManageTahunAkademikController extends Controller
 
     public function trash()
     {
-        $this->authorize('admin');
+       
         $data = MasterPeriod::onlyTrashed()->get();
         return view('dashboard.master_data.kelola_tahunAkademik.trash', [
             'trash' => $data
@@ -177,6 +177,8 @@ class ManageTahunAkademikController extends Controller
 
     public function restore($id)
     {
+       
+
         try {
             $data = MasterPeriod::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
@@ -188,6 +190,8 @@ class ManageTahunAkademikController extends Controller
     }
     public function restoreAll()
     {
+       
+
         try {
             $data = MasterPeriod::onlyTrashed();
             $data->restore();
@@ -200,6 +204,8 @@ class ManageTahunAkademikController extends Controller
 
     public function deletePermanent($id)
     {
+       
+
         try {
             $data = MasterPeriod::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
@@ -211,6 +217,8 @@ class ManageTahunAkademikController extends Controller
     }
     public function deletePermanentAll()
     {
+       
+
         try {
             $data = MasterPeriod::onlyTrashed();
             $data->forceDelete();

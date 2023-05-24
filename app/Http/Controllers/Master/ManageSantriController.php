@@ -418,7 +418,7 @@ class ManageSantriController extends Controller
 
     public function trash()
     {
-        $this->authorize('admin');
+       
 
         $data = MasterStudent::with(['province', 'city', 'program'])->onlyTrashed()->get();
         return view('dashboard.master_data.kelola_santri.trash', [
@@ -428,6 +428,8 @@ class ManageSantriController extends Controller
 
     public function restore($id)
     {
+       
+
         try {
             $data = MasterStudent::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->restore();
@@ -439,6 +441,8 @@ class ManageSantriController extends Controller
     }
     public function restoreAll()
     {
+       
+
         try {
             $data = MasterStudent::onlyTrashed();
             $data->restore();
@@ -450,6 +454,8 @@ class ManageSantriController extends Controller
 
     public function deletePermanent($id)
     {
+       
+
         try {
             $data = MasterStudent::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
@@ -461,6 +467,8 @@ class ManageSantriController extends Controller
     }
     public function deletePermanentAll()
     {
+       
+
         try {
             $data = MasterStudent::onlyTrashed();
             $data->forceDelete();

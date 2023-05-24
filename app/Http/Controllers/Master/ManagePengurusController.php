@@ -203,7 +203,7 @@ class ManagePengurusController extends Controller
 
     public function trash()
     {
-        $this->authorize('admin');
+       
 
         $data = TrxCaretakers::with(['program'])->onlyTrashed()->get();
         return view('dashboard.master_data.kelola_pengurus.trash', [
@@ -213,6 +213,8 @@ class ManagePengurusController extends Controller
 
     public function restore($id)
     {
+       
+
         try {
             $data = TrxCaretakers::onlyTrashed()->where('id', $id)->firstOrFail();
             //update users roles
@@ -228,6 +230,8 @@ class ManagePengurusController extends Controller
     }
     public function restoreAll()
     {
+       
+
         try {
             $data = TrxCaretakers::onlyTrashed();
             $data->restore();
@@ -239,6 +243,8 @@ class ManagePengurusController extends Controller
 
     public function deletePermanent($id)
     {
+       
+
         try {
             $data = TrxCaretakers::onlyTrashed()->where('id', $id)->firstOrFail();
             $data->forceDelete();
@@ -250,6 +256,8 @@ class ManagePengurusController extends Controller
     }
     public function deletePermanentAll()
     {
+       
+
         try {
             $data = TrxCaretakers::onlyTrashed();
             $data->forceDelete();

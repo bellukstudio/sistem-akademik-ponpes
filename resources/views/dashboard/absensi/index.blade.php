@@ -28,7 +28,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="">Tipe Absen</label>
-                    <select name="type" id="type" class="form-control select2">
+                    <select name="type" id="type" class="form-control select2" required>
                         <option value="">Pilih Absen</option>
                         @forelse ($type as $item)
                             <option value="{{ $item->id }}+{{ $item->categories }}+{{ $item->name }}">
@@ -40,20 +40,20 @@
                 </div>
                 <div class="form-group" id="other">
                     <label for="">Pilih Kategori</label>
-                    <select name="otherSelect" id="otherSelect" class="form-control select2">
+                    <select name="otherSelect" id="otherSelect" class="form-control select2" required>
                         <option value="">Pilih</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="">Pilih</label>
-                    <select name="optionSelect" id="optionSelect" class="form-control select2">
+                    <select name="optionSelect" id="optionSelect" class="form-control select2" required>
                         <option value="">Pilih</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="">Pilih Tanggal</label>
                     <input type="date" name="date_select" id="" class="form-control"
-                        value="{{ old('date_select') }}">
+                        value="{{ old('date_select') }}" required>
                 </div>
                 <button type="submit" class="btn btn-primary" name="showData">
                     <i class="fa fa-eye mr-2"></i> Lihat Absen </button>
