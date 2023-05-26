@@ -104,6 +104,7 @@
                                      <p>Users</p>
                                  </a>
                              </li>
+                             <li class="nav-header">Data Santri</li>
                              <li class="nav-item">
                                  <a href="{{ route('kelolaSantri.index') }}"
                                      class="nav-link {{ Request::is('kelolaSantri*') ? 'active' : '' }}">
@@ -111,6 +112,7 @@
                                      <p>Santri</p>
                                  </a>
                              </li>
+                             <li class="nav-header">Data Pengurus</li>
                              <li class="nav-item">
                                  <a href="{{ route('kelolaPengurus.index') }}"
                                      class="nav-link {{ Request::is('kelolaPengurus*') ? 'active' : '' }}">
@@ -118,6 +120,7 @@
                                      <p>Pengurus</p>
                                  </a>
                              </li>
+                             <li class="nav-header">Data Pengajar</li>
                              <li class="nav-item">
                                  <a href="{{ route('kelolaPengajar.index') }}"
                                      class="nav-link {{ Request::is('kelolaPengajar*') ? 'active' : '' }}">
