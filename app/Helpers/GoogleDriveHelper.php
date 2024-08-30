@@ -22,7 +22,7 @@ class GoogleDriveHelper
         //setup
         $gClient = new Google_Client();
 
-        $gClient->setApplicationName('laravel');
+        $gClient->setApplicationName('sispendikponpes');
         $gClient->setClientId(env('GOOGLE_DRIVE_CLIENT_ID'));
         $gClient->setClientSecret(env('GOOGLE_DRIVE_CLIENT_SECRET'));
         $gClient->setRedirectUri(route('google.login'));
