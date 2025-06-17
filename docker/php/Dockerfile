@@ -110,7 +110,7 @@ RUN chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.m
 # Switch to non-root user
 USER siakadponpesdemo.bellukstudio.my.id
 
-# Expose port 9000
+# Expose port 9001:9000
 EXPOSE 9000
 
 # Start php-fpm
