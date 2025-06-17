@@ -39,6 +39,7 @@ use App\Http\Controllers\Report\LaporanNilaiHafalanController;
 use App\Http\Controllers\Report\LaporanPembayaranController;
 use App\Http\Controllers\Report\LaporanPerizinanController;
 use App\Http\Controllers\Report\LaporanPresensiController;
+use App\Http\Controllers\Setting\SettingController;
 use Illuminate\Support\Facades\Artisan;
 
 
@@ -47,6 +48,7 @@ use Illuminate\Support\Facades\Artisan;
 |-----------------------------------------
 |Artisan CMD
 */
+
 Route::get('/storage-link', function () {
     $targetFolder = storage_path('app/public');
     $linkFolder = public_path('storage');
@@ -59,8 +61,8 @@ Route::get('/storage-link', function () {
     }
 });
 Route::get('/clear-config', function () {
-         Artisan::call('config:clear');
-         return 'Routes cache has clear successfully !';
+    Artisan::call('config:clear');
+    return 'Routes cache has clear successfully !';
 });
 // clear route cache
 Route::get('/clear-route-cache', function () {
@@ -162,6 +164,10 @@ Route::middleware(['auth:sanctum', 'web'])->group(function () {
      * Master data
      */
     Route::middleware(['isAdmin', 'can:admin'])->group(function () {
+        /**
+         * Setting Website
+         */
+        Route::resource('settings', SettingController::class)->except(['show', 'edit', 'create', 'destroy','update']);
         /**
          * [ROUTE MANAGE NEWS / BERITA ACARA]
          */
@@ -580,7 +586,8 @@ Route::middleware(['auth:sanctum', 'web'])->group(function () {
         Route::get(
             'jadwalPelajaran/filter',
             [
-                ManageJadwalController::class, 'filterScheduleByCategories'
+                ManageJadwalController::class,
+                'filterScheduleByCategories'
             ]
         )->name('getAllSchedule');
         // Route::get(

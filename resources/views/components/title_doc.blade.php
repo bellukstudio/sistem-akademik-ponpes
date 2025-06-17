@@ -116,3 +116,6 @@
 @if (Request::is('laporan-penilaian-akhir*'))
     Laporan Penilaian Akhir
 @endif
+@if (Request::is('settings*'))
+    Settings
+@endif
