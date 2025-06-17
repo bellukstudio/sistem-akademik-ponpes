@@ -80,8 +80,8 @@ COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Create application user
-RUN addgroup -g ${GROUP_ID} siakadponpesdemo.bellukstudio.my.id && \
-    adduser -D -s /bin/sh -u ${USER_ID} -G siakadponpesdemo.bellukstudio.my.id siakadponpesdemo.bellukstudio.my.id
+RUN addgroup -g 1000 siakadponpesdemo.bellukstudio.my.id && \
+    adduser -D -s /bin/sh -u 1000 -G siakadponpesdemo.bellukstudio.my.id siakadponpesdemo.bellukstudio.my.id
 
 # Set working directory
 WORKDIR /var/www/siakadponpesdemo.bellukstudio.my.id
