@@ -1,0 +1,31 @@
+
+services:
+  siakadponpesdemo_app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      args:
+        USER_ID: ${USER_ID:-1000}
+        GROUP_ID: ${GROUP_ID:-1000}
+    container_name: siakadponpesdemo_app
+    restart: unless-stopped
+    ports:
+      - 9001:9000
+    working_dir: /var/www/siakadponpesdemo.bellukstudio.my.id
+    volumes:
+      - ./:/var/www/siakadponpesdemo.bellukstudio.my.id
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/custom.ini
+      - siakadponpesdemo_storage:/var/www/siakadponpesdemo.bellukstudio.my.id/storage
+    environment:
+      - PHP_IDE_CONFIG=serverName=siakadponpesdemo.bellukstudio.my.id
+    networks:
+      - bellukstudio_network
+
+networks:
+  bellukstudio_network:
+    external: true
+
+# Volumes
+volumes:
+  siakaddemoponpes_storage:
+    driver: local

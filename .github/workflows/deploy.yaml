@@ -1,0 +1,43 @@
+name: Deploy Laravel
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # Job 1: Pull latest changes
+  pull-changes:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Pull Latest Changes
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        password: ${{ secrets.VPS_PASSWORD }}
+        script: |
+          cd /home/bellukstudio/projects/siakadponpesdemo.bellukstudio.my.id
+          echo "📥 Pull latest changes..."
+
+          # Debug current state
+          echo "Current user: $(whoami)"
+          echo "Directory owner: $(ls -la . | head -2)"
+          echo "Git directory owner: $(ls -la .git/ | head -2)"
+
+          # Add safe directory untuk Git
+          git config --global --add safe.directory /home/bellukstudio/projects/siakadponpesdemo.bellukstudio.my.id
+          git config --global --add safe.directory '*'
+
+          # Fix ownership issues
+          sudo chown -R $(whoami):$(whoami) . || true
+
+          # Alternative approach: Use sudo git if ownership fix doesn't work
+          git pull origin main || sudo git pull origin main
+
+          # Reset web permissions after git pull
+          sudo chown -R www-data:www-data storage/ bootstrap/cache/ || true
+          sudo chown -R $(whoami):$(whoami) .git/ || true
