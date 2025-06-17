@@ -27,5 +27,5 @@ networks:
 
 # Volumes
 volumes:
-  siakaddemoponpes_storage:
+  siakadponpesdemo_storage:
     driver: local
