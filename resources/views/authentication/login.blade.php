@@ -34,7 +34,7 @@
                 <form action="{{ route('authenticate') }}" method="post">
                     @csrf
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Email" value="{{ old('email') }}"
+                        <input type="email" class="form-control" placeholder="Email" value="{{ old('email') ?? 'sispendikapps@gmail.com' }}"
                             name="email">
                         <div class="input-group-append">
                             <div class="input-group-text">
@@ -44,7 +44,7 @@
                     </div>
                     <div class="input-group mb-3" id="show_hide_password">
                         <input type="password" class="form-control" id="password" placeholder="Password"
-                            name="password">
+                            name="password" value="{{ old('password') ?? 'adminponpes' }}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <a href="" style="text-decoration: none;color: gray;" id="toggle"><span
