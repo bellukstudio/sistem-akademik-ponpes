@@ -92,6 +92,9 @@ COPY --chown=siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.m
 # Switch to application user for composer and npm
 USER siakadponpesdemo.bellukstudio.my.id
 
+# Configure git
+RUN git config --global --add safe.directory /var/www/siakadponpesdemo.bellukstudio.my.id
+
 # Install dependencies
 RUN composer install --optimize-autoloader --no-dev --no-interaction
 
