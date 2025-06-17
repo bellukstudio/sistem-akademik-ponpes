@@ -80,17 +80,37 @@ COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Create application user
-RUN addgroup -g 1000 siakadponpesdemo.bellukstudio.my.id && \
-    adduser -D -s /bin/sh -u 1000 -G siakadponpesdemo.bellukstudio.my.id siakadponpesdemo.bellukstudio.my.id
+RUN addgroup -g ${GROUP_ID} siakadponpesdemo.bellukstudio.my.id && \
+    adduser -D -s /bin/sh -u ${USER_ID} -G siakadponpesdemo.bellukstudio.my.id siakadponpesdemo.bellukstudio.my.id
 
 # Set working directory
 WORKDIR /var/www/siakadponpesdemo.bellukstudio.my.id
 
-# Copy application files
+# Copy application files with proper ownership
 COPY --chown=siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id . .
+
+# Fix git ownership issue by configuring safe directory as root
+RUN git config --global --add safe.directory /var/www/siakadponpesdemo.bellukstudio.my.id
+
+# Set proper permissions before switching users
+RUN chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id /var/www/siakadponpesdemo.bellukstudio.my.id && \
+    chmod -R 755 /var/www/siakadponpesdemo.bellukstudio.my.id
+
+# Create necessary directories with proper permissions
+RUN mkdir -p /var/www/siakadponpesdemo.bellukstudio.my.id/vendor && \
+    mkdir -p /var/www/siakadponpesdemo.bellukstudio.my.id/storage && \
+    mkdir -p /var/www/siakadponpesdemo.bellukstudio.my.id/bootstrap/cache && \
+    chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id /var/www/siakadponpesdemo.bellukstudio.my.id/vendor && \
+    chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id /var/www/siakadponpesdemo.bellukstudio.my.id/storage && \
+    chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id /var/www/siakadponpesdemo.bellukstudio.my.id/bootstrap/cache && \
+    chmod -R 775 /var/www/siakadponpesdemo.bellukstudio.my.id/storage && \
+    chmod -R 775 /var/www/siakadponpesdemo.bellukstudio.my.id/bootstrap/cache
 
 # Switch to application user for composer and npm
 USER siakadponpesdemo.bellukstudio.my.id
+
+# Configure git for the application user as well
+RUN git config --global --add safe.directory /var/www/siakadponpesdemo.bellukstudio.my.id
 
 # Install dependencies
 RUN composer install --optimize-autoloader --no-dev --no-interaction
@@ -98,19 +118,7 @@ RUN composer install --optimize-autoloader --no-dev --no-interaction
 # Install NPM dependencies and build assets
 # RUN npm ci --only=production && npm run build && npm cache clean --force
 
-# Switch back to root to set permissions
-USER root
-
-# Set proper permissions
-RUN chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id /var/www/siakadponpesdemo.bellukstudio.my.id && \
-    chmod -R 755 /var/www/siakadponpesdemo.bellukstudio.my.id && \
-    chmod -R 775 /var/www/siakadponpesdemo.bellukstudio.my.id/storage && \
-    chmod -R 775 /var/www/siakadponpesdemo.bellukstudio.my.id/bootstrap/cache
-
-# Switch to non-root user
-USER siakadponpesdemo.bellukstudio.my.id
-
-# Expose port 9001:9000
+# Expose port 9000
 EXPOSE 9000
 
 # Start php-fpm
