@@ -477,13 +477,40 @@ class ManageJadwalController extends Controller
             }
 
             if (request('category') === 'program') {
-                $schedule = $data->orderByRaw("field(trx_schedules.day,'Ahad',
-                'Senin','Selasa','Rabu','Kamis','Jumat','Sabtu')")
-                    ->get();
+                // $schedule = $data->orderByRaw("field(trx_schedules.day,'Ahad',
+                // 'Senin','Selasa','Rabu','Kamis','Jumat','Sabtu')")
+                //     ->get();
 
-                $preview = $data->orderByRaw("field(trx_schedules.day,'Ahad',
-                'Senin','Selasa','Rabu','Kamis','Jumat','Sabtu')")
-                    ->groupBy('master_classes.id')->get();
+                // $preview = $data->orderByRaw("field(trx_schedules.day,'Ahad',
+                // 'Senin','Selasa','Rabu','Kamis','Jumat','Sabtu')")
+                //     ->groupBy('master_classes.id')->get();
+
+                $schedule = $data->orderByRaw("
+                    CASE trx_schedules.day
+                        WHEN 'Ahad' THEN 1
+                        WHEN 'Senin' THEN 2
+                        WHEN 'Selasa' THEN 3
+                        WHEN 'Rabu' THEN 4
+                        WHEN 'Kamis' THEN 5
+                        WHEN 'Jumat' THEN 6
+                        WHEN 'Sabtu' THEN 7
+                        ELSE 8
+                    END
+                ")->get();
+
+                $preview = $data->orderByRaw("
+                    CASE trx_schedules.day
+                        WHEN 'Ahad' THEN 1
+                        WHEN 'Senin' THEN 2
+                        WHEN 'Selasa' THEN 3
+                        WHEN 'Rabu' THEN 4
+                        WHEN 'Kamis' THEN 5
+                        WHEN 'Jumat' THEN 6
+                        WHEN 'Sabtu' THEN 7
+                        ELSE 8
+                    END
+                ")->groupBy('master_classes.id')->get();
+
 
                 return view('dashboard.akademik.jadwal.index', [
                     'jadwal' => $schedule,
