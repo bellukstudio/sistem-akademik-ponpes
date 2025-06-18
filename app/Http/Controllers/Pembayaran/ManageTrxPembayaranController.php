@@ -34,10 +34,28 @@ class ManageTrxPembayaranController extends Controller
         // student
         $student = MasterStudent::latest()->get();
         // sum total and diff payment
+        // $sum = DB::table('trx_payments')
+        //     ->select('id_student', 'id_payment', 'status', DB::raw('SUM(total) as sum_total'))->where('status', '1')
+        //     ->groupBy(['id_student', 'id_payment'])
+        //     ->get();
         $sum = DB::table('trx_payments')
-            ->select('id_student', 'id_payment', 'status', DB::raw('SUM(total) as sum_total'))->where('status', '1')
-            ->groupBy(['id_student', 'id_payment'])
-            ->get();
+                ->select('id_student', 'id_payment', 'status', DB::raw('SUM(total::numeric) as sum_total'))
+                ->where('status', '1')
+                ->groupBy(['id_student', 'id_payment', 'status'])
+                ->get();
+
+        // $diff = DB::table('master_payments')
+        //     ->join('trx_payments', 'master_payments.id', '=', 'trx_payments.id_payment')
+        //     ->select(
+        //         'trx_payments.id_student as id_student',
+        //         'trx_payments.id_payment as id_payment',
+        //         'trx_payments.status as status',
+        //         DB::raw(
+        //             'master_payments.total - SUM(trx_payments.total) as difference'
+        //         )
+        //     )->where('trx_payments.status', '1')
+        //     ->groupBy(['trx_payments.id_student', 'trx_payments.id_payment'])
+        //     ->get();
 
         $diff = DB::table('master_payments')
             ->join('trx_payments', 'master_payments.id', '=', 'trx_payments.id_payment')
@@ -45,12 +63,17 @@ class ManageTrxPembayaranController extends Controller
                 'trx_payments.id_student as id_student',
                 'trx_payments.id_payment as id_payment',
                 'trx_payments.status as status',
-                DB::raw(
-                    'master_payments.total - SUM(trx_payments.total) as difference'
-                )
-            )->where('trx_payments.status', '1')
-            ->groupBy(['trx_payments.id_student', 'trx_payments.id_payment'])
+                DB::raw('master_payments.total::numeric - SUM(trx_payments.total::numeric) as difference')
+            )
+            ->where('trx_payments.status', '1')
+            ->groupBy([
+                'trx_payments.id_student',
+                'trx_payments.id_payment',
+                'trx_payments.status',
+                'master_payments.total'
+            ])
             ->get();
+
         //payment
         if (auth()->user()->roles_id === 3 || auth()->user()->roles_id === "3") {
             $payment = TrxPayment::join('master_users', 'master_users.id', '=', 'trx_payments.id_user')
