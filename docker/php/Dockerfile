@@ -48,18 +48,6 @@ FROM php:8.2-fpm-alpine AS production
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 
-# Create application user FIRST
-RUN addgroup -g ${GROUP_ID} siakadponpesdemo.bellukstudio.my.id && \
-    adduser -D -s /bin/sh -u ${USER_ID} -G siakadponpesdemo.bellukstudio.my.id siakadponpesdemo.bellukstudio.my.id
-
-# Set working directory and create structure with proper ownership from start
-WORKDIR /var/www/siakadponpesdemo.bellukstudio.my.id
-RUN mkdir -p /var/www/siakadponpesdemo.bellukstudio.my.id/{vendor,storage,bootstrap/cache} && \
-    chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id /var/www/siakadponpesdemo.bellukstudio.my.id && \
-    chmod -R 755 /var/www/siakadponpesdemo.bellukstudio.my.id && \
-    chmod -R 775 /var/www/siakadponpesdemo.bellukstudio.my.id/storage && \
-    chmod -R 775 /var/www/siakadponpesdemo.bellukstudio.my.id/bootstrap/cache
-
 # Install only runtime dependencies one by one
 RUN apk add --no-cache libpng
 RUN apk add --no-cache libjpeg-turbo
@@ -84,12 +72,20 @@ RUN apk add --no-cache zlib
 RUN apk add --no-cache bzip2
 RUN apk add --no-cache icu-libs
 
+
+# Create application user
+RUN addgroup -g ${GROUP_ID} siakadponpesdemo.bellukstudio.my.id && \
+    adduser -D -s /bin/sh -u ${USER_ID} -G siakadponpesdemo.bellukstudio.my.id siakadponpesdemo.bellukstudio.my.id
+
 # Copy PHP extensions from builder stage
 COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
 COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Set working directory
+WORKDIR /var/www/siakadponpesdemo.bellukstudio.my.id
 
 # Copy composer files first
 COPY --chown=siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id composer.json composer.lock ./
@@ -98,10 +94,23 @@ COPY --chown=siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.m
 COPY --chown=siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id . .
 
 # Remove any existing vendor/node_modules to avoid permission issues
-RUN rm -rf vendor node_modules
-
+RUN rm -rf vendor
 # Fix git ownership issue by configuring safe directory as root
 RUN git config --global --add safe.directory /var/www/siakadponpesdemo.bellukstudio.my.id
+
+# Set proper permissions before switching users
+RUN chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id /var/www/siakadponpesdemo.bellukstudio.my.id
+RUN chmod -R 755 /var/www/siakadponpesdemo.bellukstudio.my.id
+
+# Create necessary directories with proper permissions
+RUN mkdir -p /var/www/siakadponpesdemo.bellukstudio.my.id/vendor
+RUN mkdir -p /var/www/siakadponpesdemo.bellukstudio.my.id/storage
+RUN mkdir -p /var/www/siakadponpesdemo.bellukstudio.my.id/bootstrap/cache
+RUN chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id /var/www/siakadponpesdemo.bellukstudio.my.id/vendor
+RUN chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id /var/www/siakadponpesdemo.bellukstudio.my.id/storage
+RUN chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id /var/www/siakadponpesdemo.bellukstudio.my.id/bootstrap/cache
+RUN chmod -R 775 /var/www/siakadponpesdemo.bellukstudio.my.id/storage
+RUN chmod -R 775 /var/www/siakadponpesdemo.bellukstudio.my.id/bootstrap/cache
 
 # Switch to application user for composer and npm
 USER siakadponpesdemo.bellukstudio.my.id
@@ -109,7 +118,7 @@ USER siakadponpesdemo.bellukstudio.my.id
 # Configure git for the application user as well
 RUN git config --global --add safe.directory /var/www/siakadponpesdemo.bellukstudio.my.id
 
-# Install dependencies (these will be created with correct ownership automatically)
+# Install dependencies
 RUN composer install --optimize-autoloader --no-dev --no-interaction
 
 # Install NPM dependencies and build assets
