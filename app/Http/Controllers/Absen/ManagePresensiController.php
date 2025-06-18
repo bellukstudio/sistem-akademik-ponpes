@@ -143,7 +143,7 @@ class ManagePresensiController extends Controller
 
 
 
-            $student->select(
+            $data = $student->select(
                 'master_students.id as student_id',
                 'master_students.name as student_name',
                 'master_classes.class_name as class_name',
