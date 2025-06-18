@@ -143,16 +143,26 @@ class ManagePresensiController extends Controller
 
 
 
-            $data =
-                $student->select(
-                    'master_students.id as student_id',
-                    'master_students.name as student_name',
-                    'master_classes.class_name as class_name',
-                    'master_academic_programs.program_name as program_name',
-                    'master_academic_programs.id as id_program',
-                    'trx_attendances.status as status',
-                    'trx_attendances.id as id_attendance'
-                )->groupBy('master_students.id')->get();
+            $student->select(
+                'master_students.id as student_id',
+                'master_students.name as student_name',
+                'master_classes.class_name as class_name',
+                'master_academic_programs.program_name as program_name',
+                'master_academic_programs.id as id_program',
+                'trx_attendances.status as status',
+                'trx_attendances.id as id_attendance'
+            )
+                ->groupBy(
+                    'master_students.id',
+                    'master_students.name',
+                    'master_classes.class_name',
+                    'master_academic_programs.program_name',
+                    'master_academic_programs.id',
+                    'trx_attendances.status',
+                    'trx_attendances.id'
+                )
+                ->get();
+
 
 
 
