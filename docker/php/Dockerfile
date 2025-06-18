@@ -91,8 +91,14 @@ COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy application files with proper ownership (EXCLUDES vendor and node_modules for now)
-COPY --chown=siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id --exclude=vendor --exclude=node_modules . .
+# Copy composer files first
+COPY --chown=siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id composer.json composer.lock ./
+
+# Copy application files (vendor akan di-generate via composer)
+COPY --chown=siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id . .
+
+# Remove any existing vendor/node_modules to avoid permission issues
+RUN rm -rf vendor node_modules
 
 # Fix git ownership issue by configuring safe directory as root
 RUN git config --global --add safe.directory /var/www/siakadponpesdemo.bellukstudio.my.id
