@@ -30,8 +30,10 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="site_name">Nama Website</label>
+
                             <input type="text" name="site_name" id="site_name" class="form-control"
-                                value="{{ old('site_name') ?? $settings->site_name }}" placeholder="Nama Website">
+                                value="{{ old('site_name') ?? optional($settings)->site_name }}" placeholder="Nama Website">
+
                         </div>
                         <div class="form-group">
                             <label for="exampleInputFile">Logo</label>
@@ -47,24 +49,25 @@
                         <div class="form-group">
                             <label for="pesantren_name">Nama Pesantren</label>
                             <input type="text" name="pesantren_name" id="pesantren_name" class="form-control"
-                                value="{{ old('pesantren_name') ?? $settings->pesantren_name }}"
+                                value="{{ old('pesantren_name') ?? optional($settings)->pesantren_name }}"
                                 placeholder="Nama Pesantren">
                         </div>
                         <div class="form-group">
                             <label for="pesantren_name">Alamat</label>
-                            <textarea name="address" id="" cols="30" rows="10" class="form-control">{{ old('address') ?? $settings->address }}</textarea>
+                            <textarea name="address" id="" cols="30" rows="10" class="form-control">{{ old('address') ?? optional($settings)->address }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="no_telp">Nomor Telepon</label>
                             <input type="text" name="no_telp" id="no_telp" class="form-control"
-                                value="{{ old('no_telp') ?? $settings->no_telp }}" placeholder="Nomor Telepon">
+                                value="{{ old('no_telp') ?? optional($settings)->no_telp }}" placeholder="Nomor Telepon">
                         </div>
 
                     </div>
 
                     <div class="form-group">
 
-                        <img src="https://drive.usercontent.google.com/download?id=1WGAsLMxQeM3sQRpvZ2X7Q8EHe3FEFPSj&export=view&authuser=0" alt="" class="card-img-top">
+                        <img src="https://drive.usercontent.google.com/download?id=1WGAsLMxQeM3sQRpvZ2X7Q8EHe3FEFPSj&export=view&authuser=0"
+                            alt="" class="card-img-top">
                     </div>
                     <div class="card-footer">
                         <button class="btn btn-primary" type="submit">Simpan</button>

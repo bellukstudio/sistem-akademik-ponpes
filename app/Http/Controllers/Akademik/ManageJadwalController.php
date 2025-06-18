@@ -477,6 +477,15 @@ class ManageJadwalController extends Controller
             }
 
             if (request('category') === 'program') {
+                //  $schedule = $data->orderByRaw("field(trx_schedules.day,'Ahad',
+                // 'Senin','Selasa','Rabu','Kamis','Jumat','Sabtu')")
+                //     ->get();
+
+                // $preview = $data->orderByRaw("field(trx_schedules.day,'Ahad',
+                // 'Senin','Selasa','Rabu','Kamis','Jumat','Sabtu')")
+                //     ->groupBy('master_classes.id')->get();
+
+
                         $orderByDay = "
                 CASE trx_schedules.day
                     WHEN 'Ahad' THEN 1
