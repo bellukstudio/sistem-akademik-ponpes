@@ -93,18 +93,18 @@ COPY --chown=siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.m
 RUN git config --global --add safe.directory /var/www/siakadponpesdemo.bellukstudio.my.id
 
 # Set proper permissions before switching users
-RUN chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id /var/www/siakadponpesdemo.bellukstudio.my.id && \
-    chmod -R 755 /var/www/siakadponpesdemo.bellukstudio.my.id
+RUN chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id /var/www/siakadponpesdemo.bellukstudio.my.id
+RUN chmod -R 755 /var/www/siakadponpesdemo.bellukstudio.my.id
 
 # Create necessary directories with proper permissions
-RUN mkdir -p /var/www/siakadponpesdemo.bellukstudio.my.id/vendor && \
-    mkdir -p /var/www/siakadponpesdemo.bellukstudio.my.id/storage && \
-    mkdir -p /var/www/siakadponpesdemo.bellukstudio.my.id/bootstrap/cache && \
-    chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id /var/www/siakadponpesdemo.bellukstudio.my.id/vendor && \
-    chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id /var/www/siakadponpesdemo.bellukstudio.my.id/storage && \
-    chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id /var/www/siakadponpesdemo.bellukstudio.my.id/bootstrap/cache && \
-    chmod -R 775 /var/www/siakadponpesdemo.bellukstudio.my.id/storage && \
-    chmod -R 775 /var/www/siakadponpesdemo.bellukstudio.my.id/bootstrap/cache
+RUN mkdir -p /var/www/siakadponpesdemo.bellukstudio.my.id/vendor
+RUN mkdir -p /var/www/siakadponpesdemo.bellukstudio.my.id/storage
+RUN mkdir -p /var/www/siakadponpesdemo.bellukstudio.my.id/bootstrap/cache
+RUN chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id /var/www/siakadponpesdemo.bellukstudio.my.id/vendor
+RUN chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id /var/www/siakadponpesdemo.bellukstudio.my.id/storage
+RUN chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id /var/www/siakadponpesdemo.bellukstudio.my.id/bootstrap/cache
+RUN chmod -R 775 /var/www/siakadponpesdemo.bellukstudio.my.id/storage
+RUN    chmod -R 775 /var/www/siakadponpesdemo.bellukstudio.my.id/bootstrap/cache
 
 # Switch to application user for composer and npm
 USER siakadponpesdemo.bellukstudio.my.id
