@@ -39,10 +39,10 @@ class ManageTrxPembayaranController extends Controller
         //     ->groupBy(['id_student', 'id_payment'])
         //     ->get();
         $sum = DB::table('trx_payments')
-                ->select('id_student', 'id_payment', 'status', DB::raw('SUM(total::numeric) as sum_total'))
-                ->where('status', '1')
-                ->groupBy(['id_student', 'id_payment', 'status'])
-                ->get();
+            ->select('id_student', 'id_payment', 'status', DB::raw('SUM(total::numeric) as sum_total'))
+            ->where('status', '1')
+            ->groupBy(['id_student', 'id_payment', 'status'])
+            ->get();
 
         // $diff = DB::table('master_payments')
         //     ->join('trx_payments', 'master_payments.id', '=', 'trx_payments.id_payment')
@@ -134,16 +134,25 @@ class ManageTrxPembayaranController extends Controller
             'master_payments.total as total',
             'trx_payments.total as total_payment',
             'trx_payments.status as status',
-            'trx_payments.id_payment as id_payment',
+            'trx_payments.id_payment as id_payment'
         )
             ->groupBy(
                 'trx_payments.id_student',
                 'trx_payments.id_payment',
                 'trx_payments.id',
                 'trx_payments.date_payment',
-                'trx_payments.status'
+                'trx_payments.status',
+                'master_users.name',
+                'master_payments.payment_name',
+                'master_payments.media_payment',
+                'master_payments.method',
+                'trx_payments.photo',
+                'master_payments.total',
+                'trx_payments.total'
             )
-            ->latest('trx_payments.created_at')->get();
+            ->latest('trx_payments.created_at')
+            ->get();
+
         return view('dashboard.pembayaran.index', compact('data', 'category', 'class', 'sum', 'diff', 'student'));
     }
 
