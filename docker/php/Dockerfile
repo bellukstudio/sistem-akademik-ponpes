@@ -111,6 +111,7 @@ RUN chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.m
 RUN chown -R siakadponpesdemo.bellukstudio.my.id:siakadponpesdemo.bellukstudio.my.id /var/www/siakadponpesdemo.bellukstudio.my.id/bootstrap/cache
 RUN chmod -R 775 /var/www/siakadponpesdemo.bellukstudio.my.id/storage
 RUN chmod -R 775 /var/www/siakadponpesdemo.bellukstudio.my.id/bootstrap/cache
+RUN chmod -R 775 /var/www/siakadponpesdemo.bellukstudio.my.id/public/template
 
 # Switch to application user for composer and npm
 USER siakadponpesdemo.bellukstudio.my.id
